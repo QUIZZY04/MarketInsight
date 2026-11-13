@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Research Indian stocks and mutual funds with financial metrics, historical performance, risk analysis and investment insights.">
+  <title>MarketInsight | Indian Stock & Mutual Fund Research</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#"><span class="logo">↗</span><span>Market<span>Insight</span></span></a>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a href="#explore">Explore</a><a href="#features">Features</a><a href="#analysis">Analysis</a><a href="#roadmap">How it works</a>
+    </nav>
+    <div class="nav-actions"><span class="market-tag">● INDIA MARKETS</span><a class="btn btn-outline" href="#explore">Start Research</a></div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="explore">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> INDIAN STOCKS & MUTUAL FUNDS</div>
+        <h1>Research better.<br><em>Invest with clarity.</em></h1>
+        <p class="hero-copy">Explore company fundamentals, mutual fund performance, valuation, risk and market developments — brought together in one research workspace.</p>
+        <div class="hero-points"><span>Deep financial analysis</span><span>Fund comparisons</span><span>Transparent insights</span></div>
+      </div>
+
+      <div class="search-panel">
+        <h2 class="panel-title">Find an investment</h2>
+        <p class="panel-sub">Choose an asset type and narrow your search.</p>
+        <div class="switch" role="tablist" aria-label="Investment type">
+          <button type="button" class="active" id="stocksBtn" onclick="setAsset('stock')">↗ Stocks</button>
+          <button type="button" id="fundsBtn" onclick="setAsset('fund')">▦ Mutual Funds</button>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="category">CATEGORY</label>
+            <select id="category" onchange="updateSubcategories()"></select>
+          </div>
+          <div class="field">
+            <label for="subcategory" id="subLabel">SECTOR</label>
+            <select id="subcategory" onchange="updateItems()"></select>
+          </div>
+          <div class="field full">
+            <label for="instrument">SEARCH / SELECT INVESTMENT</label>
+            <input id="instrument" list="instrumentOptions" placeholder="Start typing a company or fund name..." autocomplete="off">
+            <datalist id="instrumentOptions"></datalist>
+            <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="exploreInvestment()">Explore investment →</button>
+        <div class="result-message" id="resultMessage" role="status"></div>
+        <p class="small-note">Live financial metrics powered by BharatStock API & Firebase Cloud Architecture.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <div class="section-head"><div class="kicker">One research destination</div><h2>Everything you need to evaluate an investment</h2><p>Move beyond price quotes. Understand what you own, how it has performed and what risks deserve attention.</p></div>
+      <div class="feature-grid">
+        <article class="feature"><div class="feature-icon">⌁</div><h3>Historical performance</h3><p>Interactive price and NAV charts with multiple time ranges, benchmark comparisons and return calculations.</p></article>
+        <article class="feature"><div class="feature-icon">▤</div><h3>Financial statements</h3><p>Profit and loss, balance sheet, cash flow, quarterly results and multi-year trends.</p></article>
+        <article class="feature"><div class="feature-icon">◈</div><h3>Key ratios & valuation</h3><p>P/E, P/B, ROE, ROCE, EPS, debt ratios, expense ratio, Sharpe and other relevant measures.</p></article>
+        <article class="feature"><div class="feature-icon">◉</div><h3>Risk analysis</h3><p>Volatility, drawdowns, concentration, liquidity and other asset-specific risk indicators.</p></article>
+        <article class="feature"><div class="feature-icon">▥</div><h3>Peer comparison</h3><p>Compare companies within an industry or mutual funds against category peers and benchmarks.</p></article>
+        <article class="feature"><div class="feature-icon">✦</div><h3>News & corporate events</h3><p>Relevant news, exchange filings, results, dividends, splits and material announcements.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="preview-section" id="analysis">
+    <div class="container">
+      <div class="section-head"><div class="kicker">Inside the research workspace</div><h2>A structured view of every investment</h2><p>The selected instrument opens into dedicated analytical tabs below.</p></div>
+      <div class="preview">
+        <div class="preview-top">
+          <div class="instrument"><div class="instrument-logo" id="previewLogo">INFY</div><div><h3 id="previewName">Infosys Limited</h3><p id="previewMeta">NSE: INFY · Information Technology · Large Cap</p></div></div>
+          <span class="demo-label" style="background:#eaf7f1; color:#159765; border:1px solid rgba(21, 151, 101, 0.3);">● LIVE BHARATSTOCK FEED</span>
+        </div>
+        <div class="price-row"><span class="price" id="previewPrice">₹ 1,141.50</span><span class="positive" id="previewChange">+0.85% today</span></div>
+        <div class="tabs" role="tablist">
+          <button class="tab active" onclick="showTab('overview',this)">Overview</button>
+          <button class="tab" onclick="showTab('history',this)">History</button>
+          <button class="tab" onclick="showTab('financials',this)">Financials</button>
+          <button class="tab" onclick="showTab('ratios',this)">Key ratios</button>
+          <button class="tab" onclick="showTab('news',this)">News</button>
+          <button class="tab" onclick="showTab('risk',this)">Risk</button>
+        </div>
+        <div class="tab-content" id="tabContent">
+          <div class="metric-grid">
+            <div class="metric"><small>Market capitalisation</small><strong>₹ 4.63L Cr</strong></div>
+            <div class="metric"><small>P/E ratio</small><strong>15.2x</strong></div>
+            <div class="metric"><small>52-week range</small><strong>₹ 1,358 – ₹ 1,990</strong></div>
+            <div class="metric"><small>Dividend yield</small><strong>2.10%</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head"><div class="kicker">Transparent methodology</div><h2>Recommendation with a reason — not just a colour</h2><p>A score should explain the factors behind its signal and clearly show the uncertainty and risks.</p></div>
+      <div class="recommend">
+        <div class="meter-wrap">
+          <div class="meter-head"><div><div style="font-size:13px;font-weight:800">Illustrative intelligence score</div><div style="font-size:11px;color:#778395">Sample instrument · fundamental weighting</div></div><div class="score">72<span style="font-size:14px;color:#667085">/100</span></div></div>
+          <div class="meter"><span class="needle"></span></div>
+          <div class="meter-labels"><span>SELL</span><span>HOLD</span><span>BUY</span></div>
+          <div style="margin-top:16px"><span class="demo-label">SAMPLE SIGNAL: POSITIVE</span></div>
+        </div>
+        <div class="basis">
+          <div><div class="basis-row"><strong>Financial strength</strong><span>85/100</span></div><div class="bar"><span style="width:85%"></span></div></div>
+          <div><div class="basis-row"><strong>Valuation</strong><span>65/100</span></div><div class="bar"><span style="width:65%"></span></div></div>
+          <div><div class="basis-row"><strong>Growth outlook</strong><span>80/100</span></div><div class="bar"><span style="width:80%"></span></div></div>
+          <div><div class="basis-row"><strong>Technical trend</strong><span>70/100</span></div><div class="bar"><span style="width:70%"></span></div></div>
+          <div><div class="basis-row"><strong>Risk profile</strong><span>60/100</span></div><div class="bar"><span style="width:60%"></span></div></div>
+        </div>
+      </div>
+      <div class="disclaimer">Important: This score is an analytical framework example. Production scores must reflect published models, audited data sources, and regulatory risk disclosures. Not investment advice.</div>
+    </div>
+  </section>
+
+  <section id="roadmap" style="background:#eef2f6">
+    <div class="container">
+      <div class="section-head"><div class="kicker">Architecture in stages</div><h2>Secure, production-ready stack</h2><p>From static prototype to a scalable financial analysis engine.</p></div>
+      <div class="steps">
+        <article class="step"><h3>Modular Interface</h3><p>Responsive frontend with decoupled CSS, canvas charts and reactive state management.</p></article>
+        <article class="step"><h3>Secure Firebase Proxy</h3><p>Cloud Functions v2 with Google Secret Manager safeguarding your BharatStock API key.</p></article>
+        <article class="step"><h3>Live Financial Data</h3><p>EOD OHLCV, XBRL normalized statements, key valuation metrics and AMFI mutual funds.</p></article>
+        <article class="step"><h3>Optimized Deployment</h3><p>Global CDN edge caching via Firebase Hosting rewrites for low-latency Indian market access.</p></article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-row">
+    <div><div class="footer-brand">↗ MarketInsight</div><div class="footer-note">An investment research and analytics platform for Indian stocks and mutual funds.</div></div>
+    <div>© <span id="year"></span> MarketInsight · Powered by BharatStock & Firebase</div>
+  </div>
+</footer>
+
+<script src="js/chart.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

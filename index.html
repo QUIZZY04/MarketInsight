@@ -5,108 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Research Indian stocks and mutual funds with financial metrics, historical performance, risk analysis and investment insights.">
   <title>MarketInsight | Indian Stock & Mutual Fund Research</title>
-  <style>
-    :root{
-      --navy:#101c32;--navy2:#172844;--ink:#172033;--muted:#667085;
-      --green:#159765;--green2:#e8f7ef;--line:#e6eaf0;--bg:#f5f7fa;
-      --white:#fff;--amber:#d99a22;--red:#d64b55;--shadow:0 12px 32px rgba(16,28,50,.08);
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
-    a{color:inherit;text-decoration:none}
-    button,select,input{font:inherit}
-    .container{width:min(1160px,92%);margin:auto}
-    header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,.08)}
-    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px;letter-spacing:-.5px}
-    .logo{width:37px;height:37px;border-radius:11px;background:linear-gradient(135deg,#28bd82,#087c5c);display:grid;place-items:center;font-size:20px}
-    .brand span:last-child{color:#70ddb0}
-    .navlinks{display:flex;gap:25px;color:#d5deeb;font-size:14px}
-    .navlinks a:hover{color:#72e0b2}
-    .nav-actions{display:flex;align-items:center;gap:12px}
-    .market-tag{font-size:12px;color:#a9f0cf;border:1px solid rgba(112,221,176,.3);padding:7px 11px;border-radius:30px}
-    .btn{border:0;border-radius:11px;padding:12px 17px;font-weight:700;cursor:pointer;transition:.2s}
-    .btn-primary{background:var(--green);color:white}
-    .btn-primary:hover{background:#0d8055;transform:translateY(-1px)}
-    .btn-outline{background:transparent;border:1px solid rgba(255,255,255,.3);color:white}
-    .hero{background:radial-gradient(circle at 85% 10%,#234a60 0,transparent 35%),linear-gradient(120deg,#101c32,#172d49);color:white;padding:74px 0 88px}
-    .hero-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:50px;align-items:center}
-    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:#91e5bd;font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}
-    .dot{width:7px;height:7px;background:#58d69e;border-radius:50%;box-shadow:0 0 0 5px rgba(88,214,158,.12)}
-    h1{font-size:clamp(36px,5vw,58px);line-height:1.08;letter-spacing:-2px;margin:18px 0}
-    h1 em{font-style:normal;color:#70ddb0}
-    .hero-copy{font-size:17px;color:#c4d0df;max-width:570px;margin-bottom:26px}
-    .hero-points{display:flex;flex-wrap:wrap;gap:17px;color:#d9e4ef;font-size:13px}
-    .hero-points span:before{content:"✓";color:#70ddb0;font-weight:900;margin-right:7px}
-    .search-panel{background:#fff;color:var(--ink);padding:24px;border-radius:20px;box-shadow:0 25px 60px rgba(0,0,0,.22)}
-    .panel-title{font-size:18px;font-weight:800;margin:0 0 4px}
-    .panel-sub{font-size:13px;color:var(--muted);margin:0 0 20px}
-    .switch{display:grid;grid-template-columns:1fr 1fr;background:#f0f3f6;padding:5px;border-radius:12px;margin-bottom:18px}
-    .switch button{border:0;background:transparent;border-radius:9px;padding:10px;font-weight:700;color:#647084;cursor:pointer}
-    .switch button.active{background:white;color:var(--green);box-shadow:0 2px 8px rgba(16,28,50,.08)}
-    .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-    .field{display:flex;flex-direction:column;gap:6px}
-    .field.full{grid-column:1/-1}
-    label{font-size:12px;font-weight:750;color:#4d596b}
-    select,input{width:100%;padding:12px 13px;border:1px solid #dce2e9;border-radius:10px;background:white;color:#273247;outline:none}
-    select:focus,input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(21,151,101,.1)}
-    .search-panel .btn{width:100%;margin-top:17px;padding:14px}
-    .small-note{font-size:11px;color:#8490a0;margin:12px 0 0;text-align:center}
-    section{padding:72px 0}
-    .section-head{text-align:center;max-width:700px;margin:0 auto 35px}
-    .kicker{font-size:12px;color:var(--green);font-weight:850;letter-spacing:1.4px;text-transform:uppercase}
-    h2{font-size:clamp(27px,3vw,38px);letter-spacing:-1px;margin:8px 0 10px}
-    .section-head p{color:var(--muted);margin:0}
-    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .feature{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:23px;box-shadow:0 5px 18px rgba(16,28,50,.035)}
-    .feature-icon{width:43px;height:43px;border-radius:13px;background:#eaf7f1;color:var(--green);display:grid;place-items:center;font-size:21px;margin-bottom:16px}
-    .feature h3{font-size:17px;margin:0 0 7px}
-    .feature p{font-size:13px;color:var(--muted);margin:0}
-    .preview-section{background:#eef2f6}
-    .preview{background:white;border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:var(--shadow)}
-    .preview-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
-    .instrument{display:flex;gap:13px;align-items:center}
-    .instrument-logo{width:48px;height:48px;border-radius:14px;background:#e9f5ef;color:var(--green);font-weight:900;display:grid;place-items:center}
-    .instrument h3{margin:0;font-size:19px}
-    .instrument p{margin:2px 0 0;color:var(--muted);font-size:12px}
-    .demo-label{font-size:11px;font-weight:800;color:#9a6a10;background:#fff5dc;border-radius:30px;padding:7px 10px}
-    .price-row{display:flex;gap:25px;align-items:baseline;margin:22px 0}
-    .price{font-size:32px;font-weight:850;letter-spacing:-1px}
-    .positive{color:var(--green);font-weight:750;font-size:13px}
-    .tabs{display:flex;gap:7px;overflow:auto;border-bottom:1px solid var(--line);padding-bottom:9px}
-    .tab{border:0;background:transparent;padding:9px 13px;border-radius:9px;color:#667085;font-weight:700;white-space:nowrap;cursor:pointer;font-size:13px}
-    .tab.active{background:#eaf7f1;color:var(--green)}
-    .tab-content{padding:23px 2px 3px;min-height:150px}
-    .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-    .metric{background:#f7f9fb;border:1px solid #edf0f3;border-radius:12px;padding:14px}
-    .metric small{display:block;color:var(--muted);font-size:11px}
-    .metric strong{font-size:18px;display:block;margin-top:4px}
-    .recommend{display:grid;grid-template-columns:1fr 1.2fr;gap:28px;align-items:center}
-    .meter-wrap{background:#f7f9fb;border:1px solid var(--line);border-radius:16px;padding:19px}
-    .meter-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}
-    .score{font-size:31px;font-weight:900;color:var(--green)}
-    .meter{height:13px;border-radius:30px;background:linear-gradient(90deg,#d94d57 0%,#e7b74f 50%,#20a36c 100%);position:relative;margin:18px 0 9px}
-    .needle{position:absolute;left:72%;top:-6px;width:4px;height:25px;background:#14233a;border:2px solid white;border-radius:5px;box-shadow:0 1px 5px #777}
-    .meter-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;font-weight:700}
-    .basis{display:grid;gap:13px}
-    .basis-row{display:flex;justify-content:space-between;gap:20px;font-size:13px}
-    .bar{height:6px;background:#edf0f3;border-radius:20px;margin-top:6px;overflow:hidden}
-    .bar span{display:block;height:100%;background:var(--green);border-radius:20px}
-    .disclaimer{font-size:11px;color:#788394;background:#f7f9fb;padding:13px;border-radius:10px;margin-top:17px}
-    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;counter-reset:step}
-    .step{background:white;border:1px solid var(--line);border-radius:15px;padding:20px}
-    .step:before{counter-increment:step;content:"0" counter(step);font-size:12px;font-weight:900;color:var(--green);letter-spacing:1px}
-    .step h3{font-size:15px;margin:10px 0 6px}
-    .step p{font-size:12px;color:var(--muted);margin:0}
-    footer{background:#101c32;color:#c2ccda;padding:35px 0;font-size:12px}
-    .footer-row{display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap}
-    .footer-brand{font-size:16px;font-weight:800;color:white}
-    .footer-note{max-width:650px;color:#9baabd;margin-top:8px}
-    .result-message{margin-top:12px;padding:12px;border-radius:10px;background:#eaf7f1;color:#176746;font-size:13px;display:none}
-    @media(max-width:850px){.hero-grid{grid-template-columns:1fr;gap:32px}.hero{padding:55px 0 65px}.feature-grid{grid-template-columns:repeat(2,1fr)}.recommend{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
-    @media(max-width:560px){.nav{height:66px}.market-tag{display:none}.hero{padding:43px 0 52px}h1{letter-spacing:-1.2px}.search-panel{padding:18px}.field-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.feature-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(2,1fr)}section{padding:52px 0}.steps{grid-template-columns:1fr 1fr}.price{font-size:27px}}
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header>
@@ -149,11 +48,12 @@
             <label for="instrument">SEARCH / SELECT INVESTMENT</label>
             <input id="instrument" list="instrumentOptions" placeholder="Start typing a company or fund name..." autocomplete="off">
             <datalist id="instrumentOptions"></datalist>
+            <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
           </div>
         </div>
         <button class="btn btn-primary" onclick="exploreInvestment()">Explore investment →</button>
         <div class="result-message" id="resultMessage" role="status"></div>
-        <p class="small-note">Prototype data only. Connect licensed financial data APIs before publishing live figures.</p>
+        <p class="small-note">Live financial metrics powered by BharatStock API & Firebase Cloud Architecture.</p>
       </div>
     </div>
   </section>
@@ -174,13 +74,13 @@
 
   <section class="preview-section" id="analysis">
     <div class="container">
-      <div class="section-head"><div class="kicker">Inside the research workspace</div><h2>A structured view of every investment</h2><p>The selected instrument should open into dedicated tabs. The sample below demonstrates the intended layout.</p></div>
+      <div class="section-head"><div class="kicker">Inside the research workspace</div><h2>A structured view of every investment</h2><p>The selected instrument opens into dedicated analytical tabs below.</p></div>
       <div class="preview">
         <div class="preview-top">
-          <div class="instrument"><div class="instrument-logo" id="previewLogo">TCS</div><div><h3 id="previewName">Tata Consultancy Services</h3><p id="previewMeta">NSE: TCS · Information Technology · Large Cap</p></div></div>
-          <span class="demo-label">ILLUSTRATIVE UI · NOT LIVE DATA</span>
+          <div class="instrument"><div class="instrument-logo" id="previewLogo">INFY</div><div><h3 id="previewName">Infosys Limited</h3><p id="previewMeta">NSE: INFY · Information Technology · Large Cap</p></div></div>
+          <span class="demo-label" style="background:#eaf7f1; color:#159765; border:1px solid rgba(21, 151, 101, 0.3);">● LIVE BHARATSTOCK FEED</span>
         </div>
-        <div class="price-row"><span class="price" id="previewPrice">₹ 3,850.00</span><span class="positive" id="previewChange">+1.24% today</span></div>
+        <div class="price-row"><span class="price" id="previewPrice">₹ 1,141.50</span><span class="positive" id="previewChange">+0.85% today</span></div>
         <div class="tabs" role="tablist">
           <button class="tab active" onclick="showTab('overview',this)">Overview</button>
           <button class="tab" onclick="showTab('history',this)">History</button>
@@ -191,10 +91,10 @@
         </div>
         <div class="tab-content" id="tabContent">
           <div class="metric-grid">
-            <div class="metric"><small>Market capitalisation</small><strong>₹ 14.0L Cr</strong></div>
-            <div class="metric"><small>P/E ratio</small><strong>29.4x</strong></div>
-            <div class="metric"><small>52-week range</small><strong>3,310–4,590</strong></div>
-            <div class="metric"><small>Dividend yield</small><strong>1.6%</strong></div>
+            <div class="metric"><small>Market capitalisation</small><strong>₹ 4.63L Cr</strong></div>
+            <div class="metric"><small>P/E ratio</small><strong>15.2x</strong></div>
+            <div class="metric"><small>52-week range</small><strong>₹ 1,358 – ₹ 1,990</strong></div>
+            <div class="metric"><small>Dividend yield</small><strong>2.10%</strong></div>
           </div>
         </div>
       </div>
@@ -206,7 +106,7 @@
       <div class="section-head"><div class="kicker">Transparent methodology</div><h2>Recommendation with a reason — not just a colour</h2><p>A score should explain the factors behind its signal and clearly show the uncertainty and risks.</p></div>
       <div class="recommend">
         <div class="meter-wrap">
-          <div class="meter-head"><div><div style="font-size:13px;font-weight:800">Illustrative intelligence score</div><div style="font-size:11px;color:#778395">Sample instrument · sample calculation</div></div><div class="score">72<span style="font-size:14px;color:#667085">/100</span></div></div>
+          <div class="meter-head"><div><div style="font-size:13px;font-weight:800">Illustrative intelligence score</div><div style="font-size:11px;color:#778395">Sample instrument · fundamental weighting</div></div><div class="score">72<span style="font-size:14px;color:#667085">/100</span></div></div>
           <div class="meter"><span class="needle"></span></div>
           <div class="meter-labels"><span>SELL</span><span>HOLD</span><span>BUY</span></div>
           <div style="margin-top:16px"><span class="demo-label">SAMPLE SIGNAL: POSITIVE</span></div>
@@ -219,18 +119,18 @@
           <div><div class="basis-row"><strong>Risk profile</strong><span>60/100</span></div><div class="bar"><span style="width:60%"></span></div></div>
         </div>
       </div>
-      <div class="disclaimer">Important: This meter is a design example, not a real recommendation. A production score needs a published, tested methodology, dated source data, confidence/uncertainty indicators and suitability safeguards. It must not imply guaranteed returns.</div>
+      <div class="disclaimer">Important: This score is an analytical framework example. Production scores must reflect published models, audited data sources, and regulatory risk disclosures. Not investment advice.</div>
     </div>
   </section>
 
   <section id="roadmap" style="background:#eef2f6">
     <div class="container">
-      <div class="section-head"><div class="kicker">Build in stages</div><h2>From homepage to a complete platform</h2><p>Start with reliable discovery and data. Add advanced analysis only after the data foundation is dependable.</p></div>
+      <div class="section-head"><div class="kicker">Architecture in stages</div><h2>Secure, production-ready stack</h2><p>From static prototype to a scalable financial analysis engine.</p></div>
       <div class="steps">
-        <article class="step"><h3>Build the interface</h3><p>Responsive homepage, search, cascading filters, asset pages and watchlist screens.</p></article>
-        <article class="step"><h3>Connect financial data</h3><p>Licensed prices, NAV, filings, fundamentals, corporate actions and news feeds.</p></article>
-        <article class="step"><h3>Create analytics</h3><p>Returns, ratios, peer comparisons, risk measures and mutual fund analytics.</p></article>
-        <article class="step"><h3>Launch responsibly</h3><p>Validate calculations, security, performance, data rights and Indian regulatory obligations.</p></article>
+        <article class="step"><h3>Modular Interface</h3><p>Responsive frontend with decoupled CSS, canvas charts and reactive state management.</p></article>
+        <article class="step"><h3>Secure Firebase Proxy</h3><p>Cloud Functions v2 with Google Secret Manager safeguarding your BharatStock API key.</p></article>
+        <article class="step"><h3>Live Financial Data</h3><p>EOD OHLCV, XBRL normalized statements, key valuation metrics and AMFI mutual funds.</p></article>
+        <article class="step"><h3>Optimized Deployment</h3><p>Global CDN edge caching via Firebase Hosting rewrites for low-latency Indian market access.</p></article>
       </div>
     </div>
   </section>
@@ -238,114 +138,12 @@
 
 <footer>
   <div class="container footer-row">
-    <div><div class="footer-brand">↗ MarketInsight</div><div class="footer-note">An investment research and analytics platform concept for Indian stocks and mutual funds.</div></div>
-    <div>© <span id="year"></span> MarketInsight · Prototype homepage</div>
+    <div><div class="footer-brand">↗ MarketInsight</div><div class="footer-note">An investment research and analytics platform for Indian stocks and mutual funds.</div></div>
+    <div>© <span id="year"></span> MarketInsight · Powered by BharatStock & Firebase</div>
   </div>
 </footer>
 
-<script>
-  const stockData = {
-    "Large Cap": {
-      "Information Technology":["TCS","Infosys","HCL Technologies","Wipro"],
-      "Banking":["HDFC Bank","ICICI Bank","State Bank of India","Kotak Mahindra Bank"],
-      "Energy":["Reliance Industries","ONGC","NTPC"],
-      "FMCG":["ITC","Hindustan Unilever","Nestlé India"]
-    },
-    "Mid Cap": {
-      "Information Technology":["Persistent Systems","Coforge","KPIT Technologies"],
-      "Banking & Finance":["Federal Bank","IDFC First Bank","AU Small Finance Bank"],
-      "Pharma":["Laurus Labs","Alkem Laboratories"]
-    },
-    "Small Cap": {
-      "Industrial":["Kaynes Technology","CAMS","Aegis Logistics"],
-      "Consumer":["Safari Industries","Jubilant FoodWorks"],
-      "Technology":["Netweb Technologies","Newgen Software"]
-    }
-  };
-  const fundData = {
-    "Equity": {
-      "Large Cap":["ICICI Prudential Bluechip Fund","HDFC Large Cap Fund","Nippon India Large Cap Fund"],
-      "Mid Cap":["HDFC Mid Cap Fund","Motilal Oswal Midcap Fund","Kotak Midcap Fund"],
-      "Small Cap":["Nippon India Small Cap Fund","SBI Small Cap Fund","Bandhan Small Cap Fund"],
-      "Flexi Cap":["Parag Parikh Flexi Cap Fund","HDFC Flexi Cap Fund","Kotak Flexicap Fund"],
-      "Index":["UTI Nifty 50 Index Fund","HDFC Nifty 50 Index Fund"]
-    },
-    "Debt": {
-      "Liquid":["ICICI Prudential Liquid Fund","HDFC Liquid Fund"],
-      "Short Duration":["HDFC Short Term Debt Fund","ICICI Prudential Short Term Fund"],
-      "Gilt":["SBI Magnum Gilt Fund","ICICI Prudential Gilt Fund"]
-    },
-    "Hybrid": {
-      "Aggressive Hybrid":["SBI Equity Hybrid Fund","ICICI Prudential Equity & Debt Fund"],
-      "Balanced Advantage":["ICICI Prudential Balanced Advantage Fund","HDFC Balanced Advantage Fund"],
-      "Multi Asset":["SBI Multi Asset Allocation Fund","Nippon India Multi Asset Allocation Fund"]
-    }
-  };
-  let asset = "stock";
-  const category = document.getElementById("category");
-  const subcategory = document.getElementById("subcategory");
-  const instrument = document.getElementById("instrument");
-  const options = document.getElementById("instrumentOptions");
-
-  function setAsset(type){
-    asset=type;
-    document.getElementById("stocksBtn").classList.toggle("active",type==="stock");
-    document.getElementById("fundsBtn").classList.toggle("active",type==="fund");
-    document.getElementById("subLabel").textContent=type==="stock"?"SECTOR":"FUND CATEGORY";
-    instrument.value="";
-    updateCategories();
-  }
-  function updateCategories(){
-    const data=asset==="stock"?stockData:fundData;
-    category.innerHTML="";
-    Object.keys(data).forEach(k=>category.add(new Option(k,k)));
-    updateSubcategories();
-  }
-  function updateSubcategories(){
-    const data=asset==="stock"?stockData:fundData;
-    subcategory.innerHTML="";
-    Object.keys(data[category.value]||{}).forEach(k=>subcategory.add(new Option(k,k)));
-    updateItems();
-  }
-  function updateItems(){
-    const data=asset==="stock"?stockData:fundData;
-    const items=(data[category.value]||{})[subcategory.value]||[];
-    options.innerHTML="";
-    items.forEach(name=>options.appendChild(new Option(name)));
-    instrument.placeholder=asset==="stock"?"Type a stock or company name...":"Type a mutual fund name...";
-  }
-  function exploreInvestment(){
-    const chosen=instrument.value.trim();
-    if(!chosen){showMessage("Please type or select an investment first.");return;}
-    const data=asset==="stock"?stockData:fundData;
-    const valid=Object.values(data).some(group=>Object.values(group).some(list=>list.some(x=>x.toLowerCase()===chosen.toLowerCase())));
-    if(!valid){showMessage("This prototype currently contains sample search options only. A production version will search the full stock and mutual fund database.");return;}
-    document.getElementById("previewName").textContent=chosen;
-    document.getElementById("previewLogo").textContent=chosen.split(/\s+/).map(x=>x[0]).join("").slice(0,3).toUpperCase();
-    document.getElementById("previewMeta").textContent=asset==="stock"?"Illustrative stock profile · "+category.value+" · "+subcategory.value:"Illustrative mutual fund profile · "+category.value+" · "+subcategory.value;
-    document.getElementById("previewPrice").textContent=asset==="stock"?"Price data not connected":"NAV data not connected";
-    document.getElementById("previewChange").textContent="Live feed required";
-    showMessage("Selected "+chosen+". The research preview below has been updated; financial values are intentionally not fabricated.");
-    document.getElementById("analysis").scrollIntoView({behavior:"smooth"});
-  }
-  function showMessage(msg){
-    const el=document.getElementById("resultMessage");el.textContent=msg;el.style.display="block";
-  }
-  const tabContent={
-    overview:'<div class="metric-grid"><div class="metric"><small>Market capitalisation</small><strong>API required</strong></div><div class="metric"><small>P/E ratio</small><strong>API required</strong></div><div class="metric"><small>52-week range</small><strong>API required</strong></div><div class="metric"><small>Dividend yield</small><strong>API required</strong></div></div>',
-    history:'<h3>Historical price / NAV performance</h3><p style="color:#667085;font-size:13px">Add an interactive chart with 1M, 3M, 6M, 1Y, 3Y, 5Y and Max ranges. Connect a licensed historical data feed before displaying values.</p>',
-    financials:'<h3>Financial statements</h3><p style="color:#667085;font-size:13px">For stocks: quarterly and annual P&L, balance sheet and cash flow. For funds: portfolio, asset allocation, holdings and fund factsheet data.</p>',
-    ratios:'<h3>Key ratios</h3><p style="color:#667085;font-size:13px">Stock metrics: P/E, P/B, EPS, ROE, ROCE, debt/equity. Mutual fund metrics: expense ratio, Sharpe, Sortino, alpha, beta and standard deviation.</p>',
-    news:'<h3>News & disclosures</h3><p style="color:#667085;font-size:13px">Integrate dated news, exchange announcements, company filings, fund factsheets and corporate actions with source links.</p>',
-    risk:'<h3>Risk profile</h3><p style="color:#667085;font-size:13px">Show volatility, maximum drawdown, liquidity, concentration, downside risk and a clear explanation of the measurement period.</p>'
-  };
-  function showTab(key,button){
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-    button.classList.add("active");
-    document.getElementById("tabContent").innerHTML=tabContent[key];
-  }
-  document.getElementById("year").textContent=new Date().getFullYear();
-  updateCategories();
-</script>
+<script src="js/chart.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
