@@ -508,51 +508,104 @@ h2 {
 }
 
 .meter-wrap {
-  background: #f7f9fb;
+  background: #ffffff;
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 19px;
+  border-radius: 18px;
+  padding: 22px 20px 20px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  text-align: center;
 }
 
-.meter-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 13px;
+.speedo-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #1e293b;
+  font-weight: 800;
 }
 
-.score {
-  font-size: 31px;
-  font-weight: 900;
-  color: var(--green);
+.speedo-subtitle {
+  font-size: 12px;
+  color: #64748b;
+  display: block;
+  margin-top: 3px;
 }
 
-.meter {
-  height: 13px;
-  border-radius: 30px;
-  background: linear-gradient(90deg, #d94d57 0%, #e7b74f 50%, #20a36c 100%);
+.speedo-container {
   position: relative;
-  margin: 18px 0 9px;
+  max-width: 330px;
+  margin: 12px auto 0;
 }
 
-.needle {
-  position: absolute;
-  left: 72%;
-  top: -6px;
-  width: 4px;
-  height: 25px;
-  background: #14233a;
-  border: 2px solid white;
-  border-radius: 5px;
-  box-shadow: 0 1px 5px #777;
+.speedo-svg {
+  overflow: visible;
+  display: block;
+  margin: 0 auto;
 }
 
-.meter-labels {
+.speedo-reading-box {
+  margin-top: -12px;
   display: flex;
-  justify-content: space-between;
-  color: var(--muted);
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.speedo-score-number {
+  font-size: 38px;
+  font-weight: 850;
+  color: #0f172a;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.speedo-max {
+  font-size: 16px;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.speedo-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 850;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 2px;
+  transition: all 0.3s ease;
+}
+
+.speedo-badge.buy {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #10b981;
+}
+
+.speedo-badge.buy-light {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #34d399;
+}
+
+.speedo-badge.hold {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.speedo-badge.sell {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #ef4444;
+}
+
+.speedo-symbol-name {
+  color: #64748b;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 600;
 }
 
 .basis {

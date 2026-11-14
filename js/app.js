@@ -720,8 +720,9 @@ function setChartRange(range, btn) {
 
 function filterHistoryByRange(history, range) {
   if (!history || history.length < 2) return history || [];
-  const now = new Date();
-  let cutoff = new Date();
+  const latestDateStr = history[history.length - 1].date || history[history.length - 1].tradeDate;
+  const now = latestDateStr ? new Date(latestDateStr) : new Date();
+  let cutoff = new Date(now);
 
   switch (range) {
     case "1M":
@@ -911,32 +912,37 @@ function updateIntelligenceScore(d) {
 
   // Update DOM Elements
   const nameEl = document.getElementById("scoreInstrumentName");
-  if (nameEl) nameEl.textContent = `${d.name || d.symbol} · Fundamental Intelligence Model`;
+  if (nameEl) nameEl.textContent = `${d.name || d.symbol} · Quantitative Model`;
 
   const compEl = document.getElementById("compositeScore");
-  if (compEl) compEl.innerHTML = `${totalScore}<span style="font-size:14px;color:#667085">/100</span>`;
+  if (compEl) compEl.innerHTML = `${totalScore}<span class="speedo-max">/100</span>`;
 
+  // Rotate speedometer needle (-90 deg = SELL, 0 deg = HOLD, +90 deg = BUY)
+  const angle = Math.max(-90, Math.min(90, -90 + (totalScore * 1.8)));
+  const speedoNeedle = document.getElementById("speedoNeedleGroup");
+  if (speedoNeedle) {
+    speedoNeedle.style.transform = `rotate(${angle}deg)`;
+  }
+
+  // Fallback for flat meter if present
   const needle = document.getElementById("scoreNeedle");
   if (needle) needle.style.left = `${Math.min(95, Math.max(5, totalScore))}%`;
 
   const badge = document.getElementById("scoreSignalBadge");
   if (badge) {
-    if (totalScore >= 75) {
-      badge.textContent = "SIGNAL: STRONG BUY / QUALITY OUTPERFORM";
-      badge.style.color = "#159765";
-      badge.style.background = "#eaf7f1";
-    } else if (totalScore >= 60) {
-      badge.textContent = "SIGNAL: ACCUMULATE / POSITIVE";
-      badge.style.color = "#0d8055";
-      badge.style.background = "#e8f7ef";
-    } else if (totalScore >= 45) {
-      badge.textContent = "SIGNAL: HOLD / BALANCED RISK";
-      badge.style.color = "#b45309";
-      badge.style.background = "#fef3c7";
+    badge.className = "speedo-badge";
+    if (totalScore >= 70) {
+      badge.classList.add("buy");
+      badge.textContent = "STRONG BUY / OUTPERFORM";
+    } else if (totalScore >= 55) {
+      badge.classList.add("buy-light");
+      badge.textContent = "ACCUMULATE / POSITIVE";
+    } else if (totalScore >= 42) {
+      badge.classList.add("hold");
+      badge.textContent = "HOLD / NEUTRAL";
     } else {
-      badge.textContent = "SIGNAL: CAUTION / ELEVATED RISK";
-      badge.style.color = "#b91c1c";
-      badge.style.background = "#fee2e2";
+      badge.classList.add("sell");
+      badge.textContent = "SELL / CAUTION";
     }
   }
 

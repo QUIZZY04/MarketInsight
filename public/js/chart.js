@@ -86,7 +86,7 @@ class StockChart {
       const year = String(d.getFullYear()).slice(-2);
       if (this.range === "1M" || this.range === "3M") {
         return `${day} ${mon}`;
-      } else if (this.range === "5Y" || this.range === "ALL" || this.range === "MAX") {
+      } else if (this.range === "5Y" || this.range === "3Y" || this.range === "ALL" || this.range === "MAX") {
         return `${mon} '${year}`;
       }
       return `${day} ${mon} '${year}`;
