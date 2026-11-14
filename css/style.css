@@ -1267,4 +1267,380 @@ footer {
   }
 }
 
+/* ==========================================================================
+   Vibrant Research Cockpit & Upfront Result Analysis (Colorful & Attractive)
+   ========================================================================== */
+.cockpit-hero {
+  background: radial-gradient(circle at 85% 10%, #1e3a5f 0, transparent 40%),
+    radial-gradient(circle at 15% 90%, #163628 0, transparent 40%),
+    linear-gradient(135deg, #0a1120 0%, #101c32 50%, #12233f 100%);
+  color: white;
+  padding: 40px 0 65px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cockpit-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 24px;
+}
+
+.cockpit-title {
+  font-size: clamp(28px, 4.2vw, 44px);
+  font-weight: 850;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin: 10px 0 8px;
+  color: #ffffff;
+}
+
+.cockpit-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, #34d399, #6ee7b7, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cockpit-sub {
+  font-size: 15px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Search Panel Unified */
+.search-panel-unified {
+  background: #ffffff;
+  color: var(--ink);
+  padding: 20px 24px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  max-width: 960px;
+  margin: 0 auto 30px;
+}
+
+.search-form-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-form-row .unified-search-wrap {
+  flex: 1;
+}
+
+.search-action-btn {
+  white-space: nowrap;
+  padding: 13px 24px;
+  font-size: 14.5px;
+  font-weight: 750;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(21, 151, 101, 0.3);
+  margin-top: 0 !important;
+}
+
+/* Trending Chips Strip */
+.trending-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.trending-label {
+  font-size: 12px;
+  font-weight: 750;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trending-chip {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.trending-chip:hover {
+  background: #e6f7ef;
+  border-color: #10b981;
+  color: #065f46;
+  transform: translateY(-1px);
+}
+
+/* Result Analysis Cockpit Grid */
+.cockpit-analysis-grid {
+  display: grid;
+  grid-template-columns: 1.28fr 0.92fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* Modern Preview Card */
+.preview-modern {
+  background: #ffffff;
+  color: var(--ink);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-modern .preview-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.preview-modern .instrument {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.preview-modern .instrument-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.preview-modern .instrument h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.preview-modern .instrument p {
+  margin: 3px 0 0;
+  color: #64748b;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.preview-modern .demo-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #159765;
+  background: #eaf7f1;
+  border: 1px solid rgba(21, 151, 101, 0.3);
+  border-radius: 30px;
+  padding: 6px 12px;
+  letter-spacing: 0.5px;
+}
+
+.preview-modern .price-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin: 18px 0 16px;
+}
+
+.preview-modern .price {
+  font-size: 34px;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -1.2px;
+}
+
+.preview-modern .positive {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #dcfce7, #d1fae5);
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.preview-modern .negative {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* Tabs Vibrant */
+.tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.tab {
+  border: none;
+  background: #f8fafc;
+  padding: 9px 15px;
+  border-radius: 10px;
+  color: #64748b;
+  font-weight: 750;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  background: #edf2f7;
+  color: #1e293b;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+/* Colorful Metric Cards */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.metric {
+  border-radius: 14px;
+  padding: 14px 15px;
+  border: 1px solid #edf2f7;
+  transition: transform 0.2s ease;
+}
+
+.metric:hover {
+  transform: translateY(-2px);
+}
+
+.metric-mktcap {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-color: #bfdbfe;
+}
+.metric-mktcap small { color: #1e40af; font-weight: 700; }
+.metric-mktcap strong { color: #1e3a8a; }
+
+.metric-pe {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border-color: #e9d5ff;
+}
+.metric-pe small { color: #6b21a8; font-weight: 700; }
+.metric-pe strong { color: #581c87; }
+
+.metric-range {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border-color: #fde68a;
+}
+.metric-range small { color: #92400e; font-weight: 700; }
+.metric-range strong { color: #78350f; font-size: 15px; }
+
+.metric-div {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: #a7f3d0;
+}
+.metric-div small { color: #065f46; font-weight: 700; }
+.metric-div strong { color: #064e3b; }
+
+/* Speedo Modern Card */
+.speedo-modern {
+  background: #ffffff;
+  color: var(--ink);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.speedo-modern .meter-wrap {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.basis-modern {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.basis-card {
+  background: #f8fafc;
+  border: 1px solid #eef2f6;
+  border-radius: 12px;
+  padding: 9px 13px;
+  transition: all 0.15s ease;
+}
+
+.basis-card:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.basis-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 13px;
+}
+
+.cockpit-disclaimer {
+  max-width: 960px;
+  margin: 22px auto 0;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  font-size: 11.5px;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+
+@media (max-width: 992px) {
+  .cockpit-analysis-grid {
+    grid-template-columns: 1fr;
+  }
+  .search-form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-action-btn {
+    width: 100%;
+  }
+  .metric-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 

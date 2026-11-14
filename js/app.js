@@ -586,6 +586,21 @@ async function fetchBackgroundSearchResults(query) {
   } catch {}
 }
 
+// Quick Select Chip Handler for Trending Stocks/Funds
+function quickSelect(tickerOrSymbol) {
+  if (instrumentInput) {
+    const item = INSTANT_CATALOG.find(c => c.symbol.toUpperCase() === tickerOrSymbol.toUpperCase());
+    if (item) {
+      instrumentInput.value = `${item.name} (${item.symbol})`;
+    } else {
+      instrumentInput.value = tickerOrSymbol;
+    }
+    const clearBtn = document.getElementById("clearSearchBtn");
+    if (clearBtn) clearBtn.style.display = "flex";
+  }
+  exploreInvestment(tickerOrSymbol);
+}
+
 // Explore selected investment
 async function exploreInvestment(targetNameOrSymbol) {
   let rawChosen = targetNameOrSymbol || (instrumentInput ? instrumentInput.value.trim() : "");
@@ -634,7 +649,10 @@ async function exploreInvestment(targetNameOrSymbol) {
 
   const analysisSec = document.getElementById("analysis");
   if (analysisSec) {
-    analysisSec.scrollIntoView({ behavior: "smooth" });
+    const rect = analysisSec.getBoundingClientRect();
+    if (rect.top < -100 || rect.top > window.innerHeight - 100) {
+      analysisSec.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
   }
 
   showTab("overview", document.querySelector(".tabs .tab"));

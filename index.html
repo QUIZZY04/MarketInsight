@@ -19,36 +19,141 @@
 </header>
 
 <main>
-  <section class="hero" id="explore">
-    <div class="container hero-grid">
-      <div>
-        <div class="eyebrow"><span class="dot"></span> INDIAN STOCKS & MUTUAL FUNDS</div>
-        <h1>Research better.<br><em>Invest with clarity.</em></h1>
-        <p class="hero-copy">Explore company fundamentals, mutual fund performance, valuation, risk and market developments — brought together in one research workspace.</p>
-        <div class="hero-points"><span>Deep financial analysis</span><span>Fund comparisons</span><span>Transparent insights</span></div>
+  <section class="cockpit-hero" id="explore">
+    <div class="container">
+      <div class="cockpit-header">
+        <div class="eyebrow"><span class="dot"></span> LIVE NSE & AMFI MARKET RESEARCH</div>
+        <h1 class="cockpit-title">Indian Stock & Mutual Fund <em>Intelligence</em></h1>
+        <p class="cockpit-sub">Instant valuation, financial metrics, price history and multi-factor quantitative models.</p>
       </div>
 
-      <div class="search-panel">
-        <h2 class="panel-title">Search Indian Stocks & Mutual Funds</h2>
-        <p class="panel-sub">Instant quantitative analysis for NSE equities & AMFI mutual funds.</p>
+      <!-- Unified Search Bar Console -->
+      <div class="search-panel-unified">
         <div class="switch" role="tablist" aria-label="Investment filter">
           <button type="button" class="active" id="filterAllBtn" onclick="setSearchFilter('all')">✦ All</button>
           <button type="button" id="filterStocksBtn" onclick="setSearchFilter('stock')">↗ Stocks</button>
           <button type="button" id="filterFundsBtn" onclick="setSearchFilter('fund')">▦ Mutual Funds</button>
         </div>
-        <div class="unified-search-wrap">
-          <label for="instrument" class="search-label">COMPANY OR MUTUAL FUND NAME</label>
-          <div class="search-input-box">
-            <span class="search-lens-icon">⌕</span>
-            <input id="instrument" value="" placeholder="Type your stock or mutual fund name" autocomplete="off" spellcheck="false">
-            <button type="button" id="clearSearchBtn" class="clear-search-btn" onclick="clearSearchInput()" title="Clear">✕</button>
+        <div class="search-form-row">
+          <div class="unified-search-wrap">
+            <div class="search-input-box">
+              <span class="search-lens-icon">⌕</span>
+              <input id="instrument" value="" placeholder="Type your stock or mutual fund name" autocomplete="off" spellcheck="false">
+              <button type="button" id="clearSearchBtn" class="clear-search-btn" onclick="clearSearchInput()" title="Clear">✕</button>
+            </div>
+            <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
           </div>
-          <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+          <button class="btn btn-primary search-action-btn" onclick="exploreInvestment()">Explore investment →</button>
         </div>
-        <button class="btn btn-primary" onclick="exploreInvestment()">Explore investment →</button>
         <div class="result-message" id="resultMessage" role="status"></div>
-        <p class="small-note">Instant sub-millisecond search · Real-time BharatStock & AMFI feed · Automated multi-factor model.</p>
+
+        <!-- Trending Tickers Quick Chips -->
+        <div class="trending-strip">
+          <span class="trending-label">⚡ Popular:</span>
+          <button type="button" class="trending-chip" onclick="quickSelect('INFY')">INFY (Infosys)</button>
+          <button type="button" class="trending-chip" onclick="quickSelect('TCS')">TCS</button>
+          <button type="button" class="trending-chip" onclick="quickSelect('RELIANCE')">Reliance</button>
+          <button type="button" class="trending-chip" onclick="quickSelect('HDFCBANK')">HDFC Bank</button>
+          <button type="button" class="trending-chip" onclick="quickSelect('TATAPOWER')">Tata Power</button>
+          <button type="button" class="trending-chip" onclick="quickSelect('122639')">Parag Parikh Flexi Cap</button>
+          <button type="button" class="trending-chip" onclick="quickSelect('120828')">Quant Small Cap</button>
+        </div>
       </div>
+
+      <!-- Live Result Analysis Cockpit (Right Upfront! No scrolling to bottom!) -->
+      <div class="cockpit-analysis-grid" id="analysis">
+        <!-- Left: Deep Analytical Workspace -->
+        <div class="preview-modern">
+          <div class="preview-top">
+            <div class="instrument">
+              <div class="instrument-logo" id="previewLogo">INFY</div>
+              <div>
+                <h3 id="previewName">Infosys Limited</h3>
+                <p id="previewMeta">NSE: INFY · Information Technology · Large Cap</p>
+              </div>
+            </div>
+            <span class="demo-label">● LIVE BHARATSTOCK FEED</span>
+          </div>
+
+          <div class="price-row">
+            <span class="price" id="previewPrice">₹ 1,141.50</span>
+            <span class="positive" id="previewChange">+0.85% today</span>
+          </div>
+
+          <div class="tabs" role="tablist">
+            <button class="tab active" onclick="showTab('overview',this)">Overview</button>
+            <button class="tab" onclick="showTab('history',this)">History</button>
+            <button class="tab" onclick="showTab('financials',this)">Financials</button>
+            <button class="tab" onclick="showTab('ratios',this)">Key ratios</button>
+            <button class="tab" onclick="showTab('news',this)">News</button>
+            <button class="tab" onclick="showTab('risk',this)">Risk</button>
+          </div>
+
+          <div class="tab-content" id="tabContent">
+            <div class="metric-grid">
+              <div class="metric metric-mktcap"><small>Market capitalisation</small><strong>₹ 4.63L Cr</strong></div>
+              <div class="metric metric-pe"><small>P/E ratio</small><strong>15.2x</strong></div>
+              <div class="metric metric-range"><small>52-week range</small><strong>₹ 1,358 – ₹ 1,990</strong></div>
+              <div class="metric metric-div"><small>Dividend yield</small><strong>2.10%</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Quantitative Signal Speedometer & Factor Model -->
+        <div class="speedo-modern">
+          <div class="meter-wrap">
+            <div class="speedo-header">
+              <h3>Quantitative Signal Speedometer</h3>
+              <span class="speedo-subtitle">Multi-Factor Fundamental Model</span>
+            </div>
+
+            <div class="speedo-container">
+              <svg class="speedo-svg" viewBox="0 0 320 195" width="100%" height="195">
+                <!-- Background Outer Track -->
+                <path d="M 45 160 A 115 115 0 0 1 275 160" fill="none" stroke="#f1f5f9" stroke-width="22" stroke-linecap="round"/>
+
+                <!-- Red Segment: SELL (0% to 35% -> Angle 180° to 243°) -->
+                <path d="M 45 160 A 115 115 0 0 1 108.7 60.5" fill="none" stroke="#ef4444" stroke-width="20" stroke-linecap="round"/>
+
+                <!-- Yellow/Amber Segment: HOLD (35% to 65% -> Angle 243° to 297°) -->
+                <path d="M 112 58 A 115 115 0 0 1 208 58" fill="none" stroke="#f59e0b" stroke-width="20"/>
+
+                <!-- Green Segment: BUY (65% to 100% -> Angle 297° to 360°) -->
+                <path d="M 211.3 60.5 A 115 115 0 0 1 275 160" fill="none" stroke="#10b981" stroke-width="20" stroke-linecap="round"/>
+
+                <!-- Segment Labels: SELL (Red), HOLD (Yellow), BUY (Green) -->
+                <text x="36" y="186" fill="#ef4444" font-size="12" font-weight="850" text-anchor="middle">SELL</text>
+                <text x="160" y="30" fill="#d97706" font-size="12" font-weight="850" text-anchor="middle">HOLD</text>
+                <text x="284" y="186" fill="#10b981" font-size="12" font-weight="850" text-anchor="middle">BUY</text>
+
+                <!-- Speedometer Needle (Pivots at 160, 160) -->
+                <g id="speedoNeedleGroup" style="transform-origin: 160px 160px; transform: rotate(50deg); transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                  <polygon points="156,160 160,56 164,160" fill="#1e293b"/>
+                  <line x1="160" y1="56" x2="160" y2="160" stroke="#f59e0b" stroke-width="1.5"/>
+                  <circle cx="160" cy="160" r="14" fill="#1e293b"/>
+                  <circle cx="160" cy="160" r="6" fill="#f8fafc"/>
+                </g>
+              </svg>
+
+              <!-- Center Reading Box -->
+              <div class="speedo-reading-box">
+                <div class="speedo-score-number" id="compositeScore">78<span class="speedo-max">/100</span></div>
+                <div id="scoreSignalBadge" class="speedo-badge buy">BUY / OUTPERFORM</div>
+                <div id="scoreInstrumentName" class="speedo-symbol-name">Infosys Limited · Multi-Factor Model</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="basis basis-modern">
+            <div class="basis-card"><div class="basis-row"><strong>🛡️ Financial Strength</strong><span id="finStrengthVal">88/100</span></div><div class="bar"><span id="finStrengthBar" style="width:88%; background:#10b981;"></span></div></div>
+            <div class="basis-card"><div class="basis-row"><strong>💎 Valuation Multiples</strong><span id="valuationVal">68/100</span></div><div class="bar"><span id="valuationBar" style="width:68%; background:#10b981;"></span></div></div>
+            <div class="basis-card"><div class="basis-row"><strong>🚀 Growth Engine (YoY/QoQ)</strong><span id="growthVal">75/100</span></div><div class="bar"><span id="growthBar" style="width:75%; background:#10b981;"></span></div></div>
+            <div class="basis-card"><div class="basis-row"><strong>📈 Technical Trend</strong><span id="technicalVal">72/100</span></div><div class="bar"><span id="technicalBar" style="width:72%; background:#10b981;"></span></div></div>
+            <div class="basis-card"><div class="basis-row"><strong>🏛️ Institutional Quality</strong><span id="ownershipVal">84/100</span></div><div class="bar"><span id="ownershipBar" style="width:84%; background:#10b981;"></span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="disclaimer cockpit-disclaimer">Important: Multi-factor quantitative scoring framework. Production signals reflect audited regulatory filings and exchange disclosures. Not investment advice.</div>
     </div>
   </section>
 
@@ -63,93 +168,6 @@
         <article class="feature"><div class="feature-icon">▥</div><h3>Peer comparison</h3><p>Compare companies within an industry or mutual funds against category peers and benchmarks.</p></article>
         <article class="feature"><div class="feature-icon">✦</div><h3>News & corporate events</h3><p>Relevant news, exchange filings, results, dividends, splits and material announcements.</p></article>
       </div>
-    </div>
-  </section>
-
-  <section class="preview-section" id="analysis">
-    <div class="container">
-      <div class="section-head"><div class="kicker">Inside the research workspace</div><h2>A structured view of every investment</h2><p>The selected instrument opens into dedicated analytical tabs below.</p></div>
-      <div class="preview">
-        <div class="preview-top">
-          <div class="instrument"><div class="instrument-logo" id="previewLogo">INFY</div><div><h3 id="previewName">Infosys Limited</h3><p id="previewMeta">NSE: INFY · Information Technology · Large Cap</p></div></div>
-          <span class="demo-label" style="background:#eaf7f1; color:#159765; border:1px solid rgba(21, 151, 101, 0.3);">● LIVE BHARATSTOCK FEED</span>
-        </div>
-        <div class="price-row"><span class="price" id="previewPrice">₹ 1,141.50</span><span class="positive" id="previewChange">+0.85% today</span></div>
-        <div class="tabs" role="tablist">
-          <button class="tab active" onclick="showTab('overview',this)">Overview</button>
-          <button class="tab" onclick="showTab('history',this)">History</button>
-          <button class="tab" onclick="showTab('financials',this)">Financials</button>
-          <button class="tab" onclick="showTab('ratios',this)">Key ratios</button>
-          <button class="tab" onclick="showTab('news',this)">News</button>
-          <button class="tab" onclick="showTab('risk',this)">Risk</button>
-        </div>
-        <div class="tab-content" id="tabContent">
-          <div class="metric-grid">
-            <div class="metric"><small>Market capitalisation</small><strong>₹ 4.63L Cr</strong></div>
-            <div class="metric"><small>P/E ratio</small><strong>15.2x</strong></div>
-            <div class="metric"><small>52-week range</small><strong>₹ 1,358 – ₹ 1,990</strong></div>
-            <div class="metric"><small>Dividend yield</small><strong>2.10%</strong></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-      <div class="section-head"><div class="kicker">Transparent methodology</div><h2>Recommendation with a reason — not just a colour</h2><p>A score should explain the factors behind its signal and clearly show the uncertainty and risks.</p></div>
-      <div class="recommend">
-        <div class="meter-wrap">
-          <div class="speedo-header">
-            <h3>Quantitative Signal Speedometer</h3>
-            <span class="speedo-subtitle">Multi-Factor Fundamental Model</span>
-          </div>
-
-          <div class="speedo-container">
-            <svg class="speedo-svg" viewBox="0 0 320 195" width="100%" height="195">
-              <!-- Background Outer Track -->
-              <path d="M 45 160 A 115 115 0 0 1 275 160" fill="none" stroke="#f1f5f9" stroke-width="22" stroke-linecap="round"/>
-
-              <!-- Red Segment: SELL (0% to 35% -> Angle 180° to 243°) -->
-              <path d="M 45 160 A 115 115 0 0 1 108.7 60.5" fill="none" stroke="#ef4444" stroke-width="20" stroke-linecap="round"/>
-
-              <!-- Yellow/Amber Segment: HOLD (35% to 65% -> Angle 243° to 297°) -->
-              <path d="M 112 58 A 115 115 0 0 1 208 58" fill="none" stroke="#f59e0b" stroke-width="20"/>
-
-              <!-- Green Segment: BUY (65% to 100% -> Angle 297° to 360°) -->
-              <path d="M 211.3 60.5 A 115 115 0 0 1 275 160" fill="none" stroke="#10b981" stroke-width="20" stroke-linecap="round"/>
-
-              <!-- Segment Labels: SELL (Red), HOLD (Yellow), BUY (Green) -->
-              <text x="36" y="186" fill="#ef4444" font-size="12" font-weight="850" text-anchor="middle">SELL</text>
-              <text x="160" y="30" fill="#d97706" font-size="12" font-weight="850" text-anchor="middle">HOLD</text>
-              <text x="284" y="186" fill="#10b981" font-size="12" font-weight="850" text-anchor="middle">BUY</text>
-
-              <!-- Speedometer Needle (Pivots at 160, 160) -->
-              <g id="speedoNeedleGroup" style="transform-origin: 160px 160px; transform: rotate(50deg); transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);">
-                <polygon points="156,160 160,56 164,160" fill="#1e293b"/>
-                <line x1="160" y1="56" x2="160" y2="160" stroke="#f59e0b" stroke-width="1.5"/>
-                <circle cx="160" cy="160" r="14" fill="#1e293b"/>
-                <circle cx="160" cy="160" r="6" fill="#f8fafc"/>
-              </g>
-            </svg>
-
-            <!-- Center Reading Box -->
-            <div class="speedo-reading-box">
-              <div class="speedo-score-number" id="compositeScore">78<span class="speedo-max">/100</span></div>
-              <div id="scoreSignalBadge" class="speedo-badge buy">BUY / OUTPERFORM</div>
-              <div id="scoreInstrumentName" class="speedo-symbol-name">Infosys Limited · Multi-Factor Model</div>
-            </div>
-          </div>
-        </div>
-        <div class="basis">
-          <div><div class="basis-row"><strong>Financial Strength & Solvency</strong><span id="finStrengthVal">88/100</span></div><div class="bar"><span id="finStrengthBar" style="width:88%; background:#10b981;"></span></div></div>
-          <div><div class="basis-row"><strong>Valuation Multiples</strong><span id="valuationVal">68/100</span></div><div class="bar"><span id="valuationBar" style="width:68%; background:#10b981;"></span></div></div>
-          <div><div class="basis-row"><strong>Growth Engine (YoY/QoQ)</strong><span id="growthVal">75/100</span></div><div class="bar"><span id="growthBar" style="width:75%; background:#10b981;"></span></div></div>
-          <div><div class="basis-row"><strong>Technical & Momentum Trend</strong><span id="technicalVal">72/100</span></div><div class="bar"><span id="technicalBar" style="width:72%; background:#10b981;"></span></div></div>
-          <div><div class="basis-row"><strong>Ownership & Institutional Quality</strong><span id="ownershipVal">84/100</span></div><div class="bar"><span id="ownershipBar" style="width:84%; background:#10b981;"></span></div></div>
-        </div>
-      </div>
-      <div class="disclaimer">Important: This score is an analytical framework example. Production scores must reflect published models, audited data sources, and regulatory risk disclosures. Not investment advice.</div>
     </div>
   </section>
 
