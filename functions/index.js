@@ -307,10 +307,10 @@ router.get("/stock/:symbol", async (req, res) => {
 // 4. Historical EOD Prices
 router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res) => {
   const rawSymbol = req.params.symbol;
-  const range = req.query.range || "1Y";
+  const range = (req.query.range || "1Y").toUpperCase();
   const client = getClient();
   if (!client) {
-    return res.json({ symbol: rawSymbol, history: generateSamplePricePoints(rawSymbol, range), mode: "sandbox_demo" });
+    return res.json({ symbol: rawSymbol, range, history: generateSamplePricePoints(rawSymbol, range), mode: "sandbox_demo" });
   }
 
   try {
@@ -321,25 +321,35 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
       return res.json(cached);
     }
 
-    const { from, to } = calculateDateRange(range);
-    const priceSeries = await client.stocks.prices(symbol, { from, to });
+    const { fromDate, toDate, pageSize } = calculateDateRange(range);
+    const priceSeries = await client.stocks.prices(symbol, { fromDate, toDate, pageSize });
+    const rawList = priceSeries.data || (Array.isArray(priceSeries) ? priceSeries : []);
 
-    const formattedHistory = (priceSeries.data || priceSeries || []).map(p => ({
-      date: p.date,
-      price: p.adjustedClose || p.close,
-      open: p.open,
-      high: p.high,
-      low: p.low,
-      volume: p.volume
-    }));
+    const formattedHistory = rawList.map(p => ({
+      date: p.tradeDate || p.date || "",
+      price: p.close || p.adjustedClose || p.price || 0,
+      open: p.open || p.close || 0,
+      high: p.high || p.close || 0,
+      low: p.low || p.close || 0,
+      volume: p.volume || 0
+    })).filter(p => p.price > 0);
 
-    const payload = { symbol, history: formattedHistory };
+    // Ensure chronological order (oldest -> newest) for left-to-right chart rendering
+    if (formattedHistory.length > 1 && formattedHistory[0].date && formattedHistory[formattedHistory.length - 1].date) {
+      const firstTime = new Date(formattedHistory[0].date).getTime();
+      const lastTime = new Date(formattedHistory[formattedHistory.length - 1].date).getTime();
+      if (firstTime > lastTime) {
+        formattedHistory.reverse();
+      }
+    }
+
+    const payload = { symbol, range, history: formattedHistory };
     setCached(cacheKey, payload, 1800);
     res.set("Cache-Control", "public, max-age=1800");
     return res.json(payload);
   } catch (err) {
     console.error(`Error fetching prices for ${rawSymbol}:`, err);
-    return res.json({ symbol: rawSymbol, history: generateSamplePricePoints(rawSymbol, range), mode: "fallback_demo" });
+    return res.json({ symbol: rawSymbol, range, history: generateSamplePricePoints(rawSymbol, range), mode: "fallback_demo" });
   }
 });
 
@@ -488,24 +498,48 @@ app.use("/", router);
 function calculateDateRange(range) {
   const to = new Date();
   const from = new Date();
+  let pageSize = 300;
+
   switch (range) {
     case "1M":
       from.setMonth(to.getMonth() - 1);
+      pageSize = 35;
+      break;
+    case "3M":
+      from.setMonth(to.getMonth() - 3);
+      pageSize = 95;
       break;
     case "6M":
       from.setMonth(to.getMonth() - 6);
+      pageSize = 185;
+      break;
+    case "1Y":
+      from.setFullYear(to.getFullYear() - 1);
+      pageSize = 300;
+      break;
+    case "3Y":
+      from.setFullYear(to.getFullYear() - 3);
+      pageSize = 850;
       break;
     case "5Y":
       from.setFullYear(to.getFullYear() - 5);
+      pageSize = 1400;
       break;
-    case "1Y":
+    case "ALL":
+    case "MAX":
+      from.setFullYear(to.getFullYear() - 15);
+      pageSize = 2500;
+      break;
     default:
       from.setFullYear(to.getFullYear() - 1);
+      pageSize = 300;
       break;
   }
+
   return {
-    from: from.toISOString().split("T")[0],
-    to: to.toISOString().split("T")[0]
+    fromDate: from.toISOString().split("T")[0],
+    toDate: to.toISOString().split("T")[0],
+    pageSize
   };
 }
 
@@ -541,7 +575,18 @@ function getDemoStockData(symbol) {
 
 function generateSamplePricePoints(symbol, range) {
   const points = [];
-  const days = range === "1M" ? 30 : range === "6M" ? 180 : range === "5Y" ? 1825 : 365;
+  let days = 365;
+  switch (range) {
+    case "1M": days = 30; break;
+    case "3M": days = 90; break;
+    case "6M": days = 180; break;
+    case "1Y": days = 365; break;
+    case "3Y": days = 1095; break;
+    case "5Y": days = 1825; break;
+    case "ALL":
+    case "MAX": days = 3650; break;
+    default: days = 365; break;
+  }
   const step = Math.max(1, Math.floor(days / 60));
   let basePrice = 2400;
 

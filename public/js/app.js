@@ -438,20 +438,35 @@ const tabContentTemplates = {
     `;
   },
 
-  history: () => `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-      <h3 style="margin:0; font-size:16px;">Historical Price Performance</h3>
-      <div style="display:flex; gap:6px;">
-        <button class="btn btn-outline chart-btn" style="padding:4px 9px; font-size:11px; color:#172033; border-color:#dce2e9;" onclick="setChartRange('1M', this)">1M</button>
-        <button class="btn btn-outline chart-btn" style="padding:4px 9px; font-size:11px; color:#172033; border-color:#dce2e9;" onclick="setChartRange('6M', this)">6M</button>
-        <button class="btn btn-outline chart-btn" style="padding:4px 9px; font-size:11px; background:#eaf7f1; color:#159765; border-color:#159765;" onclick="setChartRange('1Y', this)">1Y</button>
-        <button class="btn btn-outline chart-btn" style="padding:4px 9px; font-size:11px; color:#172033; border-color:#dce2e9;" onclick="setChartRange('5Y', this)">5Y</button>
+  history: () => {
+    const d = currentSelectedData || {};
+    return `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+        <div>
+          <h3 style="margin:0; font-size:16px;">Historical Price Performance</h3>
+          <div id="chartStatsSub" style="font-size:12px; color:#64748b; margin-top:2px;">
+            ${d.name || currentSelectedSymbol} (${d.symbol || currentSelectedSymbol})
+          </div>
+        </div>
+        <div style="display:flex; gap:5px; flex-wrap:wrap;" role="tablist" aria-label="Timeframe">
+          <button class="btn btn-outline chart-btn" data-range="1M" onclick="setChartRange('1M', this)">1M</button>
+          <button class="btn btn-outline chart-btn" data-range="3M" onclick="setChartRange('3M', this)">3M</button>
+          <button class="btn btn-outline chart-btn" data-range="6M" onclick="setChartRange('6M', this)">6M</button>
+          <button class="btn btn-outline chart-btn" data-range="1Y" onclick="setChartRange('1Y', this)">1Y</button>
+          <button class="btn btn-outline chart-btn" data-range="3Y" onclick="setChartRange('3Y', this)">3Y</button>
+          <button class="btn btn-outline chart-btn" data-range="5Y" onclick="setChartRange('5Y', this)">5Y</button>
+          <button class="btn btn-outline chart-btn" data-range="ALL" onclick="setChartRange('ALL', this)">ALL</button>
+        </div>
       </div>
-    </div>
-    <div style="background:#fff; border:1px solid #edf0f3; border-radius:12px; padding:12px;">
-      <canvas id="stockPriceChart" style="width:100%; height:260px;"></canvas>
-    </div>
-  `,
+      <div style="background:#fff; border:1px solid #edf0f3; border-radius:12px; padding:16px 14px 10px; position:relative;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid #f1f5f9; flex-wrap:wrap; gap:6px;">
+          <div id="chartReturnTag" style="font-size:13px; font-weight:700;"></div>
+          <div id="chartHighLow" style="font-size:11px; color:#64748b; font-weight:600;"></div>
+        </div>
+        <canvas id="stockPriceChart" style="width:100%; height:260px; display:block; cursor:crosshair;"></canvas>
+      </div>
+    `;
+  },
 
   financials: () => `
     <div id="financialsContainer">
@@ -667,6 +682,22 @@ function initOrUpdateChart() {
   const canvas = document.getElementById("stockPriceChart");
   if (!canvas) return;
   stockChartInstance = new window.StockChart("stockPriceChart");
+  
+  // Highlight active range button
+  document.querySelectorAll(".chart-btn").forEach(b => {
+    if (b.getAttribute("data-range") === currentChartRange) {
+      b.style.background = "#eaf7f1";
+      b.style.color = "#159765";
+      b.style.borderColor = "#159765";
+      b.style.fontWeight = "700";
+    } else {
+      b.style.background = "transparent";
+      b.style.color = "#172033";
+      b.style.borderColor = "#dce2e9";
+      b.style.fontWeight = "normal";
+    }
+  });
+
   loadHistoryRange(currentChartRange);
 }
 
@@ -676,46 +707,96 @@ function setChartRange(range, btn) {
     b.style.background = "transparent";
     b.style.color = "#172033";
     b.style.borderColor = "#dce2e9";
+    b.style.fontWeight = "normal";
   });
   if (btn) {
     btn.style.background = "#eaf7f1";
     btn.style.color = "#159765";
     btn.style.borderColor = "#159765";
+    btn.style.fontWeight = "700";
   }
   loadHistoryRange(range);
 }
 
 async function loadHistoryRange(range) {
+  const returnTag = document.getElementById("chartReturnTag");
+  if (returnTag) returnTag.innerHTML = `<span style="color:#64748b; font-size:12px;">Loading ${range} price points...</span>`;
+
   try {
     const res = await fetch(`${API_BASE}/api/stock/${encodeURIComponent(currentSelectedSymbol)}/prices?range=${range}`);
     if (res.ok) {
       const data = await res.json();
       if (data.history && Array.isArray(data.history) && data.history.length > 0) {
-        stockChartInstance.setData(data.history);
+        if (stockChartInstance) {
+          stockChartInstance.setData(data.history, range);
+        }
+        updateChartStats(data.history, range);
         return;
       }
     }
-  } catch {}
+  } catch (err) {
+    console.error("Error loading history range:", err);
+  }
 
   const samplePoints = generateSampleHistory(range);
   if (stockChartInstance) {
-    stockChartInstance.setData(samplePoints);
+    stockChartInstance.setData(samplePoints, range);
+  }
+  updateChartStats(samplePoints, range);
+}
+
+function updateChartStats(history, range) {
+  if (!history || history.length < 2) return;
+  const first = Number(history[0].price) || 0;
+  const last = Number(history[history.length - 1].price) || 0;
+  const diff = last - first;
+  const pct = first > 0 ? (diff / first) * 100 : 0;
+  const isPos = diff >= 0;
+
+  const prices = history.map(h => Number(h.price) || 0);
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+
+  const returnTag = document.getElementById("chartReturnTag");
+  if (returnTag) {
+    returnTag.innerHTML = `
+      <span style="color:${isPos ? '#159765' : '#d64b55'};">
+        ${isPos ? '▲ +' : '▼ '}${Math.abs(pct).toFixed(2)}% (${isPos ? '+₹ ' : '-₹ '}${Math.abs(diff).toFixed(2)})
+      </span>
+      <span style="font-size:11px; color:#64748b; font-weight:normal; margin-left:6px;">over past ${range}</span>
+    `;
+  }
+
+  const highLowTag = document.getElementById("chartHighLow");
+  if (highLowTag) {
+    highLowTag.innerHTML = `Low: <strong>₹ ${min.toLocaleString('en-IN', {minimumFractionDigits: 1, maximumFractionDigits: 1})}</strong> · High: <strong>₹ ${max.toLocaleString('en-IN', {minimumFractionDigits: 1, maximumFractionDigits: 1})}</strong>`;
   }
 }
 
 function generateSampleHistory(range) {
   const points = [];
-  const days = range === "1M" ? 30 : range === "6M" ? 180 : range === "5Y" ? 1825 : 365;
+  let days = 365;
+  switch (range) {
+    case "1M": days = 30; break;
+    case "3M": days = 90; break;
+    case "6M": days = 180; break;
+    case "1Y": days = 365; break;
+    case "3Y": days = 1095; break;
+    case "5Y": days = 1825; break;
+    case "ALL":
+    case "MAX": days = 3650; break;
+    default: days = 365; break;
+  }
   const step = Math.max(1, Math.floor(days / 60));
-  let price = 1140;
+  let price = (currentSelectedData && currentSelectedData.price) ? currentSelectedData.price * 0.9 : 1140;
 
   for (let i = days; i >= 0; i -= step) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    price += (Math.random() - 0.48) * 15;
+    price += (Math.random() - 0.48) * (price * 0.015);
     points.push({
       date: d.toISOString().split("T")[0],
-      price: Math.max(100, Number(price.toFixed(2)))
+      price: Math.max(10, Number(price.toFixed(2)))
     });
   }
   return points;
