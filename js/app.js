@@ -54,7 +54,54 @@ const TICKER_MAP = {
   "NETWEB TECHNOLOGIES": "NETWEB",
   "NEWGEN SOFTWARE": "NEWGEN",
   "TATA MOTORS": "TATAMOTORS",
-  "BHARTI AIRTEL": "BHARTIARTL"
+  "TATAMOTORS": "TATAMOTORS",
+  "TATA STEEL": "TATASTEEL",
+  "TATASTEEL": "TATASTEEL",
+  "TATA CONSUMER": "TATACONSUM",
+  "TATACONSUM": "TATACONSUM",
+  "TATA POWER": "TATAPOWER",
+  "TATAPOWER": "TATAPOWER",
+  "ADANI POWER": "ADANIPOWER",
+  "ADANIPOWER": "ADANIPOWER",
+  "YES BANK": "YESBANK",
+  "YESBANK": "YESBANK",
+  "PNB": "PNB",
+  "PUNJAB NATIONAL BANK": "PNB",
+  "BANK OF BARODA": "BANKBARODA",
+  "BANKBARODA": "BANKBARODA",
+  "CANARA BANK": "CANBK",
+  "CANBK": "CANBK",
+  "UNION BANK": "UNIONBANK",
+  "UNIONBANK": "UNIONBANK",
+  "IRFC": "IRFC",
+  "IREDA": "IREDA",
+  "RVNL": "RVNL",
+  "DMART": "DMART",
+  "AVENUE SUPERMARTS": "DMART",
+  "DLF": "DLF",
+  "PIDILITE": "PIDILITIND",
+  "PIDILITIND": "PIDILITIND",
+  "HAVELLS": "HAVELLS",
+  "SIEMENS": "SIEMENS",
+  "ABB": "ABB",
+  "HAL": "HAL",
+  "BEL": "BEL",
+  "MAZAGON DOCK": "MAZDOCK",
+  "MAZDOCK": "MAZDOCK",
+  "COCHIN SHIPYARD": "COCHINSHIP",
+  "COCHINSHIP": "COCHINSHIP",
+  "BHEL": "BHEL",
+  "DIXON": "DIXON",
+  "CDSL": "CDSL",
+  "BSE": "BSE",
+  "MCX": "MCX",
+  "ZOMATO": "ZOMATO",
+  "PAYTM": "PAYTM",
+  "SUZLON": "SUZLON",
+  "TRENT": "TRENT",
+  "BHARTI AIRTEL": "BHARTIARTL",
+  "PARAG PARIKH": "122639",
+  "PPFAS": "122639"
 };
 
 // Comprehensive Instant In-Memory Catalog for Sub-Millisecond Search
@@ -79,6 +126,7 @@ const INSTANT_CATALOG = [
   { symbol: "SUNPHARMA", name: "Sun Pharmaceutical Industries Ltd", type: "stock", meta: "Large Cap · Pharmaceuticals", exchange: "NSE" },
   { symbol: "TATAMOTORS", name: "Tata Motors Ltd", type: "stock", meta: "Large Cap · Commercial & EV Vehicles", exchange: "NSE" },
   { symbol: "TATASTEEL", name: "Tata Steel Ltd", type: "stock", meta: "Large Cap · Steel Manufacturing", exchange: "NSE" },
+  { symbol: "TATAPOWER", name: "Tata Power Co Ltd", type: "stock", meta: "Large Cap · Renewable & Thermal Power", exchange: "NSE" },
   { symbol: "NTPC", name: "NTPC Ltd", type: "stock", meta: "Large Cap · Thermal & Green Power", exchange: "NSE" },
   { symbol: "ONGC", name: "Oil & Natural Gas Corporation Ltd", type: "stock", meta: "Large Cap · Oil & Gas Exploration", exchange: "NSE" },
   { symbol: "POWERGRID", name: "Power Grid Corporation of India", type: "stock", meta: "Large Cap · Power Transmission", exchange: "NSE" },
@@ -89,6 +137,7 @@ const INSTANT_CATALOG = [
   { symbol: "NESTLEIND", name: "Nestlé India Ltd", type: "stock", meta: "Large Cap · Food & Beverages", exchange: "NSE" },
   { symbol: "ADANIENT", name: "Adani Enterprises Ltd", type: "stock", meta: "Large Cap · Resource & Energy", exchange: "NSE" },
   { symbol: "ADANIPORTS", name: "Adani Ports & SEZ Ltd", type: "stock", meta: "Large Cap · Ports & Logistics", exchange: "NSE" },
+  { symbol: "ADANIPOWER", name: "Adani Power Ltd", type: "stock", meta: "Large Cap · Thermal Power Generation", exchange: "NSE" },
   { symbol: "COALINDIA", name: "Coal India Ltd", type: "stock", meta: "Large Cap · Coal Mining", exchange: "NSE" },
   { symbol: "JSWSTEEL", name: "JSW Steel Ltd", type: "stock", meta: "Large Cap · Steel & Iron", exchange: "NSE" },
   { symbol: "GRASIM", name: "Grasim Industries Ltd", type: "stock", meta: "Large Cap · Fibres & Chemicals", exchange: "NSE" },
@@ -112,10 +161,15 @@ const INSTANT_CATALOG = [
   { symbol: "JIOFIN", name: "Jio Financial Services Ltd", type: "stock", meta: "Large Cap · Digital NBFC & Payments", exchange: "NSE" },
   { symbol: "HAL", name: "Hindustan Aeronautics Ltd", type: "stock", meta: "Large Cap · Aerospace & Defence", exchange: "NSE" },
   { symbol: "BEL", name: "Bharat Electronics Ltd", type: "stock", meta: "Large Cap · Defence Radars & Avionics", exchange: "NSE" },
+  { symbol: "MAZDOCK", name: "Mazagon Dock Shipbuilders Ltd", type: "stock", meta: "Mid Cap · Defence Warships & Submarines", exchange: "NSE" },
+  { symbol: "COCHINSHIP", name: "Cochin Shipyard Ltd", type: "stock", meta: "Mid Cap · Shipbuilding & Ship Repair", exchange: "NSE" },
   { symbol: "TRENT", name: "Trent Ltd (Westside / Zudio)", type: "stock", meta: "Large Cap · Retail Apparel", exchange: "NSE" },
   { symbol: "VARUNBEV", name: "Varun Beverages Ltd", type: "stock", meta: "Large Cap · PepsiCo Bottling", exchange: "NSE" },
   { symbol: "POLYCAB", name: "Polycab India Ltd", type: "stock", meta: "Large Cap · Wires & Cables", exchange: "NSE" },
   { symbol: "IRCTC", name: "Indian Railway Catering & Tourism", type: "stock", meta: "Mid Cap · Railway Ticketing & Catering", exchange: "NSE" },
+  { symbol: "IRFC", name: "Indian Railway Finance Corp", type: "stock", meta: "Large Cap · Railway Infra Financing", exchange: "NSE" },
+  { symbol: "IREDA", name: "Indian Renewable Energy Dev Agency", type: "stock", meta: "Mid Cap · Green Clean Energy Financing", exchange: "NSE" },
+  { symbol: "RVNL", name: "Rail Vikas Nigam Ltd", type: "stock", meta: "Mid Cap · Railway Infrastructure EPC", exchange: "NSE" },
   { symbol: "SUZLON", name: "Suzlon Energy Ltd", type: "stock", meta: "Mid Cap · Wind Turbines & Clean Energy", exchange: "NSE" },
   { symbol: "PAYTM", name: "One97 Communications (Paytm)", type: "stock", meta: "Mid Cap · Digital Payments & QR", exchange: "NSE" },
   { symbol: "BHEL", name: "Bharat Heavy Electricals Ltd", type: "stock", meta: "Mid Cap · Heavy Electrical Machinery", exchange: "NSE" },
@@ -127,6 +181,33 @@ const INSTANT_CATALOG = [
   { symbol: "FEDERALBNK", name: "Federal Bank Ltd", type: "stock", meta: "Mid Cap · Commercial Banking", exchange: "NSE" },
   { symbol: "IDFCFIRSTB", name: "IDFC First Bank Ltd", type: "stock", meta: "Mid Cap · Retail Banking", exchange: "NSE" },
   { symbol: "AUBANK", name: "AU Small Finance Bank Ltd", type: "stock", meta: "Mid Cap · Small Finance Banking", exchange: "NSE" },
+  { symbol: "YESBANK", name: "Yes Bank Ltd", type: "stock", meta: "Mid Cap · Private Commercial Banking", exchange: "NSE" },
+  { symbol: "PNB", name: "Punjab National Bank", type: "stock", meta: "Large Cap · Public Sector Bank", exchange: "NSE" },
+  { symbol: "BANKBARODA", name: "Bank of Baroda", type: "stock", meta: "Large Cap · Public Sector Bank", exchange: "NSE" },
+  { symbol: "CANBK", name: "Canara Bank", type: "stock", meta: "Large Cap · Public Sector Bank", exchange: "NSE" },
+  { symbol: "DMART", name: "Avenue Supermarts Ltd (DMART)", type: "stock", meta: "Large Cap · Supermarket Retail Chain", exchange: "NSE" },
+  { symbol: "DLF", name: "DLF Ltd", type: "stock", meta: "Large Cap · Real Estate & Commercial Properties", exchange: "NSE" },
+  { symbol: "PIDILITIND", name: "Pidilite Industries Ltd (Fevicol)", type: "stock", meta: "Large Cap · Adhesives & Sealants", exchange: "NSE" },
+  { symbol: "HAVELLS", name: "Havells India Ltd", type: "stock", meta: "Large Cap · Electricals & Consumer Goods", exchange: "NSE" },
+  { symbol: "SIEMENS", name: "Siemens Ltd", type: "stock", meta: "Large Cap · Industrial Automation & Smart Infra", exchange: "NSE" },
+  { symbol: "ABB", name: "ABB India Ltd", type: "stock", meta: "Large Cap · Electrification & Robotics", exchange: "NSE" },
+  { symbol: "DIXON", name: "Dixon Technologies India Ltd", type: "stock", meta: "Large Cap · Electronics Contract Mfg (EMS)", exchange: "NSE" },
+  { symbol: "CDSL", name: "Central Depository Services Ltd", type: "stock", meta: "Mid Cap · Securities Depository", exchange: "NSE" },
+  { symbol: "BSE", name: "BSE Ltd", type: "stock", meta: "Mid Cap · Stock Exchange Platform", exchange: "NSE" },
+  { symbol: "MCX", name: "Multi Commodity Exchange of India", type: "stock", meta: "Mid Cap · Commodity Derivatives Exchange", exchange: "NSE" },
+  { symbol: "AMBUJACEM", name: "Ambuja Cements Ltd", type: "stock", meta: "Large Cap · Cement & Building Materials", exchange: "NSE" },
+  { symbol: "ACC", name: "ACC Ltd", type: "stock", meta: "Large Cap · Cement & Concrete", exchange: "NSE" },
+  { symbol: "JINDALSTEL", name: "Jindal Steel & Power Ltd", type: "stock", meta: "Large Cap · Steel & Mining", exchange: "NSE" },
+  { symbol: "SAIL", name: "Steel Authority of India Ltd", type: "stock", meta: "Large Cap · Public Sector Steel Producer", exchange: "NSE" },
+  { symbol: "GAIL", name: "GAIL India Ltd", type: "stock", meta: "Large Cap · Natural Gas Transmission", exchange: "NSE" },
+  { symbol: "IOC", name: "Indian Oil Corporation Ltd", type: "stock", meta: "Large Cap · Petroleum Refining & Retail", exchange: "NSE" },
+  { symbol: "BERGEPAINT", name: "Berger Paints India Ltd", type: "stock", meta: "Large Cap · Paints & Coatings", exchange: "NSE" },
+  { symbol: "DABUR", name: "Dabur India Ltd", type: "stock", meta: "Large Cap · Ayurvedic Healthcare & FMCG", exchange: "NSE" },
+  { symbol: "MARICO", name: "Marico Ltd (Parachute / Saffola)", type: "stock", meta: "Large Cap · Consumer Goods & Oils", exchange: "NSE" },
+  { symbol: "LUPIN", name: "Lupin Ltd", type: "stock", meta: "Large Cap · Generic Pharma & Biotech", exchange: "NSE" },
+  { symbol: "AUROPHARMA", name: "Aurobindo Pharma Ltd", type: "stock", meta: "Large Cap · Active Pharma Ingredients", exchange: "NSE" },
+  { symbol: "BIOCON", name: "Biocon Ltd", type: "stock", meta: "Mid Cap · Biopharmaceuticals & Biosimilars", exchange: "NSE" },
+  { symbol: "INDHOTEL", name: "The Indian Hotels Co Ltd (Taj)", type: "stock", meta: "Large Cap · Luxury Hospitality & Hotels", exchange: "NSE" },
   { symbol: "LAURUSLABS", name: "Laurus Labs Ltd", type: "stock", meta: "Mid Cap · Active Pharmaceutical Active", exchange: "NSE" },
   { symbol: "ALKEM", name: "Alkem Laboratories Ltd", type: "stock", meta: "Mid Cap · Anti-infectives & Formulations", exchange: "NSE" },
   { symbol: "KAYNES", name: "Kaynes Technology India Ltd", type: "stock", meta: "Mid Cap · Precision Electronics Mfg", exchange: "NSE" },
@@ -139,19 +220,24 @@ const INSTANT_CATALOG = [
 
   // Top Mutual Funds (AMFI Direct Schemes)
   { symbol: "122639", name: "Parag Parikh Flexi Cap Fund", type: "fund", meta: "Equity · Flexi Cap (Direct Growth)", exchange: "AMFI" },
+  { symbol: "122640", name: "Parag Parikh ELSS Tax Saver Fund", type: "fund", meta: "Equity · Tax Saver ELSS (Direct Growth)", exchange: "AMFI" },
   { symbol: "120828", name: "Quant Small Cap Fund", type: "fund", meta: "Equity · Small Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "120823", name: "Quant Mid Cap Fund", type: "fund", meta: "Equity · Mid Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "120841", name: "Quant Flexi Cap Fund", type: "fund", meta: "Equity · Flexi Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "120826", name: "Quant Active Fund", type: "fund", meta: "Equity · Multi Cap (Direct Growth)", exchange: "AMFI" },
+  { symbol: "120839", name: "Quant Infrastructure Fund", type: "fund", meta: "Equity · Sectoral Infrastructure", exchange: "AMFI" },
   { symbol: "119063", name: "Mirae Asset Large Cap Fund", type: "fund", meta: "Equity · Large Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "119062", name: "Mirae Asset ELSS Tax Saver Fund", type: "fund", meta: "Equity · Tax Saver ELSS", exchange: "AMFI" },
+  { symbol: "119065", name: "Mirae Asset Midcap Fund", type: "fund", meta: "Equity · Mid Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "120503", name: "ICICI Prudential Bluechip Fund", type: "fund", meta: "Equity · Large Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "120505", name: "ICICI Prudential Balanced Advantage Fund", type: "fund", meta: "Hybrid · Dynamic Asset Allocation", exchange: "AMFI" },
   { symbol: "120586", name: "ICICI Prudential Equity & Debt Fund", type: "fund", meta: "Hybrid · Aggressive Hybrid Allocation", exchange: "AMFI" },
+  { symbol: "120594", name: "ICICI Prudential Technology Fund", type: "fund", meta: "Equity · Sectoral Technology (Direct Growth)", exchange: "AMFI" },
   { symbol: "118989", name: "HDFC Top 100 Fund", type: "fund", meta: "Equity · Large Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "118968", name: "HDFC Mid-Cap Opportunities Fund", type: "fund", meta: "Equity · Mid Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "118955", name: "HDFC Small Cap Fund", type: "fund", meta: "Equity · Small Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "118961", name: "HDFC Flexi Cap Fund", type: "fund", meta: "Equity · Flexi Cap (Direct Growth)", exchange: "AMFI" },
+  { symbol: "148721", name: "HDFC Nifty 50 Index Fund", type: "fund", meta: "Passive · NIFTY 50 Index Tracking", exchange: "AMFI" },
   { symbol: "119598", name: "SBI Bluechip Fund", type: "fund", meta: "Equity · Large Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "119597", name: "SBI Small Cap Fund", type: "fund", meta: "Equity · Small Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "119782", name: "SBI Magnum Midcap Fund", type: "fund", meta: "Equity · Mid Cap (Direct Growth)", exchange: "AMFI" },
@@ -159,6 +245,7 @@ const INSTANT_CATALOG = [
   { symbol: "118560", name: "Nippon India Small Cap Fund", type: "fund", meta: "Equity · Small Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "118558", name: "Nippon India Growth Fund", type: "fund", meta: "Equity · Mid Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "118556", name: "Nippon India Large Cap Fund", type: "fund", meta: "Equity · Large Cap (Direct Growth)", exchange: "AMFI" },
+  { symbol: "118559", name: "Nippon India Multi Cap Fund", type: "fund", meta: "Equity · Multi Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "118778", name: "Kotak Emerging Equity Fund", type: "fund", meta: "Equity · Mid Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "118765", name: "Kotak Flexicap Fund", type: "fund", meta: "Equity · Flexi Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "118772", name: "Kotak Small Cap Fund", type: "fund", meta: "Equity · Small Cap (Direct Growth)", exchange: "AMFI" },
@@ -168,8 +255,10 @@ const INSTANT_CATALOG = [
   { symbol: "127042", name: "Motilal Oswal Midcap Fund", type: "fund", meta: "Equity · Mid Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "127040", name: "Motilal Oswal Flexi Cap Fund", type: "fund", meta: "Equity · Flexi Cap (Direct Growth)", exchange: "AMFI" },
   { symbol: "120716", name: "UTI Nifty 50 Index Fund", type: "fund", meta: "Passive · NIFTY 50 Index Tracking", exchange: "AMFI" },
-  { symbol: "148721", name: "HDFC Nifty 50 Index Fund", type: "fund", meta: "Passive · NIFTY 50 Index Tracking", exchange: "AMFI" },
-  { symbol: "120684", name: "Bandhan Small Cap Fund", type: "fund", meta: "Equity · Small Cap (Direct Growth)", exchange: "AMFI" }
+  { symbol: "120684", name: "Bandhan Small Cap Fund", type: "fund", meta: "Equity · Small Cap (Direct Growth)", exchange: "AMFI" },
+  { symbol: "135781", name: "Tata Digital India Fund", type: "fund", meta: "Equity · Technology Sectoral", exchange: "AMFI" },
+  { symbol: "125497", name: "Canara Robeco Emerging Equities Fund", type: "fund", meta: "Equity · Large & Mid Cap", exchange: "AMFI" },
+  { symbol: "119239", name: "DSP Small Cap Fund", type: "fund", meta: "Equity · Small Cap (Direct Growth)", exchange: "AMFI" }
 ];
 
 let currentAssetType = "stock";
@@ -261,8 +350,23 @@ function clearSearchInput() {
   if (instrumentInput) {
     instrumentInput.value = "";
     instrumentInput.focus();
-    handleInstantSearch("");
+    const clearBtn = document.getElementById("clearSearchBtn");
+    if (clearBtn) clearBtn.style.display = "none";
+    if (autocompleteDropdown) {
+      autocompleteDropdown.style.display = "none";
+      autocompleteDropdown.innerHTML = "";
+    }
   }
+}
+
+// Highlight matched letters in autocomplete suggestions
+function highlightQuery(text, query) {
+  if (!query || !text) return text;
+  const terms = query.trim().split(/\s+/).filter(t => t.length > 0);
+  if (!terms.length) return text;
+  const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  const regex = new RegExp(`(${escaped})`, 'gi');
+  return text.replace(regex, '<mark class="search-highlight">$1</mark>');
 }
 
 // Instant Sub-Millisecond Search (Zero Latency)
@@ -270,58 +374,85 @@ function handleInstantSearch(query) {
   const q = (query || "").trim().toLowerCase();
   selectedDropdownIndex = -1;
 
+  const clearBtn = document.getElementById("clearSearchBtn");
+  if (clearBtn) {
+    clearBtn.style.display = q ? "flex" : "none";
+  }
+
+  if (!q) {
+    if (autocompleteDropdown) {
+      autocompleteDropdown.style.display = "none";
+      autocompleteDropdown.innerHTML = "";
+    }
+    return;
+  }
+
   // Filter based on active filter ('all', 'stock', or 'fund')
   const pool = currentSearchFilter === "all"
     ? INSTANT_CATALOG
     : INSTANT_CATALOG.filter(item => item.type === currentSearchFilter);
 
-  if (!q) {
-    // Show top trending recommendations immediately
-    renderAutocompleteItems(pool.slice(0, 8), "");
-    return;
-  }
+  const qTerms = q.split(/\s+/).filter(Boolean);
 
-  // Tiered Instant Ranking:
-  // 1. Symbol exact match
-  // 2. Symbol starts with query
-  // 3. Word in name starts with query
-  // 4. Symbol contains query
-  // 5. Name contains query
+  // Instant Tiered Ranking:
+  // 1. Symbol exact match (e.g. "INFY")
+  // 2. Symbol starts with query (e.g. "INF")
+  // 3. Name starts with query (e.g. "Infosys")
+  // 4. Any word in name starts with query (e.g. "TCS")
+  // 5. Query substring in symbol or name
+  // 6. All query terms match name, symbol or meta
+  // 7. Query matches sector/meta description
   const exact = [];
   const symbolStarts = [];
+  const nameStarts = [];
   const wordStarts = [];
-  const symbolContains = [];
-  const nameContains = [];
+  const substringMatches = [];
+  const multiTermMatches = [];
+  const metaMatches = [];
 
   for (let i = 0; i < pool.length; i++) {
     const item = pool[i];
     const sym = item.symbol.toLowerCase();
     const name = item.name.toLowerCase();
+    const meta = (item.meta || "").toLowerCase();
 
     if (sym === q) {
       exact.push(item);
     } else if (sym.startsWith(q)) {
       symbolStarts.push(item);
+    } else if (name.startsWith(q)) {
+      nameStarts.push(item);
     } else if (name.split(/\s+/).some(w => w.startsWith(q))) {
       wordStarts.push(item);
-    } else if (sym.includes(q)) {
-      symbolContains.push(item);
-    } else if (name.includes(q)) {
-      nameContains.push(item);
+    } else if (sym.includes(q) || name.includes(q)) {
+      substringMatches.push(item);
+    } else if (qTerms.length > 1 && qTerms.every(term => sym.includes(term) || name.includes(term) || meta.includes(term))) {
+      multiTermMatches.push(item);
+    } else if (meta.includes(q)) {
+      metaMatches.push(item);
     }
   }
 
-  const matches = [...exact, ...symbolStarts, ...wordStarts, ...symbolContains, ...nameContains];
+  const combined = [
+    ...exact,
+    ...symbolStarts,
+    ...nameStarts,
+    ...wordStarts,
+    ...substringMatches,
+    ...multiTermMatches,
+    ...metaMatches
+  ];
+
   const uniqueMatches = [];
   const seen = new Set();
-  for (const m of matches) {
+  for (const m of combined) {
     if (!seen.has(m.symbol)) {
       seen.add(m.symbol);
       uniqueMatches.push(m);
     }
   }
 
-  renderAutocompleteItems(uniqueMatches.slice(0, 9), q);
+  renderAutocompleteItems(uniqueMatches.slice(0, 10), q);
 
   // Optional background fetch for uncommon symbols without blocking instant local results
   if (q.length >= 2) {
@@ -357,11 +488,14 @@ function renderAutocompleteItems(items, query = "") {
     const badgeText = isStock ? "STOCK" : "MUTUAL FUND";
     const badgeClass = isStock ? "stock" : "fund";
 
+    const displaySymbol = highlightQuery(item.symbol, query);
+    const displayName = highlightQuery(item.name, query);
+
     div.innerHTML = `
       <div class="autocomplete-item-left">
         <div class="autocomplete-symbol-row">
-          <span class="autocomplete-symbol">${item.symbol}</span>
-          <span class="autocomplete-name">${item.name}</span>
+          <span class="autocomplete-symbol">${displaySymbol}</span>
+          <span class="autocomplete-name">${displayName}</span>
         </div>
         <div class="autocomplete-meta">${item.meta || (isStock ? "Equity" : "Direct Scheme")}</div>
       </div>
@@ -388,6 +522,9 @@ function selectSearchResult(item) {
   if (instrumentInput) {
     instrumentInput.value = `${item.name} (${item.symbol})`;
   }
+  const clearBtn = document.getElementById("clearSearchBtn");
+  if (clearBtn) clearBtn.style.display = "flex";
+
   if (autocompleteDropdown) {
     autocompleteDropdown.style.display = "none";
   }
@@ -450,11 +587,11 @@ async function fetchBackgroundSearchResults(query) {
 }
 
 // Explore selected investment
-async function exploreInvestment() {
-  let rawChosen = instrumentInput ? instrumentInput.value.trim() : "";
+async function exploreInvestment(targetNameOrSymbol) {
+  let rawChosen = targetNameOrSymbol || (instrumentInput ? instrumentInput.value.trim() : "");
   if (!rawChosen) {
     rawChosen = "Infosys Ltd (INFY)";
-    if (instrumentInput) instrumentInput.value = "Infosys Ltd (INFY)";
+    // Keep search input empty so the placeholder "Type your stock or mutual fund name" remains visible!
   }
 
   const ticker = resolveTicker(rawChosen);
@@ -463,9 +600,10 @@ async function exploreInvestment() {
   showMessage(`Connecting live feed for ${rawChosen} (${ticker})...`, false);
 
   // Update Preview Header immediately
-  document.getElementById("previewName").textContent = rawChosen;
-  document.getElementById("previewLogo").textContent = ticker.slice(0, 3).toUpperCase();
   const matchedCatalog = INSTANT_CATALOG.find(c => c.symbol.toUpperCase() === ticker.toUpperCase());
+  const displayName = matchedCatalog ? matchedCatalog.name : (rawChosen === "INFY" ? "Infosys Ltd" : rawChosen);
+  document.getElementById("previewName").textContent = displayName;
+  document.getElementById("previewLogo").textContent = ticker.slice(0, 3).toUpperCase();
   const metaDesc = matchedCatalog ? matchedCatalog.meta : (currentAssetType === "stock" ? "Listed Equity" : "Mutual Fund Scheme");
   document.getElementById("previewMeta").textContent = currentAssetType === "stock"
     ? `NSE: ${ticker} · ${metaDesc}`
@@ -1345,7 +1483,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     instrumentInput.addEventListener("focus", (e) => {
-      handleInstantSearch(e.target.value);
+      if (e.target.value.trim()) {
+        handleInstantSearch(e.target.value);
+      }
     });
 
     instrumentInput.addEventListener("keydown", (e) => {
@@ -1367,6 +1507,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (selectedDropdownIndex >= 0 && items[selectedDropdownIndex]) {
           e.preventDefault();
           items[selectedDropdownIndex].dispatchEvent(new MouseEvent("mousedown"));
+        } else if (items.length > 0) {
+          e.preventDefault();
+          items[0].dispatchEvent(new MouseEvent("mousedown"));
         } else {
           autocompleteDropdown.style.display = "none";
           exploreInvestment();
@@ -1384,11 +1527,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Set default search input to Infosys if empty
-  if (instrumentInput && !instrumentInput.value) {
-    instrumentInput.value = "Infosys Ltd (INFY)";
+  // Ensure clear button is hidden when input is blank
+  const clearBtn = document.getElementById("clearSearchBtn");
+  if (clearBtn) {
+    clearBtn.style.display = (instrumentInput && instrumentInput.value) ? "flex" : "none";
   }
 
-  // Explore default stock on visit
-  exploreInvestment();
+  // Explore default stock on visit without populating search input text
+  exploreInvestment("Infosys Ltd (INFY)");
 });

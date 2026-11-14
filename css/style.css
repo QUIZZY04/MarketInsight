@@ -795,10 +795,18 @@ footer {
   font-size: 11px;
   font-weight: bold;
   cursor: pointer;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
+}
+
+.search-highlight {
+  background: #fef08a;
+  color: #0f172a;
+  font-weight: 800;
+  border-radius: 2px;
+  padding: 0 1px;
 }
 
 .clear-search-btn:hover {
