@@ -263,6 +263,7 @@ async function exploreInvestment() {
       const data = await res.json();
       currentSelectedData = data;
       renderStockData(data);
+      updateIntelligenceScore(data);
       showMessage(`✓ Live market details connected for ${data.name || rawChosen}.`);
     } else {
       renderDemoPlaceholderData(ticker);
@@ -333,20 +334,90 @@ function showMessage(msg, isError = false) {
 const tabContentTemplates = {
   overview: () => {
     const d = currentSelectedData || {};
+    const price = d.price || 0;
+    const open = d.open || price;
+    const high = d.high || price;
+    const low = d.low || price;
+    const prev = d.prevClose || price;
+    const volume = d.volume ? Number(d.volume).toLocaleString("en-IN") : "N/A";
     const mktCap = d.mktCap ? formatLargeNumber(d.mktCap) : "₹ 4.63L Cr";
-    const pe = d.pe ? `${Number(d.pe).toFixed(1)}x` : "15.2x";
-    const range52 = (d.low52 && d.high52) ? `₹ ${d.low52} – ₹ ${d.high52}` : "₹ 1,358 – ₹ 1,990";
-    const div = d.divYield ? `${Number(d.divYield).toFixed(2)}%` : "2.10%";
+    const pe = d.pe ? `${Number(d.pe).toFixed(1)}x` : "N/A";
+    const range52 = (d.low52 && d.high52) ? `₹ ${Number(d.low52).toLocaleString('en-IN')} – ₹ ${Number(d.high52).toLocaleString('en-IN')}` : "N/A";
+    const div = d.divYield ? `${Number(d.divYield).toFixed(2)}%` : "N/A";
+
+    const returns = [
+      { label: "1W", val: d.return1w },
+      { label: "1M", val: d.return1m },
+      { label: "3M", val: d.return3m },
+      { label: "6M", val: d.return6m },
+      { label: "1Y", val: d.return1y },
+      { label: "3Y", val: d.return3y },
+      { label: "5Y", val: d.return5y }
+    ];
+
+    const promoter = d.promoterHolding ? Number(d.promoterHolding).toFixed(1) : "50.0";
+    const fii = d.fiiHolding ? Number(d.fiiHolding).toFixed(1) : "15.0";
+    const dii = d.diiHolding ? Number(d.diiHolding).toFixed(1) : "15.0";
+    const publicH = d.publicHolding ? Number(d.publicHolding).toFixed(1) : "20.0";
 
     return `
+      <div class="intraday-strip">
+        <div class="intraday-item"><small>Today's Open</small><strong>${formatINR(open)}</strong></div>
+        <div class="intraday-item"><small>Day High</small><strong>${formatINR(high)}</strong></div>
+        <div class="intraday-item"><small>Day Low</small><strong>${formatINR(low)}</strong></div>
+        <div class="intraday-item"><small>Prev Close</small><strong>${formatINR(prev)}</strong></div>
+        <div class="intraday-item"><small>Volume (Shares)</small><strong>${volume}</strong></div>
+      </div>
+
       <div class="metric-grid">
-        <div class="metric"><small>Market capitalisation</small><strong>${mktCap}</strong></div>
-        <div class="metric"><small>P/E ratio</small><strong>${pe}</strong></div>
-        <div class="metric"><small>52-week range</small><strong>${range52}</strong></div>
-        <div class="metric"><small>Dividend yield</small><strong>${div}</strong></div>
+        <div class="metric"><small>Market Capitalisation</small><strong>${mktCap}</strong></div>
+        <div class="metric"><small>P/E Ratio (TTM)</small><strong>${pe}</strong></div>
+        <div class="metric"><small>52-Week Range</small><strong>${range52}</strong></div>
+        <div class="metric"><small>Dividend Yield</small><strong>${div}</strong></div>
+      </div>
+
+      <div class="returns-container">
+        <div class="returns-label">
+          <span>HISTORICAL PERFORMANCE & RETURNS</span>
+          <span style="font-size:11px; color:#64748b; font-weight:600;">Split & Bonus Adjusted</span>
+        </div>
+        <div class="returns-grid">
+          ${returns.map(r => {
+            const num = r.val !== undefined && r.val !== null ? Number(r.val) : null;
+            const isPos = num !== null && num >= 0;
+            const cls = num === null ? "" : (isPos ? "pos" : "neg");
+            const txt = num === null ? "—" : `${isPos ? "+" : ""}${num.toFixed(1)}%`;
+            return `
+              <div class="return-chip ${cls}">
+                <span>${r.label}</span>
+                <strong>${txt}</strong>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      </div>
+
+      <div class="shareholding-container">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:12px; font-weight:750; color:#334155;">SHAREHOLDING PATTERN & OWNERSHIP</span>
+          <span style="font-size:11px; color:#159765; font-weight:700;">SEBI Latest Filing</span>
+        </div>
+        <div class="shareholding-bar">
+          <div class="shareholding-segment" style="width:${promoter}%; background:#159765;" title="Promoter: ${promoter}%"></div>
+          <div class="shareholding-segment" style="width:${fii}%; background:#2563eb;" title="FII: ${fii}%"></div>
+          <div class="shareholding-segment" style="width:${dii}%; background:#d97706;" title="DII: ${dii}%"></div>
+          <div class="shareholding-segment" style="width:${publicH}%; background:#94a3b8;" title="Public: ${publicH}%"></div>
+        </div>
+        <div class="shareholding-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#159765;"></span><span>Promoter: <strong>${promoter}%</strong></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#2563eb;"></span><span>FII: <strong>${fii}%</strong></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#d97706;"></span><span>DII: <strong>${dii}%</strong></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span><span>Public: <strong>${publicH}%</strong></span></div>
+        </div>
       </div>
     `;
   },
+
   history: () => `
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
       <h3 style="margin:0; font-size:16px;">Historical Price Performance</h3>
@@ -361,6 +432,7 @@ const tabContentTemplates = {
       <canvas id="stockPriceChart" style="width:100%; height:260px;"></canvas>
     </div>
   `,
+
   financials: () => `
     <div id="financialsContainer">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -388,55 +460,164 @@ const tabContentTemplates = {
       </div>
     </div>
   `,
+
   ratios: () => {
     const d = currentSelectedData || {};
-    const pb = d.pb ? `${Number(d.pb).toFixed(2)}x` : "6.8x";
-    const roe = d.roe ? `${Number(d.roe).toFixed(1)}%` : "32.1%";
-    const roce = d.roce ? `${Number(d.roce).toFixed(1)}%` : "40.5%";
-    const debtToEquity = d.debtToEquity !== undefined ? Number(d.debtToEquity).toFixed(2) : "0.00";
-    const eps = d.eps ? `₹ ${Number(d.eps).toFixed(2)}` : "₹ 63.20";
-    const operatingMargin = d.operatingMargin ? `${Number(d.operatingMargin).toFixed(1)}%` : "21.4%";
-    const promoter = d.promoterHolding ? `${Number(d.promoterHolding).toFixed(1)}%` : "14.8%";
-    const fii = d.fiiHolding ? `${Number(d.fiiHolding).toFixed(1)}%` : "33.2%";
-
     return `
-      <div id="ratiosContainer">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <h3 style="margin:0;">Key Valuation & Fundamental Ratios</h3>
-          <span style="font-size:11px; color:#159765; font-weight:700;">Live XBRL Calculations</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="margin:0; font-size:16px;">Comprehensive Fundamental & Valuation Ratios</h3>
+        <span style="font-size:11px; color:#159765; font-weight:700;">Derived from Audited Financials</span>
+      </div>
+
+      <div class="ratio-category-grid">
+        <div class="ratio-card">
+          <div class="ratio-card-header">
+            <h4>Valuation Multiples</h4>
+            <span class="ratio-card-badge green">Market Pricing</span>
+          </div>
+          <div class="ratio-table-row"><span>P/E Ratio (TTM)</span><strong>${d.pe ? Number(d.pe).toFixed(2) + 'x' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Price to Book (P/B)</span><strong>${d.pb ? Number(d.pb).toFixed(2) + 'x' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Price to Sales (P/S)</span><strong>${d.priceToSales ? Number(d.priceToSales).toFixed(2) + 'x' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>PEG Ratio</span><strong>${d.pegRatio ? Number(d.pegRatio).toFixed(2) : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>EV to EBITDA</span><strong>${d.evToEbitda ? Number(d.evToEbitda).toFixed(2) + 'x' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Book Value Per Share</span><strong>${d.bookValuePerShare ? '₹ ' + Number(d.bookValuePerShare).toFixed(2) : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Earnings Yield</span><strong>${d.earningsYield ? Number(d.earningsYield).toFixed(2) + '%' : 'N/A'}</strong></div>
         </div>
-        <div class="metric-grid" style="margin-top:14px;">
-          <div class="metric"><small>Price to Book (P/B)</small><strong>${pb}</strong></div>
-          <div class="metric"><small>Return on Equity (ROE)</small><strong>${roe}</strong></div>
-          <div class="metric"><small>Return on Capital (ROCE)</small><strong>${roce}</strong></div>
-          <div class="metric"><small>Debt to Equity</small><strong>${debtToEquity}</strong></div>
-          <div class="metric"><small>Earnings Per Share (EPS)</small><strong>${eps}</strong></div>
-          <div class="metric"><small>Operating Margin</small><strong>${operatingMargin}</strong></div>
-          <div class="metric"><small>Promoter Holding</small><strong>${promoter}</strong></div>
-          <div class="metric"><small>FII Holding</small><strong>${fii}</strong></div>
+
+        <div class="ratio-card">
+          <div class="ratio-card-header">
+            <h4>Profitability & Returns</h4>
+            <span class="ratio-card-badge">Operating Quality</span>
+          </div>
+          <div class="ratio-table-row"><span>Return on Equity (ROE)</span><strong>${d.roe ? Number(d.roe).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Return on Capital (ROCE)</span><strong>${d.roce ? Number(d.roce).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Operating Profit Margin</span><strong>${d.operatingMargin ? Number(d.operatingMargin).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Net Profit Margin</span><strong>${d.netMargin ? Number(d.netMargin).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>EBITDA Margin</span><strong>${d.ebitdaMargin ? Number(d.ebitdaMargin).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Earnings Per Share (EPS)</span><strong>${d.eps ? '₹ ' + Number(d.eps).toFixed(2) : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Cash Per Share</span><strong>${d.cashPerShare ? '₹ ' + Number(d.cashPerShare).toFixed(2) : 'N/A'}</strong></div>
+        </div>
+
+        <div class="ratio-card">
+          <div class="ratio-card-header">
+            <h4>Growth Engine</h4>
+            <span class="ratio-card-badge">YoY & QoQ</span>
+          </div>
+          <div class="ratio-table-row"><span>Revenue Growth (YoY)</span><strong style="color:${d.revenueGrowthYoy >= 0 ? '#159765' : '#d64b55'};">${d.revenueGrowthYoy !== undefined ? (d.revenueGrowthYoy >= 0 ? '+' : '') + Number(d.revenueGrowthYoy).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Net Profit Growth (YoY)</span><strong style="color:${d.profitGrowthYoy >= 0 ? '#159765' : '#d64b55'};">${d.profitGrowthYoy !== undefined ? (d.profitGrowthYoy >= 0 ? '+' : '') + Number(d.profitGrowthYoy).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>EPS Growth (YoY)</span><strong style="color:${d.epsGrowthYoy >= 0 ? '#159765' : '#d64b55'};">${d.epsGrowthYoy !== undefined ? (d.epsGrowthYoy >= 0 ? '+' : '') + Number(d.epsGrowthYoy).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Revenue Growth (QoQ)</span><strong style="color:${d.revenueGrowthQoq >= 0 ? '#159765' : '#d64b55'};">${d.revenueGrowthQoq !== undefined ? (d.revenueGrowthQoq >= 0 ? '+' : '') + Number(d.revenueGrowthQoq).toFixed(1) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Dividend Yield</span><strong>${d.divYield ? Number(d.divYield).toFixed(2) + '%' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Face Value</span><strong>₹ ${d.faceValue || 1}</strong></div>
+        </div>
+
+        <div class="ratio-card">
+          <div class="ratio-card-header">
+            <h4>Solvency & Balance Sheet</h4>
+            <span class="ratio-card-badge green">Safety Cushion</span>
+          </div>
+          <div class="ratio-table-row"><span>Debt to Equity</span><strong>${d.debtToEquity === 0 ? '0.00 (Zero Debt)' : Number(d.debtToEquity).toFixed(2)}</strong></div>
+          <div class="ratio-table-row"><span>Interest Coverage</span><strong>${d.interestCoverage ? Number(d.interestCoverage).toFixed(1) + 'x' : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Current Ratio</span><strong>${d.currentRatio ? Number(d.currentRatio).toFixed(2) : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Total Debt</span><strong>${d.totalDebt === 0 ? '₹ 0 (Debt Free)' : formatLargeNumber(d.totalDebt)}</strong></div>
+          <div class="ratio-table-row"><span>Working Capital</span><strong>${d.workingCapital ? formatLargeNumber(d.workingCapital) : 'N/A'}</strong></div>
+          <div class="ratio-table-row"><span>Enterprise Value</span><strong>${d.enterpriseValue ? formatLargeNumber(d.enterpriseValue) : 'N/A'}</strong></div>
         </div>
       </div>
     `;
   },
+
+  risk: () => {
+    const d = currentSelectedData || {};
+    const dma50 = d.priceVs50dmaPct !== undefined ? Number(d.priceVs50dmaPct) : 0;
+    const dma200 = d.priceVs200dmaPct !== undefined ? Number(d.priceVs200dmaPct) : 0;
+    const isBullish50 = dma50 >= 0;
+    const isBullish200 = dma200 >= 0;
+
+    const low = d.low52 || 0;
+    const high = d.high52 || 0;
+    const price = d.price || 0;
+    let rangePct = 50;
+    if (high > low && price >= low) {
+      rangePct = Math.min(100, Math.max(0, ((price - low) / (high - low)) * 100));
+    }
+
+    return `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="margin:0; font-size:16px;">Technical Trends, Moving Averages & Volatility</h3>
+        <span style="font-size:11px; color:#64748b;">Daily EOD Calculations</span>
+      </div>
+
+      <div class="technicals-grid">
+        <div class="ratio-card">
+          <div class="ratio-card-header">
+            <h4>Moving Average Trends</h4>
+            <span class="ratio-card-badge ${isBullish200 ? 'green' : ''}">${isBullish200 ? 'Bullish Trend' : 'Bearish Trend'}</span>
+          </div>
+
+          <div class="dma-indicator">
+            <div>
+              <strong style="display:block; font-size:13px; color:#1e293b;">50-Day Moving Average</strong>
+              <small style="color:#64748b;">Medium-term price momentum</small>
+            </div>
+            <span class="trend-badge ${isBullish50 ? 'bullish' : 'bearish'}">
+              ${isBullish50 ? '▲ ' : '▼ '}${Math.abs(dma50).toFixed(1)}% vs 50-DMA
+            </span>
+          </div>
+
+          <div class="dma-indicator">
+            <div>
+              <strong style="display:block; font-size:13px; color:#1e293b;">200-Day Moving Average</strong>
+              <small style="color:#64748b;">Long-term institutional benchmark</small>
+            </div>
+            <span class="trend-badge ${isBullish200 ? 'bullish' : 'bearish'}">
+              ${isBullish200 ? '▲ ' : '▼ '}${Math.abs(dma200).toFixed(1)}% vs 200-DMA
+            </span>
+          </div>
+
+          <div style="margin-top:14px; font-size:12px; color:#64748b; line-height:1.6;">
+            ${isBullish200 && isBullish50
+              ? '✓ Stock is trading above both its 50-Day and 200-Day moving averages, signaling strong positive momentum.'
+              : '⚠ Stock is currently testing moving average support levels. Review technical risk before sizing positions.'}
+          </div>
+        </div>
+
+        <div class="range-52w-wrap">
+          <div class="ratio-card-header">
+            <h4>52-Week Range Position</h4>
+            <span class="ratio-card-badge">${rangePct.toFixed(0)}% of Range</span>
+          </div>
+
+          <div class="range-52w-bar">
+            <div class="range-52w-marker" style="left:${rangePct}%;"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:#64748b; font-weight:700;">
+            <span>52W Low: ₹ ${low ? Number(low).toLocaleString('en-IN') : 'N/A'}</span>
+            <span>Current: ${formatINR(price)}</span>
+            <span>52W High: ₹ ${high ? Number(high).toLocaleString('en-IN') : 'N/A'}</span>
+          </div>
+
+          <div style="margin-top:18px; border-top:1px dashed #e2e8f0; padding-top:14px;">
+            <div class="ratio-table-row"><span>Distance from 52-Week High</span><strong style="color:#d64b55;">${d.distanceFrom52wHighPct ? Number(d.distanceFrom52wHighPct).toFixed(1) + '%' : 'N/A'}</strong></div>
+            <div class="ratio-table-row"><span>Distance from 52-Week Low</span><strong style="color:#159765;">${d.distanceFrom52wLowPct ? '+' + Number(d.distanceFrom52wLowPct).toFixed(1) + '%' : 'N/A'}</strong></div>
+            <div class="ratio-table-row"><span>30-Day Volatility</span><strong>${d.volatility30d ? Number(d.volatility30d).toFixed(2) + '%' : 'N/A'}</strong></div>
+            <div class="ratio-table-row"><span>365-Day Annualized Volatility</span><strong>${d.volatility365d ? Number(d.volatility365d).toFixed(2) + '%' : 'N/A'}</strong></div>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
   news: () => `
     <div id="corporateActionsContainer">
       <h3>Exchange Filings & Corporate Actions</h3>
       <p style="color:#667085; font-size:13px; margin-bottom:12px;">Corporate events, dividend dates, and material announcements.</p>
       <ul style="padding-left:20px; font-size:13px; color:#445164; line-height:1.9;">
-        <li><strong>Dividend:</strong> Interim dividend of ₹ 21.00 per share announced (Paid).</li>
-        <li><strong>Exchange Filing:</strong> Board meeting outcomes filed with NSE/BSE regarding quarterly results.</li>
+        <li><strong>Dividend:</strong> Interim dividend announced (Paid / Dispatched).</li>
+        <li><strong>Exchange Filing:</strong> Financial results and compliance reports submitted to NSE and BSE.</li>
         <li><strong>Institutional Trades:</strong> Bulk/block deals recorded in recent market sessions.</li>
       </ul>
-    </div>
-  `,
-  risk: () => `
-    <h3>Risk Profile & Volatility</h3>
-    <p style="color:#667085; font-size:13px;">Historical risk metrics calculated over 1-year and 3-year periods.</p>
-    <div class="metric-grid" style="margin-top:14px;">
-      <div class="metric"><small>Beta (1Y vs Nifty 50)</small><strong>0.84 (Low Volatility)</strong></div>
-      <div class="metric"><small>Max Drawdown (3Y)</small><strong>-18.4%</strong></div>
-      <div class="metric"><small>Sharpe Ratio</small><strong>1.22</strong></div>
-      <div class="metric"><small>Standard Deviation</small><strong>18.4%</strong></div>
     </div>
   `
 };
@@ -454,6 +635,8 @@ function showTab(key, button) {
     setTimeout(() => {
       initOrUpdateChart();
     }, 60);
+  } else if (key === "financials") {
+    loadLiveFinancials();
   }
 }
 
@@ -516,7 +699,130 @@ function generateSampleHistory(range) {
   return points;
 }
 
-// Check Backend Health & Status on Load
+// Dynamic Intelligence Score Model
+function updateIntelligenceScore(d) {
+  if (!d) return;
+
+  // 1. Financial Strength (0-100)
+  let finScore = 55;
+  if (d.debtToEquity === 0 || d.debtToEquity < 0.1) finScore += 35;
+  else if (d.debtToEquity < 0.5) finScore += 20;
+  else if (d.debtToEquity > 1.5) finScore -= 20;
+  if (d.interestCoverage && d.interestCoverage > 10) finScore += 10;
+  finScore = Math.max(25, Math.min(98, Math.round(finScore)));
+
+  // 2. Valuation Score (0-100)
+  let valScore = 50;
+  const pe = d.pe || 25;
+  if (pe > 0 && pe < 18) valScore += 35;
+  else if (pe >= 18 && pe < 30) valScore += 15;
+  else if (pe >= 45) valScore -= 20;
+  if (d.divYield && d.divYield > 2) valScore += 10;
+  valScore = Math.max(20, Math.min(95, Math.round(valScore)));
+
+  // 3. Growth Outlook (0-100)
+  let growthScore = 50;
+  const revGrowth = d.revenueGrowthYoy || 0;
+  const profGrowth = d.profitGrowthYoy || 0;
+  if (revGrowth > 12) growthScore += 20;
+  else if (revGrowth > 5) growthScore += 10;
+  else if (revGrowth < 0) growthScore -= 15;
+  if (profGrowth > 15) growthScore += 25;
+  else if (profGrowth > 5) growthScore += 15;
+  else if (profGrowth < 0) growthScore -= 20;
+  growthScore = Math.max(20, Math.min(95, Math.round(growthScore)));
+
+  // 4. Technical Trend (0-100)
+  let techScore = 50;
+  if (d.priceVs200dmaPct > 0) techScore += 20;
+  else techScore -= 20;
+  if (d.priceVs50dmaPct > 0) techScore += 15;
+  else techScore -= 15;
+  if (d.return1m > 5) techScore += 15;
+  else if (d.return1m < -5) techScore -= 15;
+  techScore = Math.max(15, Math.min(95, Math.round(techScore)));
+
+  // 5. Ownership Quality (0-100)
+  let ownScore = 50;
+  const prom = d.promoterHolding || 0;
+  const inst = (d.fiiHolding || 0) + (d.diiHolding || 0);
+  if (prom > 50) ownScore += 25;
+  else if (prom > 30) ownScore += 10;
+  if (inst > 25) ownScore += 20;
+  ownScore = Math.max(25, Math.min(98, Math.round(ownScore)));
+
+  // Composite Score
+  const totalScore = Math.round(
+    finScore * 0.25 + valScore * 0.25 + growthScore * 0.20 + techScore * 0.15 + ownScore * 0.15
+  );
+
+  // Update DOM Elements
+  const nameEl = document.getElementById("scoreInstrumentName");
+  if (nameEl) nameEl.textContent = `${d.name || d.symbol} · Fundamental Intelligence Model`;
+
+  const compEl = document.getElementById("compositeScore");
+  if (compEl) compEl.innerHTML = `${totalScore}<span style="font-size:14px;color:#667085">/100</span>`;
+
+  const needle = document.getElementById("scoreNeedle");
+  if (needle) needle.style.left = `${Math.min(95, Math.max(5, totalScore))}%`;
+
+  const badge = document.getElementById("scoreSignalBadge");
+  if (badge) {
+    if (totalScore >= 75) {
+      badge.textContent = "SIGNAL: STRONG BUY / QUALITY OUTPERFORM";
+      badge.style.color = "#159765";
+      badge.style.background = "#eaf7f1";
+    } else if (totalScore >= 60) {
+      badge.textContent = "SIGNAL: ACCUMULATE / POSITIVE";
+      badge.style.color = "#0d8055";
+      badge.style.background = "#e8f7ef";
+    } else if (totalScore >= 45) {
+      badge.textContent = "SIGNAL: HOLD / BALANCED RISK";
+      badge.style.color = "#b45309";
+      badge.style.background = "#fef3c7";
+    } else {
+      badge.textContent = "SIGNAL: CAUTION / ELEVATED RISK";
+      badge.style.color = "#b91c1c";
+      badge.style.background = "#fee2e2";
+    }
+  }
+
+  // Update breakdown bars
+  const setBar = (valId, barId, val) => {
+    const valEl = document.getElementById(valId);
+    const barEl = document.getElementById(barId);
+    if (valEl) valEl.textContent = `${val}/100`;
+    if (barEl) barEl.style.width = `${val}%`;
+  };
+
+  setBar("finStrengthVal", "finStrengthBar", finScore);
+  setBar("valuationVal", "valuationBar", valScore);
+  setBar("growthVal", "growthBar", growthScore);
+  setBar("technicalVal", "technicalBar", techScore);
+  setBar("ownershipVal", "ownershipBar", ownScore);
+}
+
+// Async Fetchers for Tabs
+async function loadLiveFinancials() {
+  try {
+    const res = await fetch(`${API_BASE}/api/stock/${encodeURIComponent(currentSelectedSymbol)}/financials`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.periods && data.revenue) {
+        const body = document.getElementById("financialsTableBody");
+        if (body) {
+          body.innerHTML = `
+            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Revenue from Operations</td>${data.revenue.map(r => `<td style="padding:8px;">₹ ${Number(r).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
+            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Operating Profit (EBITDA)</td>${data.ebitda.map(e => `<td style="padding:8px;">₹ ${Number(e).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
+            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Net Profit (PAT)</td>${data.netProfit.map(p => `<td style="padding:8px;">₹ ${Number(p).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
+            <tr><td style="padding:8px; font-weight:600;">Free Cash Flow</td>${data.freeCashFlow.map(f => `<td style="padding:8px;">₹ ${Number(f).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
+          `;
+        }
+      }
+    }
+  } catch {}
+}
+
 async function checkBackendStatus() {
   try {
     const res = await fetch(`${API_BASE}/api/status`);

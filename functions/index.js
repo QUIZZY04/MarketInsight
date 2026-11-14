@@ -223,23 +223,76 @@ router.get("/stock/:symbol", async (req, res) => {
       name: rawStock.companyName || symbol,
       sector: rawStock.sector || "Equity",
       industry: rawStock.industry || "",
+      listingDate: rawStock.listingDate || "",
+      faceValue: rawStock.faceValue || 1,
       price,
       prevClose: prev,
       changePercent: Number(changePct.toFixed(2)),
+      open: lp.open || price,
+      high: lp.high || price,
+      low: lp.low || price,
+      volume: lp.volume || 0,
+      tradeDate: lp.tradeDate || "",
+
+      // Valuation & Multiples
       mktCap: rawStock.marketCap || m.marketCap || 0,
       pe: m.peRatio || 0,
       pb: m.pbRatio || 0,
-      high52: m.high52w || 0,
-      low52: m.low52w || 0,
+      priceToSales: m.priceToSales || 0,
+      pegRatio: m.pegRatio || 0,
+      evToEbitda: m.evToEbitda || 0,
+      enterpriseValue: m.enterpriseValue || 0,
+      bookValuePerShare: m.bookValuePerShare || 0,
+      earningsYield: m.earningsYield || 0,
       divYield: m.dividendYield || 0,
+
+      // Profitability & Margins
       roe: m.roe || 0,
       roce: m.roce || 0,
       eps: m.eps || 0,
-      debtToEquity: m.debtToEquity || 0,
+      cashPerShare: m.cashPerShare || 0,
+      revenuePerShare: m.revenuePerShare || 0,
       operatingMargin: m.operatingMargin || 0,
+      netMargin: m.netMargin || 0,
+      ebitdaMargin: m.ebitdaMargin || 0,
+
+      // Growth Engine
+      revenueGrowthYoy: m.revenueGrowthYoy || 0,
+      profitGrowthYoy: m.profitGrowthYoy || 0,
+      epsGrowthYoy: m.epsGrowthYoy || 0,
+      revenueGrowthQoq: m.revenueGrowthQoq || 0,
+
+      // Health & Solvency
+      debtToEquity: m.debtToEquity !== undefined ? m.debtToEquity : 0,
+      currentRatio: m.currentRatio || 0,
+      interestCoverage: m.interestCoverage || 0,
+      totalDebt: m.totalDebt || 0,
+      workingCapital: m.workingCapital || 0,
+
+      // Technicals & Multi-Period Returns
+      high52: m.high52w || 0,
+      low52: m.low52w || 0,
+      distanceFrom52wHighPct: m.distanceFrom52wHighPct || 0,
+      distanceFrom52wLowPct: m.distanceFrom52wLowPct || 0,
+      priceVs50dmaPct: m.priceVs50dmaPct || 0,
+      priceVs200dmaPct: m.priceVs200dmaPct || 0,
+      return1w: m.return1w || 0,
+      return1m: m.return1m || 0,
+      return3m: m.return3m || 0,
+      return6m: m.return6m || 0,
+      return1y: m.return1y || 0,
+      return3y: m.return3y || 0,
+      return5y: m.return5y || 0,
+      volatility30d: m.volatility30d || 0,
+      volatility365d: m.volatility365d || 0,
+
+      // Ownership & Institutional Backing
       promoterHolding: m.promoterHolding || 0,
       fiiHolding: m.fiiHolding || 0,
-      diiHolding: m.diiHolding || 0
+      diiHolding: m.diiHolding || 0,
+      mutualFundsHolding: m.mutualFundsHolding || 0,
+      publicHolding: m.publicHolding || 0,
+      mfSummary: rawStock.mfHoldingsSummary || null
     };
 
     setCached(cacheKey, normalized, 60);

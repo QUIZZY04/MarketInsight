@@ -106,17 +106,17 @@
       <div class="section-head"><div class="kicker">Transparent methodology</div><h2>Recommendation with a reason — not just a colour</h2><p>A score should explain the factors behind its signal and clearly show the uncertainty and risks.</p></div>
       <div class="recommend">
         <div class="meter-wrap">
-          <div class="meter-head"><div><div style="font-size:13px;font-weight:800">Illustrative intelligence score</div><div style="font-size:11px;color:#778395">Sample instrument · fundamental weighting</div></div><div class="score">72<span style="font-size:14px;color:#667085">/100</span></div></div>
-          <div class="meter"><span class="needle"></span></div>
-          <div class="meter-labels"><span>SELL</span><span>HOLD</span><span>BUY</span></div>
-          <div style="margin-top:16px"><span class="demo-label">SAMPLE SIGNAL: POSITIVE</span></div>
+          <div class="meter-head"><div><div style="font-size:13px;font-weight:800">Fundamental Intelligence Score</div><div style="font-size:11px;color:#778395" id="scoreInstrumentName">Loading live analysis...</div></div><div class="score" id="compositeScore">--<span style="font-size:14px;color:#667085">/100</span></div></div>
+          <div class="meter"><span class="needle" id="scoreNeedle" style="left:50%;"></span></div>
+          <div class="meter-labels"><span>CAUTION</span><span>HOLD</span><span>OUTPERFORM</span></div>
+          <div style="margin-top:16px"><span class="demo-label" id="scoreSignalBadge">EVALUATING MODEL...</span></div>
         </div>
         <div class="basis">
-          <div><div class="basis-row"><strong>Financial strength</strong><span>85/100</span></div><div class="bar"><span style="width:85%"></span></div></div>
-          <div><div class="basis-row"><strong>Valuation</strong><span>65/100</span></div><div class="bar"><span style="width:65%"></span></div></div>
-          <div><div class="basis-row"><strong>Growth outlook</strong><span>80/100</span></div><div class="bar"><span style="width:80%"></span></div></div>
-          <div><div class="basis-row"><strong>Technical trend</strong><span>70/100</span></div><div class="bar"><span style="width:70%"></span></div></div>
-          <div><div class="basis-row"><strong>Risk profile</strong><span>60/100</span></div><div class="bar"><span style="width:60%"></span></div></div>
+          <div><div class="basis-row"><strong>Financial Strength & Solvency</strong><span id="finStrengthVal">--/100</span></div><div class="bar"><span id="finStrengthBar" style="width:50%"></span></div></div>
+          <div><div class="basis-row"><strong>Valuation Multiples</strong><span id="valuationVal">--/100</span></div><div class="bar"><span id="valuationBar" style="width:50%"></span></div></div>
+          <div><div class="basis-row"><strong>Growth Engine (YoY/QoQ)</strong><span id="growthVal">--/100</span></div><div class="bar"><span id="growthBar" style="width:50%"></span></div></div>
+          <div><div class="basis-row"><strong>Technical & Momentum Trend</strong><span id="technicalVal">--/100</span></div><div class="bar"><span id="technicalBar" style="width:50%"></span></div></div>
+          <div><div class="basis-row"><strong>Ownership & Institutional Quality</strong><span id="ownershipVal">--/100</span></div><div class="bar"><span id="ownershipBar" style="width:50%"></span></div></div>
         </div>
       </div>
       <div class="disclaimer">Important: This score is an analytical framework example. Production scores must reflect published models, audited data sources, and regulatory risk disclosures. Not investment advice.</div>
