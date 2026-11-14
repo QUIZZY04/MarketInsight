@@ -106,13 +106,11 @@ async function resolveSymbol(rawSymbol, client) {
   if (TICKER_MAP[upper]) {
     return TICKER_MAP[upper];
   }
-  // Try fetching directly first
-  try {
-    const test = await client.stocks.get(upper);
-    if (test && test.symbol) return upper;
-  } catch {}
-
-  // Search if direct didn't match
+  // If it's already a clean ticker format (no spaces, 2 to 12 chars), return directly
+  if (/^[A-Z0-9&-]{2,12}$/.test(upper)) {
+    return upper;
+  }
+  // Search if company name
   try {
     const searchRes = await client.search(rawSymbol);
     const results = searchRes.data || searchRes || [];
@@ -730,19 +728,58 @@ function getSampleSearchResults(query, type) {
 }
 
 function getDemoStockData(symbol) {
+  const sym = (symbol || "INFY").toUpperCase();
+  const isTCS = sym === "TCS";
+  const isRel = sym === "RELIANCE";
+
   return {
-    symbol,
-    name: `${symbol} (NSE)`,
-    price: 3450.00,
-    prevClose: 3410.00,
-    changePercent: 1.17,
-    mktCap: 8500000000000,
-    pe: 26.5,
-    pb: 8.2,
-    high52: 4100,
-    low52: 2900,
-    divYield: 1.5,
-    sector: "Information Technology"
+    symbol: sym,
+    name: isTCS ? "Tata Consultancy Services Ltd" : (isRel ? "Reliance Industries Ltd" : (sym === "INFY" ? "Infosys Ltd" : `${sym} (NSE)`)),
+    price: isTCS ? 4120.00 : (isRel ? 2980.00 : 1845.00),
+    prevClose: isTCS ? 4095.00 : (isRel ? 2955.00 : 1828.00),
+    changePercent: 0.93,
+    mktCap: isTCS ? 14900000000000 : (isRel ? 20100000000000 : 7650000000000),
+    pe: isTCS ? 28.4 : (isRel ? 25.1 : 24.8),
+    pb: isTCS ? 12.8 : (isRel ? 2.3 : 7.4),
+    high52: isTCS ? 4590.00 : (isRel ? 3217.00 : 1991.00),
+    low52: isTCS ? 3310.00 : (isRel ? 2220.00 : 1358.00),
+    divYield: isTCS ? 1.4 : (isRel ? 0.35 : 2.1),
+    sector: isRel ? "Energy & Retail" : "Information Technology",
+    industry: isRel ? "Conglomerate" : "IT Consulting & Services",
+
+    // Financial Health & Solvency
+    debtToEquity: isRel ? 0.38 : 0.08,
+    currentRatio: 2.15,
+    interestCoverage: isRel ? 8.5 : 42.0,
+    totalDebt: isRel ? 3100000000000 : 80000000000,
+    workingCapital: 285000000000,
+
+    // Growth
+    revenueGrowthYoy: 7.8,
+    profitGrowthYoy: 9.4,
+    revenueGrowthQoq: 2.1,
+    epsGrowthYoy: 8.6,
+
+    // Technicals
+    distanceFrom52wHighPct: -8.5,
+    distanceFrom52wLowPct: 32.0,
+    priceVs50dmaPct: 2.8,
+    priceVs200dmaPct: 6.4,
+    return1w: 1.2,
+    return1m: 3.5,
+    return3m: 8.1,
+    return6m: 14.2,
+    return1y: 22.5,
+    return3y: 38.0,
+    return5y: 72.0,
+
+    // Ownership
+    promoterHolding: isTCS ? 71.8 : (isRel ? 50.3 : 14.8),
+    fiiHolding: isTCS ? 12.5 : (isRel ? 22.1 : 33.2),
+    diiHolding: isTCS ? 10.2 : (isRel ? 16.4 : 35.6),
+    mutualFundsHolding: isTCS ? 4.1 : (isRel ? 7.8 : 18.5),
+    publicHolding: isTCS ? 5.5 : (isRel ? 11.2 : 16.4),
+    mode: "fallback_demo"
   };
 }
 

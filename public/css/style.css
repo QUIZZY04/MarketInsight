@@ -617,11 +617,22 @@ h2 {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  font-size: 13px;
+  font-size: 13.5px;
+}
+
+.basis-row strong {
+  color: #1e293b;
+  font-weight: 650;
+}
+
+.basis-row span {
+  font-weight: 750;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
 }
 
 .bar {
-  height: 6px;
+  height: 7px;
   background: #edf0f3;
   border-radius: 20px;
   margin-top: 6px;
@@ -633,6 +644,7 @@ h2 {
   height: 100%;
   background: var(--green);
   border-radius: 20px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.5s ease;
 }
 
 .disclaimer {

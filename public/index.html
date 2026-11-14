@@ -46,7 +46,7 @@
           </div>
           <div class="field full">
             <label for="instrument">SEARCH / SELECT INVESTMENT</label>
-            <input id="instrument" list="instrumentOptions" placeholder="Start typing a company or fund name..." autocomplete="off">
+            <input id="instrument" list="instrumentOptions" value="Infosys Ltd (INFY)" placeholder="Start typing a company or fund name..." autocomplete="off">
             <datalist id="instrumentOptions"></datalist>
             <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
           </div>
@@ -131,7 +131,7 @@
               <text x="284" y="186" fill="#10b981" font-size="12" font-weight="850" text-anchor="middle">BUY</text>
 
               <!-- Speedometer Needle (Pivots at 160, 160) -->
-              <g id="speedoNeedleGroup" style="transform-origin: 160px 160px; transform: rotate(0deg); transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);">
+              <g id="speedoNeedleGroup" style="transform-origin: 160px 160px; transform: rotate(50deg); transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);">
                 <polygon points="156,160 160,56 164,160" fill="#1e293b"/>
                 <line x1="160" y1="56" x2="160" y2="160" stroke="#f59e0b" stroke-width="1.5"/>
                 <circle cx="160" cy="160" r="14" fill="#1e293b"/>
@@ -141,18 +141,18 @@
 
             <!-- Center Reading Box -->
             <div class="speedo-reading-box">
-              <div class="speedo-score-number" id="compositeScore">--<span class="speedo-max">/100</span></div>
-              <div id="scoreSignalBadge" class="speedo-badge hold">EVALUATING MODEL...</div>
-              <div id="scoreInstrumentName" class="speedo-symbol-name">Loading analysis...</div>
+              <div class="speedo-score-number" id="compositeScore">78<span class="speedo-max">/100</span></div>
+              <div id="scoreSignalBadge" class="speedo-badge buy">BUY / OUTPERFORM</div>
+              <div id="scoreInstrumentName" class="speedo-symbol-name">Infosys Limited · Multi-Factor Model</div>
             </div>
           </div>
         </div>
         <div class="basis">
-          <div><div class="basis-row"><strong>Financial Strength & Solvency</strong><span id="finStrengthVal">--/100</span></div><div class="bar"><span id="finStrengthBar" style="width:50%"></span></div></div>
-          <div><div class="basis-row"><strong>Valuation Multiples</strong><span id="valuationVal">--/100</span></div><div class="bar"><span id="valuationBar" style="width:50%"></span></div></div>
-          <div><div class="basis-row"><strong>Growth Engine (YoY/QoQ)</strong><span id="growthVal">--/100</span></div><div class="bar"><span id="growthBar" style="width:50%"></span></div></div>
-          <div><div class="basis-row"><strong>Technical & Momentum Trend</strong><span id="technicalVal">--/100</span></div><div class="bar"><span id="technicalBar" style="width:50%"></span></div></div>
-          <div><div class="basis-row"><strong>Ownership & Institutional Quality</strong><span id="ownershipVal">--/100</span></div><div class="bar"><span id="ownershipBar" style="width:50%"></span></div></div>
+          <div><div class="basis-row"><strong>Financial Strength & Solvency</strong><span id="finStrengthVal">88/100</span></div><div class="bar"><span id="finStrengthBar" style="width:88%; background:#10b981;"></span></div></div>
+          <div><div class="basis-row"><strong>Valuation Multiples</strong><span id="valuationVal">68/100</span></div><div class="bar"><span id="valuationBar" style="width:68%; background:#10b981;"></span></div></div>
+          <div><div class="basis-row"><strong>Growth Engine (YoY/QoQ)</strong><span id="growthVal">75/100</span></div><div class="bar"><span id="growthBar" style="width:75%; background:#10b981;"></span></div></div>
+          <div><div class="basis-row"><strong>Technical & Momentum Trend</strong><span id="technicalVal">72/100</span></div><div class="bar"><span id="technicalBar" style="width:72%; background:#10b981;"></span></div></div>
+          <div><div class="basis-row"><strong>Ownership & Institutional Quality</strong><span id="ownershipVal">84/100</span></div><div class="bar"><span id="ownershipBar" style="width:84%; background:#10b981;"></span></div></div>
         </div>
       </div>
       <div class="disclaimer">Important: This score is an analytical framework example. Production scores must reflect published models, audited data sources, and regulatory risk disclosures. Not investment advice.</div>

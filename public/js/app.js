@@ -235,10 +235,10 @@ document.addEventListener("click", e => {
 
 // Explore selected investment
 async function exploreInvestment() {
-  const rawChosen = instrumentInput.value.trim();
+  let rawChosen = instrumentInput ? instrumentInput.value.trim() : "";
   if (!rawChosen) {
-    showMessage("Please type or select an investment first.", true);
-    return;
+    rawChosen = "Infosys Ltd (INFY)";
+    if (instrumentInput) instrumentInput.value = "Infosys Ltd (INFY)";
   }
 
   const ticker = resolveTicker(rawChosen);
@@ -249,8 +249,8 @@ async function exploreInvestment() {
   document.getElementById("previewName").textContent = rawChosen;
   document.getElementById("previewLogo").textContent = ticker.slice(0, 3).toUpperCase();
   document.getElementById("previewMeta").textContent = currentAssetType === "stock"
-    ? `NSE: ${ticker} · ${categorySelect.value} · ${subcategorySelect.value}`
-    : `Mutual Fund · ${categorySelect.value} · ${subcategorySelect.value}`;
+    ? `NSE: ${ticker} · ${categorySelect ? categorySelect.value : 'Large Cap'} · ${subcategorySelect ? subcategorySelect.value : 'Information Technology'}`
+    : `Mutual Fund · ${categorySelect ? categorySelect.value : 'Equity'} · ${subcategorySelect ? subcategorySelect.value : 'Large Cap'}`;
 
   // Fetch from Firebase backend proxy
   try {
@@ -281,6 +281,7 @@ async function exploreInvestment() {
   }
 
   showTab("overview", document.querySelector(".tabs .tab"));
+  loadHistoryRange("1Y");
 }
 
 function renderStockData(data) {
@@ -319,8 +320,38 @@ function renderStockData(data) {
 }
 
 function renderDemoPlaceholderData(chosen) {
-  document.getElementById("previewPrice").textContent = "₹ 1,141.50";
-  document.getElementById("previewChange").textContent = "+0.85% today";
+  const sym = (chosen || "INFY").toUpperCase();
+  const isTCS = sym === "TCS";
+  const isRel = sym === "RELIANCE";
+
+  const fallbackData = {
+    symbol: sym,
+    name: isTCS ? "Tata Consultancy Services Ltd" : (isRel ? "Reliance Industries Ltd" : (sym === "INFY" ? "Infosys Limited" : `${sym} (NSE)`)),
+    price: isTCS ? 4120.00 : (isRel ? 2980.00 : 1845.00),
+    prevClose: isTCS ? 4095.00 : (isRel ? 2955.00 : 1828.00),
+    changePercent: 0.93,
+    mktCap: isTCS ? 14900000000000 : (isRel ? 20100000000000 : 7650000000000),
+    pe: isTCS ? 28.4 : (isRel ? 25.1 : 24.8),
+    pb: isTCS ? 12.8 : (isRel ? 2.3 : 7.4),
+    high52: isTCS ? 4590.00 : (isRel ? 3217.00 : 1991.00),
+    low52: isTCS ? 3310.00 : (isRel ? 2220.00 : 1358.00),
+    divYield: isTCS ? 1.4 : (isRel ? 0.35 : 2.1),
+    sector: isRel ? "Energy & Retail" : "Information Technology",
+    debtToEquity: isRel ? 0.38 : 0.08,
+    interestCoverage: isRel ? 8.5 : 42.0,
+    revenueGrowthYoy: 7.8,
+    profitGrowthYoy: 9.4,
+    priceVs200dmaPct: 6.4,
+    priceVs50dmaPct: 2.8,
+    return1m: 3.5,
+    promoterHolding: isTCS ? 71.8 : (isRel ? 50.3 : 14.8),
+    fiiHolding: isTCS ? 12.5 : (isRel ? 22.1 : 33.2),
+    diiHolding: isTCS ? 10.2 : (isRel ? 16.4 : 35.6)
+  };
+
+  currentSelectedData = fallbackData;
+  renderStockData(fallbackData);
+  updateIntelligenceScore(fallbackData);
 }
 
 function showMessage(msg, isError = false) {
@@ -855,55 +886,63 @@ function generateSampleHistory(range) {
 
 // Dynamic Intelligence Score Model
 function updateIntelligenceScore(d) {
-  if (!d) return;
+  if (!d) d = {};
+
+  const name = d.name || d.symbol || "Infosys Limited";
 
   // 1. Financial Strength (0-100)
-  let finScore = 55;
-  if (d.debtToEquity === 0 || d.debtToEquity < 0.1) finScore += 35;
-  else if (d.debtToEquity < 0.5) finScore += 20;
-  else if (d.debtToEquity > 1.5) finScore -= 20;
-  if (d.interestCoverage && d.interestCoverage > 10) finScore += 10;
-  finScore = Math.max(25, Math.min(98, Math.round(finScore)));
+  let finScore = 60;
+  const dte = d.debtToEquity !== undefined ? Number(d.debtToEquity) : 0.08;
+  if (dte === 0 || dte < 0.1) finScore += 28;
+  else if (dte < 0.5) finScore += 18;
+  else if (dte > 1.5) finScore -= 20;
+  const intCov = d.interestCoverage !== undefined ? Number(d.interestCoverage) : 38;
+  if (intCov > 10) finScore += 10;
+  finScore = Math.max(35, Math.min(98, Math.round(finScore)));
 
   // 2. Valuation Score (0-100)
   let valScore = 50;
-  const pe = d.pe || 25;
+  const pe = Number(d.pe) || 24.8;
   if (pe > 0 && pe < 18) valScore += 35;
-  else if (pe >= 18 && pe < 30) valScore += 15;
+  else if (pe >= 18 && pe < 30) valScore += 18;
   else if (pe >= 45) valScore -= 20;
-  if (d.divYield && d.divYield > 2) valScore += 10;
-  valScore = Math.max(20, Math.min(95, Math.round(valScore)));
+  const dy = d.divYield !== undefined ? Number(d.divYield) : 1.8;
+  if (dy > 1.2) valScore += 10;
+  valScore = Math.max(25, Math.min(95, Math.round(valScore)));
 
   // 3. Growth Outlook (0-100)
-  let growthScore = 50;
-  const revGrowth = d.revenueGrowthYoy || 0;
-  const profGrowth = d.profitGrowthYoy || 0;
-  if (revGrowth > 12) growthScore += 20;
-  else if (revGrowth > 5) growthScore += 10;
+  let growthScore = 52;
+  const revGrowth = d.revenueGrowthYoy !== undefined ? Number(d.revenueGrowthYoy) : 7.8;
+  const profGrowth = d.profitGrowthYoy !== undefined ? Number(d.profitGrowthYoy) : 9.4;
+  if (revGrowth > 12) growthScore += 22;
+  else if (revGrowth > 5) growthScore += 14;
   else if (revGrowth < 0) growthScore -= 15;
-  if (profGrowth > 15) growthScore += 25;
-  else if (profGrowth > 5) growthScore += 15;
+  if (profGrowth > 15) growthScore += 24;
+  else if (profGrowth > 5) growthScore += 14;
   else if (profGrowth < 0) growthScore -= 20;
-  growthScore = Math.max(20, Math.min(95, Math.round(growthScore)));
+  growthScore = Math.max(30, Math.min(95, Math.round(growthScore)));
 
   // 4. Technical Trend (0-100)
   let techScore = 50;
-  if (d.priceVs200dmaPct > 0) techScore += 20;
-  else techScore -= 20;
-  if (d.priceVs50dmaPct > 0) techScore += 15;
-  else techScore -= 15;
-  if (d.return1m > 5) techScore += 15;
-  else if (d.return1m < -5) techScore -= 15;
-  techScore = Math.max(15, Math.min(95, Math.round(techScore)));
+  const vs200 = d.priceVs200dmaPct !== undefined ? Number(d.priceVs200dmaPct) : 6.4;
+  const vs50 = d.priceVs50dmaPct !== undefined ? Number(d.priceVs50dmaPct) : 2.8;
+  const ret1m = d.return1m !== undefined ? Number(d.return1m) : 3.5;
+  if (vs200 > 0) techScore += 14;
+  else techScore -= 14;
+  if (vs50 > 0) techScore += 10;
+  else techScore -= 10;
+  if (ret1m > 2) techScore += 12;
+  else if (ret1m < -3) techScore -= 12;
+  techScore = Math.max(25, Math.min(95, Math.round(techScore)));
 
   // 5. Ownership Quality (0-100)
   let ownScore = 50;
-  const prom = d.promoterHolding || 0;
-  const inst = (d.fiiHolding || 0) + (d.diiHolding || 0);
-  if (prom > 50) ownScore += 25;
-  else if (prom > 30) ownScore += 10;
-  if (inst > 25) ownScore += 20;
-  ownScore = Math.max(25, Math.min(98, Math.round(ownScore)));
+  const prom = d.promoterHolding !== undefined ? Number(d.promoterHolding) : 14.8;
+  const inst = ((Number(d.fiiHolding) || 32.5) + (Number(d.diiHolding) || 35.8));
+  if (prom > 45) ownScore += 20;
+  else if (prom > 12) ownScore += 14;
+  if (inst > 30) ownScore += 20;
+  ownScore = Math.max(35, Math.min(98, Math.round(ownScore)));
 
   // Composite Score
   const totalScore = Math.round(
@@ -912,7 +951,7 @@ function updateIntelligenceScore(d) {
 
   // Update DOM Elements
   const nameEl = document.getElementById("scoreInstrumentName");
-  if (nameEl) nameEl.textContent = `${d.name || d.symbol} · Quantitative Model`;
+  if (nameEl) nameEl.textContent = `${name} · Multi-Factor Model`;
 
   const compEl = document.getElementById("compositeScore");
   if (compEl) compEl.innerHTML = `${totalScore}<span class="speedo-max">/100</span>`;
@@ -933,16 +972,13 @@ function updateIntelligenceScore(d) {
     badge.className = "speedo-badge";
     if (totalScore >= 70) {
       badge.classList.add("buy");
-      badge.textContent = "STRONG BUY / OUTPERFORM";
-    } else if (totalScore >= 55) {
-      badge.classList.add("buy-light");
-      badge.textContent = "ACCUMULATE / POSITIVE";
-    } else if (totalScore >= 42) {
+      badge.textContent = "BUY / OUTPERFORM";
+    } else if (totalScore >= 45) {
       badge.classList.add("hold");
       badge.textContent = "HOLD / NEUTRAL";
     } else {
       badge.classList.add("sell");
-      badge.textContent = "SELL / CAUTION";
+      badge.textContent = "SELL / UNDERPERFORM";
     }
   }
 
@@ -951,7 +987,12 @@ function updateIntelligenceScore(d) {
     const valEl = document.getElementById(valId);
     const barEl = document.getElementById(barId);
     if (valEl) valEl.textContent = `${val}/100`;
-    if (barEl) barEl.style.width = `${val}%`;
+    if (barEl) {
+      barEl.style.width = `${val}%`;
+      if (val >= 65) barEl.style.background = "#10b981";
+      else if (val >= 42) barEl.style.background = "#f59e0b";
+      else barEl.style.background = "#ef4444";
+    }
   };
 
   setBar("finStrengthVal", "finStrengthBar", finScore);
@@ -1079,6 +1120,11 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCategories();
   checkBackendStatus();
 
-  // Load default TCS stock on first visit
+  // Set default search input to Infosys if empty
+  if (instrumentInput && !instrumentInput.value) {
+    instrumentInput.value = "Infosys Ltd (INFY)";
+  }
+
+  // Explore default stock on visit
   exploreInvestment();
 });
