@@ -172,6 +172,17 @@ router.get("/search", async (req, res) => {
         category: s.category || "Mutual Fund",
         type: "fund"
       }));
+    } else if (type === "all") {
+      const [stocksRes, fundsRes] = await Promise.allSettled([
+        client.search(query),
+        client.mutualFunds.listSchemes({ query })
+      ]);
+      const stocks = (stocksRes.status === "fulfilled" && (stocksRes.value.data || stocksRes.value || [])) || [];
+      const funds = (fundsRes.status === "fulfilled" && (fundsRes.value.data || fundsRes.value || [])) || [];
+      results = [
+        ...stocks.map(s => ({ symbol: s.ticker || s.symbol, name: s.companyName || s.name, exchange: s.exchange || "NSE", type: "stock" })),
+        ...funds.map(s => ({ symbol: s.schemeCode || s.code, name: s.schemeName || s.name, category: s.category || "Mutual Fund", type: "fund" }))
+      ];
     } else {
       const searchRes = await client.search(query);
       results = (searchRes.data || searchRes || []).map(s => ({
@@ -724,7 +735,14 @@ function getSampleSearchResults(query, type) {
     { symbol: "ICICIBANK", name: "ICICI Bank Ltd", exchange: "NSE", type: "stock" },
     { symbol: "ITC", name: "ITC Ltd", exchange: "NSE", type: "stock" }
   ];
-  return sampleStocks.filter(s => s.symbol.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
+  const sampleFunds = [
+    { symbol: "122639", name: "Parag Parikh Flexi Cap Fund", category: "Flexi Cap", exchange: "AMFI", type: "fund" },
+    { symbol: "120828", name: "Quant Small Cap Fund", category: "Small Cap", exchange: "AMFI", type: "fund" },
+    { symbol: "120503", name: "ICICI Prudential Bluechip Fund", category: "Large Cap", exchange: "AMFI", type: "fund" },
+    { symbol: "118989", name: "HDFC Top 100 Fund", category: "Large Cap", exchange: "AMFI", type: "fund" }
+  ];
+  const pool = type === "fund" ? sampleFunds : (type === "all" ? [...sampleStocks, ...sampleFunds] : sampleStocks);
+  return pool.filter(s => s.symbol.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
 }
 
 function getDemoStockData(symbol) {

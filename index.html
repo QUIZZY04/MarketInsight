@@ -29,31 +29,25 @@
       </div>
 
       <div class="search-panel">
-        <h2 class="panel-title">Find an investment</h2>
-        <p class="panel-sub">Choose an asset type and narrow your search.</p>
-        <div class="switch" role="tablist" aria-label="Investment type">
-          <button type="button" class="active" id="stocksBtn" onclick="setAsset('stock')">↗ Stocks</button>
-          <button type="button" id="fundsBtn" onclick="setAsset('fund')">▦ Mutual Funds</button>
+        <h2 class="panel-title">Search Indian Stocks & Mutual Funds</h2>
+        <p class="panel-sub">Instant quantitative analysis for NSE equities & AMFI mutual funds.</p>
+        <div class="switch" role="tablist" aria-label="Investment filter">
+          <button type="button" class="active" id="filterAllBtn" onclick="setSearchFilter('all')">✦ All</button>
+          <button type="button" id="filterStocksBtn" onclick="setSearchFilter('stock')">↗ Stocks</button>
+          <button type="button" id="filterFundsBtn" onclick="setSearchFilter('fund')">▦ Mutual Funds</button>
         </div>
-        <div class="field-grid">
-          <div class="field">
-            <label for="category">CATEGORY</label>
-            <select id="category" onchange="updateSubcategories()"></select>
+        <div class="unified-search-wrap">
+          <label for="instrument" class="search-label">COMPANY OR MUTUAL FUND NAME</label>
+          <div class="search-input-box">
+            <span class="search-lens-icon">⌕</span>
+            <input id="instrument" value="Infosys Ltd (INFY)" placeholder="Type any stock or mutual fund (e.g. INFY, TCS, Reliance, Parag Parikh)..." autocomplete="off" spellcheck="false">
+            <button type="button" id="clearSearchBtn" class="clear-search-btn" onclick="clearSearchInput()" title="Clear">✕</button>
           </div>
-          <div class="field">
-            <label for="subcategory" id="subLabel">SECTOR</label>
-            <select id="subcategory" onchange="updateItems()"></select>
-          </div>
-          <div class="field full">
-            <label for="instrument">SEARCH / SELECT INVESTMENT</label>
-            <input id="instrument" list="instrumentOptions" value="Infosys Ltd (INFY)" placeholder="Start typing a company or fund name..." autocomplete="off">
-            <datalist id="instrumentOptions"></datalist>
-            <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
-          </div>
+          <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
         </div>
         <button class="btn btn-primary" onclick="exploreInvestment()">Explore investment →</button>
         <div class="result-message" id="resultMessage" role="status"></div>
-        <p class="small-note">Live financial metrics powered by BharatStock API & Firebase Cloud Architecture.</p>
+        <p class="small-note">Instant sub-millisecond search · Real-time BharatStock & AMFI feed · Automated multi-factor model.</p>
       </div>
     </div>
   </section>
