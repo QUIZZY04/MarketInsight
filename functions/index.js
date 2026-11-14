@@ -321,18 +321,49 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
       return res.json(cached);
     }
 
-    const { fromDate, toDate, pageSize } = calculateDateRange(range);
-    const priceSeries = await client.stocks.prices(symbol, { fromDate, toDate, pageSize });
-    const rawList = priceSeries.data || (Array.isArray(priceSeries) ? priceSeries : []);
+    const { fromDate, toDate, maxPages, cutoffDate } = calculateDateRange(range);
+    let allRows = [];
 
-    const formattedHistory = rawList.map(p => ({
+    for (let page = 1; page <= maxPages; page++) {
+      try {
+        const pageResult = await client.stocks.prices(symbol, {
+          fromDate,
+          toDate,
+          page,
+          pageSize: 100
+        });
+        const rows = pageResult.data || (Array.isArray(pageResult) ? pageResult : []);
+        if (!rows.length) break;
+        allRows.push(...rows);
+
+        const lastRow = rows[rows.length - 1];
+        const oldestDate = lastRow.tradeDate || lastRow.date;
+        if (oldestDate && new Date(oldestDate) < cutoffDate) {
+          break;
+        }
+        if (page >= (pageResult.totalPages || 1)) break;
+      } catch (err) {
+        console.warn(`Prices page ${page} warning for ${symbol}:`, err.message);
+        break;
+      }
+    }
+
+    let formattedHistory = allRows.map(p => ({
       date: p.tradeDate || p.date || "",
       price: p.close || p.adjustedClose || p.price || 0,
       open: p.open || p.close || 0,
       high: p.high || p.close || 0,
       low: p.low || p.close || 0,
       volume: p.volume || 0
-    })).filter(p => p.price > 0);
+    })).filter(p => p.price > 0 && p.date);
+
+    // Strictly enforce cutoff date so 1M, 3M, 6M, 1Y are 100% separate and distinct
+    if (cutoffDate) {
+      const strictlyInRange = formattedHistory.filter(p => new Date(p.date) >= cutoffDate);
+      if (strictlyInRange.length >= 2) {
+        formattedHistory = strictlyInRange;
+      }
+    }
 
     // Ensure chronological order (oldest -> newest) for left-to-right chart rendering
     if (formattedHistory.length > 1 && formattedHistory[0].date && formattedHistory[formattedHistory.length - 1].date) {
@@ -341,6 +372,19 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
       if (firstTime > lastTime) {
         formattedHistory.reverse();
       }
+    }
+
+    // Downsample if more than 200 points for smooth canvas rendering
+    if (formattedHistory.length > 200) {
+      const step = Math.ceil(formattedHistory.length / 160);
+      const sampled = [];
+      for (let i = 0; i < formattedHistory.length; i += step) {
+        sampled.push(formattedHistory[i]);
+      }
+      if (sampled[sampled.length - 1] !== formattedHistory[formattedHistory.length - 1]) {
+        sampled.push(formattedHistory[formattedHistory.length - 1]);
+      }
+      formattedHistory = sampled;
     }
 
     const payload = { symbol, range, history: formattedHistory };
@@ -498,48 +542,49 @@ app.use("/", router);
 function calculateDateRange(range) {
   const to = new Date();
   const from = new Date();
-  let pageSize = 300;
+  let maxPages = 1;
 
   switch (range) {
     case "1M":
-      from.setMonth(to.getMonth() - 1);
-      pageSize = 35;
+      from.setDate(to.getDate() - 30);
+      maxPages = 1;
       break;
     case "3M":
-      from.setMonth(to.getMonth() - 3);
-      pageSize = 95;
+      from.setDate(to.getDate() - 90);
+      maxPages = 1;
       break;
     case "6M":
-      from.setMonth(to.getMonth() - 6);
-      pageSize = 185;
+      from.setDate(to.getDate() - 180);
+      maxPages = 2;
       break;
     case "1Y":
       from.setFullYear(to.getFullYear() - 1);
-      pageSize = 300;
+      maxPages = 3;
       break;
     case "3Y":
       from.setFullYear(to.getFullYear() - 3);
-      pageSize = 850;
+      maxPages = 8;
       break;
     case "5Y":
       from.setFullYear(to.getFullYear() - 5);
-      pageSize = 1400;
+      maxPages = 13;
       break;
     case "ALL":
     case "MAX":
-      from.setFullYear(to.getFullYear() - 15);
-      pageSize = 2500;
+      from.setFullYear(to.getFullYear() - 20);
+      maxPages = 15;
       break;
     default:
       from.setFullYear(to.getFullYear() - 1);
-      pageSize = 300;
+      maxPages = 3;
       break;
   }
 
   return {
     fromDate: from.toISOString().split("T")[0],
     toDate: to.toISOString().split("T")[0],
-    pageSize
+    cutoffDate: from,
+    maxPages
   };
 }
 

@@ -718,6 +718,51 @@ function setChartRange(range, btn) {
   loadHistoryRange(range);
 }
 
+function filterHistoryByRange(history, range) {
+  if (!history || history.length < 2) return history || [];
+  const now = new Date();
+  let cutoff = new Date();
+
+  switch (range) {
+    case "1M":
+      cutoff.setDate(now.getDate() - 30);
+      break;
+    case "3M":
+      cutoff.setDate(now.getDate() - 90);
+      break;
+    case "6M":
+      cutoff.setDate(now.getDate() - 180);
+      break;
+    case "1Y":
+      cutoff.setFullYear(now.getFullYear() - 1);
+      break;
+    case "3Y":
+      cutoff.setFullYear(now.getFullYear() - 3);
+      break;
+    case "5Y":
+      cutoff.setFullYear(now.getFullYear() - 5);
+      break;
+    case "ALL":
+    case "MAX":
+      cutoff.setFullYear(now.getFullYear() - 25);
+      break;
+    default:
+      cutoff.setFullYear(now.getFullYear() - 1);
+      break;
+  }
+
+  const strictlyFiltered = history.filter(p => {
+    const d = new Date(p.date || p.tradeDate);
+    return !isNaN(d.getTime()) && d >= cutoff;
+  });
+
+  if (strictlyFiltered.length >= 2) {
+    return strictlyFiltered;
+  }
+
+  return history;
+}
+
 async function loadHistoryRange(range) {
   const returnTag = document.getElementById("chartReturnTag");
   if (returnTag) returnTag.innerHTML = `<span style="color:#64748b; font-size:12px;">Loading ${range} price points...</span>`;
@@ -727,10 +772,11 @@ async function loadHistoryRange(range) {
     if (res.ok) {
       const data = await res.json();
       if (data.history && Array.isArray(data.history) && data.history.length > 0) {
+        const rangeFiltered = filterHistoryByRange(data.history, range);
         if (stockChartInstance) {
-          stockChartInstance.setData(data.history, range);
+          stockChartInstance.setData(rangeFiltered, range);
         }
-        updateChartStats(data.history, range);
+        updateChartStats(rangeFiltered, range);
         return;
       }
     }
@@ -776,30 +822,34 @@ function updateChartStats(history, range) {
 function generateSampleHistory(range) {
   const points = [];
   let days = 365;
+  let volatility = 15;
   switch (range) {
-    case "1M": days = 30; break;
-    case "3M": days = 90; break;
-    case "6M": days = 180; break;
-    case "1Y": days = 365; break;
-    case "3Y": days = 1095; break;
-    case "5Y": days = 1825; break;
+    case "1M": days = 30; volatility = 8; break;
+    case "3M": days = 90; volatility = 18; break;
+    case "6M": days = 180; volatility = 28; break;
+    case "1Y": days = 365; volatility = 45; break;
+    case "3Y": days = 1095; volatility = 75; break;
+    case "5Y": days = 1825; volatility = 110; break;
     case "ALL":
-    case "MAX": days = 3650; break;
-    default: days = 365; break;
+    case "MAX": days = 3650; volatility = 150; break;
+    default: days = 365; volatility = 45; break;
   }
   const step = Math.max(1, Math.floor(days / 60));
-  let price = (currentSelectedData && currentSelectedData.price) ? currentSelectedData.price * 0.9 : 1140;
+  let price = (currentSelectedData && currentSelectedData.price) ? Number(currentSelectedData.price) : 1140;
 
-  for (let i = days; i >= 0; i -= step) {
+  const rawReversed = [];
+  let cur = price;
+  for (let i = 0; i <= days; i += step) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    price += (Math.random() - 0.48) * (price * 0.015);
-    points.push({
+    rawReversed.push({
       date: d.toISOString().split("T")[0],
-      price: Math.max(10, Number(price.toFixed(2)))
+      price: Math.max(10, Number(cur.toFixed(2)))
     });
+    cur -= (Math.sin(i / 10) * 0.4 + (Math.random() - 0.49)) * (volatility / 4);
   }
-  return points;
+
+  return rawReversed.reverse();
 }
 
 // Dynamic Intelligence Score Model
