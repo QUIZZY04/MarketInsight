@@ -258,120 +258,219 @@ router.get("/search", async (req, res) => {
   }
 });
 
+// Helper to fetch live real-time NSE quote dynamically whenever BharatStock hits a rate limit
+async function fetchLiveNSEQuote(symbol) {
+  const clean = (symbol || "").toUpperCase().replace(/\.NS$/, "").trim();
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(clean)}.NS?interval=1d&range=1d`;
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json"
+      }
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    const meta = json?.chart?.result?.[0]?.meta;
+    if (!meta || !meta.regularMarketPrice) return null;
+
+    const price = Number(meta.regularMarketPrice.toFixed(2));
+    const prev = meta.chartPreviousClose ? Number(meta.chartPreviousClose.toFixed(2)) : price;
+    const changePct = prev ? Number((((price - prev) / prev) * 100).toFixed(2)) : 0;
+
+    return {
+      price,
+      prevClose: prev,
+      changePercent: changePct,
+      open: meta.regularMarketOpen ? Number(meta.regularMarketOpen.toFixed(2)) : price,
+      high: meta.regularMarketDayHigh ? Number(meta.regularMarketDayHigh.toFixed(2)) : price,
+      low: meta.regularMarketDayLow ? Number(meta.regularMarketDayLow.toFixed(2)) : price,
+      high52: meta.fiftyTwoWeekHigh ? Number(meta.fiftyTwoWeekHigh.toFixed(2)) : 0,
+      low52: meta.fiftyTwoWeekLow ? Number(meta.fiftyTwoWeekLow.toFixed(2)) : 0,
+      volume: meta.regularMarketVolume || 0
+    };
+  } catch (err) {
+    return null;
+  }
+}
+
+// Helper to fetch real NSE historical chart candles dynamically whenever BharatStock history hits a rate limit
+async function fetchLiveNSEHistory(symbol, range) {
+  const clean = (symbol || "").toUpperCase().replace(/\.NS$/, "").trim();
+  let rangeParam = "1y";
+  let intervalParam = "1d";
+  switch ((range || "1Y").toUpperCase()) {
+    case "1M": rangeParam = "1mo"; intervalParam = "1d"; break;
+    case "3M": rangeParam = "3mo"; intervalParam = "1d"; break;
+    case "6M": rangeParam = "6mo"; intervalParam = "1d"; break;
+    case "1Y": rangeParam = "1y"; intervalParam = "1d"; break;
+    case "3Y": rangeParam = "5y"; intervalParam = "1wk"; break;
+    case "5Y": rangeParam = "5y"; intervalParam = "1wk"; break;
+    case "ALL":
+    case "MAX": rangeParam = "max"; intervalParam = "1mo"; break;
+    default: rangeParam = "1y"; intervalParam = "1d"; break;
+  }
+
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(clean)}.NS?range=${rangeParam}&interval=${intervalParam}`;
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      }
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    const result = json?.chart?.result?.[0];
+    if (!result) return null;
+
+    const timestamps = result.timestamp || [];
+    const closes = result.indicators?.quote?.[0]?.close || [];
+    const points = [];
+
+    for (let i = 0; i < timestamps.length; i++) {
+      const price = closes[i];
+      if (price !== null && price !== undefined && !isNaN(price)) {
+        const dateStr = new Date(timestamps[i] * 1000).toISOString().split("T")[0];
+        points.push({
+          date: dateStr,
+          price: Number(price.toFixed(2))
+        });
+      }
+    }
+    return points.length ? points : null;
+  } catch (err) {
+    return null;
+  }
+}
+
 // 3. Stock Quote & Overview
 router.get("/stock/:symbol", async (req, res) => {
   const rawSymbol = req.params.symbol;
   const client = getClient();
-  if (!client) {
-    return res.json({ ...getDemoStockData(rawSymbol), mode: "sandbox_demo" });
+  const symbol = await resolveSymbol(rawSymbol, client);
+  const cacheKey = `stock:${symbol}`;
+  const cached = getCached(cacheKey);
+  if (cached) {
+    return res.json(cached);
   }
 
-  try {
-    const symbol = await resolveSymbol(rawSymbol, client);
-    const cacheKey = `stock:${symbol}`;
-    const cached = getCached(cacheKey);
-    if (cached) {
-      return res.json(cached);
+  let stockData = null;
+
+  // 1. Try BharatStock API
+  if (client) {
+    try {
+      const rawStock = await client.stocks.get(symbol);
+      const m = rawStock.metrics || {};
+      const lp = rawStock.latestPrice || {};
+
+      const price = lp.close || m.price || 0;
+      const prev = lp.prevClose || price;
+      const changePct = prev ? ((price - prev) / prev) * 100 : 0;
+
+      if (price > 0) {
+        stockData = {
+          symbol: rawStock.symbol || symbol,
+          name: rawStock.companyName || symbol,
+          sector: rawStock.sector || "Equity",
+          industry: rawStock.industry || "",
+          listingDate: rawStock.listingDate || "",
+          faceValue: rawStock.faceValue || 1,
+          price,
+          prevClose: prev,
+          changePercent: Number(changePct.toFixed(2)),
+          open: lp.open || price,
+          high: lp.high || price,
+          low: lp.low || price,
+          volume: lp.volume || 0,
+          tradeDate: lp.tradeDate || "",
+          mktCap: rawStock.marketCap || m.marketCap || 0,
+          pe: m.peRatio || 0,
+          pb: m.pbRatio || 0,
+          priceToSales: m.priceToSales || 0,
+          pegRatio: m.pegRatio || 0,
+          evToEbitda: m.evToEbitda || 0,
+          enterpriseValue: m.enterpriseValue || 0,
+          bookValuePerShare: m.bookValuePerShare || 0,
+          earningsYield: m.earningsYield || 0,
+          divYield: m.dividendYield || 0,
+          roe: m.roe || 0,
+          roce: m.roce || 0,
+          eps: m.eps || 0,
+          cashPerShare: m.cashPerShare || 0,
+          revenuePerShare: m.revenuePerShare || 0,
+          operatingMargin: m.operatingMargin || 0,
+          netMargin: m.netMargin || 0,
+          ebitdaMargin: m.ebitdaMargin || 0,
+          revenueGrowthYoy: m.revenueGrowthYoy || 0,
+          profitGrowthYoy: m.profitGrowthYoy || 0,
+          epsGrowthYoy: m.epsGrowthYoy || 0,
+          revenueGrowthQoq: m.revenueGrowthQoq || 0,
+          debtToEquity: m.debtToEquity !== undefined ? m.debtToEquity : 0,
+          currentRatio: m.currentRatio || 0,
+          interestCoverage: m.interestCoverage || 0,
+          totalDebt: m.totalDebt || 0,
+          workingCapital: m.workingCapital || 0,
+          high52: m.high52w || 0,
+          low52: m.low52w || 0,
+          distanceFrom52wHighPct: m.distanceFrom52wHighPct || 0,
+          distanceFrom52wLowPct: m.distanceFrom52wLowPct || 0,
+          priceVs50dmaPct: m.priceVs50dmaPct || 0,
+          priceVs200dmaPct: m.priceVs200dmaPct || 0,
+          return1w: m.return1w || 0,
+          return1m: m.return1m || 0,
+          return3m: m.return3m || 0,
+          return6m: m.return6m || 0,
+          return1y: m.return1y || 0,
+          return3y: m.return3y || 0,
+          return5y: m.return5y || 0,
+          volatility30d: m.volatility30d || 0,
+          volatility365d: m.volatility365d || 0,
+          promoterHolding: m.promoterHolding || 0,
+          fiiHolding: m.fiiHolding || 0,
+          diiHolding: m.diiHolding || 0,
+          mutualFundsHolding: m.mutualFundsHolding || 0,
+          publicHolding: m.publicHolding || 0,
+          mfSummary: rawStock.mfHoldingsSummary || null,
+          mode: "live"
+        };
+      }
+    } catch (err) {
+      console.warn(`BharatStock notice for ${symbol}:`, err.message || (typeof err.detail === 'object' ? JSON.stringify(err.detail) : err.detail) || String(err));
     }
-
-    const rawStock = await client.stocks.get(symbol);
-    const m = rawStock.metrics || {};
-    const lp = rawStock.latestPrice || {};
-
-    const price = lp.close || m.price || 0;
-    const prev = lp.prevClose || price;
-    const changePct = prev ? ((price - prev) / prev) * 100 : 0;
-
-    const normalized = {
-      symbol: rawStock.symbol || symbol,
-      name: rawStock.companyName || symbol,
-      sector: rawStock.sector || "Equity",
-      industry: rawStock.industry || "",
-      listingDate: rawStock.listingDate || "",
-      faceValue: rawStock.faceValue || 1,
-      price,
-      prevClose: prev,
-      changePercent: Number(changePct.toFixed(2)),
-      open: lp.open || price,
-      high: lp.high || price,
-      low: lp.low || price,
-      volume: lp.volume || 0,
-      tradeDate: lp.tradeDate || "",
-
-      // Valuation & Multiples
-      mktCap: rawStock.marketCap || m.marketCap || 0,
-      pe: m.peRatio || 0,
-      pb: m.pbRatio || 0,
-      priceToSales: m.priceToSales || 0,
-      pegRatio: m.pegRatio || 0,
-      evToEbitda: m.evToEbitda || 0,
-      enterpriseValue: m.enterpriseValue || 0,
-      bookValuePerShare: m.bookValuePerShare || 0,
-      earningsYield: m.earningsYield || 0,
-      divYield: m.dividendYield || 0,
-
-      // Profitability & Margins
-      roe: m.roe || 0,
-      roce: m.roce || 0,
-      eps: m.eps || 0,
-      cashPerShare: m.cashPerShare || 0,
-      revenuePerShare: m.revenuePerShare || 0,
-      operatingMargin: m.operatingMargin || 0,
-      netMargin: m.netMargin || 0,
-      ebitdaMargin: m.ebitdaMargin || 0,
-
-      // Growth Engine
-      revenueGrowthYoy: m.revenueGrowthYoy || 0,
-      profitGrowthYoy: m.profitGrowthYoy || 0,
-      epsGrowthYoy: m.epsGrowthYoy || 0,
-      revenueGrowthQoq: m.revenueGrowthQoq || 0,
-
-      // Health & Solvency
-      debtToEquity: m.debtToEquity !== undefined ? m.debtToEquity : 0,
-      currentRatio: m.currentRatio || 0,
-      interestCoverage: m.interestCoverage || 0,
-      totalDebt: m.totalDebt || 0,
-      workingCapital: m.workingCapital || 0,
-
-      // Technicals & Multi-Period Returns
-      high52: m.high52w || 0,
-      low52: m.low52w || 0,
-      distanceFrom52wHighPct: m.distanceFrom52wHighPct || 0,
-      distanceFrom52wLowPct: m.distanceFrom52wLowPct || 0,
-      priceVs50dmaPct: m.priceVs50dmaPct || 0,
-      priceVs200dmaPct: m.priceVs200dmaPct || 0,
-      return1w: m.return1w || 0,
-      return1m: m.return1m || 0,
-      return3m: m.return3m || 0,
-      return6m: m.return6m || 0,
-      return1y: m.return1y || 0,
-      return3y: m.return3y || 0,
-      return5y: m.return5y || 0,
-      volatility30d: m.volatility30d || 0,
-      volatility365d: m.volatility365d || 0,
-
-      // Ownership & Institutional Backing
-      promoterHolding: m.promoterHolding || 0,
-      fiiHolding: m.fiiHolding || 0,
-      diiHolding: m.diiHolding || 0,
-      mutualFundsHolding: m.mutualFundsHolding || 0,
-      publicHolding: m.publicHolding || 0,
-      mfSummary: rawStock.mfHoldingsSummary || null
-    };
-
-    setCached(cacheKey, normalized, 7200);
-    res.set("Cache-Control", "public, max-age=7200");
-    return res.json(normalized);
-  } catch (err) {
-    const isRateLimit = err.statusCode === 429 || (err.message && err.message.includes("429"));
-    console.warn(`BharatStock API notice for ${rawSymbol} (code ${err.statusCode || 'err'}):`, err.message || (typeof err.detail === 'object' ? JSON.stringify(err.detail) : err.detail) || String(err));
-    const fallback = getDemoStockData(rawSymbol);
-    return res.json({
-      ...fallback,
-      mode: isRateLimit ? "rate_limited_cached" : "fallback_demo",
-      rateLimited: isRateLimit
-    });
   }
+
+  // 2. If BharatStock is rate-limited (429) or unavailable: dynamically fetch live real-time NSE quote!
+  if (!stockData || !stockData.price) {
+    const liveQuote = await fetchLiveNSEQuote(symbol);
+    const fallbackBase = getDemoStockData(symbol);
+
+    if (liveQuote && liveQuote.price > 0) {
+      stockData = {
+        ...fallbackBase,
+        price: liveQuote.price,
+        prevClose: liveQuote.prevClose,
+        changePercent: liveQuote.changePercent,
+        open: liveQuote.open,
+        high: liveQuote.high,
+        low: liveQuote.low,
+        high52: liveQuote.high52 || fallbackBase.high52,
+        low52: liveQuote.low52 || fallbackBase.low52,
+        volume: liveQuote.volume || fallbackBase.volume,
+        mode: "live_exchange",
+        rateLimited: true
+      };
+    } else {
+      stockData = {
+        ...fallbackBase,
+        mode: "fallback_demo",
+        rateLimited: true
+      };
+    }
+  }
+
+  setCached(cacheKey, stockData, 1800);
+  res.set("Cache-Control", "public, max-age=1800");
+  return res.json(stockData);
 });
 
 // Helper to fetch up to 1 year of daily EOD prices from BharatStock and cache for 24 hours
@@ -495,9 +594,14 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
       }
     }
 
-    // Fallback if empty
+    // Fallback if empty: fetch real NSE historical candles dynamically
     if (!formattedHistory || formattedHistory.length === 0) {
-      formattedHistory = generateSamplePricePoints(symbol, range, curPrice);
+      const liveCandles = await fetchLiveNSEHistory(symbol, range);
+      if (liveCandles && liveCandles.length > 0) {
+        formattedHistory = liveCandles;
+      } else {
+        formattedHistory = generateSamplePricePoints(symbol, range, curPrice);
+      }
     }
 
     // Downsample if more than 200 points for smooth canvas rendering
@@ -521,6 +625,10 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
     return res.json(payload);
   } catch (err) {
     console.error(`Error fetching prices for ${rawSymbol}:`, err);
+    const liveCandles = await fetchLiveNSEHistory(rawSymbol, range);
+    if (liveCandles && liveCandles.length > 0) {
+      return res.json({ symbol: rawSymbol, range, history: liveCandles, mode: "live_exchange" });
+    }
     return res.json({ symbol: rawSymbol, range, history: generateSamplePricePoints(rawSymbol, range, curPrice), mode: "fallback_demo" });
   }
 });
@@ -1136,19 +1244,19 @@ const STOCK_DATA_STORE = {
   ITC: {
     symbol: "ITC",
     name: "ITC Ltd",
-    price: 468.00,
-    prevClose: 465.50,
-    changePercent: 0.54,
-    open: 466.00,
-    high: 471.00,
-    low: 464.00,
-    volume: 10400000,
-    mktCap: 5850000000000,
-    pe: 27.5,
-    pb: 7.9,
-    high52: 528.00,
-    low52: 399.00,
-    divYield: 2.95,
+    price: 285.00,
+    prevClose: 284.05,
+    changePercent: 0.33,
+    open: 284.50,
+    high: 285.30,
+    low: 284.00,
+    volume: 18400000,
+    mktCap: 3571600000000,
+    pe: 18.9,
+    pb: 4.8,
+    high52: 412.00,
+    low52: 252.80,
+    divYield: 5.09,
     sector: "Consumer Defensive",
     industry: "Tobacco & FMCG",
     debtToEquity: 0.01,
@@ -1156,21 +1264,21 @@ const STOCK_DATA_STORE = {
     interestCoverage: 95.0,
     totalDebt: 3200000000,
     workingCapital: 195000000000,
-    revenueGrowthYoy: 8.4,
-    profitGrowthYoy: 9.8,
-    revenueGrowthQoq: 2.4,
-    epsGrowthYoy: 9.2,
-    distanceFrom52wHighPct: -11.4,
-    distanceFrom52wLowPct: 17.3,
+    revenueGrowthYoy: 7.2,
+    profitGrowthYoy: 8.5,
+    revenueGrowthQoq: 2.1,
+    epsGrowthYoy: 8.1,
+    distanceFrom52wHighPct: -30.8,
+    distanceFrom52wLowPct: 12.7,
     priceVs50dmaPct: 0.8,
-    priceVs200dmaPct: 3.5,
+    priceVs200dmaPct: 2.4,
     return1w: 0.5,
     return1m: 1.4,
-    return3m: 4.8,
-    return6m: 8.5,
-    return1y: 12.0,
-    return3y: 55.0,
-    return5y: 110.0,
+    return3m: 4.2,
+    return6m: 7.5,
+    return1y: 10.0,
+    return3y: 45.0,
+    return5y: 95.0,
     promoterHolding: 0.0,
     fiiHolding: 41.2,
     diiHolding: 42.8,

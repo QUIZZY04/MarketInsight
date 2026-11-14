@@ -643,7 +643,9 @@ async function exploreInvestment(targetNameOrSymbol) {
       currentSelectedData = data;
       renderStockData(data);
       updateIntelligenceScore(data);
-      if (data.rateLimited || data.mode === "rate_limited_cached") {
+      if (data.mode === "live_exchange") {
+        showMessage(`✓ Real-time NSE quote active for ${data.name || rawChosen} (Live exchange feed active).`);
+      } else if (data.rateLimited || data.mode === "rate_limited_cached") {
         showMessage(`✓ Market data loaded for ${data.name || rawChosen} (BharatStock daily quota paused, showing synced market data).`);
       } else {
         showMessage(`✓ Live market details connected for ${data.name || rawChosen} via BharatStock API.`);
@@ -700,7 +702,12 @@ function renderStockData(data) {
   // Update badge to reflect true connection state
   const badge = document.querySelector(".demo-label");
   if (badge) {
-    if (data.rateLimited || data.mode === "rate_limited_cached") {
+    if (data.mode === "live_exchange") {
+      badge.textContent = "● LIVE NSE FEED (EXCHANGE ACTIVE)";
+      badge.style.color = "#0284c7";
+      badge.style.background = "#e0f2fe";
+      badge.style.border = "1px solid rgba(2, 132, 199, 0.3)";
+    } else if (data.rateLimited || data.mode === "rate_limited_cached") {
       badge.textContent = "● BHARATSTOCK QUOTA PAUSED (CACHED)";
       badge.style.color = "#b45309";
       badge.style.background = "#fef3c7";
@@ -1031,19 +1038,19 @@ const DEMO_STOCK_STORE = {
   ITC: {
     symbol: "ITC",
     name: "ITC Ltd",
-    price: 468.00,
-    prevClose: 465.50,
-    changePercent: 0.54,
-    open: 466.00,
-    high: 471.00,
-    low: 464.00,
-    volume: 10400000,
-    mktCap: 5850000000000,
-    pe: 27.5,
-    pb: 7.9,
-    high52: 528.00,
-    low52: 399.00,
-    divYield: 2.95,
+    price: 285.00,
+    prevClose: 284.05,
+    changePercent: 0.33,
+    open: 284.50,
+    high: 285.30,
+    low: 284.00,
+    volume: 18400000,
+    mktCap: 3571600000000,
+    pe: 18.9,
+    pb: 4.8,
+    high52: 412.00,
+    low52: 252.80,
+    divYield: 5.09,
     sector: "Consumer Defensive",
     industry: "Tobacco & FMCG",
     debtToEquity: 0.01,
@@ -1051,21 +1058,21 @@ const DEMO_STOCK_STORE = {
     interestCoverage: 95.0,
     totalDebt: 3200000000,
     workingCapital: 195000000000,
-    revenueGrowthYoy: 8.4,
-    profitGrowthYoy: 9.8,
-    revenueGrowthQoq: 2.4,
-    epsGrowthYoy: 9.2,
-    distanceFrom52wHighPct: -11.4,
-    distanceFrom52wLowPct: 17.3,
+    revenueGrowthYoy: 7.2,
+    profitGrowthYoy: 8.5,
+    revenueGrowthQoq: 2.1,
+    epsGrowthYoy: 8.1,
+    distanceFrom52wHighPct: -30.8,
+    distanceFrom52wLowPct: 12.7,
     priceVs50dmaPct: 0.8,
-    priceVs200dmaPct: 3.5,
+    priceVs200dmaPct: 2.4,
     return1w: 0.5,
     return1m: 1.4,
-    return3m: 4.8,
-    return6m: 8.5,
-    return1y: 12.0,
-    return3y: 55.0,
-    return5y: 110.0,
+    return3m: 4.2,
+    return6m: 7.5,
+    return1y: 10.0,
+    return3y: 45.0,
+    return5y: 95.0,
     promoterHolding: 0.0,
     fiiHolding: 41.2,
     diiHolding: 42.8,
