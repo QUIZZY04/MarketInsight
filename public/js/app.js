@@ -414,6 +414,26 @@ const tabContentTemplates = {
           <div class="legend-item"><span class="legend-dot" style="background:#d97706;"></span><span>DII: <strong>${dii}%</strong></span></div>
           <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span><span>Public: <strong>${publicH}%</strong></span></div>
         </div>
+
+        ${(d.mfSummary && d.mfSummary.topHolders && d.mfSummary.topHolders.length) ? `
+          <div style="margin-top:16px; border-top:1px dashed #e2e8f0; padding-top:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:11px; font-weight:750; color:#475569; text-transform:uppercase;">Top Mutual Fund Holdings (${d.mfSummary.totalSchemes || 0} schemes · ₹${d.mfSummary.totalValueCr ? Math.round(d.mfSummary.totalValueCr).toLocaleString('en-IN') : ''} Cr)</span>
+              <span style="font-size:11px; color:#64748b;">${d.mfSummary.portfolioDate ? 'As of ' + d.mfSummary.portfolioDate : ''}</span>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:8px;">
+              ${d.mfSummary.topHolders.slice(0, 4).map(h => `
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:8px 10px; font-size:12px;">
+                  <div style="font-weight:600; color:#1e293b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${h.schemeName}">${h.schemeName}</div>
+                  <div style="display:flex; justify-content:space-between; color:#64748b; font-size:11px; margin-top:3px;">
+                    <span>${h.fundHouse}</span>
+                    <strong style="color:#159765;">₹ ${Math.round(h.marketValueCr || 0).toLocaleString('en-IN')} Cr</strong>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
       </div>
     `;
   },
@@ -437,27 +457,26 @@ const tabContentTemplates = {
     <div id="financialsContainer">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h3 style="margin:0;">Financial Statements (Normalized XBRL)</h3>
-        <span style="font-size:11px; color:#667085;">Audited Exchange Filings</span>
+        <span style="font-size:11px; color:#159765; font-weight:700;">Audited Exchange Filings</span>
       </div>
-      <p style="color:#667085; font-size:13px; margin-bottom:14px;">Normalized balance sheet, P&L, and cash flows from exchange filings.</p>
+      <p style="color:#667085; font-size:13px; margin-bottom:14px;">Normalized quarterly and annual balance sheet, P&L, and operating cash flows.</p>
       <div style="overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
           <thead>
-            <tr style="border-bottom:2px solid #eef2f6; color:#667085;">
+            <tr id="financialsTableHeader" style="border-bottom:2px solid #eef2f6; color:#667085;">
               <th style="padding:8px;">Metric (in ₹ Cr)</th>
-              <th style="padding:8px;">FY 2023</th>
-              <th style="padding:8px;">FY 2024</th>
-              <th style="padding:8px;">FY 2025 (TTM)</th>
+              <th style="padding:8px;">Q3 FY26</th>
+              <th style="padding:8px;">Q4 FY26</th>
+              <th style="padding:8px;">Q1 FY27</th>
+              <th style="padding:8px;">Q2 FY27</th>
             </tr>
           </thead>
           <tbody id="financialsTableBody">
-            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Revenue from Operations</td><td style="padding:8px;">1,46,767</td><td style="padding:8px;">1,53,670</td><td style="padding:8px;">1,62,800</td></tr>
-            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Operating Profit (EBITDA)</td><td style="padding:8px;">35,138</td><td style="padding:8px;">36,450</td><td style="padding:8px;">38,800</td></tr>
-            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Net Profit (PAT)</td><td style="padding:8px;">24,108</td><td style="padding:8px;">26,248</td><td style="padding:8px;">27,900</td></tr>
-            <tr><td style="padding:8px; font-weight:600;">Free Cash Flow</td><td style="padding:8px;">21,400</td><td style="padding:8px;">23,100</td><td style="padding:8px;">24,800</td></tr>
+            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Revenue from Operations</td><td style="padding:8px;">Loading...</td><td style="padding:8px;">Loading...</td><td style="padding:8px;">Loading...</td><td style="padding:8px;">Loading...</td></tr>
           </tbody>
         </table>
       </div>
+      <div id="segmentRevenueContainer" style="margin-top:20px;"></div>
     </div>
   `,
 
@@ -611,13 +630,14 @@ const tabContentTemplates = {
 
   news: () => `
     <div id="corporateActionsContainer">
-      <h3>Exchange Filings & Corporate Actions</h3>
-      <p style="color:#667085; font-size:13px; margin-bottom:12px;">Corporate events, dividend dates, and material announcements.</p>
-      <ul style="padding-left:20px; font-size:13px; color:#445164; line-height:1.9;">
-        <li><strong>Dividend:</strong> Interim dividend announced (Paid / Dispatched).</li>
-        <li><strong>Exchange Filing:</strong> Financial results and compliance reports submitted to NSE and BSE.</li>
-        <li><strong>Institutional Trades:</strong> Bulk/block deals recorded in recent market sessions.</li>
-      </ul>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="margin:0; font-size:16px;">Corporate Actions, Dividends & Filings</h3>
+        <span style="font-size:11px; color:#159765; font-weight:700;">Live Exchange Submissions</span>
+      </div>
+      <p style="color:#667085; font-size:13px; margin-bottom:14px;">Historical and upcoming dividend declarations, record dates, and buybacks filed with NSE/BSE.</p>
+      <div id="actionsList">
+        <div style="color:#94a3b8; font-size:13px; padding:20px; text-align:center;">Loading live corporate actions...</div>
+      </div>
     </div>
   `
 };
@@ -637,6 +657,8 @@ function showTab(key, button) {
     }, 60);
   } else if (key === "financials") {
     loadLiveFinancials();
+  } else if (key === "news") {
+    loadLiveCorporateActions();
   }
 }
 
@@ -808,19 +830,99 @@ async function loadLiveFinancials() {
     const res = await fetch(`${API_BASE}/api/stock/${encodeURIComponent(currentSelectedSymbol)}/financials`);
     if (res.ok) {
       const data = await res.json();
-      if (data.periods && data.revenue) {
-        const body = document.getElementById("financialsTableBody");
-        if (body) {
-          body.innerHTML = `
-            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Revenue from Operations</td>${data.revenue.map(r => `<td style="padding:8px;">₹ ${Number(r).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
-            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Operating Profit (EBITDA)</td>${data.ebitda.map(e => `<td style="padding:8px;">₹ ${Number(e).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
-            <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Net Profit (PAT)</td>${data.netProfit.map(p => `<td style="padding:8px;">₹ ${Number(p).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
-            <tr><td style="padding:8px; font-weight:600;">Free Cash Flow</td>${data.freeCashFlow.map(f => `<td style="padding:8px;">₹ ${Number(f).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
-          `;
-        }
+      const periods = data.periods || (data.data ? data.data.map(d => `${d.quarter || ''} ${d.fiscalYear || ''}`.trim()) : []);
+      const header = document.getElementById("financialsTableHeader");
+      if (header && periods.length > 0) {
+        header.innerHTML = `<th style="padding:8px;">Metric (in ₹ Cr)</th>${periods.map(p => `<th style="padding:8px;">${p}</th>`).join('')}`;
+      }
+
+      const revenue = data.revenue || (data.data ? data.data.map(d => Math.round((d.revenue || 0) / 10000000)) : []);
+      const ebitda = data.ebitda || (data.data ? data.data.map(d => Math.round((d.ebitda || d.operatingProfit || 0) / 10000000)) : []);
+      const netProfit = data.netProfit || (data.data ? data.data.map(d => Math.round((d.netProfit || 0) / 10000000)) : []);
+      const fcf = data.freeCashFlow || (data.data ? data.data.map(d => Math.round((d.operatingProfit ? d.operatingProfit * 0.72 : (d.netProfit || 0)) / 10000000)) : []);
+      const eps = data.eps || (data.data ? data.data.map(d => Number((d.eps || 0).toFixed(2))) : []);
+
+      const body = document.getElementById("financialsTableBody");
+      if (body && revenue.length > 0) {
+        body.innerHTML = `
+          <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Revenue from Operations</td>${revenue.map(r => `<td style="padding:8px;">₹ ${Number(r).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
+          <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Operating Profit (EBITDA)</td>${ebitda.map(e => `<td style="padding:8px;">₹ ${Number(e).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
+          <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Net Profit (PAT)</td>${netProfit.map(p => `<td style="padding:8px;">₹ ${Number(p).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
+          <tr style="border-bottom:1px solid #f2f5f8;"><td style="padding:8px; font-weight:600;">Free Cash Flow (est.)</td>${fcf.map(f => `<td style="padding:8px;">₹ ${Number(f).toLocaleString("en-IN")} Cr</td>`).join("")}</tr>
+          ${eps.length ? `<tr><td style="padding:8px; font-weight:600;">Earnings Per Share (EPS)</td>${eps.map(ep => `<td style="padding:8px;">₹ ${ep}</td>`).join("")}</tr>` : ''}
+        `;
+      }
+
+      // Check for segment revenue
+      const rawStatements = data.data || [];
+      const latestWithSegments = rawStatements.find(s => s.segmentRevenue && s.segmentRevenue.length > 0);
+      const segContainer = document.getElementById("segmentRevenueContainer");
+      if (segContainer && latestWithSegments) {
+        segContainer.innerHTML = `
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <strong style="color:#1e293b; font-size:13px;">Business Segment Revenue Breakdown (${latestWithSegments.quarter || ''} ${latestWithSegments.fiscalYear || ''})</strong>
+              <span style="font-size:11px; color:#159765; font-weight:700;">Audited Segments</span>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:8px;">
+              ${latestWithSegments.segmentRevenue.map(seg => `
+                <div style="background:#fff; border:1px solid #edf2f7; border-radius:8px; padding:8px 10px; font-size:12px;">
+                  <div style="color:#64748b; font-size:11px;">${seg.segment}</div>
+                  <strong style="color:#1e293b; font-size:13px;">₹ ${Math.round((seg.value || 0) / 10000000).toLocaleString('en-IN')} Cr</strong>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
       }
     }
-  } catch {}
+  } catch (err) {
+    console.error("Error rendering financials:", err);
+  }
+}
+
+async function loadLiveCorporateActions() {
+  const container = document.getElementById("actionsList");
+  if (!container) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/stock/${encodeURIComponent(currentSelectedSymbol)}/corporate-actions`);
+    if (res.ok) {
+      const data = await res.json();
+      const list = data.data || data.actions || [];
+      if (Array.isArray(list) && list.length > 0) {
+        container.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            ${list.map(a => {
+              const type = (a.actionType || "Action").toUpperCase();
+              const isDiv = type.includes("DIVIDEND");
+              const isBuyback = type.includes("BUYBACK") || type.includes("BUY BACK");
+              const badgeBg = isDiv ? "#eaf7f1" : (isBuyback ? "#fef3c7" : "#eff6ff");
+              const badgeCol = isDiv ? "#159765" : (isBuyback ? "#b45309" : "#2563eb");
+              return `
+                <div style="background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                  <div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                      <span style="background:${badgeBg}; color:${badgeCol}; font-weight:700; font-size:11px; padding:2px 8px; border-radius:4px;">${type}</span>
+                      <strong style="color:#1e293b; font-size:13px;">${a.subject || "Corporate Action"}</strong>
+                    </div>
+                    <div style="color:#64748b; font-size:12px;">
+                      ${a.exDate ? `Ex-Date: <strong>${a.exDate}</strong>` : ''} 
+                      ${a.recordDate ? ` | Record Date: <strong>${a.recordDate}</strong>` : ''}
+                    </div>
+                  </div>
+                  ${a.dividendPerShare ? `<div style="font-size:15px; font-weight:750; color:#159765;">₹ ${a.dividendPerShare} / share</div>` : ''}
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `;
+        return;
+      }
+    }
+    container.innerHTML = `<p style="color:#64748b; font-size:13px; text-align:center; padding:16px;">No recent corporate actions or dividends recorded for this symbol.</p>`;
+  } catch (err) {
+    container.innerHTML = `<p style="color:#64748b; font-size:13px; text-align:center; padding:16px;">Unable to fetch live corporate actions. Check network connection.</p>`;
+  }
 }
 
 async function checkBackendStatus() {
