@@ -214,9 +214,18 @@ router.get("/search", async (req, res) => {
     return res.json(cached);
   }
 
+  // 1. Instant check in expanded catalog to avoid exhausting BharatStock API request quota on keystrokes
+  const catalogMatches = getSampleSearchResults(query, type);
+  if (catalogMatches && catalogMatches.length >= 2) {
+    const payload = { results: catalogMatches, mode: "catalog" };
+    setCached(cacheKey, payload, 86400);
+    res.set("Cache-Control", "public, max-age=86400");
+    return res.json(payload);
+  }
+
   const client = getClient();
   if (!client) {
-    return res.json({ results: getSampleSearchResults(query, type), mode: "sandbox_demo" });
+    return res.json({ results: catalogMatches, mode: "sandbox_demo" });
   }
 
   try {
@@ -229,17 +238,6 @@ router.get("/search", async (req, res) => {
         category: s.category || "Mutual Fund",
         type: "fund"
       }));
-    } else if (type === "all") {
-      const [stocksRes, fundsRes] = await Promise.allSettled([
-        client.search(query),
-        client.mutualFunds.listSchemes({ query })
-      ]);
-      const stocks = (stocksRes.status === "fulfilled" && (stocksRes.value.data || stocksRes.value || [])) || [];
-      const funds = (fundsRes.status === "fulfilled" && (fundsRes.value.data || fundsRes.value || [])) || [];
-      results = [
-        ...stocks.map(s => ({ symbol: s.ticker || s.symbol, name: s.companyName || s.name, exchange: s.exchange || "NSE", type: "stock" })),
-        ...funds.map(s => ({ symbol: s.schemeCode || s.code, name: s.schemeName || s.name, category: s.category || "Mutual Fund", type: "fund" }))
-      ];
     } else {
       const searchRes = await client.search(query);
       results = (searchRes.data || searchRes || []).map(s => ({
@@ -250,13 +248,13 @@ router.get("/search", async (req, res) => {
       }));
     }
 
-    const payload = { results };
-    setCached(cacheKey, payload, 300);
-    res.set("Cache-Control", "public, max-age=300");
+    const payload = { results: results.length ? results : catalogMatches };
+    setCached(cacheKey, payload, 86400);
+    res.set("Cache-Control", "public, max-age=86400");
     return res.json(payload);
   } catch (err) {
-    console.error("Search API error:", err);
-    return res.json({ results: getSampleSearchResults(query, type), mode: "fallback_demo" });
+    console.warn("Search notice (returning catalog matches):", err.message || (typeof err.detail === 'object' ? JSON.stringify(err.detail) : err.detail) || String(err));
+    return res.json({ results: catalogMatches, mode: "fallback_demo" });
   }
 });
 
@@ -787,12 +785,34 @@ function calculateDateRange(range) {
 function getSampleSearchResults(query, type) {
   const q = query.toLowerCase();
   const sampleStocks = [
+    { symbol: "SBIN", name: "State Bank of India (SBI)", exchange: "NSE", type: "stock" },
+    { symbol: "RELIANCE", name: "Reliance Industries Ltd", exchange: "NSE", type: "stock" },
     { symbol: "TCS", name: "Tata Consultancy Services Ltd", exchange: "NSE", type: "stock" },
     { symbol: "INFY", name: "Infosys Ltd", exchange: "NSE", type: "stock" },
-    { symbol: "RELIANCE", name: "Reliance Industries Ltd", exchange: "NSE", type: "stock" },
     { symbol: "HDFCBANK", name: "HDFC Bank Ltd", exchange: "NSE", type: "stock" },
     { symbol: "ICICIBANK", name: "ICICI Bank Ltd", exchange: "NSE", type: "stock" },
-    { symbol: "ITC", name: "ITC Ltd", exchange: "NSE", type: "stock" }
+    { symbol: "TATAPOWER", name: "Tata Power Co Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "ITC", name: "ITC Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "BHARTIARTL", name: "Bharti Airtel Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "LT", name: "Larsen & Toubro Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "KOTAKBANK", name: "Kotak Mahindra Bank Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "AXISBANK", name: "Axis Bank Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "BAJFINANCE", name: "Bajaj Finance Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "MARUTI", name: "Maruti Suzuki India Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "TITAN", name: "Titan Company Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "ASIANPAINT", name: "Asian Paints Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "SUNPHARMA", name: "Sun Pharmaceutical Industries Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "TATAMOTORS", name: "Tata Motors Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "TATASTEEL", name: "Tata Steel Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "ZOMATO", name: "Zomato Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "JIOFIN", name: "Jio Financial Services Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "HAL", name: "Hindustan Aeronautics Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "BEL", name: "Bharat Electronics Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "TRENT", name: "Trent Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "SUZLON", name: "Suzlon Energy Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "IRFC", name: "Indian Railway Finance Corp", exchange: "NSE", type: "stock" },
+    { symbol: "RVNL", name: "Rail Vikas Nigam Ltd", exchange: "NSE", type: "stock" },
+    { symbol: "IREDA", name: "Indian Renewable Energy Dev Agency", exchange: "NSE", type: "stock" }
   ];
   const sampleFunds = [
     { symbol: "122639", name: "Parag Parikh Flexi Cap Fund", category: "Flexi Cap", exchange: "AMFI", type: "fund" },
@@ -1028,46 +1048,46 @@ const STOCK_DATA_STORE = {
   SBIN: {
     symbol: "SBIN",
     name: "State Bank of India",
-    price: 795.50,
-    prevClose: 802.00,
-    changePercent: -0.81,
-    open: 800.00,
-    high: 806.00,
-    low: 792.00,
-    volume: 14200000,
-    mktCap: 7100000000000,
-    pe: 10.2,
-    pb: 1.3,
-    high52: 912.00,
-    low52: 600.00,
-    divYield: 1.7,
+    price: 1080.00,
+    prevClose: 1086.50,
+    changePercent: -0.60,
+    open: 1085.00,
+    high: 1095.00,
+    low: 1072.00,
+    volume: 18500000,
+    mktCap: 9960000000000,
+    pe: 11.8,
+    pb: 1.7,
+    high52: 1234.70,
+    low52: 933.90,
+    divYield: 1.45,
     sector: "Financial Services",
     industry: "Public Sector Bank",
     debtToEquity: 1.1,
     currentRatio: 1.05,
-    interestCoverage: 6.2,
+    interestCoverage: 6.8,
     totalDebt: 3200000000000,
     workingCapital: 680000000000,
-    revenueGrowthYoy: 13.8,
-    profitGrowthYoy: 19.5,
-    revenueGrowthQoq: 3.8,
-    epsGrowthYoy: 18.2,
-    distanceFrom52wHighPct: -12.7,
-    distanceFrom52wLowPct: 32.5,
-    priceVs50dmaPct: 1.2,
-    priceVs200dmaPct: 7.8,
+    revenueGrowthYoy: 14.2,
+    profitGrowthYoy: 20.5,
+    revenueGrowthQoq: 4.1,
+    epsGrowthYoy: 19.8,
+    distanceFrom52wHighPct: -12.5,
+    distanceFrom52wLowPct: 15.6,
+    priceVs50dmaPct: 2.1,
+    priceVs200dmaPct: 8.4,
     return1w: -0.4,
-    return1m: 2.8,
-    return3m: 7.2,
-    return6m: 16.5,
-    return1y: 34.0,
-    return3y: 72.0,
-    return5y: 165.0,
+    return1m: 3.2,
+    return3m: 8.5,
+    return6m: 18.2,
+    return1y: 36.5,
+    return3y: 78.0,
+    return5y: 180.0,
     promoterHolding: 57.5,
-    fiiHolding: 10.8,
-    diiHolding: 24.1,
-    mutualFundsHolding: 13.5,
-    publicHolding: 7.6
+    fiiHolding: 11.2,
+    diiHolding: 24.5,
+    mutualFundsHolding: 14.2,
+    publicHolding: 6.8
   },
   ICICIBANK: {
     symbol: "ICICIBANK",
