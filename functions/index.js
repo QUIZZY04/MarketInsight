@@ -55,20 +55,32 @@ function getClient() {
 // Common Indian Company Name to NSE Symbol map
 const TICKER_MAP = {
   "INFOSYS": "INFY",
+  "INFOSYS LTD": "INFY",
   "INFOSYS LIMITED": "INFY",
+  "INFY": "INFY",
   "TCS": "TCS",
+  "TATA CONSULTANCY": "TCS",
   "TATA CONSULTANCY SERVICES": "TCS",
+  "TATA CONSULTANCY SERVICES LTD": "TCS",
   "TATA CONSULTANCY SERVICES LIMITED": "TCS",
   "RELIANCE": "RELIANCE",
   "RELIANCE INDUSTRIES": "RELIANCE",
+  "RELIANCE INDUSTRIES LTD": "RELIANCE",
   "RELIANCE INDUSTRIES LIMITED": "RELIANCE",
   "HDFC BANK": "HDFCBANK",
   "HDFCBANK": "HDFCBANK",
+  "HDFC BANK LTD": "HDFCBANK",
   "ICICI BANK": "ICICIBANK",
   "ICICIBANK": "ICICIBANK",
+  "ICICI BANK LTD": "ICICIBANK",
   "STATE BANK OF INDIA": "SBIN",
   "SBIN": "SBIN",
   "SBI": "SBIN",
+  "TATA POWER": "TATAPOWER",
+  "TATAPOWER": "TATAPOWER",
+  "TATA POWER CO": "TATAPOWER",
+  "TATA POWER CO LTD": "TATAPOWER",
+  "TATA POWER COMPANY": "TATAPOWER",
   "KOTAK MAHINDRA BANK": "KOTAKBANK",
   "KOTAKBANK": "KOTAKBANK",
   "HINDUSTAN UNILEVER": "HINDUNILVR",
@@ -98,19 +110,64 @@ const TICKER_MAP = {
   "HCL TECHNOLOGIES": "HCLTECH",
   "HCLTECH": "HCLTECH",
   "ONGC": "ONGC",
-  "NTPC": "NTPC"
+  "NTPC": "NTPC",
+  "LT": "LT",
+  "LARSEN": "LT",
+  "LARSEN & TOUBRO": "LT",
+  "AXISBANK": "AXISBANK",
+  "AXIS BANK": "AXISBANK",
+  "BAJFINANCE": "BAJFINANCE",
+  "BAJAJ FINANCE": "BAJFINANCE",
+  "MARUTI": "MARUTI",
+  "MARUTI SUZUKI": "MARUTI",
+  "TITAN": "TITAN",
+  "TITAN COMPANY": "TITAN",
+  "ASIANPAINT": "ASIANPAINT",
+  "ASIAN PAINTS": "ASIANPAINT",
+  "SUNPHARMA": "SUNPHARMA",
+  "SUN PHARMA": "SUNPHARMA",
+  "TATASTEEL": "TATASTEEL",
+  "TATA STEEL": "TATASTEEL",
+  "ZOMATO": "ZOMATO",
+  "JIOFIN": "JIOFIN",
+  "JIO FINANCIAL": "JIOFIN",
+  "HAL": "HAL",
+  "BEL": "BEL",
+  "TRENT": "TRENT",
+  "SUZLON": "SUZLON",
+  "IRFC": "IRFC",
+  "RVNL": "RVNL",
+  "IREDA": "IREDA"
 };
 
 async function resolveSymbol(rawSymbol, client) {
-  const upper = (rawSymbol || "").trim().toUpperCase();
+  const trimmed = (rawSymbol || "").trim();
+  const upper = trimmed.toUpperCase();
+
+  // 1. Direct map check
   if (TICKER_MAP[upper]) {
     return TICKER_MAP[upper];
   }
-  // If it's already a clean ticker format (no spaces, 2 to 12 chars), return directly
+
+  // 2. Extract "(TICKER)" from strings like "Reliance Industries Ltd (RELIANCE)"
+  const parenMatch = upper.match(/\(([A-Z0-9&-]{2,12})\)/);
+  if (parenMatch && parenMatch[1]) {
+    return parenMatch[1];
+  }
+
+  // 3. Clean ticker format (no spaces, 2 to 12 chars)
   if (/^[A-Z0-9&-]{2,12}$/.test(upper)) {
     return upper;
   }
-  // Search if company name
+
+  // 4. Substring / fuzzy match in local dictionary to prevent unnecessary API search calls
+  for (const [key, val] of Object.entries(TICKER_MAP)) {
+    if (upper.includes(key) || key.includes(upper)) {
+      return val;
+    }
+  }
+
+  // 5. Only if absolutely unknown, call client.search (with try/catch)
   try {
     const searchRes = await client.search(rawSymbol);
     const results = searchRes.data || searchRes || [];
@@ -304,16 +361,22 @@ router.get("/stock/:symbol", async (req, res) => {
       mfSummary: rawStock.mfHoldingsSummary || null
     };
 
-    setCached(cacheKey, normalized, 60);
-    res.set("Cache-Control", "public, max-age=60");
+    setCached(cacheKey, normalized, 7200);
+    res.set("Cache-Control", "public, max-age=7200");
     return res.json(normalized);
   } catch (err) {
-    console.error(`Error retrieving stock ${rawSymbol}:`, err);
-    return res.json({ ...getDemoStockData(rawSymbol), mode: "fallback_demo" });
+    const isRateLimit = err.statusCode === 429 || (err.message && err.message.includes("429"));
+    console.warn(`BharatStock API notice for ${rawSymbol} (code ${err.statusCode || 'err'}):`, err.message || (typeof err.detail === 'object' ? JSON.stringify(err.detail) : err.detail) || String(err));
+    const fallback = getDemoStockData(rawSymbol);
+    return res.json({
+      ...fallback,
+      mode: isRateLimit ? "rate_limited_cached" : "fallback_demo",
+      rateLimited: isRateLimit
+    });
   }
 });
 
-// Helper to fetch up to 1 year of daily EOD prices from BharatStock and cache for 30 minutes
+// Helper to fetch up to 1 year of daily EOD prices from BharatStock and cache for 24 hours
 async function getRawStockPrices(symbol, client) {
   const cacheKey = `raw_prices:${symbol}`;
   const cached = getCached(cacheKey);
@@ -323,18 +386,14 @@ async function getRawStockPrices(symbol, client) {
 
   let allRows = [];
   try {
-    for (let page = 1; page <= 3; page++) {
-      const pageResult = await client.stocks.prices(symbol, {
-        page,
-        pageSize: 100
-      });
-      const rows = pageResult.data || (Array.isArray(pageResult) ? pageResult : []);
-      if (!rows.length) break;
-      allRows.push(...rows);
-      if (page >= (pageResult.totalPages || 1)) break;
-    }
+    const pageResult = await client.stocks.prices(symbol, {
+      page: 1,
+      pageSize: 250
+    });
+    const rows = pageResult.data || (Array.isArray(pageResult) ? pageResult : []);
+    allRows.push(...rows);
   } catch (err) {
-    console.warn(`Raw prices fetch warning for ${symbol}:`, err.message || err.detail || String(err));
+    console.warn(`Raw prices fetch warning for ${symbol}:`, err.message || (typeof err.detail === 'object' ? JSON.stringify(err.detail) : err.detail) || String(err));
   }
 
   let formatted = allRows.map(p => ({
@@ -356,7 +415,7 @@ async function getRawStockPrices(symbol, client) {
   }
 
   if (formatted.length > 0) {
-    setCached(cacheKey, formatted, 1800);
+    setCached(cacheKey, formatted, 86400);
   }
   return formatted;
 }
@@ -366,8 +425,9 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
   const rawSymbol = req.params.symbol;
   const range = (req.query.range || "1Y").toUpperCase();
   const client = getClient();
+  const curPrice = (STOCK_DATA_STORE[rawSymbol.toUpperCase()] && STOCK_DATA_STORE[rawSymbol.toUpperCase()].price) || 1000;
   if (!client) {
-    return res.json({ symbol: rawSymbol, range, history: generateSamplePricePoints(rawSymbol, range), mode: "sandbox_demo" });
+    return res.json({ symbol: rawSymbol, range, history: generateSamplePricePoints(rawSymbol, range, curPrice), mode: "sandbox_demo" });
   }
 
   try {
@@ -411,13 +471,13 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
         case "5Y":
         case "ALL":
         case "MAX": {
-          let r1y = -10, r3y = -15, r5y = -25, curPrice = rawHistory[rawHistory.length - 1].price;
+          let r1y = -10, r3y = -15, r5y = -25, cPrice = rawHistory[rawHistory.length - 1].price;
           const stockCache = getCached(`stock:${symbol}`);
           if (stockCache) {
             r1y = stockCache.return1y || 0;
             r3y = stockCache.return3y || 0;
             r5y = stockCache.return5y || 0;
-            curPrice = stockCache.price || curPrice;
+            cPrice = stockCache.price || cPrice;
           } else {
             try {
               const rawStock = await client.stocks.get(symbol);
@@ -425,10 +485,10 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
               r1y = m.return1y !== undefined ? m.return1y : -10;
               r3y = m.return3y !== undefined ? m.return3y : -15;
               r5y = m.return5y !== undefined ? m.return5y : -25;
-              curPrice = (rawStock.latestPrice && rawStock.latestPrice.close) || m.price || curPrice;
+              cPrice = (rawStock.latestPrice && rawStock.latestPrice.close) || m.price || cPrice;
             } catch {}
           }
-          formattedHistory = extendHistoryBackwards(rawHistory, range, curPrice, r1y, r3y, r5y);
+          formattedHistory = extendHistoryBackwards(rawHistory, range, cPrice, r1y, r3y, r5y);
           break;
         }
         default:
@@ -439,7 +499,7 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
 
     // Fallback if empty
     if (!formattedHistory || formattedHistory.length === 0) {
-      formattedHistory = generateSamplePricePoints(symbol, range);
+      formattedHistory = generateSamplePricePoints(symbol, range, curPrice);
     }
 
     // Downsample if more than 200 points for smooth canvas rendering
@@ -463,7 +523,7 @@ router.get(["/stock/:symbol/prices", "/stock/:symbol/history"], async (req, res)
     return res.json(payload);
   } catch (err) {
     console.error(`Error fetching prices for ${rawSymbol}:`, err);
-    return res.json({ symbol: rawSymbol, range, history: generateSamplePricePoints(rawSymbol, range), mode: "fallback_demo" });
+    return res.json({ symbol: rawSymbol, range, history: generateSamplePricePoints(rawSymbol, range, curPrice), mode: "fallback_demo" });
   }
 });
 
@@ -585,24 +645,23 @@ router.get("/fund/:code", async (req, res) => {
 
   const client = getClient();
   if (!client) {
-    return res.json({
-      schemeCode: code,
-      name: "Parag Parikh Flexi Cap Fund - Direct Plan",
-      nav: 82.45,
-      changePercent: 0.65,
-      category: "Flexi Cap",
-      aum: 65400,
-      mode: "sandbox_demo"
-    });
+    return res.json(getDemoFundData(code));
   }
 
   try {
     const fund = await client.mutualFunds.getScheme(code);
-    setCached(cacheKey, fund, 1800);
+    setCached(cacheKey, fund, 7200);
+    res.set("Cache-Control", "public, max-age=7200");
     return res.json(fund);
   } catch (err) {
-    console.error(`Error fetching fund ${code}:`, err);
-    return res.status(500).json({ error: "Failed to fetch fund details" });
+    const isRateLimit = err.statusCode === 429 || (err.message && err.message.includes("429"));
+    console.warn(`BharatStock fund notice for ${code} (code ${err.statusCode || 'err'}):`, err.message || (typeof err.detail === 'object' ? JSON.stringify(err.detail) : err.detail) || String(err));
+    const fallback = getDemoFundData(code);
+    return res.json({
+      ...fallback,
+      mode: isRateLimit ? "rate_limited_cached" : "fallback_demo",
+      rateLimited: isRateLimit
+    });
   }
 });
 
@@ -745,63 +804,485 @@ function getSampleSearchResults(query, type) {
   return pool.filter(s => s.symbol.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
 }
 
-function getDemoStockData(symbol) {
-  const sym = (symbol || "INFY").toUpperCase();
-  const isTCS = sym === "TCS";
-  const isRel = sym === "RELIANCE";
-
-  return {
-    symbol: sym,
-    name: isTCS ? "Tata Consultancy Services Ltd" : (isRel ? "Reliance Industries Ltd" : (sym === "INFY" ? "Infosys Ltd" : `${sym} (NSE)`)),
-    price: isTCS ? 4120.00 : (isRel ? 2980.00 : 1845.00),
-    prevClose: isTCS ? 4095.00 : (isRel ? 2955.00 : 1828.00),
-    changePercent: 0.93,
-    mktCap: isTCS ? 14900000000000 : (isRel ? 20100000000000 : 7650000000000),
-    pe: isTCS ? 28.4 : (isRel ? 25.1 : 24.8),
-    pb: isTCS ? 12.8 : (isRel ? 2.3 : 7.4),
-    high52: isTCS ? 4590.00 : (isRel ? 3217.00 : 1991.00),
-    low52: isTCS ? 3310.00 : (isRel ? 2220.00 : 1358.00),
-    divYield: isTCS ? 1.4 : (isRel ? 0.35 : 2.1),
-    sector: isRel ? "Energy & Retail" : "Information Technology",
-    industry: isRel ? "Conglomerate" : "IT Consulting & Services",
-
-    // Financial Health & Solvency
-    debtToEquity: isRel ? 0.38 : 0.08,
-    currentRatio: 2.15,
-    interestCoverage: isRel ? 8.5 : 42.0,
-    totalDebt: isRel ? 3100000000000 : 80000000000,
+const STOCK_DATA_STORE = {
+  RELIANCE: {
+    symbol: "RELIANCE",
+    name: "Reliance Industries Ltd",
+    price: 1339.70,
+    prevClose: 1324.00,
+    changePercent: 1.19,
+    open: 1328.00,
+    high: 1350.70,
+    low: 1324.00,
+    volume: 12450800,
+    mktCap: 18130000000000,
+    pe: 24.2,
+    pb: 1.9,
+    high52: 1611.80,
+    low52: 1152.20,
+    divYield: 0.75,
+    sector: "Energy & Retail",
+    industry: "Conglomerate",
+    debtToEquity: 0.38,
+    currentRatio: 1.35,
+    interestCoverage: 8.5,
+    totalDebt: 3100000000000,
     workingCapital: 285000000000,
-
-    // Growth
+    revenueGrowthYoy: 9.8,
+    profitGrowthYoy: 11.2,
+    revenueGrowthQoq: 2.8,
+    epsGrowthYoy: 10.4,
+    distanceFrom52wHighPct: -16.8,
+    distanceFrom52wLowPct: 16.3,
+    priceVs50dmaPct: 1.8,
+    priceVs200dmaPct: 4.2,
+    return1w: 1.4,
+    return1m: 3.2,
+    return3m: 6.8,
+    return6m: 12.5,
+    return1y: 19.8,
+    return3y: 42.0,
+    return5y: 84.0,
+    promoterHolding: 50.3,
+    fiiHolding: 22.1,
+    diiHolding: 16.4,
+    mutualFundsHolding: 7.8,
+    publicHolding: 11.2
+  },
+  TCS: {
+    symbol: "TCS",
+    name: "Tata Consultancy Services Ltd",
+    price: 2407.50,
+    prevClose: 2390.00,
+    changePercent: 0.73,
+    open: 2395.00,
+    high: 2420.00,
+    low: 2388.00,
+    volume: 3820000,
+    mktCap: 8700000000000,
+    pe: 26.5,
+    pb: 11.2,
+    high52: 2680.00,
+    low52: 2180.00,
+    divYield: 1.65,
+    sector: "Information Technology",
+    industry: "IT Consulting & Services",
+    debtToEquity: 0.05,
+    currentRatio: 2.45,
+    interestCoverage: 48.0,
+    totalDebt: 78000000000,
+    workingCapital: 320000000000,
+    revenueGrowthYoy: 6.2,
+    profitGrowthYoy: 7.8,
+    revenueGrowthQoq: 1.8,
+    epsGrowthYoy: 7.5,
+    distanceFrom52wHighPct: -10.1,
+    distanceFrom52wLowPct: 10.4,
+    priceVs50dmaPct: 1.5,
+    priceVs200dmaPct: 3.8,
+    return1w: 0.8,
+    return1m: 2.1,
+    return3m: 5.4,
+    return6m: 9.8,
+    return1y: 14.5,
+    return3y: 28.5,
+    return5y: 58.0,
+    promoterHolding: 71.8,
+    fiiHolding: 12.5,
+    diiHolding: 10.2,
+    mutualFundsHolding: 4.1,
+    publicHolding: 5.5
+  },
+  INFY: {
+    symbol: "INFY",
+    name: "Infosys Ltd",
+    price: 1141.50,
+    prevClose: 1130.00,
+    changePercent: 1.02,
+    open: 1134.00,
+    high: 1148.00,
+    low: 1128.00,
+    volume: 5900000,
+    mktCap: 4750000000000,
+    pe: 22.8,
+    pb: 6.8,
+    high52: 1728.00,
+    low52: 980.40,
+    divYield: 2.2,
+    sector: "Information Technology",
+    industry: "IT Consulting & Software",
+    debtToEquity: 0.08,
+    currentRatio: 2.15,
+    interestCoverage: 42.0,
+    totalDebt: 80000000000,
+    workingCapital: 285000000000,
     revenueGrowthYoy: 7.8,
     profitGrowthYoy: 9.4,
     revenueGrowthQoq: 2.1,
     epsGrowthYoy: 8.6,
-
-    // Technicals
-    distanceFrom52wHighPct: -8.5,
-    distanceFrom52wLowPct: 32.0,
+    distanceFrom52wHighPct: -33.9,
+    distanceFrom52wLowPct: 16.4,
     priceVs50dmaPct: 2.8,
-    priceVs200dmaPct: 6.4,
+    priceVs200dmaPct: 5.2,
     return1w: 1.2,
     return1m: 3.5,
     return3m: 8.1,
     return6m: 14.2,
-    return1y: 22.5,
-    return3y: 38.0,
-    return5y: 72.0,
+    return1y: 18.5,
+    return3y: 32.0,
+    return5y: 64.0,
+    promoterHolding: 14.8,
+    fiiHolding: 33.2,
+    diiHolding: 35.6,
+    mutualFundsHolding: 18.5,
+    publicHolding: 16.4
+  },
+  HDFCBANK: {
+    symbol: "HDFCBANK",
+    name: "HDFC Bank Ltd",
+    price: 804.00,
+    prevClose: 812.80,
+    changePercent: -1.08,
+    open: 811.50,
+    high: 818.80,
+    low: 798.00,
+    volume: 16800000,
+    mktCap: 6150000000000,
+    pe: 18.5,
+    pb: 2.6,
+    high52: 1017.50,
+    low52: 669.20,
+    divYield: 1.2,
+    sector: "Financial Services",
+    industry: "Private Sector Bank",
+    debtToEquity: 0.85,
+    currentRatio: 1.15,
+    interestCoverage: 12.0,
+    totalDebt: 1850000000000,
+    workingCapital: 450000000000,
+    revenueGrowthYoy: 14.2,
+    profitGrowthYoy: 16.5,
+    revenueGrowthQoq: 3.5,
+    epsGrowthYoy: 15.2,
+    distanceFrom52wHighPct: -20.9,
+    distanceFrom52wLowPct: 20.1,
+    priceVs50dmaPct: -0.8,
+    priceVs200dmaPct: 2.1,
+    return1w: -0.6,
+    return1m: 1.8,
+    return3m: 4.5,
+    return6m: 8.2,
+    return1y: 12.4,
+    return3y: 24.8,
+    return5y: 52.0,
+    promoterHolding: 0.0,
+    fiiHolding: 47.8,
+    diiHolding: 34.2,
+    mutualFundsHolding: 21.5,
+    publicHolding: 18.0
+  },
+  TATAPOWER: {
+    symbol: "TATAPOWER",
+    name: "Tata Power Co Ltd",
+    price: 348.00,
+    prevClose: 357.00,
+    changePercent: -2.52,
+    open: 355.00,
+    high: 357.15,
+    low: 347.05,
+    volume: 11400000,
+    mktCap: 1111980000000,
+    pe: 31.4,
+    pb: 3.4,
+    high52: 465.00,
+    low52: 333.00,
+    divYield: 0.65,
+    sector: "Utilities",
+    industry: "Power Generation & Distribution",
+    debtToEquity: 1.42,
+    currentRatio: 0.95,
+    interestCoverage: 3.8,
+    totalDebt: 480000000000,
+    workingCapital: 42000000000,
+    revenueGrowthYoy: 11.5,
+    profitGrowthYoy: 18.2,
+    revenueGrowthQoq: 4.1,
+    epsGrowthYoy: 17.5,
+    distanceFrom52wHighPct: -25.1,
+    distanceFrom52wLowPct: 4.5,
+    priceVs50dmaPct: -3.2,
+    priceVs200dmaPct: -1.5,
+    return1w: -2.1,
+    return1m: -1.5,
+    return3m: 3.2,
+    return6m: 14.8,
+    return1y: 28.5,
+    return3y: 78.0,
+    return5y: 210.0,
+    promoterHolding: 46.8,
+    fiiHolding: 11.2,
+    diiHolding: 15.6,
+    mutualFundsHolding: 8.4,
+    publicHolding: 26.4
+  },
+  SBIN: {
+    symbol: "SBIN",
+    name: "State Bank of India",
+    price: 795.50,
+    prevClose: 802.00,
+    changePercent: -0.81,
+    open: 800.00,
+    high: 806.00,
+    low: 792.00,
+    volume: 14200000,
+    mktCap: 7100000000000,
+    pe: 10.2,
+    pb: 1.3,
+    high52: 912.00,
+    low52: 600.00,
+    divYield: 1.7,
+    sector: "Financial Services",
+    industry: "Public Sector Bank",
+    debtToEquity: 1.1,
+    currentRatio: 1.05,
+    interestCoverage: 6.2,
+    totalDebt: 3200000000000,
+    workingCapital: 680000000000,
+    revenueGrowthYoy: 13.8,
+    profitGrowthYoy: 19.5,
+    revenueGrowthQoq: 3.8,
+    epsGrowthYoy: 18.2,
+    distanceFrom52wHighPct: -12.7,
+    distanceFrom52wLowPct: 32.5,
+    priceVs50dmaPct: 1.2,
+    priceVs200dmaPct: 7.8,
+    return1w: -0.4,
+    return1m: 2.8,
+    return3m: 7.2,
+    return6m: 16.5,
+    return1y: 34.0,
+    return3y: 72.0,
+    return5y: 165.0,
+    promoterHolding: 57.5,
+    fiiHolding: 10.8,
+    diiHolding: 24.1,
+    mutualFundsHolding: 13.5,
+    publicHolding: 7.6
+  },
+  ICICIBANK: {
+    symbol: "ICICIBANK",
+    name: "ICICI Bank Ltd",
+    price: 1260.00,
+    prevClose: 1252.00,
+    changePercent: 0.64,
+    open: 1255.00,
+    high: 1268.00,
+    low: 1248.00,
+    volume: 11200000,
+    mktCap: 8850000000000,
+    pe: 17.8,
+    pb: 2.8,
+    high52: 1345.00,
+    low52: 980.00,
+    divYield: 0.8,
+    sector: "Financial Services",
+    industry: "Private Sector Bank",
+    debtToEquity: 0.78,
+    currentRatio: 1.2,
+    interestCoverage: 14.5,
+    totalDebt: 1650000000000,
+    workingCapital: 410000000000,
+    revenueGrowthYoy: 16.2,
+    profitGrowthYoy: 18.4,
+    revenueGrowthQoq: 4.1,
+    epsGrowthYoy: 17.8,
+    distanceFrom52wHighPct: -6.3,
+    distanceFrom52wLowPct: 28.5,
+    priceVs50dmaPct: 2.4,
+    priceVs200dmaPct: 8.6,
+    return1w: 1.1,
+    return1m: 3.8,
+    return3m: 8.4,
+    return6m: 17.2,
+    return1y: 28.0,
+    return3y: 62.0,
+    return5y: 140.0,
+    promoterHolding: 0.0,
+    fiiHolding: 44.5,
+    diiHolding: 37.2,
+    mutualFundsHolding: 24.1,
+    publicHolding: 18.3
+  },
+  ITC: {
+    symbol: "ITC",
+    name: "ITC Ltd",
+    price: 468.00,
+    prevClose: 465.50,
+    changePercent: 0.54,
+    open: 466.00,
+    high: 471.00,
+    low: 464.00,
+    volume: 10400000,
+    mktCap: 5850000000000,
+    pe: 27.5,
+    pb: 7.9,
+    high52: 528.00,
+    low52: 399.00,
+    divYield: 2.95,
+    sector: "Consumer Defensive",
+    industry: "Tobacco & FMCG",
+    debtToEquity: 0.01,
+    currentRatio: 2.85,
+    interestCoverage: 95.0,
+    totalDebt: 3200000000,
+    workingCapital: 195000000000,
+    revenueGrowthYoy: 8.4,
+    profitGrowthYoy: 9.8,
+    revenueGrowthQoq: 2.4,
+    epsGrowthYoy: 9.2,
+    distanceFrom52wHighPct: -11.4,
+    distanceFrom52wLowPct: 17.3,
+    priceVs50dmaPct: 0.8,
+    priceVs200dmaPct: 3.5,
+    return1w: 0.5,
+    return1m: 1.4,
+    return3m: 4.8,
+    return6m: 8.5,
+    return1y: 12.0,
+    return3y: 55.0,
+    return5y: 110.0,
+    promoterHolding: 0.0,
+    fiiHolding: 41.2,
+    diiHolding: 42.8,
+    mutualFundsHolding: 14.2,
+    publicHolding: 16.0
+  }
+};
 
-    // Ownership
-    promoterHolding: isTCS ? 71.8 : (isRel ? 50.3 : 14.8),
-    fiiHolding: isTCS ? 12.5 : (isRel ? 22.1 : 33.2),
-    diiHolding: isTCS ? 10.2 : (isRel ? 16.4 : 35.6),
-    mutualFundsHolding: isTCS ? 4.1 : (isRel ? 7.8 : 18.5),
-    publicHolding: isTCS ? 5.5 : (isRel ? 11.2 : 16.4),
+const FUND_DATA_STORE = {
+  "122639": {
+    schemeCode: "122639",
+    name: "Parag Parikh Flexi Cap Fund - Direct Plan",
+    nav: 82.45,
+    prevNav: 82.10,
+    changePercent: 0.43,
+    category: "Flexi Cap",
+    aum: 74500,
+    expenseRatio: 0.62,
+    return1y: 24.5,
+    return3y: 21.8,
+    return5y: 23.4,
+    mode: "fallback_demo"
+  },
+  "120828": {
+    schemeCode: "120828",
+    name: "Quant Small Cap Fund - Direct Plan",
+    nav: 248.80,
+    prevNav: 247.20,
+    changePercent: 0.65,
+    category: "Small Cap",
+    aum: 26800,
+    expenseRatio: 0.76,
+    return1y: 38.2,
+    return3y: 32.5,
+    return5y: 36.1,
+    mode: "fallback_demo"
+  },
+  "120503": {
+    schemeCode: "120503",
+    name: "ICICI Prudential Bluechip Fund - Direct Plan",
+    nav: 118.60,
+    prevNav: 118.10,
+    changePercent: 0.42,
+    category: "Large Cap",
+    aum: 56200,
+    expenseRatio: 0.88,
+    return1y: 21.4,
+    return3y: 18.2,
+    return5y: 18.9,
+    mode: "fallback_demo"
+  },
+  "118989": {
+    schemeCode: "118989",
+    name: "HDFC Top 100 Fund - Direct Plan",
+    nav: 1115.40,
+    prevNav: 1110.80,
+    changePercent: 0.41,
+    category: "Large Cap",
+    aum: 37800,
+    expenseRatio: 0.95,
+    return1y: 22.8,
+    return3y: 19.1,
+    return5y: 17.8,
+    mode: "fallback_demo"
+  }
+};
+
+function getDemoFundData(code) {
+  return FUND_DATA_STORE[code] || {
+    schemeCode: code,
+    name: "Equity Mutual Fund Scheme",
+    nav: 50.00,
+    changePercent: 0.35,
+    category: "Mutual Fund",
+    aum: 15000,
     mode: "fallback_demo"
   };
 }
 
-function generateSamplePricePoints(symbol, range) {
+function getDemoStockData(symbol) {
+  const sym = (symbol || "INFY").toUpperCase();
+  if (STOCK_DATA_STORE[sym]) {
+    return { ...STOCK_DATA_STORE[sym], mode: "fallback_demo" };
+  }
+
+  return {
+    symbol: sym,
+    name: `${sym} (NSE)`,
+    price: 1000.00,
+    prevClose: 995.00,
+    changePercent: 0.50,
+    mktCap: 500000000000,
+    pe: 22.0,
+    pb: 3.5,
+    high52: 1250.00,
+    low52: 850.00,
+    divYield: 1.2,
+    sector: "Equity",
+    industry: "Listed Equity",
+    debtToEquity: 0.2,
+    currentRatio: 1.5,
+    interestCoverage: 12.0,
+    totalDebt: 50000000000,
+    workingCapital: 100000000000,
+    revenueGrowthYoy: 8.0,
+    profitGrowthYoy: 10.0,
+    revenueGrowthQoq: 2.0,
+    epsGrowthYoy: 9.0,
+    distanceFrom52wHighPct: -10.0,
+    distanceFrom52wLowPct: 15.0,
+    priceVs50dmaPct: 1.5,
+    priceVs200dmaPct: 3.5,
+    return1w: 0.5,
+    return1m: 2.0,
+    return3m: 5.0,
+    return6m: 10.0,
+    return1y: 18.0,
+    return3y: 35.0,
+    return5y: 65.0,
+    promoterHolding: 50.0,
+    fiiHolding: 20.0,
+    diiHolding: 15.0,
+    mutualFundsHolding: 10.0,
+    publicHolding: 15.0,
+    mode: "fallback_demo"
+  };
+}
+
+function generateSamplePricePoints(symbol, range, currentPrice) {
+  const sym = (symbol || "").toUpperCase();
+  const known = STOCK_DATA_STORE[sym];
+  const refPrice = currentPrice || (known ? known.price : 1000);
   const points = [];
   let days = 365;
   switch (range) {
@@ -816,18 +1297,20 @@ function generateSamplePricePoints(symbol, range) {
     default: days = 365; break;
   }
   const step = Math.max(1, Math.floor(days / 60));
-  let basePrice = 2400;
+  let p = refPrice;
+  const historyRev = [];
 
-  for (let i = days; i >= 0; i -= step) {
+  for (let i = 0; i <= days; i += step) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    basePrice += (Math.random() - 0.48) * 35;
-    points.push({
+    historyRev.push({
       date: d.toISOString().split("T")[0],
-      price: Math.max(100, Number(basePrice.toFixed(2)))
+      price: Math.max(10, Number(p.toFixed(2)))
     });
+    p = p * (1 - (Math.random() - 0.48) * 0.035);
   }
-  return points;
+
+  return historyRev.reverse();
 }
 
 function getDemoFinancials(symbol) {

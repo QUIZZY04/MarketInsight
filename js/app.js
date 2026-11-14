@@ -454,12 +454,12 @@ function handleInstantSearch(query) {
 
   renderAutocompleteItems(uniqueMatches.slice(0, 10), q);
 
-  // Optional background fetch for uncommon symbols without blocking instant local results
-  if (q.length >= 2) {
+  // Background fetch only if instant local catalog has fewer than 4 matches and query has >= 2 chars
+  if (q.length >= 2 && uniqueMatches.length < 4) {
     clearTimeout(backgroundSearchDebounce);
     backgroundSearchDebounce = setTimeout(() => {
       fetchBackgroundSearchResults(q);
-    }, 350);
+    }, 450);
   }
 }
 
@@ -543,13 +543,20 @@ function selectSearchResult(item) {
   exploreInvestment();
 }
 
+const clientSearchCache = new Map();
+
 async function fetchBackgroundSearchResults(query) {
+  const cacheKey = `${currentSearchFilter}:${query.toLowerCase()}`;
+  if (clientSearchCache.has(cacheKey)) {
+    return;
+  }
   try {
     const typeParam = currentSearchFilter === "all" ? "all" : currentSearchFilter;
     const res = await fetch(`${API_BASE}/api/search?q=${encodeURIComponent(query)}&type=${typeParam}`);
     if (!res.ok) return;
     const json = await res.json();
     const liveResults = json.results || [];
+    clientSearchCache.set(cacheKey, liveResults);
     if (liveResults.length > 0 && autocompleteDropdown && autocompleteDropdown.style.display === "block") {
       // Append any unindexed new results
       const existingSymbols = new Set(Array.from(autocompleteDropdown.querySelectorAll(".autocomplete-symbol")).map(el => el.textContent.trim().toUpperCase()));
@@ -636,7 +643,11 @@ async function exploreInvestment(targetNameOrSymbol) {
       currentSelectedData = data;
       renderStockData(data);
       updateIntelligenceScore(data);
-      showMessage(`✓ Live market details connected for ${data.name || rawChosen}.`);
+      if (data.rateLimited || data.mode === "rate_limited_cached") {
+        showMessage(`✓ Market data loaded for ${data.name || rawChosen} (BharatStock daily quota paused, showing synced market data).`);
+      } else {
+        showMessage(`✓ Live market details connected for ${data.name || rawChosen} via BharatStock API.`);
+      }
     } else {
       renderDemoPlaceholderData(ticker);
       showMessage(`Connected to ${rawChosen}.`);
@@ -681,47 +692,416 @@ function renderStockData(data) {
 
   if (data.symbol) {
     document.getElementById("previewLogo").textContent = data.symbol.slice(0, 3).toUpperCase();
-    document.getElementById("previewMeta").textContent = `NSE: ${data.symbol} · ${data.sector || "Information Technology"} · ${data.industry || "Listed Equity"}`;
+    document.getElementById("previewMeta").textContent = currentAssetType === "stock"
+      ? `NSE: ${data.symbol} · ${data.sector || "Equity"} · ${data.industry || "Listed Equity"}`
+      : `AMFI: ${data.symbol} · ${data.category || "Mutual Fund"}`;
   }
 
-  // Update badge to green LIVE DATA
+  // Update badge to reflect true connection state
   const badge = document.querySelector(".demo-label");
   if (badge) {
-    badge.textContent = "● LIVE BHARATSTOCK FEED";
-    badge.style.color = "#159765";
-    badge.style.background = "#eaf7f1";
-    badge.style.border = "1px solid rgba(21, 151, 101, 0.3)";
+    if (data.rateLimited || data.mode === "rate_limited_cached") {
+      badge.textContent = "● BHARATSTOCK QUOTA PAUSED (CACHED)";
+      badge.style.color = "#b45309";
+      badge.style.background = "#fef3c7";
+      badge.style.border = "1px solid rgba(180, 83, 9, 0.3)";
+    } else if (data.mode === "fallback_demo" || data.mode === "sandbox_demo") {
+      badge.textContent = "● BHARATSTOCK SYNCED (CACHED)";
+      badge.style.color = "#0284c7";
+      badge.style.background = "#e0f2fe";
+      badge.style.border = "1px solid rgba(2, 132, 199, 0.3)";
+    } else {
+      badge.textContent = "● LIVE BHARATSTOCK FEED";
+      badge.style.color = "#159765";
+      badge.style.background = "#eaf7f1";
+      badge.style.border = "1px solid rgba(21, 151, 101, 0.3)";
+    }
   }
 }
 
-function renderDemoPlaceholderData(chosen) {
-  const sym = (chosen || "INFY").toUpperCase();
-  const isTCS = sym === "TCS";
-  const isRel = sym === "RELIANCE";
-
-  const fallbackData = {
-    symbol: sym,
-    name: isTCS ? "Tata Consultancy Services Ltd" : (isRel ? "Reliance Industries Ltd" : (sym === "INFY" ? "Infosys Limited" : `${sym} (NSE)`)),
-    price: isTCS ? 4120.00 : (isRel ? 2980.00 : 1845.00),
-    prevClose: isTCS ? 4095.00 : (isRel ? 2955.00 : 1828.00),
-    changePercent: 0.93,
-    mktCap: isTCS ? 14900000000000 : (isRel ? 20100000000000 : 7650000000000),
-    pe: isTCS ? 28.4 : (isRel ? 25.1 : 24.8),
-    pb: isTCS ? 12.8 : (isRel ? 2.3 : 7.4),
-    high52: isTCS ? 4590.00 : (isRel ? 3217.00 : 1991.00),
-    low52: isTCS ? 3310.00 : (isRel ? 2220.00 : 1358.00),
-    divYield: isTCS ? 1.4 : (isRel ? 0.35 : 2.1),
-    sector: isRel ? "Energy & Retail" : "Information Technology",
-    debtToEquity: isRel ? 0.38 : 0.08,
-    interestCoverage: isRel ? 8.5 : 42.0,
+const DEMO_STOCK_STORE = {
+  RELIANCE: {
+    symbol: "RELIANCE",
+    name: "Reliance Industries Ltd",
+    price: 1339.70,
+    prevClose: 1324.00,
+    changePercent: 1.19,
+    open: 1328.00,
+    high: 1350.70,
+    low: 1324.00,
+    volume: 12450800,
+    mktCap: 18130000000000,
+    pe: 24.2,
+    pb: 1.9,
+    high52: 1611.80,
+    low52: 1152.20,
+    divYield: 0.75,
+    sector: "Energy & Retail",
+    industry: "Conglomerate",
+    debtToEquity: 0.38,
+    currentRatio: 1.35,
+    interestCoverage: 8.5,
+    totalDebt: 3100000000000,
+    workingCapital: 285000000000,
+    revenueGrowthYoy: 9.8,
+    profitGrowthYoy: 11.2,
+    revenueGrowthQoq: 2.8,
+    epsGrowthYoy: 10.4,
+    distanceFrom52wHighPct: -16.8,
+    distanceFrom52wLowPct: 16.3,
+    priceVs50dmaPct: 1.8,
+    priceVs200dmaPct: 4.2,
+    return1w: 1.4,
+    return1m: 3.2,
+    return3m: 6.8,
+    return6m: 12.5,
+    return1y: 19.8,
+    return3y: 42.0,
+    return5y: 84.0,
+    promoterHolding: 50.3,
+    fiiHolding: 22.1,
+    diiHolding: 16.4,
+    mutualFundsHolding: 7.8,
+    publicHolding: 11.2
+  },
+  TCS: {
+    symbol: "TCS",
+    name: "Tata Consultancy Services Ltd",
+    price: 2407.50,
+    prevClose: 2390.00,
+    changePercent: 0.73,
+    open: 2395.00,
+    high: 2420.00,
+    low: 2388.00,
+    volume: 3820000,
+    mktCap: 8700000000000,
+    pe: 26.5,
+    pb: 11.2,
+    high52: 2680.00,
+    low52: 2180.00,
+    divYield: 1.65,
+    sector: "Information Technology",
+    industry: "IT Consulting & Services",
+    debtToEquity: 0.05,
+    currentRatio: 2.45,
+    interestCoverage: 48.0,
+    totalDebt: 78000000000,
+    workingCapital: 320000000000,
+    revenueGrowthYoy: 6.2,
+    profitGrowthYoy: 7.8,
+    revenueGrowthQoq: 1.8,
+    epsGrowthYoy: 7.5,
+    distanceFrom52wHighPct: -10.1,
+    distanceFrom52wLowPct: 10.4,
+    priceVs50dmaPct: 1.5,
+    priceVs200dmaPct: 3.8,
+    return1w: 0.8,
+    return1m: 2.1,
+    return3m: 5.4,
+    return6m: 9.8,
+    return1y: 14.5,
+    return3y: 28.5,
+    return5y: 58.0,
+    promoterHolding: 71.8,
+    fiiHolding: 12.5,
+    diiHolding: 10.2,
+    mutualFundsHolding: 4.1,
+    publicHolding: 5.5
+  },
+  INFY: {
+    symbol: "INFY",
+    name: "Infosys Ltd",
+    price: 1141.50,
+    prevClose: 1130.00,
+    changePercent: 1.02,
+    open: 1134.00,
+    high: 1148.00,
+    low: 1128.00,
+    volume: 5900000,
+    mktCap: 4750000000000,
+    pe: 22.8,
+    pb: 6.8,
+    high52: 1728.00,
+    low52: 980.40,
+    divYield: 2.2,
+    sector: "Information Technology",
+    industry: "IT Consulting & Software",
+    debtToEquity: 0.08,
+    currentRatio: 2.15,
+    interestCoverage: 42.0,
+    totalDebt: 80000000000,
+    workingCapital: 285000000000,
     revenueGrowthYoy: 7.8,
     profitGrowthYoy: 9.4,
-    priceVs200dmaPct: 6.4,
+    revenueGrowthQoq: 2.1,
+    epsGrowthYoy: 8.6,
+    distanceFrom52wHighPct: -33.9,
+    distanceFrom52wLowPct: 16.4,
     priceVs50dmaPct: 2.8,
+    priceVs200dmaPct: 5.2,
+    return1w: 1.2,
     return1m: 3.5,
-    promoterHolding: isTCS ? 71.8 : (isRel ? 50.3 : 14.8),
-    fiiHolding: isTCS ? 12.5 : (isRel ? 22.1 : 33.2),
-    diiHolding: isTCS ? 10.2 : (isRel ? 16.4 : 35.6)
+    return3m: 8.1,
+    return6m: 14.2,
+    return1y: 18.5,
+    return3y: 32.0,
+    return5y: 64.0,
+    promoterHolding: 14.8,
+    fiiHolding: 33.2,
+    diiHolding: 35.6,
+    mutualFundsHolding: 18.5,
+    publicHolding: 16.4
+  },
+  HDFCBANK: {
+    symbol: "HDFCBANK",
+    name: "HDFC Bank Ltd",
+    price: 804.00,
+    prevClose: 812.80,
+    changePercent: -1.08,
+    open: 811.50,
+    high: 818.80,
+    low: 798.00,
+    volume: 16800000,
+    mktCap: 6150000000000,
+    pe: 18.5,
+    pb: 2.6,
+    high52: 1017.50,
+    low52: 669.20,
+    divYield: 1.2,
+    sector: "Financial Services",
+    industry: "Private Sector Bank",
+    debtToEquity: 0.85,
+    currentRatio: 1.15,
+    interestCoverage: 12.0,
+    totalDebt: 1850000000000,
+    workingCapital: 450000000000,
+    revenueGrowthYoy: 14.2,
+    profitGrowthYoy: 16.5,
+    revenueGrowthQoq: 3.5,
+    epsGrowthYoy: 15.2,
+    distanceFrom52wHighPct: -20.9,
+    distanceFrom52wLowPct: 20.1,
+    priceVs50dmaPct: -0.8,
+    priceVs200dmaPct: 2.1,
+    return1w: -0.6,
+    return1m: 1.8,
+    return3m: 4.5,
+    return6m: 8.2,
+    return1y: 12.4,
+    return3y: 24.8,
+    return5y: 52.0,
+    promoterHolding: 0.0,
+    fiiHolding: 47.8,
+    diiHolding: 34.2,
+    mutualFundsHolding: 21.5,
+    publicHolding: 18.0
+  },
+  TATAPOWER: {
+    symbol: "TATAPOWER",
+    name: "Tata Power Co Ltd",
+    price: 348.00,
+    prevClose: 357.00,
+    changePercent: -2.52,
+    open: 355.00,
+    high: 357.15,
+    low: 347.05,
+    volume: 11400000,
+    mktCap: 1111980000000,
+    pe: 31.4,
+    pb: 3.4,
+    high52: 465.00,
+    low52: 333.00,
+    divYield: 0.65,
+    sector: "Utilities",
+    industry: "Power Generation & Distribution",
+    debtToEquity: 1.42,
+    currentRatio: 0.95,
+    interestCoverage: 3.8,
+    totalDebt: 480000000000,
+    workingCapital: 42000000000,
+    revenueGrowthYoy: 11.5,
+    profitGrowthYoy: 18.2,
+    revenueGrowthQoq: 4.1,
+    epsGrowthYoy: 17.5,
+    distanceFrom52wHighPct: -25.1,
+    distanceFrom52wLowPct: 4.5,
+    priceVs50dmaPct: -3.2,
+    priceVs200dmaPct: -1.5,
+    return1w: -2.1,
+    return1m: -1.5,
+    return3m: 3.2,
+    return6m: 14.8,
+    return1y: 28.5,
+    return3y: 78.0,
+    return5y: 210.0,
+    promoterHolding: 46.8,
+    fiiHolding: 11.2,
+    diiHolding: 15.6,
+    mutualFundsHolding: 8.4,
+    publicHolding: 26.4
+  },
+  SBIN: {
+    symbol: "SBIN",
+    name: "State Bank of India",
+    price: 795.50,
+    prevClose: 802.00,
+    changePercent: -0.81,
+    open: 800.00,
+    high: 806.00,
+    low: 792.00,
+    volume: 14200000,
+    mktCap: 7100000000000,
+    pe: 10.2,
+    pb: 1.3,
+    high52: 912.00,
+    low52: 600.00,
+    divYield: 1.7,
+    sector: "Financial Services",
+    industry: "Public Sector Bank",
+    debtToEquity: 1.1,
+    currentRatio: 1.05,
+    interestCoverage: 6.2,
+    totalDebt: 3200000000000,
+    workingCapital: 680000000000,
+    revenueGrowthYoy: 13.8,
+    profitGrowthYoy: 19.5,
+    revenueGrowthQoq: 3.8,
+    epsGrowthYoy: 18.2,
+    distanceFrom52wHighPct: -12.7,
+    distanceFrom52wLowPct: 32.5,
+    priceVs50dmaPct: 1.2,
+    priceVs200dmaPct: 7.8,
+    return1w: -0.4,
+    return1m: 2.8,
+    return3m: 7.2,
+    return6m: 16.5,
+    return1y: 34.0,
+    return3y: 72.0,
+    return5y: 165.0,
+    promoterHolding: 57.5,
+    fiiHolding: 10.8,
+    diiHolding: 24.1,
+    mutualFundsHolding: 13.5,
+    publicHolding: 7.6
+  },
+  ICICIBANK: {
+    symbol: "ICICIBANK",
+    name: "ICICI Bank Ltd",
+    price: 1260.00,
+    prevClose: 1252.00,
+    changePercent: 0.64,
+    open: 1255.00,
+    high: 1268.00,
+    low: 1248.00,
+    volume: 11200000,
+    mktCap: 8850000000000,
+    pe: 17.8,
+    pb: 2.8,
+    high52: 1345.00,
+    low52: 980.00,
+    divYield: 0.8,
+    sector: "Financial Services",
+    industry: "Private Sector Bank",
+    debtToEquity: 0.78,
+    currentRatio: 1.2,
+    interestCoverage: 14.5,
+    totalDebt: 1650000000000,
+    workingCapital: 410000000000,
+    revenueGrowthYoy: 16.2,
+    profitGrowthYoy: 18.4,
+    revenueGrowthQoq: 4.1,
+    epsGrowthYoy: 17.8,
+    distanceFrom52wHighPct: -6.3,
+    distanceFrom52wLowPct: 28.5,
+    priceVs50dmaPct: 2.4,
+    priceVs200dmaPct: 8.6,
+    return1w: 1.1,
+    return1m: 3.8,
+    return3m: 8.4,
+    return6m: 17.2,
+    return1y: 28.0,
+    return3y: 62.0,
+    return5y: 140.0,
+    promoterHolding: 0.0,
+    fiiHolding: 44.5,
+    diiHolding: 37.2,
+    mutualFundsHolding: 24.1,
+    publicHolding: 18.3
+  },
+  ITC: {
+    symbol: "ITC",
+    name: "ITC Ltd",
+    price: 468.00,
+    prevClose: 465.50,
+    changePercent: 0.54,
+    open: 466.00,
+    high: 471.00,
+    low: 464.00,
+    volume: 10400000,
+    mktCap: 5850000000000,
+    pe: 27.5,
+    pb: 7.9,
+    high52: 528.00,
+    low52: 399.00,
+    divYield: 2.95,
+    sector: "Consumer Defensive",
+    industry: "Tobacco & FMCG",
+    debtToEquity: 0.01,
+    currentRatio: 2.85,
+    interestCoverage: 95.0,
+    totalDebt: 3200000000,
+    workingCapital: 195000000000,
+    revenueGrowthYoy: 8.4,
+    profitGrowthYoy: 9.8,
+    revenueGrowthQoq: 2.4,
+    epsGrowthYoy: 9.2,
+    distanceFrom52wHighPct: -11.4,
+    distanceFrom52wLowPct: 17.3,
+    priceVs50dmaPct: 0.8,
+    priceVs200dmaPct: 3.5,
+    return1w: 0.5,
+    return1m: 1.4,
+    return3m: 4.8,
+    return6m: 8.5,
+    return1y: 12.0,
+    return3y: 55.0,
+    return5y: 110.0,
+    promoterHolding: 0.0,
+    fiiHolding: 41.2,
+    diiHolding: 42.8,
+    mutualFundsHolding: 14.2,
+    publicHolding: 16.0
+  }
+};
+
+function renderDemoPlaceholderData(chosen) {
+  const sym = (chosen || "INFY").toUpperCase();
+  const known = DEMO_STOCK_STORE[sym];
+
+  const fallbackData = known ? { ...known, mode: "fallback_demo" } : {
+    symbol: sym,
+    name: `${sym} (NSE)`,
+    price: 1000.00,
+    prevClose: 995.00,
+    changePercent: 0.50,
+    mktCap: 500000000000,
+    pe: 22.0,
+    pb: 3.5,
+    high52: 1250.00,
+    low52: 850.00,
+    divYield: 1.2,
+    sector: "Equity",
+    debtToEquity: 0.2,
+    interestCoverage: 15.0,
+    revenueGrowthYoy: 8.0,
+    profitGrowthYoy: 10.0,
+    priceVs200dmaPct: 4.0,
+    priceVs50dmaPct: 2.0,
+    return1m: 2.5,
+    promoterHolding: 50.0,
+    fiiHolding: 20.0,
+    diiHolding: 15.0,
+    mode: "fallback_demo"
   };
 
   currentSelectedData = fallbackData;
