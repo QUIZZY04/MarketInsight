@@ -3,37 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MarketInsight - Comprehensive Indian Stock & Mutual Fund Research Portal. Live indices graphs, stock health checker, market breadth, SIP investment planner and multi-factor fundamental analysis.">
+  <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Research Terminal, Stock Health Checker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261121_4">
+  <link rel="stylesheet" href="css/style.css?v=20261121_5">
 </head>
 <body>
-<!-- Global Navigation Header -->
-<header>
-  <div class="container nav">
-    <a class="brand" href="#" aria-label="MarketInsight Home">
-      <span class="logo" aria-hidden="true">↗</span>
-      <span>Market<span>Insight</span></span>
-    </a>
-    <nav class="navlinks" aria-label="Main navigation">
-      <a href="#indices-hub">Major Indices</a>
-      <a href="#explore">Research Terminal</a>
-      <a href="#health-checker">Stock Health Checker</a>
-      <a href="#market-overview">Market Overview</a>
-      <a href="#investment-planner">Investment Planner</a>
-      <a href="#market-movers">Market Movers</a>
-      <a href="#mutual-funds">Mutual Funds</a>
-      <a href="#financial-news">News & Events</a>
-    </nav>
-    <div class="nav-actions">
-      <span class="market-tag"><span class="dot"></span> LIVE NSE & BSE FEEDS</span>
-      <a class="btn btn-primary" href="#explore" style="padding: 7px 16px; font-size: 13px;">Explore Terminal</a>
+
+<!-- Comprehensive Global Navigation Header (Yahoo Finance / Moneycontrol Style) -->
+<header class="portal-header">
+  <!-- Top Utility Bar -->
+  <div class="top-utility-bar">
+    <div class="portal-container utility-flex">
+      <div class="market-status-indicator">
+        <span class="live-dot"></span>
+        <span class="status-txt">NSE & BSE · INDIAN FINANCIAL MARKETS · LIVE EXCHANGES</span>
+      </div>
+      <div class="utility-quick-cues">
+        <span>USD/INR: <strong>₹84.42 (+0.02%)</strong></span>
+        <span>GOLD (10g): <strong>₹76,450 (+0.18%)</strong></span>
+        <span>BRENT: <strong>$74.20 (+0.80%)</strong></span>
+      </div>
     </div>
   </div>
+
+  <!-- Main Navigation Row -->
+  <div class="portal-container main-nav-row">
+    <a class="portal-brand" href="#home" onclick="navigateToPage('page-home'); return false;">
+      <span class="brand-logo-icon">↗</span>
+      <span class="brand-text">Market<strong>Insight</strong></span>
+      <span class="brand-edition">FINANCE</span>
+    </a>
+
+    <!-- Global Header Search Bar -->
+    <div class="header-search-wrap">
+      <span class="header-search-icon" aria-hidden="true">⌕</span>
+      <input type="text" id="headerSearchInput" placeholder="Search NSE stocks, symbols, mutual funds (e.g. INFY, Reliance, PPFAS)..." autocomplete="off" spellcheck="false" aria-label="Global search">
+      <button type="button" class="header-search-btn" onclick="executeHeaderSearch()">Explore</button>
+      <div id="headerDropdown" class="header-autocomplete-dropdown" role="listbox"></div>
+    </div>
+
+    <div class="header-cta-actions">
+      <button type="button" class="btn btn-outline-nav" onclick="navigateToPage('page-health')">Health Checker</button>
+      <button type="button" class="btn btn-primary-nav" onclick="navigateToPage('page-terminal')">Research Terminal</button>
+    </div>
+  </div>
+
+  <!-- Multi-Page Sub-Navigation Bar -->
+  <nav class="portal-sub-navbar" aria-label="Portal Pages Navigation">
+    <div class="portal-container subnav-flex">
+      <a href="#home" class="subnav-link active" data-page="page-home" onclick="navigateToPage('page-home'); return false;"><span class="nav-icon">🏠</span> Home Dashboard</a>
+      <a href="#terminal" class="subnav-link" data-page="page-terminal" onclick="navigateToPage('page-terminal'); return false;"><span class="nav-icon">🔬</span> Research Terminal</a>
+      <a href="#health" class="subnav-link" data-page="page-health" onclick="navigateToPage('page-health'); return false;"><span class="nav-icon">🏥</span> Stock Health Checker</a>
+      <a href="#overview" class="subnav-link" data-page="page-overview" onclick="navigateToPage('page-overview'); return false;"><span class="nav-icon">🌐</span> Market Overview</a>
+      <a href="#planner" class="subnav-link" data-page="page-planner" onclick="navigateToPage('page-planner'); return false;"><span class="nav-icon">💰</span> Investment Planner</a>
+      <a href="#movers" class="subnav-link" data-page="page-movers" onclick="navigateToPage('page-movers'); return false;"><span class="nav-icon">🔥</span> Market Movers</a>
+      <a href="#funds" class="subnav-link" data-page="page-funds" onclick="navigateToPage('page-funds'); return false;"><span class="nav-icon">▦</span> Mutual Funds</a>
+      <a href="#news" class="subnav-link" data-page="page-news" onclick="navigateToPage('page-news'); return false;"><span class="nav-icon">📰</span> News & Events</a>
+    </div>
+  </nav>
 </header>
 
 <main>
-  <!-- Full-Width Live Market Indices Ticker Tape -->
+  <!-- Full-Width Live Market Indices Ticker Ribbon (Always Visible) -->
   <div class="market-ticker-ribbon" role="region" aria-label="Live Market Indices Ticker">
     <div class="ticker-ribbon-content">
       <div class="ticker-pill"><span class="ticker-name">NIFTY 50</span><span class="ticker-val">23,518.50</span><span class="ticker-badge pos">+0.42% ▲</span></div>
@@ -52,1017 +83,1137 @@
     </div>
   </div>
 
-  <!-- SECTION 1: MAJOR INDIAN INDICES CARDS WITH UPDATED TREND GRAPHS -->
-  <section class="indices-hub-section" id="indices-hub">
-    <div class="portal-container">
-      <div class="portal-section-header">
-        <div>
-          <span class="portal-eyebrow">REAL-TIME EXCHANGE BENCHMARKS</span>
-          <h2 class="portal-title">Major Indian Market Indices</h2>
-          <p class="portal-subtitle">Live levels, intraday price action and session trajectories across National Stock Exchange (NSE) & Bombay Stock Exchange (BSE).</p>
-        </div>
-        <div class="indices-meta-pill">
-          <span class="dot"></span> <span>Market Status: <strong>NORMAL TRADING</strong> · Updated EOD</span>
-        </div>
-      </div>
-
-      <!-- Indices Cards Grid with Crisp SVG Spline Graphs -->
-      <div class="indices-cards-grid">
-        <!-- 1. NIFTY 50 -->
-        <article class="index-card">
-          <div class="index-card-header">
-            <div>
-              <h3 class="index-name">NIFTY 50</h3>
-              <span class="index-exchange">NSE India · Benchmark</span>
-            </div>
-            <span class="index-badge pos">+0.42% ▲</span>
+  <!-- =========================================================================
+       PAGE 1: 🏠 HOME DASHBOARD
+       ========================================================================= -->
+  <div id="page-home" class="portal-page">
+    <!-- Major Indian Indices Cards with Graphs Grid -->
+    <section class="indices-hub-section" id="indices-hub">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">REAL-TIME EXCHANGE BENCHMARKS</span>
+            <h2 class="portal-title">Major Indian Market Indices</h2>
+            <p class="portal-subtitle">Live levels, intraday session price action and graphs across National Stock Exchange (NSE) & Bombay Stock Exchange (BSE).</p>
           </div>
-          <div class="index-price-row">
-            <span class="index-val">23,518.50</span>
-            <span class="index-pts pos">+98.20 pts</span>
+          <div class="indices-meta-pill">
+            <span class="dot"></span> <span>Market Status: <strong>NORMAL TRADING</strong> · EOD Updated</span>
           </div>
-          <div class="index-range-bar-wrap">
-            <div class="range-labels"><span>L: 23,430.10</span><span>H: 23,542.80</span></div>
-            <div class="range-bar"><span class="range-marker" style="left: 78%;"></span></div>
-          </div>
-          <div class="index-graph-wrap">
-            <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="NIFTY 50 Intraday Trendline">
-              <defs>
-                <linearGradient id="niftyGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#059669" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 0 38 C 30 36, 50 42, 80 28 C 110 16, 140 22, 170 12 L 200 8 L 200 50 L 0 50 Z" fill="url(#niftyGrad)"/>
-              <path d="M 0 38 C 30 36, 50 42, 80 28 C 110 16, 140 22, 170 12 L 200 8" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="200" cy="8" r="3.5" fill="#047857"/>
-            </svg>
-          </div>
-        </article>
-
-        <!-- 2. SENSEX -->
-        <article class="index-card">
-          <div class="index-card-header">
-            <div>
-              <h3 class="index-name">BSE SENSEX</h3>
-              <span class="index-exchange">BSE India · 30 Bluechips</span>
-            </div>
-            <span class="index-badge pos">+0.38% ▲</span>
-          </div>
-          <div class="index-price-row">
-            <span class="index-val">77,580.30</span>
-            <span class="index-pts pos">+295.40 pts</span>
-          </div>
-          <div class="index-range-bar-wrap">
-            <div class="range-labels"><span>L: 77,320.50</span><span>H: 77,654.10</span></div>
-            <div class="range-bar"><span class="range-marker" style="left: 76%;"></span></div>
-          </div>
-          <div class="index-graph-wrap">
-            <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="SENSEX Intraday Trendline">
-              <defs>
-                <linearGradient id="sensexGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#059669" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 0 40 C 35 38, 60 44, 90 29 C 120 18, 150 24, 175 14 L 200 10 L 200 50 L 0 50 Z" fill="url(#sensexGrad)"/>
-              <path d="M 0 40 C 35 38, 60 44, 90 29 C 120 18, 150 24, 175 14 L 200 10" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="200" cy="10" r="3.5" fill="#047857"/>
-            </svg>
-          </div>
-        </article>
-
-        <!-- 3. BANK NIFTY -->
-        <article class="index-card">
-          <div class="index-card-header">
-            <div>
-              <h3 class="index-name">BANK NIFTY</h3>
-              <span class="index-exchange">NSE India · Banking Sector</span>
-            </div>
-            <span class="index-badge pos">+0.65% ▲</span>
-          </div>
-          <div class="index-price-row">
-            <span class="index-val">50,380.10</span>
-            <span class="index-pts pos">+325.80 pts</span>
-          </div>
-          <div class="index-range-bar-wrap">
-            <div class="range-labels"><span>L: 50,050.20</span><span>H: 50,440.00</span></div>
-            <div class="range-bar"><span class="range-marker" style="left: 84%;"></span></div>
-          </div>
-          <div class="index-graph-wrap">
-            <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="BANK NIFTY Intraday Trendline">
-              <defs>
-                <linearGradient id="bankGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#059669" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 0 42 C 40 40, 70 34, 100 24 C 130 14, 160 16, 180 8 L 200 6 L 200 50 L 0 50 Z" fill="url(#bankGrad)"/>
-              <path d="M 0 42 C 40 40, 70 34, 100 24 C 130 14, 160 16, 180 8 L 200 6" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="200" cy="6" r="3.5" fill="#047857"/>
-            </svg>
-          </div>
-        </article>
-
-        <!-- 4. NIFTY IT -->
-        <article class="index-card">
-          <div class="index-card-header">
-            <div>
-              <h3 class="index-name">NIFTY IT</h3>
-              <span class="index-exchange">NSE India · Technology</span>
-            </div>
-            <span class="index-badge neg">-0.24% ▼</span>
-          </div>
-          <div class="index-price-row">
-            <span class="index-val">42,120.90</span>
-            <span class="index-pts neg">-101.40 pts</span>
-          </div>
-          <div class="index-range-bar-wrap">
-            <div class="range-labels"><span>L: 42,080.00</span><span>H: 42,350.60</span></div>
-            <div class="range-bar"><span class="range-marker" style="left: 20%;"></span></div>
-          </div>
-          <div class="index-graph-wrap">
-            <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="NIFTY IT Intraday Trendline">
-              <defs>
-                <linearGradient id="itGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#dc2626" stop-opacity="0.30"/>
-                  <stop offset="100%" stop-color="#dc2626" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 0 12 C 40 14, 70 20, 100 30 C 130 38, 160 34, 180 40 L 200 42 L 200 50 L 0 50 Z" fill="url(#itGrad)"/>
-              <path d="M 0 12 C 40 14, 70 20, 100 30 C 130 38, 160 34, 180 40 L 200 42" fill="none" stroke="#b91c1c" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="200" cy="42" r="3.5" fill="#b91c1c"/>
-            </svg>
-          </div>
-        </article>
-
-        <!-- 5. NIFTY MIDCAP 100 -->
-        <article class="index-card">
-          <div class="index-card-header">
-            <div>
-              <h3 class="index-name">NIFTY MIDCAP</h3>
-              <span class="index-exchange">NSE India · Midcap 100</span>
-            </div>
-            <span class="index-badge pos">+0.76% ▲</span>
-          </div>
-          <div class="index-price-row">
-            <span class="index-val">54,820.60</span>
-            <span class="index-pts pos">+412.30 pts</span>
-          </div>
-          <div class="index-range-bar-wrap">
-            <div class="range-labels"><span>L: 54,400.10</span><span>H: 54,905.00</span></div>
-            <div class="range-bar"><span class="range-marker" style="left: 82%;"></span></div>
-          </div>
-          <div class="index-graph-wrap">
-            <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="NIFTY MIDCAP Intraday Trendline">
-              <defs>
-                <linearGradient id="midGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#059669" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 0 44 C 40 40, 75 32, 110 22 C 145 12, 175 14, 190 7 L 200 5 L 200 50 L 0 50 Z" fill="url(#midGrad)"/>
-              <path d="M 0 44 C 40 40, 75 32, 110 22 C 145 12, 175 14, 190 7 L 200 5" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="200" cy="5" r="3.5" fill="#047857"/>
-            </svg>
-          </div>
-        </article>
-
-        <!-- 6. INDIA VIX -->
-        <article class="index-card">
-          <div class="index-card-header">
-            <div>
-              <h3 class="index-name">INDIA VIX</h3>
-              <span class="index-exchange">NSE · Volatility Gauge</span>
-            </div>
-            <span class="index-badge pos">-3.15% ▼</span>
-          </div>
-          <div class="index-price-row">
-            <span class="index-val">14.20</span>
-            <span class="index-pts pos">-0.46 pts</span>
-          </div>
-          <div class="index-range-bar-wrap">
-            <div class="range-labels"><span>L: 13.90</span><span>H: 14.80</span></div>
-            <div class="range-bar"><span class="range-marker" style="left: 33%;"></span></div>
-          </div>
-          <div class="index-graph-wrap">
-            <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="INDIA VIX Volatility Trendline">
-              <defs>
-                <linearGradient id="vixGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#059669" stop-opacity="0.30"/>
-                  <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 0 15 C 35 22, 65 30, 95 38 C 125 42, 155 36, 180 44 L 200 46 L 200 50 L 0 50 Z" fill="url(#vixGrad)"/>
-              <path d="M 0 15 C 35 22, 65 30, 95 38 C 125 42, 155 36, 180 44 L 200 46" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="200" cy="46" r="3.5" fill="#047857"/>
-            </svg>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 2: RESEARCH COCKPIT & LIVE ANALYSIS TERMINAL -->
-  <section class="cockpit-hero" id="explore">
-    <div class="cockpit-container">
-      <div class="hero-command-center">
-        <div class="command-headline">
-          <div class="eyebrow-badge"><span class="dot"></span> INSTITUTIONAL MARKET INTELLIGENCE TERMINAL</div>
-          <h1 class="hero-title">Indian Equities & Mutual Funds <em>Intelligence</em></h1>
-          <p class="hero-subtitle">Real-time quotes, audited fundamentals, XBRL statements and multi-factor quantitative models.</p>
         </div>
 
-        <!-- Prominent, Noticeable Search Bar Console -->
-        <div class="search-console-prominent">
-          <div class="search-tabs-bar" role="tablist" aria-label="Investment filter">
-            <button type="button" class="tab-filter-btn active" id="filterAllBtn" onclick="setSearchFilter('all')">
-              <span class="tab-icon">✦</span> All Instruments
-            </button>
-            <button type="button" class="tab-filter-btn" id="filterStocksBtn" onclick="setSearchFilter('stock')">
-              <span class="tab-icon">↗</span> Indian Stocks (NSE)
-            </button>
-            <button type="button" class="tab-filter-btn" id="filterFundsBtn" onclick="setSearchFilter('fund')">
-              <span class="tab-icon">▦</span> Mutual Funds (AMFI)
-            </button>
-          </div>
-
-          <div class="search-main-row">
-            <div class="unified-search-wrap">
-              <div class="search-input-box">
-                <span class="search-lens-icon" aria-hidden="true">⌕</span>
-                <input id="instrument" value="" placeholder="Search by company name, NSE symbol or mutual fund (e.g. INFY, Reliance, PPFAS)..." autocomplete="off" spellcheck="false" aria-label="Search stock or mutual fund name">
-                <button type="button" id="clearSearchBtn" class="clear-search-btn" onclick="clearSearchInput()" title="Clear search">✕</button>
+        <div class="indices-cards-grid">
+          <!-- 1. NIFTY 50 -->
+          <article class="index-card">
+            <div class="index-card-header">
+              <div>
+                <h3 class="index-name">NIFTY 50</h3>
+                <span class="index-exchange">NSE India · Benchmark</span>
               </div>
-              <div id="autocompleteDropdown" class="autocomplete-dropdown" role="listbox"></div>
+              <span class="index-badge pos">+0.42% ▲</span>
             </div>
-            <button class="btn btn-primary search-action-btn" onclick="exploreInvestment()">
-              <span>Explore Investment</span>
-              <span class="btn-arrow" aria-hidden="true">→</span>
-            </button>
-          </div>
-
-          <div class="trending-strip-prominent">
-            <span class="trending-label">⚡ Benchmark Watchlist:</span>
-            <div class="trending-chips-row">
-              <button type="button" class="trending-chip" onclick="quickSelect('INFY')">INFY (Infosys)</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('TCS')">TCS</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('RELIANCE')">Reliance</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('HDFCBANK')">HDFC Bank</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('ICICIBANK')">ICICI Bank</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('SBIN')">SBI</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('ITC')">ITC</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('TATAPOWER')">Tata Power</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('BHARTIARTL')">Airtel</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('122639')">Parag Parikh Flexi Cap</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('120828')">Quant Small Cap</button>
-              <button type="button" class="trending-chip" onclick="quickSelect('148721')">HDFC Nifty 50</button>
+            <div class="index-price-row">
+              <span class="index-val">23,518.50</span>
+              <span class="index-pts pos">+98.20 pts</span>
             </div>
-          </div>
-        </div>
-
-        <div class="result-message" id="resultMessage" role="status"></div>
-      </div>
-
-      <!-- Live 3-Column Analysis Cockpit Grid -->
-      <div class="cockpit-analysis-grid" id="analysis">
-        <!-- Column 1: Deep Analytical Workspace -->
-        <div class="preview-modern">
-          <div class="preview-top">
-            <div class="instrument">
-              <div class="instrument-logo" id="previewLogo">INFY</div>
-              <div class="instrument-info">
-                <div class="instrument-title-row">
-                  <h3 id="previewName">Infosys Limited</h3>
-                  <span class="demo-label">● LIVE BHARATSTOCK FEED</span>
-                </div>
-                <p id="previewMeta">NSE: INFY · Information Technology · Large Cap</p>
-              </div>
+            <div class="index-range-bar-wrap">
+              <div class="range-labels"><span>L: 23,430.10</span><span>H: 23,542.80</span></div>
+              <div class="range-bar"><span class="range-marker" style="left: 78%;"></span></div>
             </div>
-            <div class="price-row">
-              <span class="price" id="previewPrice">₹ 1,141.50</span>
-              <span class="positive" id="previewChange">+0.85% today</span>
-            </div>
-          </div>
-
-          <div class="tabs" role="tablist">
-            <button class="tab active" onclick="showTab('overview',this)">Overview</button>
-            <button class="tab" onclick="showTab('history',this)">History</button>
-            <button class="tab" onclick="showTab('financials',this)">Financials</button>
-            <button class="tab" onclick="showTab('ratios',this)">Key ratios</button>
-            <button class="tab" onclick="showTab('news',this)">News</button>
-            <button class="tab" onclick="showTab('risk',this)">Risk</button>
-          </div>
-
-          <div class="tab-content" id="tabContent">
-            <div class="metric-grid">
-              <div class="metric metric-mktcap"><small>Market capitalisation</small><strong>₹ 4.63L Cr</strong></div>
-              <div class="metric metric-pe"><small>P/E ratio</small><strong>15.2x</strong></div>
-              <div class="metric metric-range"><small>52-week range</small><strong>₹ 1,358 – ₹ 1,990</strong></div>
-              <div class="metric metric-div"><small>Dividend yield</small><strong>2.10%</strong></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Column 2: Quantitative Signal Speedometer & Factor Model -->
-        <div class="speedo-modern">
-          <div class="meter-wrap">
-            <div class="speedo-header">
-              <h3>Quantitative Signal Speedometer</h3>
-              <span class="speedo-subtitle">Multi-Factor Fundamental Model</span>
-            </div>
-
-            <div class="speedo-container">
-              <svg class="speedo-svg" viewBox="0 0 320 185" width="100%" height="140" aria-label="Quantitative valuation speedometer dial">
-                <!-- Background Outer Track -->
-                <path d="M 45 160 A 115 115 0 0 1 275 160" fill="none" stroke="#e2e8f0" stroke-width="22" stroke-linecap="round"/>
-                <!-- Red Segment: SELL -->
-                <path d="M 45 160 A 115 115 0 0 1 108.7 60.5" fill="none" stroke="#dc2626" stroke-width="20" stroke-linecap="round"/>
-                <!-- Yellow Segment: HOLD -->
-                <path d="M 112 58 A 115 115 0 0 1 208 58" fill="none" stroke="#d97706" stroke-width="20"/>
-                <!-- Green Segment: BUY -->
-                <path d="M 211.3 60.5 A 115 115 0 0 1 275 160" fill="none" stroke="#059669" stroke-width="20" stroke-linecap="round"/>
-
-                <text x="36" y="184" fill="#b91c1c" font-size="12" font-weight="900" text-anchor="middle">SELL</text>
-                <text x="160" y="32" fill="#92400e" font-size="12" font-weight="900" text-anchor="middle">HOLD</text>
-                <text x="284" y="184" fill="#047857" font-size="12" font-weight="900" text-anchor="middle">BUY</text>
-
-                <g id="speedoNeedleGroup" style="transform-origin: 160px 160px; transform: rotate(50deg); transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);">
-                  <polygon points="156,160 160,56 164,160" fill="#0f172a"/>
-                  <line x1="160" y1="56" x2="160" y2="160" stroke="#f59e0b" stroke-width="2"/>
-                  <circle cx="160" cy="160" r="14" fill="#0f172a"/>
-                  <circle cx="160" cy="160" r="6" fill="#f8fafc"/>
-                </g>
+            <div class="index-graph-wrap">
+              <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="NIFTY 50 Intraday Trendline">
+                <defs>
+                  <linearGradient id="niftyGrad1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#059669" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 0 38 C 30 36, 50 42, 80 28 C 110 16, 140 22, 170 12 L 200 8 L 200 50 L 0 50 Z" fill="url(#niftyGrad1)"/>
+                <path d="M 0 38 C 30 36, 50 42, 80 28 C 110 16, 140 22, 170 12 L 200 8" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="200" cy="8" r="3.5" fill="#047857"/>
               </svg>
-
-              <div class="speedo-reading-box">
-                <div class="speedo-score-number" id="compositeScore">78<span class="speedo-max">/100</span></div>
-                <div id="scoreSignalBadge" class="speedo-badge buy">BUY / OUTPERFORM</div>
-                <div id="scoreInstrumentName" class="speedo-symbol-name">Infosys Limited · Multi-Factor Model</div>
-              </div>
             </div>
-          </div>
+          </article>
 
-          <div class="basis basis-modern">
-            <div class="basis-card"><div class="basis-row"><strong>🛡️ Financial Strength</strong><span id="finStrengthVal">88/100</span></div><div class="bar"><span id="finStrengthBar" style="width:88%; background:#059669;"></span></div></div>
-            <div class="basis-card"><div class="basis-row"><strong>💎 Valuation Multiples</strong><span id="valuationVal">68/100</span></div><div class="bar"><span id="valuationBar" style="width:68%; background:#059669;"></span></div></div>
-            <div class="basis-card"><div class="basis-row"><strong>🚀 Growth Engine</strong><span id="growthVal">75/100</span></div><div class="bar"><span id="growthBar" style="width:75%; background:#059669;"></span></div></div>
-            <div class="basis-card"><div class="basis-row"><strong>📈 Technical Trend</strong><span id="technicalVal">72/100</span></div><div class="bar"><span id="technicalBar" style="width:72%; background:#059669;"></span></div></div>
-            <div class="basis-card"><div class="basis-row"><strong>🏛️ Institutional Quality</strong><span id="ownershipVal">84/100</span></div><div class="bar"><span id="ownershipBar" style="width:84%; background:#059669;"></span></div></div>
-          </div>
-        </div>
-
-        <!-- Column 3: Indian Market Pulse & Sector Radar -->
-        <div class="market-radar-modern">
-          <div class="radar-header">
-            <div class="radar-title-row">
-              <h3>Market Pulse & Breadth</h3>
-              <span class="live-pulse-badge"><span class="dot"></span> NSE / BSE</span>
-            </div>
-            <span class="radar-subtitle">Institutional Liquidity & Sector Rotation</span>
-          </div>
-
-          <!-- Market Breadth Card -->
-          <div class="radar-breadth-card">
-            <div class="breadth-label-row">
-              <span class="breadth-stat adv">Advances: <strong>1,580 (68%)</strong></span>
-              <span class="breadth-stat dec">Declines: <strong>740 (32%)</strong></span>
-            </div>
-            <div class="breadth-bar">
-              <div class="breadth-seg adv" style="width: 68%;"></div>
-              <div class="breadth-seg dec" style="width: 32%;"></div>
-            </div>
-            <div class="flows-row">
-              <span class="flow-pill">FII Net: <strong class="pos">+₹1,420 Cr</strong></span>
-              <span class="flow-pill">DII Net: <strong class="pos">+₹2,350 Cr</strong></span>
-            </div>
-          </div>
-
-          <!-- Sector Performance Heatmap -->
-          <div class="radar-sectors-card">
-            <div class="radar-section-title">SECTOR LEADERS (TODAY)</div>
-            <div class="sector-grid">
-              <div class="sector-item pos"><span class="sec-name">Auto</span><span class="sec-pct">+1.85% ▲</span></div>
-              <div class="sector-item pos"><span class="sec-name">Realty</span><span class="sec-pct">+1.42% ▲</span></div>
-              <div class="sector-item pos"><span class="sec-name">Bank</span><span class="sec-pct">+0.75% ▲</span></div>
-              <div class="sector-item pos"><span class="sec-name">FMCG</span><span class="sec-pct">+0.52% ▲</span></div>
-              <div class="sector-item pos"><span class="sec-name">Metal</span><span class="sec-pct">+0.38% ▲</span></div>
-              <div class="sector-item neg"><span class="sec-name">IT</span><span class="sec-pct">-0.28% ▼</span></div>
-            </div>
-          </div>
-
-          <!-- Active Market Movers Quick Watchlist -->
-          <div class="radar-movers-card">
-            <div class="radar-section-title">ACTIVE BENCHMARKS (1-CLICK LOAD)</div>
-            <div class="radar-movers-list">
-              <div class="mover-item" onclick="quickSelect('TATAPOWER')">
-                <div class="mover-info"><strong>TATAPOWER</strong><span>Tata Power Co Ltd</span></div>
-                <div class="mover-price"><span class="price-val">₹ 438.50</span><span class="price-chg pos">+3.80% ▲</span></div>
-              </div>
-              <div class="mover-item" onclick="quickSelect('SBIN')">
-                <div class="mover-info"><strong>SBIN</strong><span>State Bank of India</span></div>
-                <div class="mover-price"><span class="price-val">₹ 795.50</span><span class="price-chg pos">+2.10% ▲</span></div>
-              </div>
-              <div class="mover-item" onclick="quickSelect('RELIANCE')">
-                <div class="mover-info"><strong>RELIANCE</strong><span>Reliance Industries</span></div>
-                <div class="mover-price"><span class="price-val">₹ 2,980.00</span><span class="price-chg pos">+0.93% ▲</span></div>
-              </div>
-              <div class="mover-item" onclick="quickSelect('122639')">
-                <div class="mover-info"><strong>PPFAS</strong><span>Parag Parikh Flexi Cap</span></div>
-                <div class="mover-price"><span class="price-val">₹ 78.40</span><span class="price-chg pos">+0.82% ▲</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="disclaimer cockpit-disclaimer">Important: Multi-factor quantitative scoring framework. Production signals reflect audited regulatory filings and exchange disclosures. Not investment advice.</div>
-    </div>
-  </section>
-
-  <!-- SECTION 3: STOCK HEALTH CHECKER (YAHOO FINANCE / MONEYCONTROL STYLE CARD) -->
-  <section class="portal-module-section" id="health-checker">
-    <div class="portal-container">
-      <div class="portal-section-header">
-        <div>
-          <span class="portal-eyebrow">AUTOMATED FUNDAMENTAL DIAGNOSTIC</span>
-          <h2 class="portal-title">Stock Health Checker</h2>
-          <p class="portal-subtitle">Instantly diagnose solvency, earnings quality, capital efficiency and forensic red flags across 2,000+ listed Indian equities.</p>
-        </div>
-        <div class="health-picker-pills">
-          <span class="picker-label">Select Stock:</span>
-          <button type="button" class="health-pill active" onclick="selectHealthStock('INFY', this)">INFY</button>
-          <button type="button" class="health-pill" onclick="selectHealthStock('TCS', this)">TCS</button>
-          <button type="button" class="health-pill" onclick="selectHealthStock('RELIANCE', this)">RELIANCE</button>
-          <button type="button" class="health-pill" onclick="selectHealthStock('SBIN', this)">SBIN</button>
-          <button type="button" class="health-pill" onclick="selectHealthStock('ITC', this)">ITC</button>
-          <button type="button" class="health-pill" onclick="selectHealthStock('TATAPOWER', this)">TATAPOWER</button>
-        </div>
-      </div>
-
-      <div class="health-dashboard-card">
-        <!-- Diagnostic Top Hero -->
-        <div class="health-top-banner">
-          <div class="health-summary-info">
-            <div class="health-status-badge" id="healthGradeBadge">GRADE: A+ · EXCEPTIONAL HEALTH</div>
-            <h3 class="health-company-name" id="healthCompanyName">Infosys Limited (NSE: INFY)</h3>
-            <p class="health-company-desc" id="healthCompanyDesc">Demonstrates near-zero debt leverage, world-class capital efficiency (ROE > 28%), stable operating cash flows and pristine forensic audit compliance.</p>
-          </div>
-          <div class="health-composite-box">
-            <div class="health-score-ring">
-              <span class="health-big-num" id="healthBigScore">92</span>
-              <span class="health-score-max">/100</span>
-            </div>
-            <span class="health-ring-label">OVERALL HEALTH SCORE</span>
-          </div>
-        </div>
-
-        <!-- 4 Health Pillars Grid -->
-        <div class="health-pillars-grid">
-          <div class="health-pillar-card">
-            <div class="pillar-head">
-              <div class="pillar-icon">🛡️</div>
+          <!-- 2. SENSEX -->
+          <article class="index-card">
+            <div class="index-card-header">
               <div>
-                <h4>Solvency & Debt Health</h4>
-                <span class="pillar-verdict pos" id="pillarSolvencyVerdict">Pristine · Zero Debt Risk</span>
+                <h3 class="index-name">BSE SENSEX</h3>
+                <span class="index-exchange">BSE India · 30 Bluechips</span>
               </div>
+              <span class="index-badge pos">+0.38% ▲</span>
             </div>
-            <div class="pillar-metrics">
-              <div class="pillar-row"><span>Debt to Equity:</span><strong id="healthDte">0.08x</strong></div>
-              <div class="pillar-row"><span>Interest Coverage:</span><strong id="healthIntCov">42.5x</strong></div>
-              <div class="pillar-row"><span>Current Ratio:</span><strong id="healthCurRat">2.4x</strong></div>
+            <div class="index-price-row">
+              <span class="index-val">77,580.30</span>
+              <span class="index-pts pos">+295.40 pts</span>
             </div>
-            <div class="pillar-bar"><span style="width: 95%; background: #059669;"></span></div>
-          </div>
+            <div class="index-range-bar-wrap">
+              <div class="range-labels"><span>L: 77,320.50</span><span>H: 77,654.10</span></div>
+              <div class="range-bar"><span class="range-marker" style="left: 76%;"></span></div>
+            </div>
+            <div class="index-graph-wrap">
+              <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="SENSEX Intraday Trendline">
+                <defs>
+                  <linearGradient id="sensexGrad1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#059669" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 0 40 C 35 38, 60 44, 90 29 C 120 18, 150 24, 175 14 L 200 10 L 200 50 L 0 50 Z" fill="url(#sensexGrad1)"/>
+                <path d="M 0 40 C 35 38, 60 44, 90 29 C 120 18, 150 24, 175 14 L 200 10" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="200" cy="10" r="3.5" fill="#047857"/>
+              </svg>
+            </div>
+          </article>
 
-          <div class="health-pillar-card">
-            <div class="pillar-head">
-              <div class="pillar-icon">💎</div>
+          <!-- 3. BANK NIFTY -->
+          <article class="index-card">
+            <div class="index-card-header">
               <div>
-                <h4>Capital Efficiency (ROE/ROCE)</h4>
-                <span class="pillar-verdict pos" id="pillarProfitVerdict">Elite Returns Profile</span>
+                <h3 class="index-name">BANK NIFTY</h3>
+                <span class="index-exchange">NSE India · Banking Sector</span>
               </div>
+              <span class="index-badge pos">+0.65% ▲</span>
             </div>
-            <div class="pillar-metrics">
-              <div class="pillar-row"><span>Return on Equity (ROE):</span><strong id="healthRoe">29.4%</strong></div>
-              <div class="pillar-row"><span>ROCE:</span><strong id="healthRoce">37.8%</strong></div>
-              <div class="pillar-row"><span>Operating Margin:</span><strong id="healthOpm">21.2%</strong></div>
+            <div class="index-price-row">
+              <span class="index-val">50,380.10</span>
+              <span class="index-pts pos">+325.80 pts</span>
             </div>
-            <div class="pillar-bar"><span style="width: 92%; background: #059669;"></span></div>
-          </div>
+            <div class="index-range-bar-wrap">
+              <div class="range-labels"><span>L: 50,050.20</span><span>H: 50,440.00</span></div>
+              <div class="range-bar"><span class="range-marker" style="left: 84%;"></span></div>
+            </div>
+            <div class="index-graph-wrap">
+              <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="BANK NIFTY Intraday Trendline">
+                <defs>
+                  <linearGradient id="bankGrad1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#059669" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 0 42 C 40 40, 70 34, 100 24 C 130 14, 160 16, 180 8 L 200 6 L 200 50 L 0 50 Z" fill="url(#bankGrad1)"/>
+                <path d="M 0 42 C 40 40, 70 34, 100 24 C 130 14, 160 16, 180 8 L 200 6" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="200" cy="6" r="3.5" fill="#047857"/>
+              </svg>
+            </div>
+          </article>
 
-          <div class="health-pillar-card">
-            <div class="pillar-head">
-              <div class="pillar-icon">🚀</div>
+          <!-- 4. NIFTY IT -->
+          <article class="index-card">
+            <div class="index-card-header">
               <div>
-                <h4>Growth & Earnings Quality</h4>
-                <span class="pillar-verdict pos" id="pillarGrowthVerdict">Consistent Cash Compounding</span>
+                <h3 class="index-name">NIFTY IT</h3>
+                <span class="index-exchange">NSE India · Technology</span>
               </div>
+              <span class="index-badge neg">-0.24% ▼</span>
             </div>
-            <div class="pillar-metrics">
-              <div class="pillar-row"><span>5Y Sales CAGR:</span><strong id="healthSalesCagr">11.4%</strong></div>
-              <div class="pillar-row"><span>5Y Profit CAGR:</span><strong id="healthProfCagr">12.8%</strong></div>
-              <div class="pillar-row"><span>OCF to Net Profit:</span><strong id="healthOcfRatio">1.12x</strong></div>
+            <div class="index-price-row">
+              <span class="index-val">42,120.90</span>
+              <span class="index-pts neg">-101.40 pts</span>
             </div>
-            <div class="pillar-bar"><span style="width: 86%; background: #059669;"></span></div>
-          </div>
+            <div class="index-range-bar-wrap">
+              <div class="range-labels"><span>L: 42,080.00</span><span>H: 42,350.60</span></div>
+              <div class="range-bar"><span class="range-marker" style="left: 20%;"></span></div>
+            </div>
+            <div class="index-graph-wrap">
+              <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="NIFTY IT Intraday Trendline">
+                <defs>
+                  <linearGradient id="itGrad1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#dc2626" stop-opacity="0.30"/>
+                    <stop offset="100%" stop-color="#dc2626" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 0 12 C 40 14, 70 20, 100 30 C 130 38, 160 34, 180 40 L 200 42 L 200 50 L 0 50 Z" fill="url(#itGrad1)"/>
+                <path d="M 0 12 C 40 14, 70 20, 100 30 C 130 38, 160 34, 180 40 L 200 42" fill="none" stroke="#b91c1c" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="200" cy="42" r="3.5" fill="#b91c1c"/>
+              </svg>
+            </div>
+          </article>
 
-          <div class="health-pillar-card">
-            <div class="pillar-head">
-              <div class="pillar-icon">🔍</div>
+          <!-- 5. NIFTY MIDCAP 100 -->
+          <article class="index-card">
+            <div class="index-card-header">
               <div>
-                <h4>Forensic Red Flags Audit</h4>
-                <span class="pillar-verdict pos" id="pillarForensicVerdict">Passed 8/8 Red Flag Audits</span>
+                <h3 class="index-name">NIFTY MIDCAP</h3>
+                <span class="index-exchange">NSE India · Midcap 100</span>
+              </div>
+              <span class="index-badge pos">+0.76% ▲</span>
+            </div>
+            <div class="index-price-row">
+              <span class="index-val">54,820.60</span>
+              <span class="index-pts pos">+412.30 pts</span>
+            </div>
+            <div class="index-range-bar-wrap">
+              <div class="range-labels"><span>L: 54,400.10</span><span>H: 54,905.00</span></div>
+              <div class="range-bar"><span class="range-marker" style="left: 82%;"></span></div>
+            </div>
+            <div class="index-graph-wrap">
+              <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="NIFTY MIDCAP Intraday Trendline">
+                <defs>
+                  <linearGradient id="midGrad1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#059669" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 0 44 C 40 40, 75 32, 110 22 C 145 12, 175 14, 190 7 L 200 5 L 200 50 L 0 50 Z" fill="url(#midGrad1)"/>
+                <path d="M 0 44 C 40 40, 75 32, 110 22 C 145 12, 175 14, 190 7 L 200 5" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="200" cy="5" r="3.5" fill="#047857"/>
+              </svg>
+            </div>
+          </article>
+
+          <!-- 6. INDIA VIX -->
+          <article class="index-card">
+            <div class="index-card-header">
+              <div>
+                <h3 class="index-name">INDIA VIX</h3>
+                <span class="index-exchange">NSE · Volatility Gauge</span>
+              </div>
+              <span class="index-badge pos">-3.15% ▼</span>
+            </div>
+            <div class="index-price-row">
+              <span class="index-val">14.20</span>
+              <span class="index-pts pos">-0.46 pts</span>
+            </div>
+            <div class="index-range-bar-wrap">
+              <div class="range-labels"><span>L: 13.90</span><span>H: 14.80</span></div>
+              <div class="range-bar"><span class="range-marker" style="left: 33%;"></span></div>
+            </div>
+            <div class="index-graph-wrap">
+              <svg class="index-svg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="INDIA VIX Volatility Trendline">
+                <defs>
+                  <linearGradient id="vixGrad1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#059669" stop-opacity="0.30"/>
+                    <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 0 15 C 35 22, 65 30, 95 38 C 125 42, 155 36, 180 44 L 200 46 L 200 50 L 0 50 Z" fill="url(#vixGrad1)"/>
+                <path d="M 0 15 C 35 22, 65 30, 95 38 C 125 42, 155 36, 180 44 L 200 46" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="200" cy="46" r="3.5" fill="#047857"/>
+              </svg>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Yahoo Finance / Moneycontrol Style Front Page Hub Cards Showcase -->
+    <section class="portal-module-section">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">COMPREHENSIVE PORTAL SUITE</span>
+            <h2 class="portal-title">Financial Research & Wealth Hub</h2>
+            <p class="portal-subtitle">Access all dedicated modules for automated health checks, exchange overview, multi-year compounding, and momentum scanners.</p>
+          </div>
+        </div>
+
+        <div class="portal-cards-gateway-grid">
+          <!-- Hub Card 1: Research Terminal -->
+          <article class="portal-gateway-card" onclick="navigateToPage('page-terminal')">
+            <div class="gateway-icon-box" style="background:#ecfdf5; color:#047857;">🔬</div>
+            <div class="gateway-content">
+              <h3>Research Terminal</h3>
+              <p>Institutional analysis cockpit with multi-factor quantitative signal speedometer, interactive canvas charts, normalized XBRL financials, and SEBI shareholding.</p>
+              <div class="gateway-link">Launch Terminal →</div>
+            </div>
+          </article>
+
+          <!-- Hub Card 2: Stock Health Checker -->
+          <article class="portal-gateway-card" onclick="navigateToPage('page-health')">
+            <div class="gateway-icon-box" style="background:#eff6ff; color:#1e40af;">🏥</div>
+            <div class="gateway-content">
+              <h3>Stock Health Checker</h3>
+              <p>Automated fundamental diagnostic grading solvency, ROE/ROCE capital efficiency, earnings compounding stability, and 8-point forensic audit checks.</p>
+              <div class="gateway-link">Run Health Check →</div>
+            </div>
+          </article>
+
+          <!-- Hub Card 3: Market Overview & Breadth -->
+          <article class="portal-gateway-card" onclick="navigateToPage('page-overview')">
+            <div class="gateway-icon-box" style="background:#faf5ff; color:#6b21a8;">🌐</div>
+            <div class="gateway-content">
+              <h3>Market Overview & Breadth</h3>
+              <p>Exchange-wide advance/decline ratios, 52-week highs vs lows, FII/DII institutional cash flow pulse, and 8-sector rotation heatmap.</p>
+              <div class="gateway-link">View Market Overview →</div>
+            </div>
+          </article>
+
+          <!-- Hub Card 4: Investment Planner & SIP -->
+          <article class="portal-gateway-card" onclick="navigateToPage('page-planner')">
+            <div class="gateway-icon-box" style="background:#fffbeb; color:#92400e;">💰</div>
+            <div class="gateway-content">
+              <h3>Investment Planner & SIP Hub</h3>
+              <p>Simulate compounding wealth with interactive range sliders for Monthly SIP and Lumpsum investments, with dynamic portfolio allocation advice.</p>
+              <div class="gateway-link">Model Wealth Compounding →</div>
+            </div>
+          </article>
+
+          <!-- Hub Card 5: Market Movers -->
+          <article class="portal-gateway-card" onclick="navigateToPage('page-movers')">
+            <div class="gateway-icon-box" style="background:#fef2f2; color:#b91c1c;">🔥</div>
+            <div class="gateway-content">
+              <h3>Market Movers & Buzzers</h3>
+              <p>Real-time top gainers, losers, 52-week breakouts, and high turnover Indian equities with 1-click analytical handoffs.</p>
+              <div class="gateway-link">Scan Market Movers →</div>
+            </div>
+          </article>
+
+          <!-- Hub Card 6: Mutual Funds & ETFs -->
+          <article class="portal-gateway-card" onclick="navigateToPage('page-funds')">
+            <div class="gateway-icon-box" style="background:#f0fdf4; color:#047857;">▦</div>
+            <div class="gateway-content">
+              <h3>Mutual Funds & ETF Radar</h3>
+              <p>Curated top AMFI schemes across Flexi Cap, Small Cap, Bluechip, and Passive Nifty 50 Index funds with historical 3Y/5Y CAGR returns.</p>
+              <div class="gateway-link">Explore Top Funds →</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lead Stories & News Snapshot on Front Page -->
+    <section class="portal-module-section alt-bg">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">FINANCIAL WIRE & PRESS</span>
+            <h2 class="portal-title">Today's Market Pulse & Key Developments</h2>
+            <p class="portal-subtitle">Live regulatory decisions, macroeconomic updates, and corporate earnings summaries.</p>
+          </div>
+          <button type="button" class="btn btn-outline" onclick="navigateToPage('page-news')">View All News Wire →</button>
+        </div>
+
+        <div class="news-wire-grid">
+          <article class="news-card" onclick="navigateToPage('page-news')">
+            <div class="news-badge-row"><span class="news-tag rbi">🏛️ RBI Policy</span><span class="news-time">2h ago</span></div>
+            <h4>RBI MPC Maintains Benchmark Repo Rate at 6.50%</h4>
+            <p>The Reserve Bank of India’s Monetary Policy Committee voted unanimously to keep the repo rate unchanged, citing strong GDP momentum.</p>
+          </article>
+          <article class="news-card" onclick="navigateToPage('page-news')">
+            <div class="news-badge-row"><span class="news-tag earnings">📈 Earnings Radar</span><span class="news-time">3h ago</span></div>
+            <h4>IT & Banking Majors Forecast Steady Margin Expansion in Q3</h4>
+            <p>Indian Tier-1 IT consulting exporters alongside leading private sector banks project sequential margin expansion driven by digital pipelines.</p>
+          </article>
+          <article class="news-card" onclick="navigateToPage('page-news')">
+            <div class="news-badge-row"><span class="news-tag sebi">📑 SEBI Circular</span><span class="news-time">5h ago</span></div>
+            <h4>SEBI Refines Derivatives Framework to Enhance Investor Safety</h4>
+            <p>Market regulator SEBI introduced rationalized contract sizing and margin regulations for equity index derivatives to safeguard retail traders.</p>
+          </article>
+          <article class="news-card" onclick="navigateToPage('page-news')">
+            <div class="news-badge-row"><span class="news-tag corp">💰 Corporate Actions</span><span class="news-time">6h ago</span></div>
+            <h4>State Bank of India & ITC Announce Interim Dividend Distributions</h4>
+            <p>Board resolutions filed on stock exchanges confirmed dividend announcements for eligible shareholders, underscoring solid balance sheet liquidity.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       PAGE 2: 🔬 RESEARCH TERMINAL (Dedicated Full-Page Analytical Cockpit)
+       ========================================================================= -->
+  <div id="page-terminal" class="portal-page" style="display: none;">
+    <section class="cockpit-hero" id="explore">
+      <div class="cockpit-container">
+        <div class="hero-command-center">
+          <div class="command-headline">
+            <div class="eyebrow-badge"><span class="dot"></span> INSTITUTIONAL MARKET INTELLIGENCE TERMINAL</div>
+            <h1 class="hero-title">Indian Equities & Mutual Funds <em>Intelligence</em></h1>
+            <p class="hero-subtitle">Real-time quotes, audited fundamentals, XBRL statements and multi-factor quantitative models.</p>
+          </div>
+
+          <!-- Prominent, Noticeable Search Bar Console -->
+          <div class="search-console-prominent">
+            <div class="search-tabs-bar" role="tablist" aria-label="Investment filter">
+              <button type="button" class="tab-filter-btn active" id="filterAllBtn" onclick="setSearchFilter('all')">
+                <span class="tab-icon">✦</span> All Instruments
+              </button>
+              <button type="button" class="tab-filter-btn" id="filterStocksBtn" onclick="setSearchFilter('stock')">
+                <span class="tab-icon">↗</span> Indian Stocks (NSE)
+              </button>
+              <button type="button" class="tab-filter-btn" id="filterFundsBtn" onclick="setSearchFilter('fund')">
+                <span class="tab-icon">▦</span> Mutual Funds (AMFI)
+              </button>
+            </div>
+
+            <div class="search-main-row">
+              <div class="unified-search-wrap">
+                <div class="search-input-box">
+                  <span class="search-lens-icon" aria-hidden="true">⌕</span>
+                  <input id="instrument" value="" placeholder="Search by company name, NSE symbol or mutual fund (e.g. INFY, Reliance, PPFAS)..." autocomplete="off" spellcheck="false" aria-label="Search stock or mutual fund name">
+                  <button type="button" id="clearSearchBtn" class="clear-search-btn" onclick="clearSearchInput()" title="Clear search">✕</button>
+                </div>
+                <div id="autocompleteDropdown" class="autocomplete-dropdown" role="listbox"></div>
+              </div>
+              <button class="btn btn-primary search-action-btn" onclick="exploreInvestment()">
+                <span>Explore Investment</span>
+                <span class="btn-arrow" aria-hidden="true">→</span>
+              </button>
+            </div>
+
+            <div class="trending-strip-prominent">
+              <span class="trending-label">⚡ Benchmark Watchlist:</span>
+              <div class="trending-chips-row">
+                <button type="button" class="trending-chip" onclick="quickSelect('INFY')">INFY (Infosys)</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('TCS')">TCS</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('RELIANCE')">Reliance</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('HDFCBANK')">HDFC Bank</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('ICICIBANK')">ICICI Bank</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('SBIN')">SBI</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('ITC')">ITC</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('TATAPOWER')">Tata Power</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('BHARTIARTL')">Airtel</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('122639')">Parag Parikh Flexi Cap</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('120828')">Quant Small Cap</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('148721')">HDFC Nifty 50</button>
               </div>
             </div>
-            <div class="pillar-metrics">
-              <div class="pillar-row"><span>Promoter Pledge:</span><strong id="healthPledge">0.00% (None)</strong></div>
-              <div class="pillar-row"><span>Auditor Qualifications:</span><strong>Unqualified (Clean)</strong></div>
-              <div class="pillar-row"><span>Contingent Liabilities:</span><strong>Low (< 3% NW)</strong></div>
-            </div>
-            <div class="pillar-bar"><span style="width: 98%; background: #059669;"></span></div>
           </div>
+
+          <div class="result-message" id="resultMessage" role="status"></div>
         </div>
 
-        <div class="health-action-footer">
-          <span>Detailed valuation, historical financial statements, and XBRL filings are available in the terminal.</span>
-          <button type="button" class="btn btn-outline" id="healthActionBtn" onclick="exploreInvestment('INFY')">Open Full Statement in Terminal →</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 4: MARKET OVERVIEW & LIQUIDITY DASHBOARD -->
-  <section class="portal-module-section alt-bg" id="market-overview">
-    <div class="portal-container">
-      <div class="portal-section-header">
-        <div>
-          <span class="portal-eyebrow">INSTITUTIONAL BREADTH & LIQUIDITY</span>
-          <h2 class="portal-title">Indian Market Overview</h2>
-          <p class="portal-subtitle">Exchange-wide market breadth, sector rotation heatmap, and institutional FII/DII cash market activity.</p>
-        </div>
-        <div class="overview-refresh-tag">
-          <span>● SEBI Daily Disclosures Live</span>
-        </div>
-      </div>
-
-      <div class="market-overview-grid">
-        <!-- 1. Market Breadth Card -->
-        <div class="overview-panel-card">
-          <div class="overview-panel-head">
-            <h3>NSE Market Breadth</h3>
-            <span class="tag-pill">2,320 Traded</span>
-          </div>
-          <div class="breadth-hero-stats">
-            <div class="b-stat adv">
-              <span class="num">1,580</span>
-              <span class="lbl">Advances (68.1%)</span>
-            </div>
-            <div class="b-stat dec">
-              <span class="num">740</span>
-              <span class="lbl">Declines (31.9%)</span>
-            </div>
-          </div>
-          <div class="breadth-large-bar">
-            <div class="b-bar-adv" style="width: 68%;">68%</div>
-            <div class="b-bar-dec" style="width: 32%;">32%</div>
-          </div>
-          <div class="breadth-sub-stats">
-            <div class="sub-row"><span>52-Week Highs Hit Today:</span><strong class="pos">142 Equities ▲</strong></div>
-            <div class="sub-row"><span>52-Week Lows Hit Today:</span><strong class="neg">18 Equities ▼</strong></div>
-            <div class="sub-row"><span>Upper Circuit Lock:</span><strong>64 Stocks</strong></div>
-            <div class="sub-row"><span>Advance/Decline Ratio:</span><strong class="pos">2.14x (Bullish)</strong></div>
-          </div>
-        </div>
-
-        <!-- 2. Institutional Cash Activity (FII / DII) -->
-        <div class="overview-panel-card">
-          <div class="overview-panel-head">
-            <h3>Institutional Activity (FII / DII)</h3>
-            <span class="tag-pill">Cash Market</span>
-          </div>
-          <div class="inst-flows-box">
-            <div class="inst-flow-row pos">
-              <div class="inst-info">
-                <strong>Foreign Institutional Investors (FII)</strong>
-                <span>Gross Buy: ₹11,250 Cr · Gross Sell: ₹9,830 Cr</span>
-              </div>
-              <div class="inst-net-val pos">+₹ 1,420 Cr ▲</div>
-            </div>
-            <div class="inst-flow-row pos">
-              <div class="inst-info">
-                <strong>Domestic Institutional Investors (DII)</strong>
-                <span>Gross Buy: ₹8,940 Cr · Gross Sell: ₹6,590 Cr</span>
-              </div>
-              <div class="inst-net-val pos">+₹ 2,350 Cr ▲</div>
-            </div>
-          </div>
-          <div class="inst-total-banner">
-            <span>Net Institutional Cash Flow:</span>
-            <strong class="pos">+₹ 3,770 Cr (Strong Domestic Support)</strong>
-          </div>
-        </div>
-
-        <!-- 3. Sector Performance Heatmap Matrix -->
-        <div class="overview-panel-card">
-          <div class="overview-panel-head">
-            <h3>Sector Rotation Heatmap</h3>
-            <span class="tag-pill">Real-Time</span>
-          </div>
-          <div class="sector-heatmap-matrix">
-            <div class="sec-heat-chip pos"><span>Auto</span><strong>+1.85% ▲</strong></div>
-            <div class="sec-heat-chip pos"><span>Realty</span><strong>+1.42% ▲</strong></div>
-            <div class="sec-heat-chip pos"><span>Bank</span><strong>+0.75% ▲</strong></div>
-            <div class="sec-heat-chip pos"><span>FMCG</span><strong>+0.52% ▲</strong></div>
-            <div class="sec-heat-chip pos"><span>Pharma</span><strong>+0.48% ▲</strong></div>
-            <div class="sec-heat-chip pos"><span>Metal</span><strong>+0.38% ▲</strong></div>
-            <div class="sec-heat-chip pos"><span>Energy</span><strong>+0.12% ▲</strong></div>
-            <div class="sec-heat-chip neg"><span>IT</span><strong>-0.28% ▼</strong></div>
-          </div>
-          <div class="sector-hint">
-            <span>💡 <strong>Sector Trend:</strong> Capital rotation favored Automobile & Real Estate equities following consumer demand updates.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 5: SMART INVESTMENT PLANNER & WEALTH SIP CALCULATOR -->
-  <section class="portal-module-section" id="investment-planner">
-    <div class="portal-container">
-      <div class="portal-section-header">
-        <div>
-          <span class="portal-eyebrow">WEALTH ACCUMULATION & COMPOUNDING</span>
-          <h2 class="portal-title">Smart Investment Planner & SIP Calculator</h2>
-          <p class="portal-subtitle">Simulate multi-year compounding growth, model monthly Systematic Investment Plans (SIP), and optimize your equity asset allocation.</p>
-        </div>
-        <div class="planner-mode-toggle">
-          <button type="button" class="mode-btn active" id="btnModeSip" onclick="switchPlannerMode('sip')">Monthly SIP</button>
-          <button type="button" class="mode-btn" id="btnModeLump" onclick="switchPlannerMode('lumpsum')">One-Time Lumpsum</button>
-        </div>
-      </div>
-
-      <div class="planner-layout-card">
-        <!-- Controls Column -->
-        <div class="planner-controls-col">
-          <!-- Slider 1: Amount -->
-          <div class="planner-control-group">
-            <div class="control-label-row">
-              <label for="sipAmountRange" id="labelInvestmentAmount">Monthly Investment Amount:</label>
-              <div class="control-bubble" id="sipAmountDisplay">₹ 10,000</div>
-            </div>
-            <input type="range" class="planner-slider" id="sipAmountRange" min="1000" max="100000" step="1000" value="10000" oninput="updateSipCalculator()">
-            <div class="slider-marks"><span>₹1k</span><span>₹25k</span><span>₹50k</span><span>₹1L</span></div>
-          </div>
-
-          <!-- Slider 2: Return Rate -->
-          <div class="planner-control-group">
-            <div class="control-label-row">
-              <label for="sipRateRange">Expected Annual Return (% CAGR):</label>
-              <div class="control-bubble" id="sipRateDisplay">14.5%</div>
-            </div>
-            <input type="range" class="planner-slider" id="sipRateRange" min="6" max="24" step="0.5" value="14.5" oninput="updateSipCalculator()">
-            <div class="slider-marks"><span>6% (FD)</span><span>12% (Nifty)</span><span>14.5% (Flexi)</span><span>20% (Small Cap)</span></div>
-          </div>
-
-          <!-- Slider 3: Duration -->
-          <div class="planner-control-group">
-            <div class="control-label-row">
-              <label for="sipYearsRange">Time Horizon (Years):</label>
-              <div class="control-bubble" id="sipYearsDisplay">10 Years</div>
-            </div>
-            <input type="range" class="planner-slider" id="sipYearsRange" min="1" max="30" step="1" value="10" oninput="updateSipCalculator()">
-            <div class="slider-marks"><span>1 Yr</span><span>5 Yrs</span><span>10 Yrs</span><span>20 Yrs</span><span>30 Yrs</span></div>
-          </div>
-        </div>
-
-        <!-- Visual Wealth Projection Column -->
-        <div class="planner-results-col">
-          <div class="results-card-inner">
-            <div class="results-headline">Projected Portfolio Value</div>
-            <div class="big-wealth-number" id="futureValueResult">₹ 27,86,340</div>
-
-            <div class="wealth-breakdown-bar">
-              <div class="bar-seg invested" id="barInvested" style="width: 43%;"></div>
-              <div class="bar-seg gains" id="barGains" style="width: 57%;"></div>
-            </div>
-
-            <div class="wealth-legend-row">
-              <div class="legend-box">
-                <span class="legend-color invested"></span>
-                <div>
-                  <small>Invested Capital</small>
-                  <strong id="investedAmountResult">₹ 12,00,000</strong>
+        <!-- Live 3-Column Analysis Cockpit Grid -->
+        <div class="cockpit-analysis-grid" id="analysis">
+          <!-- Column 1: Deep Analytical Workspace -->
+          <div class="preview-modern">
+            <div class="preview-top">
+              <div class="instrument">
+                <div class="instrument-logo" id="previewLogo">INFY</div>
+                <div class="instrument-info">
+                  <div class="instrument-title-row">
+                    <h3 id="previewName">Infosys Limited</h3>
+                    <span class="demo-label">● LIVE BHARATSTOCK FEED</span>
+                  </div>
+                  <p id="previewMeta">NSE: INFY · Information Technology · Large Cap</p>
                 </div>
               </div>
-              <div class="legend-box">
-                <span class="legend-color gains"></span>
-                <div>
-                  <small>Estimated Wealth Created</small>
-                  <strong class="pos" id="gainsAmountResult">₹ 15,86,340</strong>
+              <div class="price-row">
+                <span class="price" id="previewPrice">₹ 1,141.50</span>
+                <span class="positive" id="previewChange">+0.85% today</span>
+              </div>
+            </div>
+
+            <div class="tabs" role="tablist">
+              <button class="tab active" onclick="showTab('overview',this)">Overview</button>
+              <button class="tab" onclick="showTab('history',this)">History</button>
+              <button class="tab" onclick="showTab('financials',this)">Financials</button>
+              <button class="tab" onclick="showTab('ratios',this)">Key ratios</button>
+              <button class="tab" onclick="showTab('news',this)">News</button>
+              <button class="tab" onclick="showTab('risk',this)">Risk</button>
+            </div>
+
+            <div class="tab-content" id="tabContent">
+              <div class="metric-grid">
+                <div class="metric metric-mktcap"><small>Market capitalisation</small><strong>₹ 4.63L Cr</strong></div>
+                <div class="metric metric-pe"><small>P/E ratio</small><strong>15.2x</strong></div>
+                <div class="metric metric-range"><small>52-week range</small><strong>₹ 1,358 – ₹ 1,990</strong></div>
+                <div class="metric metric-div"><small>Dividend yield</small><strong>2.10%</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Quantitative Signal Speedometer & Factor Model -->
+          <div class="speedo-modern">
+            <div class="meter-wrap">
+              <div class="speedo-header">
+                <h3>Quantitative Signal Speedometer</h3>
+                <span class="speedo-subtitle">Multi-Factor Fundamental Model</span>
+              </div>
+
+              <div class="speedo-container">
+                <svg class="speedo-svg" viewBox="0 0 320 185" width="100%" height="140" aria-label="Quantitative valuation speedometer dial">
+                  <path d="M 45 160 A 115 115 0 0 1 275 160" fill="none" stroke="#e2e8f0" stroke-width="22" stroke-linecap="round"/>
+                  <path d="M 45 160 A 115 115 0 0 1 108.7 60.5" fill="none" stroke="#dc2626" stroke-width="20" stroke-linecap="round"/>
+                  <path d="M 112 58 A 115 115 0 0 1 208 58" fill="none" stroke="#d97706" stroke-width="20"/>
+                  <path d="M 211.3 60.5 A 115 115 0 0 1 275 160" fill="none" stroke="#059669" stroke-width="20" stroke-linecap="round"/>
+
+                  <text x="36" y="184" fill="#b91c1c" font-size="12" font-weight="900" text-anchor="middle">SELL</text>
+                  <text x="160" y="32" fill="#92400e" font-size="12" font-weight="900" text-anchor="middle">HOLD</text>
+                  <text x="284" y="184" fill="#047857" font-size="12" font-weight="900" text-anchor="middle">BUY</text>
+
+                  <g id="speedoNeedleGroup" style="transform-origin: 160px 160px; transform: rotate(50deg); transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                    <polygon points="156,160 160,56 164,160" fill="#0f172a"/>
+                    <line x1="160" y1="56" x2="160" y2="160" stroke="#f59e0b" stroke-width="2"/>
+                    <circle cx="160" cy="160" r="14" fill="#0f172a"/>
+                    <circle cx="160" cy="160" r="6" fill="#f8fafc"/>
+                  </g>
+                </svg>
+
+                <div class="speedo-reading-box">
+                  <div class="speedo-score-number" id="compositeScore">78<span class="speedo-max">/100</span></div>
+                  <div id="scoreSignalBadge" class="speedo-badge buy">BUY / OUTPERFORM</div>
+                  <div id="scoreInstrumentName" class="speedo-symbol-name">Infosys Limited · Multi-Factor Model</div>
                 </div>
               </div>
             </div>
 
-            <div class="asset-strategy-box">
-              <div class="strategy-title">💡 Recommended Portfolio Allocation:</div>
-              <p id="strategyDesc">For a 10-year horizon, allocate <strong>70% to Flexi-Cap / NIFTY 50 Index Funds</strong>, <strong>20% to High-Yield Corporate Debt</strong>, and <strong>10% to Sovereign Gold / Liquid Assets</strong>.</p>
+            <div class="basis basis-modern">
+              <div class="basis-card"><div class="basis-row"><strong>🛡️ Financial Strength</strong><span id="finStrengthVal">88/100</span></div><div class="bar"><span id="finStrengthBar" style="width:88%; background:#059669;"></span></div></div>
+              <div class="basis-card"><div class="basis-row"><strong>💎 Valuation Multiples</strong><span id="valuationVal">68/100</span></div><div class="bar"><span id="valuationBar" style="width:68%; background:#059669;"></span></div></div>
+              <div class="basis-card"><div class="basis-row"><strong>🚀 Growth Engine</strong><span id="growthVal">75/100</span></div><div class="bar"><span id="growthBar" style="width:75%; background:#059669;"></span></div></div>
+              <div class="basis-card"><div class="basis-row"><strong>📈 Technical Trend</strong><span id="technicalVal">72/100</span></div><div class="bar"><span id="technicalBar" style="width:72%; background:#059669;"></span></div></div>
+              <div class="basis-card"><div class="basis-row"><strong>🏛️ Institutional Quality</strong><span id="ownershipVal">84/100</span></div><div class="bar"><span id="ownershipBar" style="width:84%; background:#059669;"></span></div></div>
+            </div>
+          </div>
+
+          <!-- Column 3: Indian Market Pulse & Sector Radar -->
+          <div class="market-radar-modern">
+            <div class="radar-header">
+              <div class="radar-title-row">
+                <h3>Market Pulse & Breadth</h3>
+                <span class="live-pulse-badge"><span class="dot"></span> NSE / BSE</span>
+              </div>
+              <span class="radar-subtitle">Institutional Liquidity & Sector Rotation</span>
+            </div>
+
+            <div class="radar-breadth-card">
+              <div class="breadth-label-row">
+                <span class="breadth-stat adv">Advances: <strong>1,580 (68%)</strong></span>
+                <span class="breadth-stat dec">Declines: <strong>740 (32%)</strong></span>
+              </div>
+              <div class="breadth-bar">
+                <div class="breadth-seg adv" style="width: 68%;"></div>
+                <div class="breadth-seg dec" style="width: 32%;"></div>
+              </div>
+              <div class="flows-row">
+                <span class="flow-pill">FII Net: <strong class="pos">+₹1,420 Cr</strong></span>
+                <span class="flow-pill">DII Net: <strong class="pos">+₹2,350 Cr</strong></span>
+              </div>
+            </div>
+
+            <div class="radar-sectors-card">
+              <div class="radar-section-title">SECTOR LEADERS (TODAY)</div>
+              <div class="sector-grid">
+                <div class="sector-item pos"><span class="sec-name">Auto</span><span class="sec-pct">+1.85% ▲</span></div>
+                <div class="sector-item pos"><span class="sec-name">Realty</span><span class="sec-pct">+1.42% ▲</span></div>
+                <div class="sector-item pos"><span class="sec-name">Bank</span><span class="sec-pct">+0.75% ▲</span></div>
+                <div class="sector-item pos"><span class="sec-name">FMCG</span><span class="sec-pct">+0.52% ▲</span></div>
+                <div class="sector-item pos"><span class="sec-name">Metal</span><span class="sec-pct">+0.38% ▲</span></div>
+                <div class="sector-item neg"><span class="sec-name">IT</span><span class="sec-pct">-0.28% ▼</span></div>
+              </div>
+            </div>
+
+            <div class="radar-movers-card">
+              <div class="radar-section-title">ACTIVE BENCHMARKS (1-CLICK LOAD)</div>
+              <div class="radar-movers-list">
+                <div class="mover-item" onclick="quickSelect('TATAPOWER')">
+                  <div class="mover-info"><strong>TATAPOWER</strong><span>Tata Power Co Ltd</span></div>
+                  <div class="mover-price"><span class="price-val">₹ 438.50</span><span class="price-chg pos">+3.80% ▲</span></div>
+                </div>
+                <div class="mover-item" onclick="quickSelect('SBIN')">
+                  <div class="mover-info"><strong>SBIN</strong><span>State Bank of India</span></div>
+                  <div class="mover-price"><span class="price-val">₹ 795.50</span><span class="price-chg pos">+2.10% ▲</span></div>
+                </div>
+                <div class="mover-item" onclick="quickSelect('RELIANCE')">
+                  <div class="mover-info"><strong>RELIANCE</strong><span>Reliance Industries</span></div>
+                  <div class="mover-price"><span class="price-val">₹ 2,980.00</span><span class="price-chg pos">+0.93% ▲</span></div>
+                </div>
+                <div class="mover-item" onclick="quickSelect('122639')">
+                  <div class="mover-info"><strong>PPFAS</strong><span>Parag Parikh Flexi Cap</span></div>
+                  <div class="mover-price"><span class="price-val">₹ 78.40</span><span class="price-chg pos">+0.82% ▲</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="disclaimer cockpit-disclaimer">Important: Multi-factor quantitative scoring framework. Production signals reflect audited regulatory filings and exchange disclosures. Not investment advice.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       PAGE 3: 🏥 STOCK HEALTH CHECKER (Dedicated Station)
+       ========================================================================= -->
+  <div id="page-health" class="portal-page" style="display: none;">
+    <section class="portal-module-section" id="health-checker">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">AUTOMATED FUNDAMENTAL DIAGNOSTIC</span>
+            <h2 class="portal-title">Stock Health Checker</h2>
+            <p class="portal-subtitle">Instantly diagnose solvency, earnings quality, capital efficiency and forensic red flags across 2,000+ listed Indian equities.</p>
+          </div>
+          <div class="health-picker-pills">
+            <span class="picker-label">Select Stock:</span>
+            <button type="button" class="health-pill active" onclick="selectHealthStock('INFY', this)">INFY</button>
+            <button type="button" class="health-pill" onclick="selectHealthStock('TCS', this)">TCS</button>
+            <button type="button" class="health-pill" onclick="selectHealthStock('RELIANCE', this)">RELIANCE</button>
+            <button type="button" class="health-pill" onclick="selectHealthStock('SBIN', this)">SBIN</button>
+            <button type="button" class="health-pill" onclick="selectHealthStock('ITC', this)">ITC</button>
+            <button type="button" class="health-pill" onclick="selectHealthStock('TATAPOWER', this)">TATAPOWER</button>
+          </div>
+        </div>
+
+        <div class="health-dashboard-card">
+          <div class="health-top-banner">
+            <div class="health-summary-info">
+              <div class="health-status-badge" id="healthGradeBadge">GRADE: A+ · EXCEPTIONAL HEALTH</div>
+              <h3 class="health-company-name" id="healthCompanyName">Infosys Limited (NSE: INFY)</h3>
+              <p class="health-company-desc" id="healthCompanyDesc">Demonstrates near-zero debt leverage, world-class capital efficiency (ROE > 28%), stable operating cash flows and pristine forensic audit compliance.</p>
+            </div>
+            <div class="health-composite-box">
+              <div class="health-score-ring">
+                <span class="health-big-num" id="healthBigScore">92</span>
+                <span class="health-score-max">/100</span>
+              </div>
+              <span class="health-ring-label">OVERALL HEALTH SCORE</span>
+            </div>
+          </div>
+
+          <div class="health-pillars-grid">
+            <div class="health-pillar-card">
+              <div class="pillar-head">
+                <div class="pillar-icon">🛡️</div>
+                <div>
+                  <h4>Solvency & Debt Health</h4>
+                  <span class="pillar-verdict pos" id="pillarSolvencyVerdict">Pristine · Zero Debt Risk</span>
+                </div>
+              </div>
+              <div class="pillar-metrics">
+                <div class="pillar-row"><span>Debt to Equity:</span><strong id="healthDte">0.08x</strong></div>
+                <div class="pillar-row"><span>Interest Coverage:</span><strong id="healthIntCov">42.5x</strong></div>
+                <div class="pillar-row"><span>Current Ratio:</span><strong id="healthCurRat">2.4x</strong></div>
+              </div>
+              <div class="pillar-bar"><span style="width: 95%; background: #059669;"></span></div>
+            </div>
+
+            <div class="health-pillar-card">
+              <div class="pillar-head">
+                <div class="pillar-icon">💎</div>
+                <div>
+                  <h4>Capital Efficiency (ROE/ROCE)</h4>
+                  <span class="pillar-verdict pos" id="pillarProfitVerdict">Elite Returns Profile</span>
+                </div>
+              </div>
+              <div class="pillar-metrics">
+                <div class="pillar-row"><span>Return on Equity (ROE):</span><strong id="healthRoe">29.4%</strong></div>
+                <div class="pillar-row"><span>ROCE:</span><strong id="healthRoce">37.8%</strong></div>
+                <div class="pillar-row"><span>Operating Margin:</span><strong id="healthOpm">21.2%</strong></div>
+              </div>
+              <div class="pillar-bar"><span style="width: 92%; background: #059669;"></span></div>
+            </div>
+
+            <div class="health-pillar-card">
+              <div class="pillar-head">
+                <div class="pillar-icon">🚀</div>
+                <div>
+                  <h4>Growth & Earnings Quality</h4>
+                  <span class="pillar-verdict pos" id="pillarGrowthVerdict">Consistent Cash Compounding</span>
+                </div>
+              </div>
+              <div class="pillar-metrics">
+                <div class="pillar-row"><span>5Y Sales CAGR:</span><strong id="healthSalesCagr">11.4%</strong></div>
+                <div class="pillar-row"><span>5Y Profit CAGR:</span><strong id="healthProfCagr">12.8%</strong></div>
+                <div class="pillar-row"><span>OCF to Net Profit:</span><strong id="healthOcfRatio">1.12x</strong></div>
+              </div>
+              <div class="pillar-bar"><span style="width: 86%; background: #059669;"></span></div>
+            </div>
+
+            <div class="health-pillar-card">
+              <div class="pillar-head">
+                <div class="pillar-icon">🔍</div>
+                <div>
+                  <h4>Forensic Red Flags Audit</h4>
+                  <span class="pillar-verdict pos" id="pillarForensicVerdict">Passed 8/8 Red Flag Audits</span>
+                </div>
+              </div>
+              <div class="pillar-metrics">
+                <div class="pillar-row"><span>Promoter Pledge:</span><strong id="healthPledge">0.00% (None)</strong></div>
+                <div class="pillar-row"><span>Auditor Qualifications:</span><strong>Unqualified (Clean)</strong></div>
+                <div class="pillar-row"><span>Contingent Liabilities:</span><strong>Low (< 3% NW)</strong></div>
+              </div>
+              <div class="pillar-bar"><span style="width: 98%; background: #059669;"></span></div>
+            </div>
+          </div>
+
+          <div class="health-action-footer">
+            <span>Detailed valuation, historical financial statements, and XBRL filings are available in the terminal.</span>
+            <button type="button" class="btn btn-outline" id="healthActionBtn" onclick="quickSelect('INFY')">Open Full Statement in Terminal →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       PAGE 4: 🌐 MARKET OVERVIEW & BREADTH (Dedicated Page)
+       ========================================================================= -->
+  <div id="page-overview" class="portal-page" style="display: none;">
+    <section class="portal-module-section alt-bg" id="market-overview">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">INSTITUTIONAL BREADTH & LIQUIDITY</span>
+            <h2 class="portal-title">Indian Market Overview</h2>
+            <p class="portal-subtitle">Exchange-wide market breadth, sector rotation heatmap, and institutional FII/DII cash market activity.</p>
+          </div>
+          <div class="overview-refresh-tag">
+            <span>● SEBI Daily Disclosures Live</span>
+          </div>
+        </div>
+
+        <div class="market-overview-grid">
+          <div class="overview-panel-card">
+            <div class="overview-panel-head">
+              <h3>NSE Market Breadth</h3>
+              <span class="tag-pill">2,320 Traded</span>
+            </div>
+            <div class="breadth-hero-stats">
+              <div class="b-stat adv">
+                <span class="num">1,580</span>
+                <span class="lbl">Advances (68.1%)</span>
+              </div>
+              <div class="b-stat dec">
+                <span class="num">740</span>
+                <span class="lbl">Declines (31.9%)</span>
+              </div>
+            </div>
+            <div class="breadth-large-bar">
+              <div class="b-bar-adv" style="width: 68%;">68%</div>
+              <div class="b-bar-dec" style="width: 32%;">32%</div>
+            </div>
+            <div class="breadth-sub-stats">
+              <div class="sub-row"><span>52-Week Highs Hit Today:</span><strong class="pos">142 Equities ▲</strong></div>
+              <div class="sub-row"><span>52-Week Lows Hit Today:</span><strong class="neg">18 Equities ▼</strong></div>
+              <div class="sub-row"><span>Upper Circuit Lock:</span><strong>64 Stocks</strong></div>
+              <div class="sub-row"><span>Advance/Decline Ratio:</span><strong class="pos">2.14x (Bullish)</strong></div>
+            </div>
+          </div>
+
+          <div class="overview-panel-card">
+            <div class="overview-panel-head">
+              <h3>Institutional Activity (FII / DII)</h3>
+              <span class="tag-pill">Cash Market</span>
+            </div>
+            <div class="inst-flows-box">
+              <div class="inst-flow-row pos">
+                <div class="inst-info">
+                  <strong>Foreign Institutional Investors (FII)</strong>
+                  <span>Gross Buy: ₹11,250 Cr · Gross Sell: ₹9,830 Cr</span>
+                </div>
+                <div class="inst-net-val pos">+₹ 1,420 Cr ▲</div>
+              </div>
+              <div class="inst-flow-row pos">
+                <div class="inst-info">
+                  <strong>Domestic Institutional Investors (DII)</strong>
+                  <span>Gross Buy: ₹8,940 Cr · Gross Sell: ₹6,590 Cr</span>
+                </div>
+                <div class="inst-net-val pos">+₹ 2,350 Cr ▲</div>
+              </div>
+            </div>
+            <div class="inst-total-banner">
+              <span>Net Institutional Cash Flow:</span>
+              <strong class="pos">+₹ 3,770 Cr (Strong Domestic Support)</strong>
+            </div>
+          </div>
+
+          <div class="overview-panel-card">
+            <div class="overview-panel-head">
+              <h3>Sector Rotation Heatmap</h3>
+              <span class="tag-pill">Real-Time</span>
+            </div>
+            <div class="sector-heatmap-matrix">
+              <div class="sec-heat-chip pos"><span>Auto</span><strong>+1.85% ▲</strong></div>
+              <div class="sec-heat-chip pos"><span>Realty</span><strong>+1.42% ▲</strong></div>
+              <div class="sec-heat-chip pos"><span>Bank</span><strong>+0.75% ▲</strong></div>
+              <div class="sec-heat-chip pos"><span>FMCG</span><strong>+0.52% ▲</strong></div>
+              <div class="sec-heat-chip pos"><span>Pharma</span><strong>+0.48% ▲</strong></div>
+              <div class="sec-heat-chip pos"><span>Metal</span><strong>+0.38% ▲</strong></div>
+              <div class="sec-heat-chip pos"><span>Energy</span><strong>+0.12% ▲</strong></div>
+              <div class="sec-heat-chip neg"><span>IT</span><strong>-0.28% ▼</strong></div>
+            </div>
+            <div class="sector-hint">
+              <span>💡 <strong>Sector Trend:</strong> Capital rotation favored Automobile & Real Estate equities following consumer demand updates.</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <!-- SECTION 6: TOP MARKET MOVERS (YAHOO FINANCE / MONEYCONTROL TABS) -->
-  <section class="portal-module-section alt-bg" id="market-movers">
-    <div class="portal-container">
-      <div class="portal-section-header">
-        <div>
-          <span class="portal-eyebrow">NSE ACTIVE BENCHMARKS</span>
-          <h2 class="portal-title">Market Movers & Momentum Leaders</h2>
-          <p class="portal-subtitle">Track today's top gainers, losers, 52-week breakout leaders and highest turnover Indian stocks.</p>
-        </div>
-        <div class="movers-tab-buttons">
-          <button type="button" class="mover-tab-btn active" id="btnGainers" onclick="switchMoversTab('gainers')">Top Gainers</button>
-          <button type="button" class="mover-tab-btn" id="btnLosers" onclick="switchMoversTab('losers')">Top Losers</button>
-          <button type="button" class="mover-tab-btn" id="btnActive" onclick="switchMoversTab('active')">Most Active by Value</button>
-        </div>
-      </div>
-
-      <div class="movers-table-card">
-        <!-- 1. Gainers Table -->
-        <div class="table-responsive" id="tableGainers">
-          <table class="movers-table">
-            <thead>
-              <tr>
-                <th>Symbol / Company</th>
-                <th>Current Price</th>
-                <th>Day Change (%)</th>
-                <th>Volume (Shares)</th>
-                <th>Turnover (₹ Cr)</th>
-                <th>Research Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>TATAPOWER</strong><span class="sub-text">Tata Power Company Ltd</span></td>
-                <td><strong>₹ 438.50</strong></td>
-                <td><span class="table-badge pos">+3.80% ▲</span></td>
-                <td>2,45,00,000</td>
-                <td>₹ 1,074 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('TATAPOWER')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>SBIN</strong><span class="sub-text">State Bank of India</span></td>
-                <td><strong>₹ 795.50</strong></td>
-                <td><span class="table-badge pos">+2.10% ▲</span></td>
-                <td>1,82,00,000</td>
-                <td>₹ 1,448 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('SBIN')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>TRENT</strong><span class="sub-text">Trent Ltd (Tata Retail)</span></td>
-                <td><strong>₹ 6,850.00</strong></td>
-                <td><span class="table-badge pos">+2.05% ▲</span></td>
-                <td>12,50,000</td>
-                <td>₹ 856 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('TCS')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>INFY</strong><span class="sub-text">Infosys Limited</span></td>
-                <td><strong>₹ 1,885.00</strong></td>
-                <td><span class="table-badge pos">+1.20% ▲</span></td>
-                <td>82,00,000</td>
-                <td>₹ 1,545 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('INFY')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>RELIANCE</strong><span class="sub-text">Reliance Industries Ltd</span></td>
-                <td><strong>₹ 2,980.00</strong></td>
-                <td><span class="table-badge pos">+0.93% ▲</span></td>
-                <td>72,00,000</td>
-                <td>₹ 2,145 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('RELIANCE')">Analyze</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- 2. Losers Table (Hidden by default) -->
-        <div class="table-responsive" id="tableLosers" style="display: none;">
-          <table class="movers-table">
-            <thead>
-              <tr>
-                <th>Symbol / Company</th>
-                <th>Current Price</th>
-                <th>Day Change (%)</th>
-                <th>Volume (Shares)</th>
-                <th>Turnover (₹ Cr)</th>
-                <th>Research Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>HCLTECH</strong><span class="sub-text">HCL Technologies Ltd</span></td>
-                <td><strong>₹ 1,815.00</strong></td>
-                <td><span class="table-badge neg">-1.40% ▼</span></td>
-                <td>34,00,000</td>
-                <td>₹ 617 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('HCLTECH')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>TECHM</strong><span class="sub-text">Tech Mahindra Ltd</span></td>
-                <td><strong>₹ 1,640.00</strong></td>
-                <td><span class="table-badge neg">-1.15% ▼</span></td>
-                <td>21,00,000</td>
-                <td>₹ 344 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('TCS')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>WIPRO</strong><span class="sub-text">Wipro Limited</span></td>
-                <td><strong>₹ 545.00</strong></td>
-                <td><span class="table-badge neg">-0.95% ▼</span></td>
-                <td>48,00,000</td>
-                <td>₹ 261 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('INFY')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>CIPLA</strong><span class="sub-text">Cipla Limited</span></td>
-                <td><strong>₹ 1,480.00</strong></td>
-                <td><span class="table-badge neg">-0.85% ▼</span></td>
-                <td>18,00,000</td>
-                <td>₹ 266 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('SUNPHARMA')">Analyze</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- 3. Most Active Table (Hidden by default) -->
-        <div class="table-responsive" id="tableActive" style="display: none;">
-          <table class="movers-table">
-            <thead>
-              <tr>
-                <th>Symbol / Company</th>
-                <th>Current Price</th>
-                <th>Day Change (%)</th>
-                <th>Volume (Shares)</th>
-                <th>Turnover (₹ Cr)</th>
-                <th>Research Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>RELIANCE</strong><span class="sub-text">Reliance Industries Ltd</span></td>
-                <td><strong>₹ 2,980.00</strong></td>
-                <td><span class="table-badge pos">+0.93% ▲</span></td>
-                <td>72,00,000</td>
-                <td>₹ 2,145 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('RELIANCE')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>HDFCBANK</strong><span class="sub-text">HDFC Bank Limited</span></td>
-                <td><strong>₹ 1,745.00</strong></td>
-                <td><span class="table-badge pos">+0.55% ▲</span></td>
-                <td>1,14,00,000</td>
-                <td>₹ 1,989 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('HDFCBANK')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>INFY</strong><span class="sub-text">Infosys Limited</span></td>
-                <td><strong>₹ 1,885.00</strong></td>
-                <td><span class="table-badge pos">+1.20% ▲</span></td>
-                <td>82,00,000</td>
-                <td>₹ 1,545 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('INFY')">Analyze</button></td>
-              </tr>
-              <tr>
-                <td><strong>SBIN</strong><span class="sub-text">State Bank of India</span></td>
-                <td><strong>₹ 795.50</strong></td>
-                <td><span class="table-badge pos">+2.10% ▲</span></td>
-                <td>1,82,00,000</td>
-                <td>₹ 1,448 Cr</td>
-                <td><button type="button" class="btn-table-action" onclick="quickSelect('SBIN')">Analyze</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 7: MUTUAL FUNDS & ETF WEALTH RADAR (AMFI INTEGRATED) -->
-  <section class="portal-module-section" id="mutual-funds">
-    <div class="portal-container">
-      <div class="portal-section-header">
-        <div>
-          <span class="portal-eyebrow">AMFI AUDITED SCHEMES</span>
-          <h2 class="portal-title">Top Rated Mutual Funds & Index Trackers</h2>
-          <p class="portal-subtitle">Curated market leaders across Flexi-Cap, Small-Cap, Bluechip and Low-Cost Passive Index strategies.</p>
-        </div>
-        <div class="overview-refresh-tag">
-          <span>● AMFI Daily NAV Updated</span>
-        </div>
-      </div>
-
-      <div class="mf-cards-grid">
-        <!-- Scheme 1 -->
-        <article class="mf-scheme-card">
-          <div class="mf-badge">FLEXI CAP · TOP RATED</div>
-          <h3 class="mf-title">Parag Parikh Flexi Cap Fund</h3>
-          <p class="mf-meta">AMFI Code: 122639 · Equity Large & Mid Cap · Direct Growth</p>
-          <div class="mf-stats-row">
-            <div><small>Latest NAV</small><strong>₹ 78.40</strong></div>
-            <div><small>3Y CAGR Return</small><strong class="pos">22.4%</strong></div>
-            <div><small>5Y CAGR Return</small><strong class="pos">24.1%</strong></div>
-            <div><small>Fund AUM</small><strong>₹ 72,400 Cr</strong></div>
+  <!-- =========================================================================
+       PAGE 5: 💰 SMART INVESTMENT PLANNER & WEALTH SIP HUB (Dedicated Page)
+       ========================================================================= -->
+  <div id="page-planner" class="portal-page" style="display: none;">
+    <section class="portal-module-section" id="investment-planner">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">WEALTH ACCUMULATION & COMPOUNDING</span>
+            <h2 class="portal-title">Smart Investment Planner & SIP Calculator</h2>
+            <p class="portal-subtitle">Simulate multi-year compounding growth, model monthly Systematic Investment Plans (SIP), and optimize your equity asset allocation.</p>
           </div>
-          <button type="button" class="btn btn-outline mf-action-btn" onclick="quickSelect('122639')">Inspect Portfolio & Holdings →</button>
-        </article>
-
-        <!-- Scheme 2 -->
-        <article class="mf-scheme-card">
-          <div class="mf-badge">SMALL CAP · HIGH MOMENTUM</div>
-          <h3 class="mf-title">Quant Small Cap Fund</h3>
-          <p class="mf-meta">AMFI Code: 120828 · Equity Small Cap · Direct Growth</p>
-          <div class="mf-stats-row">
-            <div><small>Latest NAV</small><strong>₹ 242.10</strong></div>
-            <div><small>3Y CAGR Return</small><strong class="pos">32.8%</strong></div>
-            <div><small>5Y CAGR Return</small><strong class="pos">34.5%</strong></div>
-            <div><small>Fund AUM</small><strong>₹ 24,100 Cr</strong></div>
+          <div class="planner-mode-toggle">
+            <button type="button" class="mode-btn active" id="btnModeSip" onclick="switchPlannerMode('sip')">Monthly SIP</button>
+            <button type="button" class="mode-btn" id="btnModeLump" onclick="switchPlannerMode('lumpsum')">One-Time Lumpsum</button>
           </div>
-          <button type="button" class="btn btn-outline mf-action-btn" onclick="quickSelect('120828')">Inspect Portfolio & Holdings →</button>
-        </article>
+        </div>
 
-        <!-- Scheme 3 -->
-        <article class="mf-scheme-card">
-          <div class="mf-badge">LARGE CAP · STEADY WEALTH</div>
-          <h3 class="mf-title">SBI Bluechip Fund</h3>
-          <p class="mf-meta">AMFI Code: 119598 · Large Cap Equity · Direct Growth</p>
-          <div class="mf-stats-row">
-            <div><small>Latest NAV</small><strong>₹ 94.50</strong></div>
-            <div><small>3Y CAGR Return</small><strong class="pos">16.8%</strong></div>
-            <div><small>5Y CAGR Return</small><strong class="pos">17.5%</strong></div>
-            <div><small>Fund AUM</small><strong>₹ 46,200 Cr</strong></div>
+        <div class="planner-layout-card">
+          <div class="planner-controls-col">
+            <div class="planner-control-group">
+              <div class="control-label-row">
+                <label for="sipAmountRange" id="labelInvestmentAmount">Monthly Investment Amount:</label>
+                <div class="control-bubble" id="sipAmountDisplay">₹ 10,000</div>
+              </div>
+              <input type="range" class="planner-slider" id="sipAmountRange" min="1000" max="100000" step="1000" value="10000" oninput="updateSipCalculator()">
+              <div class="slider-marks"><span>₹1k</span><span>₹25k</span><span>₹50k</span><span>₹1L</span></div>
+            </div>
+
+            <div class="planner-control-group">
+              <div class="control-label-row">
+                <label for="sipRateRange">Expected Annual Return (% CAGR):</label>
+                <div class="control-bubble" id="sipRateDisplay">14.5%</div>
+              </div>
+              <input type="range" class="planner-slider" id="sipRateRange" min="6" max="24" step="0.5" value="14.5" oninput="updateSipCalculator()">
+              <div class="slider-marks"><span>6% (FD)</span><span>12% (Nifty)</span><span>14.5% (Flexi)</span><span>20% (Small Cap)</span></div>
+            </div>
+
+            <div class="planner-control-group">
+              <div class="control-label-row">
+                <label for="sipYearsRange">Time Horizon (Years):</label>
+                <div class="control-bubble" id="sipYearsDisplay">10 Years</div>
+              </div>
+              <input type="range" class="planner-slider" id="sipYearsRange" min="1" max="30" step="1" value="10" oninput="updateSipCalculator()">
+              <div class="slider-marks"><span>1 Yr</span><span>5 Yrs</span><span>10 Yrs</span><span>20 Yrs</span><span>30 Yrs</span></div>
+            </div>
           </div>
-          <button type="button" class="btn btn-outline mf-action-btn" onclick="quickSelect('119598')">Inspect Portfolio & Holdings →</button>
-        </article>
 
-        <!-- Scheme 4 -->
-        <article class="mf-scheme-card">
-          <div class="mf-badge">PASSIVE INDEX · LOW EXPENSE</div>
-          <h3 class="mf-title">HDFC Nifty 50 Index Fund</h3>
-          <p class="mf-meta">AMFI Code: 148721 · Nifty 50 Index Tracker · Direct Growth</p>
-          <div class="mf-stats-row">
-            <div><small>Latest NAV</small><strong>₹ 26.80</strong></div>
-            <div><small>3Y CAGR Return</small><strong class="pos">14.9%</strong></div>
-            <div><small>Expense Ratio</small><strong>0.20% (Low)</strong></div>
-            <div><small>Tracking Error</small><strong>0.04% (Minimal)</strong></div>
+          <div class="planner-results-col">
+            <div class="results-card-inner">
+              <div class="results-headline">Projected Portfolio Value</div>
+              <div class="big-wealth-number" id="futureValueResult">₹ 27,86,340</div>
+
+              <div class="wealth-breakdown-bar">
+                <div class="bar-seg invested" id="barInvested" style="width: 43%;"></div>
+                <div class="bar-seg gains" id="barGains" style="width: 57%;"></div>
+              </div>
+
+              <div class="wealth-legend-row">
+                <div class="legend-box">
+                  <span class="legend-color invested"></span>
+                  <div>
+                    <small>Invested Capital</small>
+                    <strong id="investedAmountResult">₹ 12,00,000</strong>
+                  </div>
+                </div>
+                <div class="legend-box">
+                  <span class="legend-color gains"></span>
+                  <div>
+                    <small>Estimated Wealth Created</small>
+                    <strong class="pos" id="gainsAmountResult">₹ 15,86,340</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="asset-strategy-box">
+                <div class="strategy-title">💡 Recommended Portfolio Allocation:</div>
+                <p id="strategyDesc">For a 10-year horizon, allocate <strong>70% to Flexi-Cap / NIFTY 50 Index Funds</strong>, <strong>20% to High-Yield Corporate Debt</strong>, and <strong>10% to Sovereign Gold / Liquid Assets</strong>.</p>
+              </div>
+            </div>
           </div>
-          <button type="button" class="btn btn-outline mf-action-btn" onclick="quickSelect('148721')">Inspect Portfolio & Holdings →</button>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 8: LATEST MARKET NEWS & REGULATORY EVENTS WIRE -->
-  <section class="portal-module-section alt-bg" id="financial-news">
-    <div class="portal-container">
-      <div class="portal-section-header">
-        <div>
-          <span class="portal-eyebrow">CORPORATE WIRE & MACRO PULSE</span>
-          <h2 class="portal-title">Latest Market News & Policy Updates</h2>
-          <p class="portal-subtitle">Curated live developments across the Reserve Bank of India (RBI), SEBI regulations, and major corporate earnings.</p>
         </div>
       </div>
+    </section>
+  </div>
 
-      <div class="news-wire-grid">
-        <article class="news-card">
-          <div class="news-badge-row"><span class="news-tag rbi">🏛️ RBI Policy</span><span class="news-time">2 hours ago</span></div>
-          <h4>RBI MPC Maintains Benchmark Repo Rate at 6.50%</h4>
-          <p>The Reserve Bank of India’s Monetary Policy Committee voted unanimously to keep the repo rate unchanged, citing sustained macroeconomic resilience and projected FY27 GDP growth above 7.0%.</p>
-        </article>
+  <!-- =========================================================================
+       PAGE 6: 🔥 MARKET MOVERS (Dedicated Page)
+       ========================================================================= -->
+  <div id="page-movers" class="portal-page" style="display: none;">
+    <section class="portal-module-section alt-bg" id="market-movers">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">NSE ACTIVE BENCHMARKS</span>
+            <h2 class="portal-title">Market Movers & Momentum Leaders</h2>
+            <p class="portal-subtitle">Track today's top gainers, losers, 52-week breakout leaders and highest turnover Indian stocks.</p>
+          </div>
+          <div class="movers-tab-buttons">
+            <button type="button" class="mover-tab-btn active" id="btnGainers" onclick="switchMoversTab('gainers')">Top Gainers</button>
+            <button type="button" class="mover-tab-btn" id="btnLosers" onclick="switchMoversTab('losers')">Top Losers</button>
+            <button type="button" class="mover-tab-btn" id="btnActive" onclick="switchMoversTab('active')">Most Active by Value</button>
+          </div>
+        </div>
 
-        <article class="news-card">
-          <div class="news-badge-row"><span class="news-tag earnings">📈 Earnings Radar</span><span class="news-time">3 hours ago</span></div>
-          <h4>IT & Banking Majors Forecast Steady Margin Expansion in Q3</h4>
-          <p>Indian Tier-1 IT consulting exporters alongside leading private sector banks project sequential margin expansion driven by digital transformations, artificial intelligence pipelines, and credit demand.</p>
-        </article>
+        <div class="movers-table-card">
+          <div class="table-responsive" id="tableGainers">
+            <table class="movers-table">
+              <thead>
+                <tr>
+                  <th>Symbol / Company</th>
+                  <th>Current Price</th>
+                  <th>Day Change (%)</th>
+                  <th>Volume (Shares)</th>
+                  <th>Turnover (₹ Cr)</th>
+                  <th>Research Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>TATAPOWER</strong><span class="sub-text">Tata Power Company Ltd</span></td>
+                  <td><strong>₹ 438.50</strong></td>
+                  <td><span class="table-badge pos">+3.80% ▲</span></td>
+                  <td>2,45,00,000</td>
+                  <td>₹ 1,074 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('TATAPOWER')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>SBIN</strong><span class="sub-text">State Bank of India</span></td>
+                  <td><strong>₹ 795.50</strong></td>
+                  <td><span class="table-badge pos">+2.10% ▲</span></td>
+                  <td>1,82,00,000</td>
+                  <td>₹ 1,448 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('SBIN')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>TRENT</strong><span class="sub-text">Trent Ltd (Tata Retail)</span></td>
+                  <td><strong>₹ 6,850.00</strong></td>
+                  <td><span class="table-badge pos">+2.05% ▲</span></td>
+                  <td>12,50,000</td>
+                  <td>₹ 856 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('TCS')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>INFY</strong><span class="sub-text">Infosys Limited</span></td>
+                  <td><strong>₹ 1,885.00</strong></td>
+                  <td><span class="table-badge pos">+1.20% ▲</span></td>
+                  <td>82,00,000</td>
+                  <td>₹ 1,545 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('INFY')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>RELIANCE</strong><span class="sub-text">Reliance Industries Ltd</span></td>
+                  <td><strong>₹ 2,980.00</strong></td>
+                  <td><span class="table-badge pos">+0.93% ▲</span></td>
+                  <td>72,00,000</td>
+                  <td>₹ 2,145 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('RELIANCE')">Analyze</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <article class="news-card">
-          <div class="news-badge-row"><span class="news-tag sebi">📑 SEBI Circular</span><span class="news-time">5 hours ago</span></div>
-          <h4>SEBI Refines Derivatives Framework to Enhance Investor Safety</h4>
-          <p>Market regulator SEBI introduced rationalized contract sizing and margin regulations for equity index derivatives, reinforcing institutional-grade risk management and retail investor protection.</p>
-        </article>
+          <div class="table-responsive" id="tableLosers" style="display: none;">
+            <table class="movers-table">
+              <thead>
+                <tr>
+                  <th>Symbol / Company</th>
+                  <th>Current Price</th>
+                  <th>Day Change (%)</th>
+                  <th>Volume (Shares)</th>
+                  <th>Turnover (₹ Cr)</th>
+                  <th>Research Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>HCLTECH</strong><span class="sub-text">HCL Technologies Ltd</span></td>
+                  <td><strong>₹ 1,815.00</strong></td>
+                  <td><span class="table-badge neg">-1.40% ▼</span></td>
+                  <td>34,00,000</td>
+                  <td>₹ 617 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('HCLTECH')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>TECHM</strong><span class="sub-text">Tech Mahindra Ltd</span></td>
+                  <td><strong>₹ 1,640.00</strong></td>
+                  <td><span class="table-badge neg">-1.15% ▼</span></td>
+                  <td>21,00,000</td>
+                  <td>₹ 344 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('TCS')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>WIPRO</strong><span class="sub-text">Wipro Limited</span></td>
+                  <td><strong>₹ 545.00</strong></td>
+                  <td><span class="table-badge neg">-0.95% ▼</span></td>
+                  <td>48,00,000</td>
+                  <td>₹ 261 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('INFY')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>CIPLA</strong><span class="sub-text">Cipla Limited</span></td>
+                  <td><strong>₹ 1,480.00</strong></td>
+                  <td><span class="table-badge neg">-0.85% ▼</span></td>
+                  <td>18,00,000</td>
+                  <td>₹ 266 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('SUNPHARMA')">Analyze</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <article class="news-card">
-          <div class="news-badge-row"><span class="news-tag corp">💰 Corporate Actions</span><span class="news-time">6 hours ago</span></div>
-          <h4>State Bank of India & ITC Announce Interim Dividend Distributions</h4>
-          <p>Board resolutions filed on stock exchanges confirmed dividend announcements for eligible shareholders, underscoring solid balance sheet liquidity and consistent capital returns.</p>
-        </article>
+          <div class="table-responsive" id="tableActive" style="display: none;">
+            <table class="movers-table">
+              <thead>
+                <tr>
+                  <th>Symbol / Company</th>
+                  <th>Current Price</th>
+                  <th>Day Change (%)</th>
+                  <th>Volume (Shares)</th>
+                  <th>Turnover (₹ Cr)</th>
+                  <th>Research Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>RELIANCE</strong><span class="sub-text">Reliance Industries Ltd</span></td>
+                  <td><strong>₹ 2,980.00</strong></td>
+                  <td><span class="table-badge pos">+0.93% ▲</span></td>
+                  <td>72,00,000</td>
+                  <td>₹ 2,145 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('RELIANCE')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>HDFCBANK</strong><span class="sub-text">HDFC Bank Limited</span></td>
+                  <td><strong>₹ 1,745.00</strong></td>
+                  <td><span class="table-badge pos">+0.55% ▲</span></td>
+                  <td>1,14,00,000</td>
+                  <td>₹ 1,989 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('HDFCBANK')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>INFY</strong><span class="sub-text">Infosys Limited</span></td>
+                  <td><strong>₹ 1,885.00</strong></td>
+                  <td><span class="table-badge pos">+1.20% ▲</span></td>
+                  <td>82,00,000</td>
+                  <td>₹ 1,545 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('INFY')">Analyze</button></td>
+                </tr>
+                <tr>
+                  <td><strong>SBIN</strong><span class="sub-text">State Bank of India</span></td>
+                  <td><strong>₹ 795.50</strong></td>
+                  <td><span class="table-badge pos">+2.10% ▲</span></td>
+                  <td>1,82,00,000</td>
+                  <td>₹ 1,448 Cr</td>
+                  <td><button type="button" class="btn-table-action" onclick="quickSelect('SBIN')">Analyze</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       PAGE 7: ▦ MUTUAL FUNDS & ETF RADAR (Dedicated Page)
+       ========================================================================= -->
+  <div id="page-funds" class="portal-page" style="display: none;">
+    <section class="portal-module-section" id="mutual-funds">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">AMFI AUDITED SCHEMES</span>
+            <h2 class="portal-title">Top Rated Mutual Funds & Index Trackers</h2>
+            <p class="portal-subtitle">Curated market leaders across Flexi-Cap, Small-Cap, Bluechip and Low-Cost Passive Index strategies.</p>
+          </div>
+          <div class="overview-refresh-tag">
+            <span>● AMFI Daily NAV Updated</span>
+          </div>
+        </div>
+
+        <div class="mf-cards-grid">
+          <article class="mf-scheme-card">
+            <div class="mf-badge">FLEXI CAP · TOP RATED</div>
+            <h3 class="mf-title">Parag Parikh Flexi Cap Fund</h3>
+            <p class="mf-meta">AMFI Code: 122639 · Equity Large & Mid Cap · Direct Growth</p>
+            <div class="mf-stats-row">
+              <div><small>Latest NAV</small><strong>₹ 78.40</strong></div>
+              <div><small>3Y CAGR Return</small><strong class="pos">22.4%</strong></div>
+              <div><small>5Y CAGR Return</small><strong class="pos">24.1%</strong></div>
+              <div><small>Fund AUM</small><strong>₹ 72,400 Cr</strong></div>
+            </div>
+            <button type="button" class="btn btn-outline mf-action-btn" onclick="quickSelect('122639')">Inspect Portfolio & Holdings →</button>
+          </article>
+
+          <article class="mf-scheme-card">
+            <div class="mf-badge">SMALL CAP · HIGH MOMENTUM</div>
+            <h3 class="mf-title">Quant Small Cap Fund</h3>
+            <p class="mf-meta">AMFI Code: 120828 · Equity Small Cap · Direct Growth</p>
+            <div class="mf-stats-row">
+              <div><small>Latest NAV</small><strong>₹ 242.10</strong></div>
+              <div><small>3Y CAGR Return</small><strong class="pos">32.8%</strong></div>
+              <div><small>5Y CAGR Return</small><strong class="pos">34.5%</strong></div>
+              <div><small>Fund AUM</small><strong>₹ 24,100 Cr</strong></div>
+            </div>
+            <button type="button" class="btn btn-outline mf-action-btn" onclick="quickSelect('120828')">Inspect Portfolio & Holdings →</button>
+          </article>
+
+          <article class="mf-scheme-card">
+            <div class="mf-badge">LARGE CAP · STEADY WEALTH</div>
+            <h3 class="mf-title">SBI Bluechip Fund</h3>
+            <p class="mf-meta">AMFI Code: 119598 · Large Cap Equity · Direct Growth</p>
+            <div class="mf-stats-row">
+              <div><small>Latest NAV</small><strong>₹ 94.50</strong></div>
+              <div><small>3Y CAGR Return</small><strong class="pos">16.8%</strong></div>
+              <div><small>5Y CAGR Return</small><strong class="pos">17.5%</strong></div>
+              <div><small>Fund AUM</small><strong>₹ 46,200 Cr</strong></div>
+            </div>
+            <button type="button" class="btn btn-outline mf-action-btn" onclick="quickSelect('119598')">Inspect Portfolio & Holdings →</button>
+          </article>
+
+          <article class="mf-scheme-card">
+            <div class="mf-badge">PASSIVE INDEX · LOW EXPENSE</div>
+            <h3 class="mf-title">HDFC Nifty 50 Index Fund</h3>
+            <p class="mf-meta">AMFI Code: 148721 · Nifty 50 Index Tracker · Direct Growth</p>
+            <div class="mf-stats-row">
+              <div><small>Latest NAV</small><strong>₹ 26.80</strong></div>
+              <div><small>3Y CAGR Return</small><strong class="pos">14.9%</strong></div>
+              <div><small>Expense Ratio</small><strong>0.20% (Low)</strong></div>
+              <div><small>Tracking Error</small><strong>0.04% (Minimal)</strong></div>
+            </div>
+            <button type="button" class="btn btn-outline mf-action-btn" onclick="quickSelect('148721')">Inspect Portfolio & Holdings →</button>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       PAGE 8: 📰 FINANCIAL NEWS & CORPORATE WIRE (Dedicated Page)
+       ========================================================================= -->
+  <div id="page-news" class="portal-page" style="display: none;">
+    <section class="portal-module-section alt-bg" id="financial-news">
+      <div class="portal-container">
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow">CORPORATE WIRE & MACRO PULSE</span>
+            <h2 class="portal-title">Latest Market News & Policy Updates</h2>
+            <p class="portal-subtitle">Curated live developments across the Reserve Bank of India (RBI), SEBI regulations, and major corporate earnings.</p>
+          </div>
+        </div>
+
+        <div class="news-wire-grid">
+          <article class="news-card">
+            <div class="news-badge-row"><span class="news-tag rbi">🏛️ RBI Policy</span><span class="news-time">2 hours ago</span></div>
+            <h4>RBI MPC Maintains Benchmark Repo Rate at 6.50%</h4>
+            <p>The Reserve Bank of India’s Monetary Policy Committee voted unanimously to keep the repo rate unchanged, citing sustained macroeconomic resilience and projected FY27 GDP growth above 7.0%.</p>
+          </article>
+
+          <article class="news-card">
+            <div class="news-badge-row"><span class="news-tag earnings">📈 Earnings Radar</span><span class="news-time">3 hours ago</span></div>
+            <h4>IT & Banking Majors Forecast Steady Margin Expansion in Q3</h4>
+            <p>Indian Tier-1 IT consulting exporters alongside leading private sector banks project sequential margin expansion driven by digital transformations, artificial intelligence pipelines, and credit demand.</p>
+          </article>
+
+          <article class="news-card">
+            <div class="news-badge-row"><span class="news-tag sebi">📑 SEBI Circular</span><span class="news-time">5 hours ago</span></div>
+            <h4>SEBI Refines Derivatives Framework to Enhance Investor Safety</h4>
+            <p>Market regulator SEBI introduced rationalized contract sizing and margin regulations for equity index derivatives, reinforcing institutional-grade risk management and retail investor protection.</p>
+          </article>
+
+          <article class="news-card">
+            <div class="news-badge-row"><span class="news-tag corp">💰 Corporate Actions</span><span class="news-time">6 hours ago</span></div>
+            <h4>State Bank of India & ITC Announce Interim Dividend Distributions</h4>
+            <p>Board resolutions filed on stock exchanges confirmed dividend announcements for eligible shareholders, underscoring solid balance sheet liquidity and consistent capital returns.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
 
 <!-- Footer -->
@@ -1072,11 +1223,11 @@
       <div class="footer-brand">↗ MarketInsight</div>
       <div class="footer-note">A comprehensive institutional financial analytics platform for Indian stocks and mutual funds.</div>
     </div>
-    <div>© <span id="year"></span> MarketInsight · Powered by BharatStock & Firebase Cloud Run</div>
+    <div>© <span id="year"></span> MarketInsight · Hosted on GitHub Pages · Powered by BharatStock & Firebase Cloud Run</div>
   </div>
 </footer>
 
-<script src="js/chart.js?v=20261121_4"></script>
-<script src="js/app.js?v=20261121_4"></script>
+<script src="js/chart.js?v=20261121_5"></script>
+<script src="js/app.js?v=20261121_5"></script>
 </body>
 </html>

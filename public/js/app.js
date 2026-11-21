@@ -595,6 +595,7 @@ async function fetchBackgroundSearchResults(query) {
 
 // Quick Select Chip Handler for Trending Stocks/Funds
 function quickSelect(tickerOrSymbol) {
+  navigateToPage('page-terminal');
   if (instrumentInput) {
     const item = INSTANT_CATALOG.find(c => c.symbol.toUpperCase() === tickerOrSymbol.toUpperCase());
     if (item) {
@@ -2142,6 +2143,131 @@ function switchMoversTab(tab) {
   document.getElementById("btnActive")?.classList.toggle("active", tab === 'active');
 }
 
+
+// =============================================================================
+// MULTI-PAGE CLIENT-SIDE ROUTER & GLOBAL HEADER SEARCH
+// (Zero Page Reloads · 100% GitHub Pages Compatible)
+// =============================================================================
+
+function navigateToPage(pageId) {
+  // Normalize page ID
+  if (!pageId.startsWith('page-')) {
+    pageId = 'page-' + pageId;
+  }
+
+  // 1. Hide all pages
+  const allPages = document.querySelectorAll('.portal-page');
+  allPages.forEach(p => {
+    p.style.display = 'none';
+  });
+
+  // 2. Show target page (default to page-home if not found)
+  let target = document.getElementById(pageId);
+  if (!target) {
+    target = document.getElementById('page-home');
+    pageId = 'page-home';
+  }
+  if (target) {
+    target.style.display = 'block';
+  }
+
+  // 3. Update Subnav Links Active State
+  document.querySelectorAll('.subnav-link').forEach(link => {
+    const isAct = link.getAttribute('data-page') === pageId;
+    link.classList.toggle('active', isAct);
+  });
+
+  // 4. Update URL hash without reloads
+  const cleanHash = pageId.replace('page-', '');
+  if (window.location.hash !== '#' + cleanHash) {
+    history.pushState(null, '', '#' + cleanHash);
+  }
+
+  // 5. Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // 6. If switching to terminal or health, ensure calculations or default tickers are loaded
+  if (pageId === 'page-planner') {
+    updateSipCalculator();
+  }
+}
+
+// Global Header Search Handlers
+function handleHeaderSearch(query) {
+  const dropdown = document.getElementById("headerDropdown");
+  if (!dropdown) return;
+
+  const trimmed = (query || "").trim().toLowerCase();
+  if (!trimmed) {
+    dropdown.style.display = "none";
+    dropdown.innerHTML = "";
+    return;
+  }
+
+  const matches = INSTANT_CATALOG.filter(item => {
+    return (item.symbol && item.symbol.toLowerCase().includes(trimmed)) ||
+           (item.name && item.name.toLowerCase().includes(trimmed));
+  }).slice(0, 8);
+
+  if (matches.length === 0) {
+    dropdown.style.display = "none";
+    dropdown.innerHTML = "";
+    return;
+  }
+
+  dropdown.innerHTML = matches.map((m, idx) => `
+    <div class="autocomplete-item" onclick="selectHeaderSearchResult('${m.symbol}')">
+      <div>
+        <div class="autocomplete-item-name">${m.name}</div>
+        <div class="autocomplete-item-type">${m.meta || m.type}</div>
+      </div>
+      <span class="autocomplete-item-symbol">${m.symbol}</span>
+    </div>
+  `).join("");
+  dropdown.style.display = "block";
+}
+
+function handleHeaderSearchKey(e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    executeHeaderSearch();
+  } else if (e.key === "Escape") {
+    const dropdown = document.getElementById("headerDropdown");
+    if (dropdown) dropdown.style.display = "none";
+  }
+}
+
+function selectHeaderSearchResult(symbol) {
+  const input = document.getElementById("headerSearchInput");
+  if (input) input.value = symbol;
+  const dropdown = document.getElementById("headerDropdown");
+  if (dropdown) dropdown.style.display = "none";
+  quickSelect(symbol);
+}
+
+function executeHeaderSearch() {
+  const input = document.getElementById("headerSearchInput");
+  const query = input ? input.value.trim() : "";
+  if (!query) return;
+
+  const dropdown = document.getElementById("headerDropdown");
+  if (dropdown) dropdown.style.display = "none";
+
+  // Switch to Research Terminal & Explore
+  navigateToPage('page-terminal');
+  exploreInvestment(query);
+}
+
+// Router Hash Listener
+window.addEventListener("hashchange", () => {
+  const hash = window.location.hash.replace('#', '').trim();
+  if (hash) {
+    navigateToPage(hash);
+  } else {
+    navigateToPage('page-home');
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -2206,4 +2332,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Explore default stock on visit without populating search input text
   exploreInvestment("Infosys Ltd (INFY)");
+  const initialHash = window.location.hash.replace('#', '').trim();
+  if (initialHash) {
+    navigateToPage(initialHash);
+  } else {
+    navigateToPage('page-home');
+  }
 });
