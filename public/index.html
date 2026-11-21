@@ -995,20 +995,63 @@
             </div>
 
             <div class="tabs" role="tablist">
-              <button class="tab active" onclick="showTab('overview',this)">Overview</button>
-              <button class="tab" onclick="showTab('history',this)">History</button>
-              <button class="tab" onclick="showTab('financials',this)">Financials</button>
-              <button class="tab" onclick="showTab('ratios',this)">Key ratios</button>
-              <button class="tab" onclick="showTab('news',this)">News</button>
-              <button class="tab" onclick="showTab('risk',this)">Risk</button>
+              <button class="tab active" data-tab="overview" onclick="showTab('overview',this)">Overview</button>
+              <button class="tab" data-tab="history" onclick="showTab('history',this)">History</button>
+              <button class="tab" data-tab="financials" onclick="showTab('financials',this)">Financials</button>
+              <button class="tab" data-tab="ratios" onclick="showTab('ratios',this)">Key ratios</button>
+              <button class="tab" data-tab="news" onclick="showTab('news',this)">News</button>
+              <button class="tab" data-tab="risk" onclick="showTab('risk',this)">Risk</button>
             </div>
 
             <div class="tab-content" id="tabContent">
+              <div class="intraday-strip">
+                <div class="intraday-item"><small>Today's Open</small><strong>₹ 1,134.00</strong></div>
+                <div class="intraday-item"><small>Day High</small><strong>₹ 1,148.00</strong></div>
+                <div class="intraday-item"><small>Day Low</small><strong>₹ 1,128.00</strong></div>
+                <div class="intraday-item"><small>Prev Close</small><strong>₹ 1,130.00</strong></div>
+                <div class="intraday-item"><small>Volume (Shares)</small><strong>59,00,000</strong></div>
+              </div>
+
               <div class="metric-grid">
-                <div class="metric metric-mktcap"><small>Market capitalisation</small><strong>₹ 4.63L Cr</strong></div>
-                <div class="metric metric-pe"><small>P/E ratio</small><strong>15.2x</strong></div>
-                <div class="metric metric-range"><small>52-week range</small><strong>₹ 1,358 – ₹ 1,990</strong></div>
-                <div class="metric metric-div"><small>Dividend yield</small><strong>2.10%</strong></div>
+                <div class="metric metric-mktcap"><small>Market Capitalisation</small><strong>₹ 4.75L Cr</strong></div>
+                <div class="metric metric-pe"><small>P/E Ratio (TTM)</small><strong>22.8x</strong></div>
+                <div class="metric metric-range"><small>52-Week Range</small><strong>₹ 980 – ₹ 1,728</strong></div>
+                <div class="metric metric-div"><small>Dividend Yield</small><strong>2.20%</strong></div>
+              </div>
+
+              <div class="returns-container">
+                <div class="returns-label">
+                  <span>HISTORICAL PERFORMANCE & RETURNS</span>
+                  <span style="font-size:11px; color:#64748b; font-weight:600;">Split & Bonus Adjusted</span>
+                </div>
+                <div class="returns-grid">
+                  <div class="return-chip pos"><span>1W</span><strong>+1.2%</strong></div>
+                  <div class="return-chip pos"><span>1M</span><strong>+3.5%</strong></div>
+                  <div class="return-chip pos"><span>3M</span><strong>+8.1%</strong></div>
+                  <div class="return-chip pos"><span>6M</span><strong>+14.2%</strong></div>
+                  <div class="return-chip pos"><span>1Y</span><strong>+18.5%</strong></div>
+                  <div class="return-chip pos"><span>3Y</span><strong>+32.0%</strong></div>
+                  <div class="return-chip pos"><span>5Y</span><strong>+64.0%</strong></div>
+                </div>
+              </div>
+
+              <div class="shareholding-container">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:12px; font-weight:750; color:#334155;">SHAREHOLDING PATTERN & OWNERSHIP</span>
+                  <span style="font-size:11px; color:#047857; font-weight:700;">SEBI Latest Filing</span>
+                </div>
+                <div class="shareholding-bar">
+                  <div class="shareholding-segment" style="width:14.8%; background:#047857;" title="Promoter: 14.8%"></div>
+                  <div class="shareholding-segment" style="width:33.2%; background:#2563eb;" title="FII: 33.2%"></div>
+                  <div class="shareholding-segment" style="width:35.6%; background:#d97706;" title="DII: 35.6%"></div>
+                  <div class="shareholding-segment" style="width:16.4%; background:#94a3b8;" title="Public: 16.4%"></div>
+                </div>
+                <div class="shareholding-legend">
+                  <div class="legend-item"><span class="legend-dot" style="background:#047857;"></span><span>Promoter: <strong>14.8%</strong></span></div>
+                  <div class="legend-item"><span class="legend-dot" style="background:#2563eb;"></span><span>FII: <strong>33.2%</strong></span></div>
+                  <div class="legend-item"><span class="legend-dot" style="background:#d97706;"></span><span>DII: <strong>35.6%</strong></span></div>
+                  <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span><span>Public: <strong>16.4%</strong></span></div>
+                </div>
               </div>
             </div>
           </div>
@@ -1107,7 +1150,7 @@
                 </div>
                 <div class="mover-item" onclick="quickSelect('RELIANCE')">
                   <div class="mover-info"><strong>RELIANCE</strong><span>Reliance Industries</span></div>
-                  <div class="mover-price"><span class="price-val">₹ 2,980.00</span><span class="price-chg pos">+0.93% ▲</span></div>
+                  <div class="mover-price"><span class="price-val">₹ 1,339.70</span><span class="price-chg pos">+1.19% ▲</span></div>
                 </div>
                 <div class="mover-item" onclick="quickSelect('122639')">
                   <div class="mover-info"><strong>PPFAS</strong><span>Parag Parikh Flexi Cap</span></div>

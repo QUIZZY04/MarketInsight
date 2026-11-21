@@ -265,6 +265,7 @@ let currentAssetType = "stock";
 let currentSearchFilter = "all";
 let currentSelectedSymbol = "INFY";
 let currentSelectedData = null;
+let currentActiveTab = "overview";
 let stockChartInstance = null;
 let backgroundSearchDebounce = null;
 let currentChartRange = "1Y";
@@ -644,6 +645,7 @@ async function exploreInvestment(targetNameOrSymbol) {
       currentSelectedData = data;
       renderStockData(data);
       updateIntelligenceScore(data);
+      showTab(currentActiveTab || "overview");
       if (data.mode === "live_exchange") {
         showMessage(`✓ Real-time NSE quote active for ${data.name || rawChosen} (Live exchange feed active).`);
       } else if (data.rateLimited || data.mode === "rate_limited_cached") {
@@ -653,11 +655,13 @@ async function exploreInvestment(targetNameOrSymbol) {
       }
     } else {
       renderDemoPlaceholderData(ticker);
+      showTab(currentActiveTab || "overview");
       showMessage(`Connected to ${rawChosen}.`);
     }
   } catch (err) {
     console.error("Fetch error:", err);
     renderDemoPlaceholderData(ticker);
+    showTab(currentActiveTab || "overview");
     showMessage(`Showing research structure for ${rawChosen}.`);
   }
 
@@ -1039,19 +1043,19 @@ const DEMO_STOCK_STORE = {
   ITC: {
     symbol: "ITC",
     name: "ITC Ltd",
-    price: 285.00,
-    prevClose: 284.05,
-    changePercent: 0.33,
-    open: 284.50,
-    high: 285.30,
-    low: 284.00,
-    volume: 18400000,
-    mktCap: 3571600000000,
-    pe: 18.9,
-    pb: 4.8,
-    high52: 412.00,
-    low52: 252.80,
-    divYield: 5.09,
+    price: 472.50,
+    prevClose: 468.00,
+    changePercent: 0.96,
+    open: 469.00,
+    high: 475.20,
+    low: 466.80,
+    volume: 12400000,
+    mktCap: 5890000000000,
+    pe: 28.2,
+    pb: 7.4,
+    high52: 528.55,
+    low52: 399.30,
+    divYield: 2.95,
     sector: "Consumer Defensive",
     industry: "Tobacco & FMCG",
     debtToEquity: 0.01,
@@ -1063,17 +1067,17 @@ const DEMO_STOCK_STORE = {
     profitGrowthYoy: 8.5,
     revenueGrowthQoq: 2.1,
     epsGrowthYoy: 8.1,
-    distanceFrom52wHighPct: -30.8,
-    distanceFrom52wLowPct: 12.7,
-    priceVs50dmaPct: 0.8,
-    priceVs200dmaPct: 2.4,
+    distanceFrom52wHighPct: -10.6,
+    distanceFrom52wLowPct: 18.3,
+    priceVs50dmaPct: 1.4,
+    priceVs200dmaPct: 3.2,
     return1w: 0.5,
-    return1m: 1.4,
-    return3m: 4.2,
-    return6m: 7.5,
-    return1y: 10.0,
-    return3y: 45.0,
-    return5y: 95.0,
+    return1m: 2.2,
+    return3m: 5.8,
+    return6m: 9.4,
+    return1y: 13.8,
+    return3y: 42.0,
+    return5y: 115.0,
     promoterHolding: 0.0,
     fiiHolding: 41.2,
     diiHolding: 42.8,
@@ -1115,6 +1119,7 @@ function renderDemoPlaceholderData(chosen) {
   currentSelectedData = fallbackData;
   renderStockData(fallbackData);
   updateIntelligenceScore(fallbackData);
+  showTab(currentActiveTab || "overview");
 }
 
 function showMessage(msg, isError = false) {
@@ -1452,11 +1457,21 @@ const tabContentTemplates = {
 };
 
 function showTab(key, button) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  if (button) button.classList.add("active");
+  key = key || currentActiveTab || "overview";
+  currentActiveTab = key;
+
+  document.querySelectorAll(".tab").forEach(t => {
+    const isTarget = button ? (t === button) : (t.getAttribute("data-tab") === key || t.textContent.trim().toLowerCase().includes(key));
+    t.classList.toggle("active", isTarget);
+  });
 
   const container = document.getElementById("tabContent");
   if (!container) return;
+
+  if (!currentSelectedData) {
+    currentSelectedData = DEMO_STOCK_STORE[currentSelectedSymbol] || DEMO_STOCK_STORE["INFY"] || {};
+  }
+
   const renderer = tabContentTemplates[key];
   container.innerHTML = renderer ? renderer() : "<p>Content not found.</p>";
 
@@ -2165,6 +2180,11 @@ function navigateToPage(pageId) {
   // 6. If switching to terminal or health, ensure calculations or default tickers are loaded
   if (pageId === 'page-planner') {
     updateSipCalculator();
+  } else if (pageId === 'page-terminal' || cleanHash === 'terminal' || cleanHash === 'research') {
+    showTab(currentActiveTab || 'overview');
+    if (currentSelectedData) {
+      updateIntelligenceScore(currentSelectedData);
+    }
   }
 }
 
