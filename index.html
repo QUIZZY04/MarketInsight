@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Research Indian stocks and mutual funds with financial metrics, historical performance, risk analysis and investment insights.">
   <title>MarketInsight | Indian Stock & Mutual Fund Research</title>
-  <link rel="stylesheet" href="css/style.css?v=20261121_2">
+  <link rel="stylesheet" href="css/style.css?v=20261121_3">
 </head>
 <body>
 <header>
@@ -19,8 +19,25 @@
 </header>
 
 <main>
+  <!-- Full-Width Live Market Indices & Macro Ticker Ribbon -->
+  <div class="market-ticker-ribbon" role="region" aria-label="Live Market Indices">
+    <div class="ticker-ribbon-content">
+      <div class="ticker-pill"><span class="ticker-name">NIFTY 50</span><span class="ticker-val">23,518.50</span><span class="ticker-badge pos">+0.42% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">SENSEX</span><span class="ticker-val">77,580.30</span><span class="ticker-badge pos">+0.38% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">BANK NIFTY</span><span class="ticker-val">50,380.10</span><span class="ticker-badge pos">+0.65% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">NIFTY IT</span><span class="ticker-val">42,120.90</span><span class="ticker-badge neg">-0.24% ▼</span></div>
+      <div class="ticker-pill"><span class="ticker-name">INDIA VIX</span><span class="ticker-val">14.20</span><span class="ticker-badge neg">-3.15% ▼</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('RELIANCE')" title="Analyze Reliance Industries"><span class="ticker-name">RELIANCE</span><span class="ticker-val">₹2,980.00</span><span class="ticker-badge pos">+0.93% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('TCS')" title="Analyze TCS"><span class="ticker-name">TCS</span><span class="ticker-val">₹4,120.50</span><span class="ticker-badge pos">+1.10% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('HDFCBANK')" title="Analyze HDFC Bank"><span class="ticker-name">HDFCBANK</span><span class="ticker-val">₹1,745.00</span><span class="ticker-badge pos">+0.55% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('SBIN')" title="Analyze SBI"><span class="ticker-name">SBIN</span><span class="ticker-val">₹795.50</span><span class="ticker-badge neg">-0.81% ▼</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('ITC')" title="Analyze ITC"><span class="ticker-name">ITC</span><span class="ticker-val">₹468.00</span><span class="ticker-badge pos">+0.54% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('TATAPOWER')" title="Analyze Tata Power"><span class="ticker-name">TATAPOWER</span><span class="ticker-val">₹438.50</span><span class="ticker-badge pos">+3.80% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">USD/INR</span><span class="ticker-val">₹84.42</span><span class="ticker-badge pos">+0.02% ▲</span></div>
+    </div>
+  </div>
   <section class="cockpit-hero" id="explore">
-    <div class="container">
+    <div class="cockpit-container">
       <!-- Prominent Global-Standard Command & Search Console -->
       <div class="hero-command-center">
         <div class="command-headline">
@@ -73,6 +90,9 @@
               <button type="button" class="trending-chip" onclick="quickSelect('TATAPOWER')">Tata Power</button>
               <button type="button" class="trending-chip" onclick="quickSelect('122639')">Parag Parikh Flexi Cap</button>
               <button type="button" class="trending-chip" onclick="quickSelect('120828')">Quant Small Cap</button>
+              <button type="button" class="trending-chip" onclick="quickSelect('ICICIBANK')">ICICI Bank</button>
+              <button type="button" class="trending-chip" onclick="quickSelect('BHARTIARTL')">Airtel</button>
+              <button type="button" class="trending-chip" onclick="quickSelect('148721')">HDFC Nifty 50</button>
             </div>
           </div>
         </div>
@@ -173,6 +193,69 @@
             <div class="basis-card"><div class="basis-row"><strong>🏛️ Institutional Quality</strong><span id="ownershipVal">84/100</span></div><div class="bar"><span id="ownershipBar" style="width:84%; background:#059669;"></span></div></div>
           </div>
         </div>
+
+        <!-- Right Column: Indian Market Pulse & Sector Radar -->
+        <div class="market-radar-modern">
+          <div class="radar-header">
+            <div class="radar-title-row">
+              <h3>Market Pulse & Breadth</h3>
+              <span class="live-pulse-badge"><span class="dot"></span> NSE / BSE</span>
+            </div>
+            <span class="radar-subtitle">Institutional Liquidity & Sector Rotation</span>
+          </div>
+
+          <!-- Market Breadth Card -->
+          <div class="radar-breadth-card">
+            <div class="breadth-label-row">
+              <span class="breadth-stat adv">Advances: <strong>1,580 (68%)</strong></span>
+              <span class="breadth-stat dec">Declines: <strong>740 (32%)</strong></span>
+            </div>
+            <div class="breadth-bar">
+              <div class="breadth-seg adv" style="width: 68%;"></div>
+              <div class="breadth-seg dec" style="width: 32%;"></div>
+            </div>
+            <div class="flows-row">
+              <span class="flow-pill">FII Net: <strong class="pos">+₹1,420 Cr</strong></span>
+              <span class="flow-pill">DII Net: <strong class="pos">+₹2,350 Cr</strong></span>
+            </div>
+          </div>
+
+          <!-- Sector Performance Heatmap -->
+          <div class="radar-sectors-card">
+            <div class="radar-section-title">SECTOR LEADERS (TODAY)</div>
+            <div class="sector-grid">
+              <div class="sector-item pos"><span class="sec-name">Auto</span><span class="sec-pct">+1.85% ▲</span></div>
+              <div class="sector-item pos"><span class="sec-name">Realty</span><span class="sec-pct">+1.42% ▲</span></div>
+              <div class="sector-item pos"><span class="sec-name">Bank</span><span class="sec-pct">+0.75% ▲</span></div>
+              <div class="sector-item pos"><span class="sec-name">FMCG</span><span class="sec-pct">+0.52% ▲</span></div>
+              <div class="sector-item pos"><span class="sec-name">Metal</span><span class="sec-pct">+0.38% ▲</span></div>
+              <div class="sector-item neg"><span class="sec-name">IT</span><span class="sec-pct">-0.28% ▼</span></div>
+            </div>
+          </div>
+
+          <!-- Active Market Movers Quick Watchlist -->
+          <div class="radar-movers-card">
+            <div class="radar-section-title">ACTIVE BENCHMARKS (1-CLICK LOAD)</div>
+            <div class="radar-movers-list">
+              <div class="mover-item" onclick="quickSelect('TATAPOWER')">
+                <div class="mover-info"><strong>TATAPOWER</strong><span>Tata Power Co Ltd</span></div>
+                <div class="mover-price"><span class="price-val">₹ 438.50</span><span class="price-chg pos">+3.80% ▲</span></div>
+              </div>
+              <div class="mover-item" onclick="quickSelect('SBIN')">
+                <div class="mover-info"><strong>SBIN</strong><span>State Bank of India</span></div>
+                <div class="mover-price"><span class="price-val">₹ 795.50</span><span class="price-chg pos">+2.10% ▲</span></div>
+              </div>
+              <div class="mover-item" onclick="quickSelect('RELIANCE')">
+                <div class="mover-info"><strong>RELIANCE</strong><span>Reliance Industries</span></div>
+                <div class="mover-price"><span class="price-val">₹ 2,980.00</span><span class="price-chg pos">+0.93% ▲</span></div>
+              </div>
+              <div class="mover-item" onclick="quickSelect('122639')">
+                <div class="mover-info"><strong>PPFAS</strong><span>Parag Parikh Flexi Cap</span></div>
+                <div class="mover-price"><span class="price-val">₹ 78.40</span><span class="price-chg pos">+0.82% ▲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="disclaimer cockpit-disclaimer">Important: Multi-factor quantitative scoring framework. Production signals reflect audited regulatory filings and exchange disclosures. Not investment advice.</div>
     </div>
@@ -212,7 +295,7 @@
   </div>
 </footer>
 
-<script src="js/chart.js?v=20261121_2"></script>
-<script src="js/app.js?v=20261121_2"></script>
+<script src="js/chart.js?v=20261121_3"></script>
+<script src="js/app.js?v=20261121_3"></script>
 </body>
 </html>
