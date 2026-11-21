@@ -1193,16 +1193,16 @@ const tabContentTemplates = {
       <div class="shareholding-container">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <span style="font-size:12px; font-weight:750; color:#334155;">SHAREHOLDING PATTERN & OWNERSHIP</span>
-          <span style="font-size:11px; color:#159765; font-weight:700;">SEBI Latest Filing</span>
+          <span style="font-size:11px; color:#047857; font-weight:700;">SEBI Latest Filing</span>
         </div>
         <div class="shareholding-bar">
-          <div class="shareholding-segment" style="width:${promoter}%; background:#159765;" title="Promoter: ${promoter}%"></div>
+          <div class="shareholding-segment" style="width:${promoter}%; background:#047857;" title="Promoter: ${promoter}%"></div>
           <div class="shareholding-segment" style="width:${fii}%; background:#2563eb;" title="FII: ${fii}%"></div>
           <div class="shareholding-segment" style="width:${dii}%; background:#d97706;" title="DII: ${dii}%"></div>
           <div class="shareholding-segment" style="width:${publicH}%; background:#94a3b8;" title="Public: ${publicH}%"></div>
         </div>
         <div class="shareholding-legend">
-          <div class="legend-item"><span class="legend-dot" style="background:#159765;"></span><span>Promoter: <strong>${promoter}%</strong></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#047857;"></span><span>Promoter: <strong>${promoter}%</strong></span></div>
           <div class="legend-item"><span class="legend-dot" style="background:#2563eb;"></span><span>FII: <strong>${fii}%</strong></span></div>
           <div class="legend-item"><span class="legend-dot" style="background:#d97706;"></span><span>DII: <strong>${dii}%</strong></span></div>
           <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span><span>Public: <strong>${publicH}%</strong></span></div>
@@ -1220,7 +1220,7 @@ const tabContentTemplates = {
                   <div style="font-weight:600; color:#1e293b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${h.schemeName}">${h.schemeName}</div>
                   <div style="display:flex; justify-content:space-between; color:#64748b; font-size:11px; margin-top:3px;">
                     <span>${h.fundHouse}</span>
-                    <strong style="color:#159765;">₹ ${Math.round(h.marketValueCr || 0).toLocaleString('en-IN')} Cr</strong>
+                    <strong style="color:#047857;">₹ ${Math.round(h.marketValueCr || 0).toLocaleString('en-IN')} Cr</strong>
                   </div>
                 </div>
               `).join('')}
@@ -1265,7 +1265,7 @@ const tabContentTemplates = {
     <div id="financialsContainer">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h3 style="margin:0;">Financial Statements (Normalized XBRL)</h3>
-        <span style="font-size:11px; color:#159765; font-weight:700;">Audited Exchange Filings</span>
+        <span style="font-size:11px; color:#047857; font-weight:700;">Audited Exchange Filings</span>
       </div>
       <p style="color:#667085; font-size:13px; margin-bottom:14px;">Normalized quarterly and annual balance sheet, P&L, and operating cash flows.</p>
       <div style="overflow-x:auto;">
@@ -1293,7 +1293,7 @@ const tabContentTemplates = {
     return `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h3 style="margin:0; font-size:16px;">Comprehensive Fundamental & Valuation Ratios</h3>
-        <span style="font-size:11px; color:#159765; font-weight:700;">Derived from Audited Financials</span>
+        <span style="font-size:11px; color:#047857; font-weight:700;">Derived from Audited Financials</span>
       </div>
 
       <div class="ratio-category-grid">
@@ -1427,7 +1427,7 @@ const tabContentTemplates = {
 
           <div style="margin-top:18px; border-top:1px dashed #e2e8f0; padding-top:14px;">
             <div class="ratio-table-row"><span>Distance from 52-Week High</span><strong style="color:#d64b55;">${d.distanceFrom52wHighPct ? Number(d.distanceFrom52wHighPct).toFixed(1) + '%' : 'N/A'}</strong></div>
-            <div class="ratio-table-row"><span>Distance from 52-Week Low</span><strong style="color:#159765;">${d.distanceFrom52wLowPct ? '+' + Number(d.distanceFrom52wLowPct).toFixed(1) + '%' : 'N/A'}</strong></div>
+            <div class="ratio-table-row"><span>Distance from 52-Week Low</span><strong style="color:#047857;">${d.distanceFrom52wLowPct ? '+' + Number(d.distanceFrom52wLowPct).toFixed(1) + '%' : 'N/A'}</strong></div>
             <div class="ratio-table-row"><span>30-Day Volatility</span><strong>${d.volatility30d ? Number(d.volatility30d).toFixed(2) + '%' : 'N/A'}</strong></div>
             <div class="ratio-table-row"><span>365-Day Annualized Volatility</span><strong>${d.volatility365d ? Number(d.volatility365d).toFixed(2) + '%' : 'N/A'}</strong></div>
           </div>
@@ -1440,7 +1440,7 @@ const tabContentTemplates = {
     <div id="corporateActionsContainer">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h3 style="margin:0; font-size:16px;">Corporate Actions, Dividends & Filings</h3>
-        <span style="font-size:11px; color:#159765; font-weight:700;">Live Exchange Submissions</span>
+        <span style="font-size:11px; color:#047857; font-weight:700;">Live Exchange Submissions</span>
       </div>
       <p style="color:#667085; font-size:13px; margin-bottom:14px;">Historical and upcoming dividend declarations, record dates, and buybacks filed with NSE/BSE.</p>
       <div id="actionsList">
@@ -1751,9 +1751,9 @@ function updateIntelligenceScore(d) {
     if (valEl) valEl.textContent = `${val}/100`;
     if (barEl) {
       barEl.style.width = `${val}%`;
-      if (val >= 65) barEl.style.background = "#10b981";
-      else if (val >= 42) barEl.style.background = "#f59e0b";
-      else barEl.style.background = "#ef4444";
+      if (val >= 65) barEl.style.background = "#059669";
+      else if (val >= 42) barEl.style.background = "#d97706";
+      else barEl.style.background = "#dc2626";
     }
   };
 
@@ -1802,7 +1802,7 @@ async function loadLiveFinancials() {
           <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
               <strong style="color:#1e293b; font-size:13px;">Business Segment Revenue Breakdown (${latestWithSegments.quarter || ''} ${latestWithSegments.fiscalYear || ''})</strong>
-              <span style="font-size:11px; color:#159765; font-weight:700;">Audited Segments</span>
+              <span style="font-size:11px; color:#047857; font-weight:700;">Audited Segments</span>
             </div>
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:8px;">
               ${latestWithSegments.segmentRevenue.map(seg => `
@@ -1850,7 +1850,7 @@ async function loadLiveCorporateActions() {
                       ${a.recordDate ? ` | Record Date: <strong>${a.recordDate}</strong>` : ''}
                     </div>
                   </div>
-                  ${a.dividendPerShare ? `<div style="font-size:15px; font-weight:750; color:#159765;">₹ ${a.dividendPerShare} / share</div>` : ''}
+                  ${a.dividendPerShare ? `<div style="font-size:15px; font-weight:750; color:#047857;">₹ ${a.dividendPerShare} / share</div>` : ''}
                 </div>
               `;
             }).join("")}
