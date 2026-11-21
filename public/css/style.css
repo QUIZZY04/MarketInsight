@@ -3515,3 +3515,1146 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ==========================================================================
+   Comprehensive Financial Portal Modules (Yahoo Finance / Moneycontrol Standard)
+   Major Indices Cards with Graphs, Health Checker, SIP Planner, Market Overview
+   ========================================================================== */
+
+.portal-container {
+  width: min(1780px, 98%);
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.portal-module-section {
+  padding: 40px 0;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.portal-module-section.alt-bg {
+  background: #f8fafc;
+}
+
+.portal-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.portal-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.8px;
+  color: #047857;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.portal-title {
+  font-size: 26px;
+  font-weight: 850;
+  color: #0f172a;
+  letter-spacing: -0.6px;
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+.portal-subtitle {
+  font-size: 14px;
+  color: #475569;
+  max-width: 760px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   SECTION 1: Major Indices Cards with Live SVG Graphs
+   ========================================================================== */
+.indices-hub-section {
+  background: #0b1329;
+  color: #ffffff;
+  padding: 24px 0 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.indices-hub-section .portal-title {
+  color: #ffffff;
+}
+
+.indices-hub-section .portal-subtitle {
+  color: #cbd5e1;
+}
+
+.indices-hub-section .portal-eyebrow {
+  color: #34d399;
+}
+
+.indices-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.indices-meta-pill .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+}
+
+.indices-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.index-card {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 14px;
+  padding: 12px 14px 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.index-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.index-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.index-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.index-exchange {
+  font-size: 10px;
+  color: #475569;
+  display: block;
+}
+
+.index-badge {
+  font-size: 10.5px;
+  font-weight: 850;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.index-badge.pos {
+  background: #dcfce7;
+  color: #047857;
+}
+
+.index-badge.neg {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.index-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.index-val {
+  font-size: 18px;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.index-pts {
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.index-pts.pos {
+  color: #047857;
+}
+
+.index-pts.neg {
+  color: #b91c1c;
+}
+
+.index-range-bar-wrap {
+  margin-bottom: 6px;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.range-bar {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  position: relative;
+}
+
+.range-marker {
+  position: absolute;
+  top: -3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #047857;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transform: translateX(-50%);
+}
+
+.index-graph-wrap {
+  height: 38px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.index-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* ==========================================================================
+   SECTION 3: Stock Health Checker Styles
+   ========================================================================== */
+.health-picker-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.picker-label {
+  font-size: 12px;
+  font-weight: 750;
+  color: #334155;
+  margin-right: 4px;
+}
+
+.health-pill {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.health-pill:hover {
+  background: #e2e8f0;
+}
+
+.health-pill.active {
+  background: #047857;
+  border-color: #047857;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(4, 120, 87, 0.3);
+}
+
+.health-dashboard-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+}
+
+.health-top-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+}
+
+.health-status-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  font-size: 11.5px;
+  font-weight: 850;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.health-company-name {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.health-company-desc {
+  margin: 0;
+  color: #475569;
+  font-size: 13.5px;
+  max-width: 800px;
+  line-height: 1.5;
+}
+
+.health-composite-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 24px;
+  text-align: center;
+  min-width: 140px;
+}
+
+.health-score-ring {
+  line-height: 1;
+}
+
+.health-big-num {
+  font-size: 38px;
+  font-weight: 900;
+  color: #047857;
+}
+
+.health-score-max {
+  font-size: 16px;
+  color: #475569;
+  font-weight: 700;
+}
+
+.health-ring-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #475569;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-top: 4px;
+}
+
+.health-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 22px 0;
+}
+
+.health-pillar-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pillar-head {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.pillar-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.pillar-head h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.pillar-verdict {
+  font-size: 11px;
+  font-weight: 750;
+  display: block;
+  margin-top: 2px;
+}
+
+.pillar-verdict.pos {
+  color: #047857;
+}
+
+.pillar-verdict.warn {
+  color: #b45309;
+}
+
+.pillar-metrics {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.pillar-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: #475569;
+}
+
+.pillar-row strong {
+  color: #0f172a;
+  font-weight: 750;
+}
+
+.pillar-bar {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.pillar-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.health-action-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 12.5px;
+  color: #475569;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   SECTION 4: Market Overview Grid Styles
+   ========================================================================== */
+.market-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr;
+  gap: 16px;
+}
+
+.overview-panel-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.overview-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.overview-panel-head h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.tag-pill {
+  font-size: 10.5px;
+  font-weight: 750;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.breadth-hero-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.b-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.b-stat .num {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.b-stat.adv .num { color: #047857; }
+.b-stat.dec .num { color: #b91c1c; }
+
+.b-stat .lbl {
+  font-size: 11px;
+  font-weight: 650;
+  color: #475569;
+  margin-top: 3px;
+}
+
+.breadth-large-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  font-size: 9.5px;
+  font-weight: 850;
+  color: #ffffff;
+  text-align: center;
+  line-height: 14px;
+}
+
+.b-bar-adv { background: #059669; }
+.b-bar-dec { background: #dc2626; }
+
+.breadth-sub-stats {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 10px;
+}
+
+.sub-row {
+  display: flex;
+  justify-content: space-between;
+  color: #475569;
+}
+
+.inst-flows-box {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.inst-flow-row {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inst-info strong {
+  font-size: 13px;
+  color: #0f172a;
+  display: block;
+}
+
+.inst-info span {
+  font-size: 11px;
+  color: #475569;
+}
+
+.inst-net-val {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.inst-net-val.pos { color: #047857; }
+
+.inst-total-banner {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.sector-heatmap-matrix {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.sec-heat-chip {
+  border-radius: 8px;
+  padding: 8px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sec-heat-chip.pos {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+
+.sec-heat-chip.pos span { color: #065f46; font-size: 11px; font-weight: 750; }
+.sec-heat-chip.pos strong { color: #047857; font-size: 12px; font-weight: 850; }
+
+.sec-heat-chip.neg {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+}
+
+.sec-heat-chip.neg span { color: #991b1b; font-size: 11px; font-weight: 750; }
+.sec-heat-chip.neg strong { color: #b91c1c; font-size: 12px; font-weight: 850; }
+
+.sector-hint {
+  font-size: 11px;
+  color: #475569;
+  background: #f8fafc;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   SECTION 5: Smart Investment Planner & SIP Calculator Styles
+   ========================================================================== */
+.planner-mode-toggle {
+  display: inline-flex;
+  background: #f1f5f9;
+  padding: 3px;
+  border-radius: 10px;
+  gap: 3px;
+}
+
+.mode-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 750;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mode-btn.active {
+  background: #047857;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(4, 120, 87, 0.3);
+}
+
+.planner-layout-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.planner-control-group {
+  margin-bottom: 20px;
+}
+
+.planner-control-group:last-child {
+  margin-bottom: 0;
+}
+
+.control-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.control-label-row label {
+  font-size: 13.5px;
+  font-weight: 750;
+  color: #0f172a;
+}
+
+.control-bubble {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #047857;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+
+.planner-slider {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  outline: none;
+  accent-color: #047857;
+  cursor: pointer;
+}
+
+.slider-marks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: #475569;
+  margin-top: 4px;
+}
+
+.results-card-inner {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.results-headline {
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.big-wealth-number {
+  font-size: 38px;
+  font-weight: 900;
+  color: #047857;
+  letter-spacing: -0.8px;
+  margin: 4px 0 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.wealth-breakdown-bar {
+  display: flex;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.bar-seg.invested {
+  background: #2563eb;
+}
+
+.bar-seg.gains {
+  background: #059669;
+}
+
+.wealth-legend-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.legend-box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-color.invested { background: #2563eb; }
+.legend-color.gains { background: #059669; }
+
+.legend-box small {
+  display: block;
+  font-size: 11px;
+  color: #475569;
+}
+
+.legend-box strong {
+  font-size: 15px;
+  color: #0f172a;
+  font-weight: 850;
+}
+
+.legend-box strong.pos {
+  color: #047857;
+}
+
+.asset-strategy-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.strategy-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.asset-strategy-box p {
+  margin: 0;
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+/* ==========================================================================
+   SECTION 6: Market Movers Styles
+   ========================================================================== */
+.movers-tab-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.mover-tab-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mover-tab-btn:hover {
+  background: #e2e8f0;
+}
+
+.mover-tab-btn.active {
+  background: #047857;
+  border-color: #047857;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(4, 120, 87, 0.3);
+}
+
+.movers-table-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.movers-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.movers-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 18px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.movers-table td {
+  padding: 12px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13.5px;
+  color: #0f172a;
+  vertical-align: middle;
+}
+
+.movers-table tr:hover {
+  background: #f8fafc;
+}
+
+.movers-table .sub-text {
+  display: block;
+  font-size: 11px;
+  color: #475569;
+  font-weight: normal;
+  margin-top: 1px;
+}
+
+.table-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 850;
+  font-size: 12px;
+}
+
+.table-badge.pos {
+  background: #dcfce7;
+  color: #047857;
+}
+
+.table-badge.neg {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn-table-action {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #047857;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-table-action:hover {
+  background: #047857;
+  color: #ffffff;
+  border-color: #047857;
+}
+
+/* ==========================================================================
+   SECTION 7: Mutual Funds Grid Styles
+   ========================================================================== */
+.mf-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.mf-scheme-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mf-scheme-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+.mf-badge {
+  font-size: 10px;
+  font-weight: 850;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  align-self: flex-start;
+}
+
+.mf-title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.mf-meta {
+  font-size: 11px;
+  color: #475569;
+  margin: 0 0 14px;
+}
+
+.mf-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 14px;
+}
+
+.mf-stats-row small {
+  font-size: 10px;
+  color: #475569;
+  display: block;
+}
+
+.mf-stats-row strong {
+  font-size: 13.5px;
+  color: #0f172a;
+  font-weight: 850;
+}
+
+.mf-stats-row strong.pos {
+  color: #047857;
+}
+
+.mf-action-btn {
+  width: 100%;
+  font-size: 12.5px;
+  padding: 7px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   SECTION 8: News Wire Grid Styles
+   ========================================================================== */
+.news-wire-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.news-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.news-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.news-tag {
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.news-tag.rbi { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+.news-tag.earnings { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.news-tag.sebi { background: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
+.news-tag.corp { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+
+.news-time {
+  font-size: 10.5px;
+  color: #475569;
+}
+
+.news-card h4 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.35;
+}
+
+.news-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+/* ==========================================================================
+   Responsive Viewports for Portal Modules
+   ========================================================================== */
+@media (max-width: 1400px) {
+  .indices-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .health-pillars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .market-overview-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .overview-panel-card:last-child {
+    grid-column: 1 / -1;
+  }
+  .mf-cards-grid,
+  .news-wire-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .indices-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .planner-layout-card {
+    grid-template-columns: 1fr;
+  }
+  .market-overview-grid {
+    grid-template-columns: 1fr;
+  }
+  .health-top-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .indices-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .health-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+  .mf-cards-grid,
+  .news-wire-grid {
+    grid-template-columns: 1fr;
+  }
+  .wealth-legend-row {
+    grid-template-columns: 1fr;
+  }
+}

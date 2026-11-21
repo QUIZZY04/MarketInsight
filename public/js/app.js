@@ -1876,6 +1876,272 @@ async function checkBackendStatus() {
 }
 
 // Initialization on DOM Load
+
+// =============================================================================
+// PORTAL MODULES: SIP CALCULATOR, HEALTH CHECKER, MOVERS TABS
+// =============================================================================
+
+// Stock Health Diagnostic Profiles
+const HEALTH_PROFILES = {
+  "INFY": {
+    name: "Infosys Limited (NSE: INFY)",
+    desc: "Demonstrates near-zero debt leverage, world-class capital efficiency (ROE > 28%), stable operating cash flows and pristine forensic audit compliance.",
+    score: 92,
+    grade: "GRADE: A+ · EXCEPTIONAL HEALTH",
+    dte: "0.08x",
+    intCov: "42.5x",
+    curRat: "2.4x",
+    roe: "29.4%",
+    roce: "37.8%",
+    opm: "21.2%",
+    salesCagr: "11.4%",
+    profCagr: "12.8%",
+    ocfRatio: "1.12x",
+    pledge: "0.00% (None)",
+    ticker: "INFY"
+  },
+  "TCS": {
+    name: "Tata Consultancy Services Ltd (NSE: TCS)",
+    desc: "Market leader in global IT services. Boasts superior ROCE exceeding 50%, zero debt, and outstanding cash dividend conversion.",
+    score: 95,
+    grade: "GRADE: AAA · HIGHEST QUALITY",
+    dte: "0.00x (Debt Free)",
+    intCov: "98.0x",
+    curRat: "2.6x",
+    roe: "48.2%",
+    roce: "58.6%",
+    opm: "25.1%",
+    salesCagr: "12.1%",
+    profCagr: "11.5%",
+    ocfRatio: "1.08x",
+    pledge: "0.00% (None)",
+    ticker: "TCS"
+  },
+  "RELIANCE": {
+    name: "Reliance Industries Ltd (NSE: RELIANCE)",
+    desc: "India's largest conglomerate spanning Telecom (Jio), Retail, and Oil-to-Chemicals with robust cash flows and prudent debt-to-equity.",
+    score: 88,
+    grade: "GRADE: A+ · ROBUST CONGLOMERATE",
+    dte: "0.38x",
+    intCov: "9.2x",
+    curRat: "1.2x",
+    roe: "9.8%",
+    roce: "11.4%",
+    opm: "17.4%",
+    salesCagr: "15.8%",
+    profCagr: "12.2%",
+    ocfRatio: "1.24x",
+    pledge: "0.00% (None)",
+    ticker: "RELIANCE"
+  },
+  "SBIN": {
+    name: "State Bank of India (NSE: SBIN)",
+    desc: "Largest public lender in India. Demonstrates historic low Net NPA (<0.6%), strong credit growth, and expanding Return on Assets (RoA > 1.0%).",
+    score: 84,
+    grade: "GRADE: A · SYSTEMICALLY IMPORTANT",
+    dte: "Tier 1: 13.8%",
+    intCov: "NIM: 3.3%",
+    curRat: "PCR: 75%",
+    roe: "16.4%",
+    roce: "15.2%",
+    opm: "NII +14%",
+    salesCagr: "16.2%",
+    profCagr: "22.8%",
+    ocfRatio: "Stable",
+    pledge: "Government Owned",
+    ticker: "SBIN"
+  },
+  "ITC": {
+    name: "ITC Limited (NSE: ITC)",
+    desc: "Dominant FMCG, Hotels, Paperboards and Agri powerhouse. Net debt-free with remarkable operating margins and generous 3%+ dividend yield.",
+    score: 93,
+    grade: "GRADE: A+ · CASH COMPOUNDER",
+    dte: "0.00x (Debt Free)",
+    intCov: "120.0x",
+    curRat: "2.8x",
+    roe: "28.5%",
+    roce: "38.2%",
+    opm: "36.8%",
+    salesCagr: "9.8%",
+    profCagr: "11.2%",
+    ocfRatio: "1.15x",
+    pledge: "0.00% (None)",
+    ticker: "ITC"
+  },
+  "TATAPOWER": {
+    name: "Tata Power Company Ltd (NSE: TATAPOWER)",
+    desc: "Leading integrated clean energy powerhouse. Benefiting from multi-gigawatt renewable transition, expanding ROE, and healthy solvency.",
+    score: 82,
+    grade: "GRADE: A · GREEN ENERGY LEADER",
+    dte: "1.20x",
+    intCov: "3.8x",
+    curRat: "1.1x",
+    roe: "12.8%",
+    roce: "11.6%",
+    opm: "19.5%",
+    salesCagr: "18.4%",
+    profCagr: "26.5%",
+    ocfRatio: "1.05x",
+    pledge: "1.2% (Minimal)",
+    ticker: "TATAPOWER"
+  }
+};
+
+function selectHealthStock(ticker, btnEl) {
+  const profile = HEALTH_PROFILES[ticker] || HEALTH_PROFILES["INFY"];
+  
+  if (btnEl) {
+    document.querySelectorAll('.health-pill').forEach(btn => btn.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+
+  const nameEl = document.getElementById("healthCompanyName");
+  const descEl = document.getElementById("healthCompanyDesc");
+  const gradeEl = document.getElementById("healthGradeBadge");
+  const scoreEl = document.getElementById("healthBigScore");
+  const actionBtn = document.getElementById("healthActionBtn");
+
+  if (nameEl) nameEl.textContent = profile.name;
+  if (descEl) descEl.textContent = profile.desc;
+  if (gradeEl) gradeEl.textContent = profile.grade;
+  if (scoreEl) scoreEl.textContent = profile.score;
+  if (actionBtn) {
+    actionBtn.onclick = () => exploreInvestment(profile.ticker);
+  }
+
+  const setT = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+
+  setT("healthDte", profile.dte);
+  setT("healthIntCov", profile.intCov);
+  setT("healthCurRat", profile.curRat);
+  setT("healthRoe", profile.roe);
+  setT("healthRoce", profile.roce);
+  setT("healthOpm", profile.opm);
+  setT("healthSalesCagr", profile.salesCagr);
+  setT("healthProfCagr", profile.profCagr);
+  setT("healthOcfRatio", profile.ocfRatio);
+  setT("healthPledge", profile.pledge);
+}
+
+// SIP / Lumpsum Wealth Planner
+let currentPlannerMode = 'sip';
+
+function switchPlannerMode(mode) {
+  currentPlannerMode = mode;
+  document.getElementById("btnModeSip")?.classList.toggle("active", mode === 'sip');
+  document.getElementById("btnModeLump")?.classList.toggle("active", mode === 'lumpsum');
+
+  const lbl = document.getElementById("labelInvestmentAmount");
+  const range = document.getElementById("sipAmountRange");
+  if (mode === 'sip') {
+    if (lbl) lbl.textContent = "Monthly Investment Amount:";
+    if (range) {
+      range.min = "1000";
+      range.max = "100000";
+      range.step = "1000";
+      range.value = "10000";
+    }
+  } else {
+    if (lbl) lbl.textContent = "One-Time Lumpsum Investment:";
+    if (range) {
+      range.min = "10000";
+      range.max = "2000000";
+      range.step = "10000";
+      range.value = "200000";
+    }
+  }
+  updateSipCalculator();
+}
+
+function updateSipCalculator() {
+  const amtEl = document.getElementById("sipAmountRange");
+  const rateEl = document.getElementById("sipRateRange");
+  const yearsEl = document.getElementById("sipYearsRange");
+
+  if (!amtEl || !rateEl || !yearsEl) return;
+
+  const amt = parseFloat(amtEl.value) || 10000;
+  const rate = parseFloat(rateEl.value) || 14.5;
+  const years = parseInt(yearsEl.value) || 10;
+
+  // Update Display Bubbles
+  const amtDisp = document.getElementById("sipAmountDisplay");
+  const rateDisp = document.getElementById("sipRateDisplay");
+  const yearsDisp = document.getElementById("sipYearsDisplay");
+
+  if (amtDisp) amtDisp.textContent = formatINR(amt);
+  if (rateDisp) rateDisp.textContent = rate.toFixed(1) + "%";
+  if (yearsDisp) yearsDisp.textContent = years + (years === 1 ? " Year" : " Years");
+
+  let invested = 0;
+  let futureVal = 0;
+
+  if (currentPlannerMode === 'sip') {
+    const months = years * 12;
+    const monthlyRate = (rate / 100) / 12;
+    invested = amt * months;
+    if (monthlyRate > 0) {
+      futureVal = Math.round(amt * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
+    } else {
+      futureVal = invested;
+    }
+  } else {
+    invested = amt;
+    futureVal = Math.round(amt * Math.pow(1 + (rate / 100), years));
+  }
+
+  const gains = Math.max(0, futureVal - invested);
+
+  const fvEl = document.getElementById("futureValueResult");
+  const invEl = document.getElementById("investedAmountResult");
+  const gainsEl = document.getElementById("gainsAmountResult");
+
+  if (fvEl) fvEl.textContent = formatINR(futureVal);
+  if (invEl) invEl.textContent = formatINR(invested);
+  if (gainsEl) gainsEl.textContent = formatINR(gains);
+
+  // Proportional visual bar
+  const total = invested + gains;
+  const invPct = total > 0 ? Math.round((invested / total) * 100) : 50;
+  const gainsPct = 100 - invPct;
+
+  const barInv = document.getElementById("barInvested");
+  const barGains = document.getElementById("barGains");
+
+  if (barInv) barInv.style.width = invPct + "%";
+  if (barGains) barGains.style.width = gainsPct + "%";
+
+  // Dynamic Strategy Advice
+  const stratEl = document.getElementById("strategyDesc");
+  if (stratEl) {
+    if (years >= 15) {
+      stratEl.innerHTML = `For an ultra long-term ${years}-year horizon, allocate <strong>80% to Mid/Small Cap and Flexi-Cap Equities</strong>, <strong>15% to Nifty 50 Index</strong>, and <strong>5% to Sovereign Gold</strong> to maximize compounding.`;
+    } else if (years >= 7) {
+      stratEl.innerHTML = `For a balanced ${years}-year horizon, allocate <strong>70% to Flexi-Cap / NIFTY 50 Index Funds</strong>, <strong>20% to High-Yield Corporate Debt</strong>, and <strong>10% to Sovereign Gold / Liquid Assets</strong>.`;
+    } else {
+      stratEl.innerHTML = `For a shorter ${years}-year horizon, prioritize capital safety with <strong>50% in Conservative Large-Cap / Balanced Advantage Funds</strong> and <strong>50% in Short-Duration Debt Funds / FDs</strong>.`;
+    }
+  }
+}
+
+// Market Movers Tab Switching
+function switchMoversTab(tab) {
+  const gTab = document.getElementById("tableGainers");
+  const lTab = document.getElementById("tableLosers");
+  const aTab = document.getElementById("tableActive");
+
+  if (gTab) gTab.style.display = tab === 'gainers' ? 'block' : 'none';
+  if (lTab) lTab.style.display = tab === 'losers' ? 'block' : 'none';
+  if (aTab) aTab.style.display = tab === 'active' ? 'block' : 'none';
+
+  document.getElementById("btnGainers")?.classList.toggle("active", tab === 'gainers');
+  document.getElementById("btnLosers")?.classList.toggle("active", tab === 'losers');
+  document.getElementById("btnActive")?.classList.toggle("active", tab === 'active');
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
