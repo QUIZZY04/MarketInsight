@@ -38,7 +38,7 @@ input {
 }
 
 .container {
-  width: min(1160px, 92%);
+  width: min(1320px, 95%);
   margin: auto;
 }
 
@@ -52,30 +52,30 @@ header {
 }
 
 .nav {
-  height: 76px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 8px;
   font-weight: 800;
-  font-size: 20px;
-  letter-spacing: -0.5px;
+  font-size: 17px;
+  letter-spacing: -0.4px;
 }
 
 .logo {
-  width: 37px;
-  height: 37px;
-  border-radius: 11px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
   background: linear-gradient(135deg, #28bd82, #087c5c);
   display: grid;
   place-items: center;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .brand span:last-child {
@@ -84,9 +84,9 @@ header {
 
 .navlinks {
   display: flex;
-  gap: 25px;
+  gap: 20px;
   color: #d5deeb;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .navlinks a:hover {
@@ -96,21 +96,23 @@ header {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .market-tag {
-  font-size: 12px;
+  font-size: 11px;
   color: #a9f0cf;
   border: 1px solid rgba(112, 221, 176, 0.3);
-  padding: 7px 11px;
-  border-radius: 30px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
 }
 
 .btn {
   border: 0;
-  border-radius: 11px;
-  padding: 12px 17px;
+  border-radius: 9px;
+  padding: 8px 14px;
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s;
@@ -128,8 +130,11 @@ header {
 
 .btn-outline {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: white;
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 8px;
 }
 
 .hero {
@@ -1268,120 +1273,178 @@ footer {
 }
 
 /* ==========================================================================
-   Vibrant Research Cockpit & Upfront Result Analysis (Colorful & Attractive)
+   Vibrant Research Cockpit & Upfront Result Analysis (Compact 1st-Screen Layout)
    ========================================================================== */
 .cockpit-hero {
   background: radial-gradient(circle at 85% 10%, #1e3a5f 0, transparent 40%),
     radial-gradient(circle at 15% 90%, #163628 0, transparent 40%),
     linear-gradient(135deg, #0a1120 0%, #101c32 50%, #12233f 100%);
   color: white;
-  padding: 40px 0 65px;
+  padding: 10px 0 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.cockpit-header {
-  text-align: center;
-  max-width: 760px;
-  margin: 0 auto 24px;
-}
-
-.cockpit-title {
-  font-size: clamp(28px, 4.2vw, 44px);
-  font-weight: 850;
-  letter-spacing: -1.5px;
-  line-height: 1.15;
-  margin: 10px 0 8px;
-  color: #ffffff;
-}
-
-.cockpit-title em {
-  font-style: normal;
-  background: linear-gradient(135deg, #34d399, #6ee7b7, #38bdf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.cockpit-sub {
-  font-size: 15px;
-  color: #94a3b8;
-  margin: 0;
-  line-height: 1.5;
-}
-
-/* Search Panel Unified */
-.search-panel-unified {
-  background: #ffffff;
-  color: var(--ink);
-  padding: 20px 24px;
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  max-width: 960px;
-  margin: 0 auto 30px;
-}
-
-.search-form-row {
+  min-height: calc(100vh - 48px);
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.cockpit-command-bar {
+  margin-bottom: 10px;
+}
+
+.cockpit-command-top {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.search-form-row .unified-search-wrap {
-  flex: 1;
+.cockpit-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(167, 243, 208, 0.25);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11.5px;
 }
 
-.search-action-btn {
-  white-space: nowrap;
-  padding: 13px 24px;
-  font-size: 14.5px;
-  font-weight: 750;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(21, 151, 101, 0.3);
-  margin-top: 0 !important;
+.cockpit-brand-pill strong {
+  color: #34d399;
+  font-weight: 850;
+  letter-spacing: 0.5px;
+}
+
+.cockpit-brand-sep {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.cockpit-brand-sub {
+  color: #cbd5e1;
+  font-weight: 600;
 }
 
 /* Trending Chips Strip */
 .trending-strip {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  border: none;
   flex-wrap: wrap;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px dashed #e2e8f0;
 }
 
 .trending-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 750;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: #94a3b8;
+  letter-spacing: 0.4px;
 }
 
 .trending-chip {
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  color: #334155;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #e2e8f0;
+  padding: 3px 9px;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 650;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .trending-chip:hover {
-  background: #e6f7ef;
+  background: #10b981;
   border-color: #10b981;
-  color: #065f46;
+  color: #ffffff;
   transform: translateY(-1px);
 }
 
-/* Result Analysis Cockpit Grid */
+/* Search Panel Unified - Ultra Compact Single Row Console */
+.search-panel-unified {
+  background: #ffffff;
+  color: var(--ink);
+  padding: 5px 8px 5px 10px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.switch {
+  display: inline-flex;
+  background: #f1f5f9;
+  padding: 2px;
+  border-radius: 8px;
+  gap: 2px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.switch button {
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  padding: 6px 11px;
+  font-weight: 700;
+  font-size: 11.5px;
+  color: #647084;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.switch button.active {
+  background: white;
+  color: var(--green);
+  box-shadow: 0 1px 4px rgba(16, 28, 50, 0.1);
+  font-weight: 800;
+}
+
+.search-form-row {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-form-row .unified-search-wrap {
+  flex: 1;
+  margin: 0;
+  position: relative;
+}
+
+.search-action-btn {
+  white-space: nowrap;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 750;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(21, 151, 101, 0.3);
+  margin-top: 0 !important;
+}
+
+.result-message {
+  margin-top: 4px;
+  padding: 4px 10px;
+  border-radius: 7px;
+  background: #eaf7f1;
+  color: #176746;
+  font-size: 11.5px;
+  display: none;
+}
+
+/* Result Analysis Cockpit Grid - Balanced First-Page Density */
 .cockpit-analysis-grid {
   display: grid;
-  grid-template-columns: 1.28fr 0.92fr;
-  gap: 24px;
+  grid-template-columns: 1.35fr 0.9fr;
+  gap: 14px;
   align-items: stretch;
 }
 
@@ -1390,9 +1453,9 @@ footer {
   background: #ffffff;
   color: var(--ink);
   border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
   display: flex;
   flex-direction: column;
 }
@@ -1400,68 +1463,85 @@ footer {
 .preview-modern .preview-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
+  align-items: center;
+  gap: 10px;
   flex-wrap: wrap;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .preview-modern .instrument {
   display: flex;
-  gap: 14px;
+  gap: 9px;
   align-items: center;
 }
 
 .preview-modern .instrument-logo {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
   background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
   color: #ffffff;
   font-weight: 900;
-  font-size: 16px;
+  font-size: 12.5px;
   letter-spacing: 0.5px;
   display: grid;
   place-items: center;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.25);
+  flex-shrink: 0;
+}
+
+.preview-modern .instrument-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.preview-modern .instrument-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .preview-modern .instrument h3 {
   margin: 0;
-  font-size: 22px;
+  font-size: 17px;
   font-weight: 850;
   color: #0f172a;
 }
 
 .preview-modern .instrument p {
-  margin: 3px 0 0;
+  margin: 0;
   color: #64748b;
-  font-size: 12.5px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 550;
 }
 
 .preview-modern .demo-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   color: #159765;
   background: #eaf7f1;
   border: 1px solid rgba(21, 151, 101, 0.3);
-  border-radius: 30px;
-  padding: 6px 12px;
-  letter-spacing: 0.5px;
+  border-radius: 20px;
+  padding: 2px 7px;
+  letter-spacing: 0.4px;
 }
 
 .preview-modern .price-row {
   display: flex;
-  gap: 16px;
-  align-items: center;
-  margin: 18px 0 16px;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
 }
 
 .preview-modern .price {
-  font-size: 34px;
+  font-size: 24px;
   font-weight: 900;
   color: #0f172a;
-  letter-spacing: -1.2px;
+  letter-spacing: -0.8px;
 }
 
 .preview-modern .positive {
@@ -1470,10 +1550,10 @@ footer {
   background: linear-gradient(135deg, #dcfce7, #d1fae5);
   color: #047857;
   border: 1px solid #a7f3d0;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-weight: 800;
-  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 14px;
+  font-weight: 750;
+  font-size: 11.5px;
 }
 
 .preview-modern .negative {
@@ -1482,32 +1562,32 @@ footer {
   background: linear-gradient(135deg, #fee2e2, #fecaca);
   color: #b91c1c;
   border: 1px solid #fca5a5;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-weight: 800;
-  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 14px;
+  font-weight: 750;
+  font-size: 11.5px;
 }
 
 /* Tabs Vibrant */
 .tabs {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   overflow-x: auto;
-  border-bottom: 2px solid #f1f5f9;
-  padding-bottom: 10px;
-  margin-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .tab {
   border: none;
   background: #f8fafc;
-  padding: 9px 15px;
-  border-radius: 10px;
+  padding: 4px 10px;
+  border-radius: 7px;
   color: #64748b;
-  font-weight: 750;
-  font-size: 13px;
+  font-weight: 700;
+  font-size: 11.5px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .tab:hover {
@@ -1518,63 +1598,72 @@ footer {
 .tab.active {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.tab-content {
+  padding: 2px 0;
+  min-height: 0;
+  max-height: 330px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
 }
 
 /* Colorful Metric Cards */
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 7px;
 }
 
 .metric {
-  border-radius: 14px;
-  padding: 14px 15px;
+  border-radius: 9px;
+  padding: 6px 10px;
   border: 1px solid #edf2f7;
-  transition: transform 0.2s ease;
+  transition: transform 0.15s ease;
 }
 
 .metric:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .metric-mktcap {
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   border-color: #bfdbfe;
 }
-.metric-mktcap small { color: #1e40af; font-weight: 700; }
-.metric-mktcap strong { color: #1e3a8a; }
+.metric-mktcap small { color: #1e40af; font-weight: 700; font-size: 9.5px; }
+.metric-mktcap strong { color: #1e3a8a; font-size: 13.5px; margin-top: 2px; }
 
 .metric-pe {
   background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
   border-color: #e9d5ff;
 }
-.metric-pe small { color: #6b21a8; font-weight: 700; }
-.metric-pe strong { color: #581c87; }
+.metric-pe small { color: #6b21a8; font-weight: 700; font-size: 9.5px; }
+.metric-pe strong { color: #581c87; font-size: 13.5px; margin-top: 2px; }
 
 .metric-range {
   background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
   border-color: #fde68a;
 }
-.metric-range small { color: #92400e; font-weight: 700; }
-.metric-range strong { color: #78350f; font-size: 15px; }
+.metric-range small { color: #92400e; font-weight: 700; font-size: 9.5px; }
+.metric-range strong { color: #78350f; font-size: 12.5px; margin-top: 2px; }
 
 .metric-div {
   background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
   border-color: #a7f3d0;
 }
-.metric-div small { color: #065f46; font-weight: 700; }
-.metric-div strong { color: #064e3b; }
+.metric-div small { color: #065f46; font-weight: 700; font-size: 9.5px; }
+.metric-div strong { color: #064e3b; font-size: 13.5px; margin-top: 2px; }
 
 /* Speedo Modern Card */
 .speedo-modern {
   background: #ffffff;
   color: var(--ink);
   border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1587,19 +1676,89 @@ footer {
   padding: 0;
 }
 
+.speedo-header h3 {
+  margin: 0;
+  font-size: 13px;
+  color: #1e293b;
+  font-weight: 800;
+}
+
+.speedo-subtitle {
+  font-size: 10.5px;
+  color: #64748b;
+  display: block;
+  margin-top: 1px;
+}
+
+.speedo-container {
+  position: relative;
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+.speedo-svg {
+  overflow: visible;
+  display: block;
+  margin: 0 auto;
+  max-height: 115px;
+  width: 100%;
+}
+
+.speedo-reading-box {
+  margin-top: -6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.speedo-score-number {
+  font-size: 24px;
+  font-weight: 850;
+  color: #0f172a;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.speedo-max {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.speedo-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 9.5px;
+  font-weight: 850;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-top: 1px;
+  transition: all 0.3s ease;
+}
+
+.speedo-symbol-name {
+  color: #64748b;
+  font-size: 10px;
+  margin-top: 1px;
+  font-weight: 600;
+}
+
 .basis-modern {
   display: grid;
-  gap: 10px;
-  margin-top: 16px;
-  padding-top: 16px;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 6px;
   border-top: 1px solid #f1f5f9;
 }
 
 .basis-card {
   background: #f8fafc;
   border: 1px solid #eef2f6;
-  border-radius: 12px;
-  padding: 9px 13px;
+  border-radius: 6px;
+  padding: 4px 8px;
   transition: all 0.15s ease;
 }
 
@@ -1611,25 +1770,32 @@ footer {
 .basis-row {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
-  font-size: 13px;
+  gap: 10px;
+  font-size: 11px;
 }
 
 .cockpit-disclaimer {
   max-width: 960px;
-  margin: 22px auto 0;
+  margin: 8px auto 0;
   text-align: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #94a3b8;
-  font-size: 11.5px;
-  padding: 10px 16px;
-  border-radius: 10px;
+  font-size: 10px;
+  padding: 4px 12px;
+  border-radius: 8px;
 }
 
 @media (max-width: 992px) {
+  .cockpit-hero {
+    min-height: auto;
+  }
   .cockpit-analysis-grid {
     grid-template-columns: 1fr;
+  }
+  .search-panel-unified {
+    flex-direction: column;
+    align-items: stretch;
   }
   .search-form-row {
     flex-direction: column;

@@ -1256,7 +1256,7 @@ const tabContentTemplates = {
           <div id="chartReturnTag" style="font-size:13px; font-weight:700;"></div>
           <div id="chartHighLow" style="font-size:11px; color:#64748b; font-weight:600;"></div>
         </div>
-        <canvas id="stockPriceChart" style="width:100%; height:260px; display:block; cursor:crosshair;"></canvas>
+        <canvas id="stockPriceChart" style="width:100%; height:210px; display:block; cursor:crosshair;"></canvas>
       </div>
     `;
   },
