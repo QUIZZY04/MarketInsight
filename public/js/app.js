@@ -1991,40 +1991,33 @@ const HEALTH_PROFILES = {
 function selectHealthStock(ticker, btnEl) {
   const profile = HEALTH_PROFILES[ticker] || HEALTH_PROFILES["INFY"];
   
-  if (btnEl) {
-    document.querySelectorAll('.health-pill').forEach(btn => btn.classList.remove('active'));
-    btnEl.classList.add('active');
-  }
+  document.querySelectorAll('.health-pill').forEach(btn => {
+    const bTicker = btn.getAttribute('data-ticker') || btn.textContent.trim();
+    btn.classList.toggle('active', bTicker === ticker);
+  });
 
-  const nameEl = document.getElementById("healthCompanyName");
-  const descEl = document.getElementById("healthCompanyDesc");
-  const gradeEl = document.getElementById("healthGradeBadge");
-  const scoreEl = document.getElementById("healthBigScore");
-  const actionBtn = document.getElementById("healthActionBtn");
-
-  if (nameEl) nameEl.textContent = profile.name;
-  if (descEl) descEl.textContent = profile.desc;
-  if (gradeEl) gradeEl.textContent = profile.grade;
-  if (scoreEl) scoreEl.textContent = profile.score;
-  if (actionBtn) {
-    actionBtn.onclick = () => exploreInvestment(profile.ticker);
-  }
-
-  const setT = (id, val) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
+  const setAll = (sel, val) => {
+    document.querySelectorAll(sel).forEach(el => { el.textContent = val; });
   };
 
-  setT("healthDte", profile.dte);
-  setT("healthIntCov", profile.intCov);
-  setT("healthCurRat", profile.curRat);
-  setT("healthRoe", profile.roe);
-  setT("healthRoce", profile.roce);
-  setT("healthOpm", profile.opm);
-  setT("healthSalesCagr", profile.salesCagr);
-  setT("healthProfCagr", profile.profCagr);
-  setT("healthOcfRatio", profile.ocfRatio);
-  setT("healthPledge", profile.pledge);
+  setAll(".healthCompanyName, #healthCompanyName", profile.name);
+  setAll(".healthCompanyDesc, #healthCompanyDesc", profile.desc);
+  setAll(".healthGradeBadge, #healthGradeBadge", profile.grade);
+  setAll(".healthBigScore, #healthBigScore", profile.score);
+  setAll(".healthDte, #healthDte", profile.dte);
+  setAll(".healthIntCov, #healthIntCov", profile.intCov);
+  setAll(".healthCurRat, #healthCurRat", profile.curRat);
+  setAll(".healthRoe, #healthRoe", profile.roe);
+  setAll(".healthRoce, #healthRoce", profile.roce);
+  setAll(".healthOpm, #healthOpm", profile.opm);
+  setAll(".healthSalesCagr, #healthSalesCagr", profile.salesCagr);
+  setAll(".healthProfCagr, #healthProfCagr", profile.profCagr);
+  setAll(".healthOcfRatio, #healthOcfRatio", profile.ocfRatio);
+  setAll(".healthPledge, #healthPledge", profile.pledge);
+
+  document.querySelectorAll(".healthActionBtn, #healthActionBtn").forEach(btn => {
+    btn.onclick = () => exploreInvestment(profile.ticker);
+  });
 }
 
 // SIP / Lumpsum Wealth Planner
@@ -2032,50 +2025,49 @@ let currentPlannerMode = 'sip';
 
 function switchPlannerMode(mode) {
   currentPlannerMode = mode;
-  document.getElementById("btnModeSip")?.classList.toggle("active", mode === 'sip');
-  document.getElementById("btnModeLump")?.classList.toggle("active", mode === 'lumpsum');
+  document.querySelectorAll(".btnModeSip, #btnModeSip").forEach(el => el.classList.toggle("active", mode === 'sip'));
+  document.querySelectorAll(".btnModeLump, #btnModeLump").forEach(el => el.classList.toggle("active", mode === 'lumpsum'));
 
-  const lbl = document.getElementById("labelInvestmentAmount");
-  const range = document.getElementById("sipAmountRange");
-  if (mode === 'sip') {
-    if (lbl) lbl.textContent = "Monthly Investment Amount:";
-    if (range) {
-      range.min = "1000";
-      range.max = "100000";
-      range.step = "1000";
-      range.value = "10000";
-    }
-  } else {
-    if (lbl) lbl.textContent = "One-Time Lumpsum Investment:";
-    if (range) {
-      range.min = "10000";
-      range.max = "2000000";
-      range.step = "10000";
-      range.value = "200000";
-    }
-  }
+  const isSip = mode === 'sip';
+  document.querySelectorAll(".labelInvestmentAmount, #labelInvestmentAmount").forEach(lbl => {
+    lbl.textContent = isSip ? "Monthly Investment Amount:" : "One-Time Lumpsum Investment:";
+  });
+  document.querySelectorAll(".sipAmountRange, #sipAmountRange").forEach(range => {
+    range.min = isSip ? "1000" : "10000";
+    range.max = isSip ? "100000" : "2000000";
+    range.step = isSip ? "1000" : "10000";
+    range.value = isSip ? "10000" : "200000";
+  });
   updateSipCalculator();
 }
 
-function updateSipCalculator() {
-  const amtEl = document.getElementById("sipAmountRange");
-  const rateEl = document.getElementById("sipRateRange");
-  const yearsEl = document.getElementById("sipYearsRange");
+function updateSipCalculator(sourceRange) {
+  let amt = 10000, rate = 14.5, years = 10;
+  if (sourceRange) {
+    if (sourceRange.classList.contains("sipAmountRange") || sourceRange.id === "sipAmountRange") {
+      amt = parseFloat(sourceRange.value) || 10000;
+      document.querySelectorAll(".sipAmountRange, #sipAmountRange").forEach(el => { el.value = amt; });
+    }
+    if (sourceRange.classList.contains("sipRateRange") || sourceRange.id === "sipRateRange") {
+      rate = parseFloat(sourceRange.value) || 14.5;
+      document.querySelectorAll(".sipRateRange, #sipRateRange").forEach(el => { el.value = rate; });
+    }
+    if (sourceRange.classList.contains("sipYearsRange") || sourceRange.id === "sipYearsRange") {
+      years = parseInt(sourceRange.value) || 10;
+      document.querySelectorAll(".sipYearsRange, #sipYearsRange").forEach(el => { el.value = years; });
+    }
+  } else {
+    const amtEl = document.querySelector(".sipAmountRange, #sipAmountRange");
+    const rateEl = document.querySelector(".sipRateRange, #sipRateRange");
+    const yearsEl = document.querySelector(".sipYearsRange, #sipYearsRange");
+    if (amtEl) amt = parseFloat(amtEl.value) || 10000;
+    if (rateEl) rate = parseFloat(rateEl.value) || 14.5;
+    if (yearsEl) years = parseInt(yearsEl.value) || 10;
+  }
 
-  if (!amtEl || !rateEl || !yearsEl) return;
-
-  const amt = parseFloat(amtEl.value) || 10000;
-  const rate = parseFloat(rateEl.value) || 14.5;
-  const years = parseInt(yearsEl.value) || 10;
-
-  // Update Display Bubbles
-  const amtDisp = document.getElementById("sipAmountDisplay");
-  const rateDisp = document.getElementById("sipRateDisplay");
-  const yearsDisp = document.getElementById("sipYearsDisplay");
-
-  if (amtDisp) amtDisp.textContent = formatINR(amt);
-  if (rateDisp) rateDisp.textContent = rate.toFixed(1) + "%";
-  if (yearsDisp) yearsDisp.textContent = years + (years === 1 ? " Year" : " Years");
+  document.querySelectorAll(".sipAmountDisplay, #sipAmountDisplay").forEach(el => { el.textContent = formatINR(amt); });
+  document.querySelectorAll(".sipRateDisplay, #sipRateDisplay").forEach(el => { el.textContent = rate.toFixed(1) + "%"; });
+  document.querySelectorAll(".sipYearsDisplay, #sipYearsDisplay").forEach(el => { el.textContent = years + (years === 1 ? " Year" : " Years"); });
 
   let invested = 0;
   let futureVal = 0;
@@ -2096,51 +2088,35 @@ function updateSipCalculator() {
 
   const gains = Math.max(0, futureVal - invested);
 
-  const fvEl = document.getElementById("futureValueResult");
-  const invEl = document.getElementById("investedAmountResult");
-  const gainsEl = document.getElementById("gainsAmountResult");
+  document.querySelectorAll(".futureValueResult, #futureValueResult").forEach(el => { el.textContent = formatINR(futureVal); });
+  document.querySelectorAll(".investedAmountResult, #investedAmountResult").forEach(el => { el.textContent = formatINR(invested); });
+  document.querySelectorAll(".gainsAmountResult, #gainsAmountResult").forEach(el => { el.textContent = formatINR(gains); });
 
-  if (fvEl) fvEl.textContent = formatINR(futureVal);
-  if (invEl) invEl.textContent = formatINR(invested);
-  if (gainsEl) gainsEl.textContent = formatINR(gains);
-
-  // Proportional visual bar
   const total = invested + gains;
   const invPct = total > 0 ? Math.round((invested / total) * 100) : 50;
   const gainsPct = 100 - invPct;
 
-  const barInv = document.getElementById("barInvested");
-  const barGains = document.getElementById("barGains");
+  document.querySelectorAll(".barInvested, #barInvested").forEach(el => { el.style.width = invPct + "%"; });
+  document.querySelectorAll(".barGains, #barGains").forEach(el => { el.style.width = gainsPct + "%"; });
 
-  if (barInv) barInv.style.width = invPct + "%";
-  if (barGains) barGains.style.width = gainsPct + "%";
+  const strategyHtml = years >= 15
+    ? `For an ultra long-term ${years}-year horizon, allocate <strong>80% to Mid/Small Cap and Flexi-Cap Equities</strong>, <strong>15% to Nifty 50 Index</strong>, and <strong>5% to Sovereign Gold</strong> to maximize compounding.`
+    : years >= 7
+    ? `For a balanced ${years}-year horizon, allocate <strong>70% to Flexi-Cap / NIFTY 50 Index Funds</strong>, <strong>20% to High-Yield Corporate Debt</strong>, and <strong>10% to Sovereign Gold / Liquid Assets</strong>.`
+    : `For a shorter ${years}-year horizon, prioritize capital safety with <strong>50% in Conservative Large-Cap / Balanced Advantage Funds</strong> and <strong>50% in Short-Duration Debt Funds / FDs</strong>.`;
 
-  // Dynamic Strategy Advice
-  const stratEl = document.getElementById("strategyDesc");
-  if (stratEl) {
-    if (years >= 15) {
-      stratEl.innerHTML = `For an ultra long-term ${years}-year horizon, allocate <strong>80% to Mid/Small Cap and Flexi-Cap Equities</strong>, <strong>15% to Nifty 50 Index</strong>, and <strong>5% to Sovereign Gold</strong> to maximize compounding.`;
-    } else if (years >= 7) {
-      stratEl.innerHTML = `For a balanced ${years}-year horizon, allocate <strong>70% to Flexi-Cap / NIFTY 50 Index Funds</strong>, <strong>20% to High-Yield Corporate Debt</strong>, and <strong>10% to Sovereign Gold / Liquid Assets</strong>.`;
-    } else {
-      stratEl.innerHTML = `For a shorter ${years}-year horizon, prioritize capital safety with <strong>50% in Conservative Large-Cap / Balanced Advantage Funds</strong> and <strong>50% in Short-Duration Debt Funds / FDs</strong>.`;
-    }
-  }
+  document.querySelectorAll(".strategyDesc, #strategyDesc").forEach(el => { el.innerHTML = strategyHtml; });
 }
 
 // Market Movers Tab Switching
 function switchMoversTab(tab) {
-  const gTab = document.getElementById("tableGainers");
-  const lTab = document.getElementById("tableLosers");
-  const aTab = document.getElementById("tableActive");
+  document.querySelectorAll(".tableGainers, #tableGainers").forEach(el => { el.style.display = tab === 'gainers' ? 'block' : 'none'; });
+  document.querySelectorAll(".tableLosers, #tableLosers").forEach(el => { el.style.display = tab === 'losers' ? 'block' : 'none'; });
+  document.querySelectorAll(".tableActive, #tableActive").forEach(el => { el.style.display = tab === 'active' ? 'block' : 'none'; });
 
-  if (gTab) gTab.style.display = tab === 'gainers' ? 'block' : 'none';
-  if (lTab) lTab.style.display = tab === 'losers' ? 'block' : 'none';
-  if (aTab) aTab.style.display = tab === 'active' ? 'block' : 'none';
-
-  document.getElementById("btnGainers")?.classList.toggle("active", tab === 'gainers');
-  document.getElementById("btnLosers")?.classList.toggle("active", tab === 'losers');
-  document.getElementById("btnActive")?.classList.toggle("active", tab === 'active');
+  document.querySelectorAll(".btnGainers, #btnGainers").forEach(el => el.classList.toggle("active", tab === 'gainers'));
+  document.querySelectorAll(".btnLosers, #btnLosers").forEach(el => el.classList.toggle("active", tab === 'losers'));
+  document.querySelectorAll(".btnActive, #btnActive").forEach(el => el.classList.toggle("active", tab === 'active'));
 }
 
 

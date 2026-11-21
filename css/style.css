@@ -521,7 +521,7 @@ h2 {
 .meter-wrap {
   background: #ffffff;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 22px 20px 20px;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
   text-align: center;
@@ -834,7 +834,7 @@ footer {
   border-radius: 14px;
   box-shadow: 0 20px 45px -8px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.05);
   max-height: 380px;
-  overflow-y: auto;
+  overflow-y: visible;
   z-index: 100;
   margin-top: 6px;
   display: none;
@@ -1283,13 +1283,11 @@ footer {
    ========================================================================== */
 
 .cockpit-hero {
-  background: radial-gradient(circle at 85% 15%, #1e3a5f 0, transparent 45%),
-    radial-gradient(circle at 15% 85%, #064e3b 0, transparent 40%),
-    linear-gradient(135deg, #070d19 0%, #0c1629 50%, #101e38 100%);
-  color: #ffffff;
-  padding: 32px 0 48px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  min-height: calc(100vh - 56px);
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 14px 0 24px;
+  border-bottom: 1px solid #cbd5e1;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -1342,10 +1340,9 @@ footer {
 
 .hero-title em {
   font-style: normal;
-  background: linear-gradient(135deg, #34d399 0%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #34d399;
+  color: #047857;
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 
 .hero-subtitle {
@@ -1434,8 +1431,7 @@ footer {
 
 .search-lens-icon {
   position: absolute;
-  left: 18px;
-  font-size: 19px;
+  left: 14px; font-size: 16px;
   color: #047857;
   pointer-events: none;
   z-index: 2;
@@ -1443,13 +1439,13 @@ footer {
 
 .search-input-box input {
   width: 100%;
-  height: 56px;
+  height: 44px;
   border: 2px solid #cbd5e1;
   border-radius: 14px;
   font-size: 16px;
   font-weight: 600;
   color: #0f172a;
-  padding: 0 46px 0 52px;
+  padding: 0 42px 0 44px;
   background: #ffffff;
   transition: all 0.2s ease;
   box-sizing: border-box;
@@ -1495,9 +1491,8 @@ footer {
 
 /* Prominent Search Action Button */
 .search-action-btn {
-  height: 56px;
-  padding: 0 32px;
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  height: 44px;
+  padding: 0 22px; background: linear-gradient(135deg, #059669 0%, #047857 100%); font-size: 13.5px;
   color: #ffffff;
   border: none;
   border-radius: 14px;
@@ -1541,7 +1536,7 @@ footer {
   border-radius: 14px;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.22);
   max-height: 380px;
-  overflow-y: auto;
+  overflow-y: visible;
   z-index: 1000;
   display: none;
 }
@@ -1672,9 +1667,9 @@ footer {
   background: #ffffff;
   color: #0f172a;
   border: 1px solid rgba(226, 232, 240, 0.95);
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 18px 22px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -1825,9 +1820,7 @@ footer {
 .tab-content {
   padding: 4px 0;
   min-height: 0;
-  max-height: 420px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 0; max-height: none; overflow: visible;
   scrollbar-width: thin;
 }
 
@@ -2012,9 +2005,9 @@ footer {
   background: #ffffff;
   color: #0f172a;
   border: 1px solid rgba(226, 232, 240, 0.95);
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 18px 22px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -2262,13 +2255,11 @@ footer {
 
 /* Wide Terminal Cockpit Hero & Container */
 .cockpit-hero {
-  background: radial-gradient(circle at 85% 15%, #1e3a5f 0, transparent 45%),
-    radial-gradient(circle at 15% 85%, #064e3b 0, transparent 40%),
-    linear-gradient(135deg, #070d19 0%, #0c1629 50%, #101e38 100%);
-  color: #ffffff;
-  padding: 20px 0 32px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  min-height: calc(100vh - 90px);
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 14px 0 24px;
+  border-bottom: 1px solid #cbd5e1;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -2318,9 +2309,9 @@ footer {
 }
 
 .hero-title {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 850;
-  color: #ffffff;
+  color: #0f172a;
   letter-spacing: -0.8px;
   margin: 0 0 4px 0;
   line-height: 1.2;
@@ -2328,15 +2319,14 @@ footer {
 
 .hero-title em {
   font-style: normal;
-  background: linear-gradient(135deg, #34d399 0%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #34d399;
+  color: #047857;
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 
 .hero-subtitle {
-  font-size: 14px;
-  color: #cbd5e1;
+  font-size: 13px;
+  color: #475569;
   max-width: 720px;
   margin: 0 auto;
   line-height: 1.4;
@@ -2348,9 +2338,9 @@ footer {
    ========================================================================== */
 .search-console-prominent {
   background: #ffffff;
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 16px 20px 14px;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid #cbd5e1;
   margin: 0 0 14px 0;
   width: 100%;
   position: relative;
@@ -2420,8 +2410,7 @@ footer {
 
 .search-lens-icon {
   position: absolute;
-  left: 18px;
-  font-size: 19px;
+  left: 14px; font-size: 16px;
   color: #047857;
   pointer-events: none;
   z-index: 2;
@@ -2429,13 +2418,13 @@ footer {
 
 .search-input-box input {
   width: 100%;
-  height: 56px;
+  height: 44px;
   border: 2px solid #cbd5e1;
   border-radius: 14px;
   font-size: 16px;
   font-weight: 600;
   color: #0f172a;
-  padding: 0 46px 0 52px;
+  padding: 0 42px 0 44px;
   background: #ffffff;
   transition: all 0.2s ease;
   box-sizing: border-box;
@@ -2481,9 +2470,8 @@ footer {
 
 /* Prominent Search Action Button */
 .search-action-btn {
-  height: 56px;
-  padding: 0 32px;
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  height: 44px;
+  padding: 0 22px; background: linear-gradient(135deg, #059669 0%, #047857 100%); font-size: 13.5px;
   color: #ffffff;
   border: none;
   border-radius: 14px;
@@ -2527,7 +2515,7 @@ footer {
   border-radius: 14px;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.22);
   max-height: 380px;
-  overflow-y: auto;
+  overflow-y: visible;
   z-index: 1000;
   display: none;
 }
@@ -2657,9 +2645,9 @@ footer {
   background: #ffffff;
   color: #0f172a;
   border: 1px solid rgba(226, 232, 240, 0.95);
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 16px 20px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -2810,9 +2798,7 @@ footer {
 .tab-content {
   padding: 4px 0;
   min-height: 0;
-  max-height: 400px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 0; max-height: none; overflow: visible;
   scrollbar-width: thin;
 }
 
@@ -2997,9 +2983,9 @@ footer {
   background: #ffffff;
   color: #0f172a;
   border: 1px solid rgba(226, 232, 240, 0.95);
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 16px 20px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -3156,9 +3142,9 @@ footer {
   background: #ffffff;
   color: #0f172a;
   border: 1px solid rgba(226, 232, 240, 0.95);
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 16px 18px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -3794,7 +3780,7 @@ footer {
 .health-dashboard-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 24px;
   box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
 }
@@ -4185,7 +4171,7 @@ footer {
 .planner-layout-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 24px;
   box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
   display: grid;
@@ -4834,7 +4820,7 @@ footer {
   border-radius: 10px;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
   max-height: 320px;
-  overflow-y: auto;
+  overflow-y: visible;
   z-index: 2000;
   display: none;
 }
@@ -5011,5 +4997,136 @@ footer {
   }
   .header-cta-actions {
     display: none;
+  }
+}
+
+/* ==========================================================================
+   Comprehensive 2-Column Portal Dashboard (Yahoo Finance / Moneycontrol Layout)
+   ========================================================================== */
+.portal-dashboard-section {
+  padding: 20px 0 40px;
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard-2col-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+.dashboard-main-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.dashboard-sidebar-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 90px;
+  min-width: 0;
+}
+
+/* Home Portal Cards */
+.home-portal-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 20px 22px;
+  box-sizing: border-box;
+}
+
+.home-portal-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.home-portal-card-header .title-group h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.home-portal-card-header .title-group p {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  color: #475569;
+}
+
+.home-sidebar-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 18px 20px;
+  box-sizing: border-box;
+}
+
+.home-sidebar-card .sidebar-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.home-sidebar-card .sidebar-card-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.sidebar-card-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 2px 8px;
+}
+
+.compact-headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left !important;
+  margin-bottom: 10px !important;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.terminal-status-pill {
+  font-size: 11px;
+  font-weight: 800;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 20px;
+  padding: 4px 12px;
+  display: inline-block;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-2col-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-sidebar-col {
+    position: static;
   }
 }
