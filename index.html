@@ -912,41 +912,43 @@
     <section class="cockpit-hero" id="explore">
       <div class="cockpit-container">
         <div class="hero-command-center">
-          <div class="command-headline compact-headline">
-            <div>
-              <div class="eyebrow-badge"><span class="dot"></span> LIVE RESEARCH TERMINAL</div>
-              <h1 class="hero-title" style="margin:2px 0; font-size:22px;">Indian Equities & Mutual Funds Intelligence</h1>
-              <p class="hero-subtitle" style="margin:0; font-size:12.5px;">Real-time quotes, audited fundamentals, XBRL statements and quantitative models.</p>
+          <div class="terminal-command-bar">
+            <div class="terminal-brand-header">
+              <div class="eyebrow-badge"><span class="dot"></span> RESEARCH TERMINAL</div>
+              <h1 class="hero-title">Indian Equities &amp; Mutual Funds Intelligence</h1>
+              <p class="hero-subtitle">Real-time quotes, audited fundamentals, XBRL statements and multi-factor quantitative models.</p>
             </div>
-            <div>
-              <span class="terminal-status-pill">● LIVE BHARATSTOCK FEED · NSE & BSE ACTIVE</span>
+            <div class="terminal-header-meta">
+              <span class="terminal-status-pill">● LIVE BHARATSTOCK FEED · NSE &amp; BSE ACTIVE</span>
             </div>
           </div>
-          <!-- Prominent, Noticeable Search Bar Console -->
-          <div class="search-console-prominent">
-            <div class="search-tabs-bar" role="tablist" aria-label="Investment filter">
-              <button type="button" class="tab-filter-btn active" id="filterAllBtn" onclick="setSearchFilter('all')">
-                <span class="tab-icon">✦</span> All Instruments
-              </button>
-              <button type="button" class="tab-filter-btn" id="filterStocksBtn" onclick="setSearchFilter('stock')">
-                <span class="tab-icon">↗</span> Indian Stocks (NSE)
-              </button>
-              <button type="button" class="tab-filter-btn" id="filterFundsBtn" onclick="setSearchFilter('fund')">
-                <span class="tab-icon">▦</span> Mutual Funds (AMFI)
-              </button>
-            </div>
 
-            <div class="search-main-row">
+          <!-- Prominent, High-Density Terminal Omnibar Console -->
+          <div class="search-console-prominent">
+            <div class="terminal-omnibar-row">
+              <div class="search-tabs-bar" role="tablist" aria-label="Investment filter">
+                <button type="button" class="tab-filter-btn active" id="filterAllBtn" onclick="setSearchFilter('all')">
+                  <span class="tab-icon">✦</span> All
+                </button>
+                <button type="button" class="tab-filter-btn" id="filterStocksBtn" onclick="setSearchFilter('stock')">
+                  <span class="tab-icon">↗</span> Stocks (NSE)
+                </button>
+                <button type="button" class="tab-filter-btn" id="filterFundsBtn" onclick="setSearchFilter('fund')">
+                  <span class="tab-icon">▦</span> Mutual Funds (AMFI)
+                </button>
+              </div>
+
               <div class="unified-search-wrap">
                 <div class="search-input-box">
                   <span class="search-lens-icon" aria-hidden="true">⌕</span>
-                  <input id="instrument" value="" placeholder="Search by company name, NSE symbol or mutual fund (e.g. INFY, Reliance, PPFAS)..." autocomplete="off" spellcheck="false" aria-label="Search stock or mutual fund name">
+                  <input id="instrument" value="" placeholder="Search NSE ticker or mutual fund (e.g. INFY, RELIANCE, TATAPOWER, ITC, PPFAS)..." autocomplete="off" spellcheck="false" aria-label="Search stock or mutual fund name">
                   <button type="button" id="clearSearchBtn" class="clear-search-btn" onclick="clearSearchInput()" title="Clear search">✕</button>
                 </div>
                 <div id="autocompleteDropdown" class="autocomplete-dropdown" role="listbox"></div>
               </div>
+
               <button class="btn btn-primary search-action-btn" onclick="exploreInvestment()">
-                <span>Explore Investment</span>
+                <span>Explore Terminal</span>
                 <span class="btn-arrow" aria-hidden="true">→</span>
               </button>
             </div>
@@ -956,13 +958,13 @@
               <div class="trending-chips-row">
                 <button type="button" class="trending-chip" onclick="quickSelect('INFY')">INFY (Infosys)</button>
                 <button type="button" class="trending-chip" onclick="quickSelect('TCS')">TCS</button>
-                <button type="button" class="trending-chip" onclick="quickSelect('RELIANCE')">Reliance</button>
-                <button type="button" class="trending-chip" onclick="quickSelect('HDFCBANK')">HDFC Bank</button>
-                <button type="button" class="trending-chip" onclick="quickSelect('ICICIBANK')">ICICI Bank</button>
-                <button type="button" class="trending-chip" onclick="quickSelect('SBIN')">SBI</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('RELIANCE')">RELIANCE</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('HDFCBANK')">HDFC BANK</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('ICICIBANK')">ICICI BANK</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('SBIN')">SBIN</button>
                 <button type="button" class="trending-chip" onclick="quickSelect('ITC')">ITC</button>
-                <button type="button" class="trending-chip" onclick="quickSelect('TATAPOWER')">Tata Power</button>
-                <button type="button" class="trending-chip" onclick="quickSelect('BHARTIARTL')">Airtel</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('TATAPOWER')">TATAPOWER</button>
+                <button type="button" class="trending-chip" onclick="quickSelect('BHARTIARTL')">AIRTEL</button>
                 <button type="button" class="trending-chip" onclick="quickSelect('122639')">Parag Parikh Flexi Cap</button>
                 <button type="button" class="trending-chip" onclick="quickSelect('120828')">Quant Small Cap</button>
                 <button type="button" class="trending-chip" onclick="quickSelect('148721')">HDFC Nifty 50</button>
@@ -1098,6 +1100,14 @@
               <div class="basis-card"><div class="basis-row"><strong>📈 Technical Trend</strong><span id="technicalVal">72/100</span></div><div class="bar"><span id="technicalBar" style="width:72%; background:#059669;"></span></div></div>
               <div class="basis-card"><div class="basis-row"><strong>🏛️ Institutional Quality</strong><span id="ownershipVal">84/100</span></div><div class="bar"><span id="ownershipBar" style="width:84%; background:#059669;"></span></div></div>
             </div>
+
+            <div class="speedo-verdict-card" id="speedoVerdictCard">
+              <div class="verdict-header">
+                <span class="verdict-icon">⚡</span>
+                <strong>Model Valuation Insight</strong>
+              </div>
+              <p id="speedoVerdictText" class="verdict-text">Institutional multi-factor evaluation incorporating balance sheet solvency, cash flows, and exchange disclosures.</p>
+            </div>
           </div>
 
           <!-- Column 3: Indian Market Pulse & Sector Radar -->
@@ -1151,6 +1161,14 @@
                 <div class="mover-item" onclick="quickSelect('RELIANCE')">
                   <div class="mover-info"><strong>RELIANCE</strong><span>Reliance Industries</span></div>
                   <div class="mover-price"><span class="price-val">₹ 1,339.70</span><span class="price-chg pos">+1.19% ▲</span></div>
+                </div>
+                <div class="mover-item" onclick="quickSelect('ITC')">
+                  <div class="mover-info"><strong>ITC</strong><span>ITC Ltd</span></div>
+                  <div class="mover-price"><span class="price-val">₹ 472.50</span><span class="price-chg pos">+0.96% ▲</span></div>
+                </div>
+                <div class="mover-item" onclick="quickSelect('INFY')">
+                  <div class="mover-info"><strong>INFY</strong><span>Infosys Limited</span></div>
+                  <div class="mover-price"><span class="price-val">₹ 1,141.50</span><span class="price-chg pos">+0.85% ▲</span></div>
                 </div>
                 <div class="mover-item" onclick="quickSelect('122639')">
                   <div class="mover-info"><strong>PPFAS</strong><span>Parag Parikh Flexi Cap</span></div>

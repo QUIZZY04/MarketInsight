@@ -1778,6 +1778,17 @@ function updateIntelligenceScore(d) {
   setBar("growthVal", "growthBar", growthScore);
   setBar("technicalVal", "technicalBar", techScore);
   setBar("ownershipVal", "ownershipBar", ownScore);
+
+  const verdictEl = document.getElementById("speedoVerdictText");
+  if (verdictEl) {
+    if (totalScore >= 75) {
+      verdictEl.textContent = `Strong positive conviction: High solvency score (${finScore}/100) and healthy institutional backing (${inst.toFixed(0)}%) support an Outperform ranking.`;
+    } else if (totalScore >= 50) {
+      verdictEl.textContent = `Balanced risk-reward: Sound operating fundamentals counterbalanced by current valuation multiples (${pe.toFixed(1)}x P/E). Suitable for accumulation.`;
+    } else {
+      verdictEl.textContent = `Caution warranted: Testing key moving average supports or elevated valuation multiples. Assess technical stop-loss before adding exposure.`;
+    }
+  }
 }
 
 // Async Fetchers for Tabs
