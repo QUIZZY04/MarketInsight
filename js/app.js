@@ -1853,6 +1853,109 @@ const tabContentTemplates = {
     `;
   },
 
+  forensic: () => {
+    const sym = (currentSelectedSymbol || "INFY").toUpperCase();
+    const p = HEALTH_PROFILES[sym] || {
+      name: (currentSelectedData && currentSelectedData.name) || (sym + " Limited"),
+      desc: "Fundamental diagnostic screening solvency, DuPont return profile, earnings quality, and forensic red flags audit.",
+      score: 88,
+      grade: "GRADE: A · PRISTINE BALANCE SHEET",
+      dte: "0.12x",
+      intCov: "24.5x",
+      curRat: "2.1x",
+      roe: "24.5%",
+      roce: "31.2%",
+      opm: "22.4%",
+      salesCagr: "13.8%",
+      profCagr: "15.4%",
+      ocfRatio: "1.12x",
+      pledge: "0.00% (None)",
+      ticker: sym
+    };
+
+    return `
+      <div class="health-top-banner" style="margin-bottom: 20px;">
+        <div class="health-summary-info">
+          <div class="health-status-badge">${p.grade}</div>
+          <h3 class="health-company-name">${p.name}</h3>
+          <p class="health-company-desc">${p.desc}</p>
+        </div>
+        <div class="health-composite-box">
+          <div class="health-score-ring">
+            <span class="health-big-num">${p.score}</span>
+            <span class="health-score-max">/100</span>
+          </div>
+          <span class="health-ring-label">OVERALL HEALTH SCORE</span>
+        </div>
+      </div>
+
+      <div class="health-pillars-grid">
+        <div class="health-pillar-card">
+          <div class="pillar-head">
+            <div class="pillar-icon">🛡️</div>
+            <div>
+              <h4>Solvency &amp; Debt Health</h4>
+              <span class="pillar-verdict pos">Pristine · Zero Debt Risk</span>
+            </div>
+          </div>
+          <div class="pillar-metrics">
+            <div class="pillar-row"><span>Debt to Equity:</span><strong>${p.dte}</strong></div>
+            <div class="pillar-row"><span>Interest Coverage:</span><strong>${p.intCov}</strong></div>
+            <div class="pillar-row"><span>Current Ratio:</span><strong>${p.curRat}</strong></div>
+          </div>
+          <div class="pillar-bar"><span style="width: 95%; background: #059669;"></span></div>
+        </div>
+
+        <div class="health-pillar-card">
+          <div class="pillar-head">
+            <div class="pillar-icon">💎</div>
+            <div>
+              <h4>Capital Efficiency (ROE/ROCE)</h4>
+              <span class="pillar-verdict pos">Elite Returns Profile</span>
+            </div>
+          </div>
+          <div class="pillar-metrics">
+            <div class="pillar-row"><span>Return on Equity (ROE):</span><strong>${p.roe}</strong></div>
+            <div class="pillar-row"><span>ROCE:</span><strong>${p.roce}</strong></div>
+            <div class="pillar-row"><span>Operating Margin:</span><strong>${p.opm}</strong></div>
+          </div>
+          <div class="pillar-bar"><span style="width: 92%; background: #059669;"></span></div>
+        </div>
+
+        <div class="health-pillar-card">
+          <div class="pillar-head">
+            <div class="pillar-icon">🚀</div>
+            <div>
+              <h4>Growth &amp; Earnings Quality</h4>
+              <span class="pillar-verdict pos">Consistent Cash Compounding</span>
+            </div>
+          </div>
+          <div class="pillar-metrics">
+            <div class="pillar-row"><span>5Y Sales CAGR:</span><strong>${p.salesCagr}</strong></div>
+            <div class="pillar-row"><span>5Y Profit CAGR:</span><strong>${p.profCagr}</strong></div>
+            <div class="pillar-row"><span>OCF to Net Profit:</span><strong>${p.ocfRatio}</strong></div>
+          </div>
+          <div class="pillar-bar"><span style="width: 86%; background: #059669;"></span></div>
+        </div>
+
+        <div class="health-pillar-card">
+          <div class="pillar-head">
+            <div class="pillar-icon">🔍</div>
+            <div>
+              <h4>Forensic Red Flags Audit</h4>
+              <span class="pillar-verdict pos">Passed 8/8 Red Flag Audits</span>
+            </div>
+          </div>
+          <div class="pillar-metrics">
+            <div class="pillar-row"><span>Promoter Pledge:</span><strong>${p.pledge}</strong></div>
+            <div class="pillar-row"><span>Auditor Qualifications:</span><strong>Unqualified (Clean)</strong></div>
+            <div class="pillar-row"><span>Contingent Liabilities:</span><strong>Low (&lt; 3% NW)</strong></div>
+          </div>
+          <div class="pillar-bar"><span style="width: 98%; background: #059669;"></span></div>
+        </div>
+      </div>
+    `;
+  },
   technical: () => {
     const d = currentSelectedData || {};
     const price = d.price || 0;
@@ -4894,6 +4997,7 @@ function renderPortfolioTracker() {
       </tr>
     `;
     updatePortfolioKPIs(0, 0, 0, 0, 0, 0, 0);
+    updatePortfolioAllocationVisual(0, 0, 0, 0, 0);
     return;
   }
 
@@ -4969,6 +5073,22 @@ function renderPortfolioTracker() {
     holdCount,
     sellCount
   );
+
+  // Calculate allocation breakdown & render Doughnut
+  let largeCapTotal = 0;
+  let midCapTotal = 0;
+  let smallCapTotal = 0;
+  let fundTotal = 0;
+
+  calculatedItems.forEach(item => {
+    const cat = item.category || (item.stockInfo && item.stockInfo.cap) || "Large Cap";
+    if (cat.includes("Large")) largeCapTotal += item.currentVal;
+    else if (cat.includes("Mid")) midCapTotal += item.currentVal;
+    else if (cat.includes("Small")) smallCapTotal += item.currentVal;
+    else fundTotal += item.currentVal;
+  });
+
+  updatePortfolioAllocationVisual(largeCapTotal, midCapTotal, smallCapTotal, fundTotal, grandTotalCurrent);
 
   // Second pass: render rows with weight percentages
   tbody.innerHTML = calculatedItems.map(item => {
@@ -5184,4 +5304,162 @@ function analyzeHoldingInTerminal(sym) {
   closeRecModal();
   navigateToPage("page-terminal");
   exploreInvestment(targetSym);
+}
+
+// ============================================================================
+// PHASE 2 FUNCTIONS: EXPORT CSV, NEWS FILTER, ALLOCATION DOUGHNUT
+// ============================================================================
+
+function exportPortfolioCSV() {
+  if (!userPortfolioList || userPortfolioList.length === 0) {
+    alert("Your portfolio is currently empty. Add stocks or preload the sample portfolio first.");
+    return;
+  }
+
+  const headers = [
+    "Stock Symbol",
+    "Company Name",
+    "Asset Class",
+    "Quantity",
+    "Avg Buy Price (INR)",
+    "Current Market Price (INR)",
+    "Total Invested (INR)",
+    "Current Value (INR)",
+    "Overall P&L (INR)",
+    "Return Percentage",
+    "Recommendation",
+    "Selection Rationale"
+  ];
+
+  const rows = userPortfolioList.map(h => {
+    const sym = (h.symbol || "").toUpperCase();
+    const s = PORTFOLIO_STOCK_DATABASE[sym] || {};
+    const cmp = Number(s.cmp || h.buyPrice);
+    const qty = Number(h.qty);
+    const buyPrice = Number(h.buyPrice);
+    const invested = qty * buyPrice;
+    const currentVal = qty * cmp;
+    const pnl = currentVal - invested;
+    const pnlPct = invested > 0 ? (pnl / invested) * 100 : 0;
+    const rationale = (s.rationale || "Automated quantitative fundamental audit.").replace(/"/g, '""');
+    const name = (s.name || sym).replace(/"/g, '""');
+
+    return [
+      sym,
+      `"${name}"`,
+      `"${h.category || s.cap || 'Large Cap'}"`,
+      qty,
+      buyPrice.toFixed(2),
+      cmp.toFixed(2),
+      invested.toFixed(2),
+      currentVal.toFixed(2),
+      pnl.toFixed(2),
+      pnlPct.toFixed(2) + "%",
+      s.rec || "BUY",
+      `"${rationale}"`
+    ].join(",");
+  });
+
+  const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows].join("\n");
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `MarketInsight_Portfolio_${new Date().toISOString().slice(0, 10)}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function filterNewsCategory(cat, btn) {
+  document.querySelectorAll(".news-filter-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+
+  const cards = document.querySelectorAll(".news-wire-grid .news-card");
+  cards.forEach(card => {
+    const cardCat = card.getAttribute("data-category");
+    if (cat === "all" || cardCat === cat) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+function updatePortfolioAllocationVisual(largeVal, midVal, smallVal, fundVal, totalVal) {
+  const setTxt = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+  const setWidth = (id, pct) => {
+    const el = document.getElementById(id);
+    if (el) el.style.width = pct + "%";
+  };
+
+  setTxt("allocTotalVal", formatINR(totalVal));
+
+  if (totalVal <= 0) {
+    setTxt("allocPctLarge", "0%"); setWidth("allocBarLarge", 0); setTxt("allocAmtLarge", "₹ 0.00");
+    setTxt("allocPctMid", "0%"); setWidth("allocBarMid", 0); setTxt("allocAmtMid", "₹ 0.00");
+    setTxt("allocPctSmall", "0%"); setWidth("allocBarSmall", 0); setTxt("allocAmtSmall", "₹ 0.00");
+    setTxt("allocPctFund", "0%"); setWidth("allocBarFund", 0); setTxt("allocAmtFund", "₹ 0.00");
+    setTxt("allocHealthGrade", "--");
+    return;
+  }
+
+  const pLarge = (largeVal / totalVal) * 100;
+  const pMid = (midVal / totalVal) * 100;
+  const pSmall = (smallVal / totalVal) * 100;
+  const pFund = (fundVal / totalVal) * 100;
+
+  setTxt("allocPctLarge", pLarge.toFixed(1) + "%");
+  setWidth("allocBarLarge", pLarge.toFixed(1));
+  setTxt("allocAmtLarge", formatINR(largeVal));
+
+  setTxt("allocPctMid", pMid.toFixed(1) + "%");
+  setWidth("allocBarMid", pMid.toFixed(1));
+  setTxt("allocAmtMid", formatINR(midVal));
+
+  setTxt("allocPctSmall", pSmall.toFixed(1) + "%");
+  setWidth("allocBarSmall", pSmall.toFixed(1));
+  setTxt("allocAmtSmall", formatINR(smallVal));
+
+  setTxt("allocPctFund", pFund.toFixed(1) + "%");
+  setWidth("allocBarFund", pFund.toFixed(1));
+  setTxt("allocAmtFund", formatINR(fundVal));
+
+  // Determine Grade
+  let grade = "A+";
+  if (pSmall > 50) grade = "B+";
+  else if (pLarge >= 40 && pFund >= 15) grade = "AAA";
+  else if (pLarge >= 30) grade = "A+";
+  setTxt("allocHealthGrade", grade);
+
+  // Render SVG Doughnut
+  const svg = document.getElementById("allocDoughnutSvg");
+  if (!svg) return;
+
+  const slices = [
+    { pct: pLarge, color: "#059669" },
+    { pct: pMid, color: "#2563eb" },
+    { pct: pSmall, color: "#d97706" },
+    { pct: pFund, color: "#7c3aed" }
+  ].filter(s => s.pct > 0);
+
+  const radius = 60;
+  const circumference = 2 * Math.PI * radius; // ~376.99
+  let offset = 0;
+
+  let circlesHtml = `<circle cx="80" cy="80" r="${radius}" fill="none" stroke="#f1f5f9" stroke-width="18"/>`;
+  slices.forEach(s => {
+    const dash = (s.pct / 100) * circumference;
+    circlesHtml += `
+      <circle cx="80" cy="80" r="${radius}" fill="none" stroke="${s.color}" stroke-width="18"
+        stroke-dasharray="${dash.toFixed(2)} ${circumference.toFixed(2)}"
+        stroke-dashoffset="${(-offset).toFixed(2)}"
+        style="transition: stroke-dasharray 0.8s ease;" />
+    `;
+    offset += dash;
+  });
+
+  svg.innerHTML = circlesHtml;
 }

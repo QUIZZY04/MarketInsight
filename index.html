@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#059669">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23059669'/%3E%3Cpath d='M9 23 L23 9 M13 9 L23 9 L23 19' stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_18">
+  <link rel="stylesheet" href="css/style.css?v=20261122_19">
 </head>
 <body>
 
@@ -617,6 +617,69 @@
           </div>
         </div>
 
+        <!-- 1.5 Visual Asset Allocation & Diversification Doughnut -->
+        <div class="portfolio-allocation-card" id="portfolioAllocCard">
+          <div class="alloc-card-header">
+            <div>
+              <h3>Portfolio Asset Allocation &amp; Diversification</h3>
+              <p>Weighted capital exposure across market capitalisation and asset classes.</p>
+            </div>
+            <div class="alloc-total-pill">
+              <span>Total Capital: <strong id="allocTotalVal">₹ 0.00</strong></span>
+            </div>
+          </div>
+          <div class="alloc-visual-row">
+            <div class="alloc-chart-col">
+              <svg id="allocDoughnutSvg" viewBox="0 0 160 160" class="alloc-doughnut"></svg>
+              <div class="alloc-doughnut-center">
+                <span class="center-title">HEALTH</span>
+                <span class="center-val" id="allocHealthGrade">A+</span>
+              </div>
+            </div>
+            <div class="alloc-legend-col">
+              <div class="alloc-legend-item">
+                <div class="legend-bar-head">
+                  <span class="legend-color-dot" style="background:#059669;"></span>
+                  <span class="legend-cat-name">Large Cap Equities</span>
+                  <strong id="allocPctLarge">0%</strong>
+                </div>
+                <div class="legend-prog-track"><div id="allocBarLarge" class="prog-fill" style="width:0%; background:#059669;"></div></div>
+                <small id="allocAmtLarge" class="legend-amt">₹ 0.00</small>
+              </div>
+
+              <div class="alloc-legend-item">
+                <div class="legend-bar-head">
+                  <span class="legend-color-dot" style="background:#2563eb;"></span>
+                  <span class="legend-cat-name">Mid Cap Equities</span>
+                  <strong id="allocPctMid">0%</strong>
+                </div>
+                <div class="legend-prog-track"><div id="allocBarMid" class="prog-fill" style="width:0%; background:#2563eb;"></div></div>
+                <small id="allocAmtMid" class="legend-amt">₹ 0.00</small>
+              </div>
+
+              <div class="alloc-legend-item">
+                <div class="legend-bar-head">
+                  <span class="legend-color-dot" style="background:#d97706;"></span>
+                  <span class="legend-cat-name">Small Cap Equities</span>
+                  <strong id="allocPctSmall">0%</strong>
+                </div>
+                <div class="legend-prog-track"><div id="allocBarSmall" class="prog-fill" style="width:0%; background:#d97706;"></div></div>
+                <small id="allocAmtSmall" class="legend-amt">₹ 0.00</small>
+              </div>
+
+              <div class="alloc-legend-item">
+                <div class="legend-bar-head">
+                  <span class="legend-color-dot" style="background:#7c3aed;"></span>
+                  <span class="legend-cat-name">Mutual Funds &amp; Schemes</span>
+                  <strong id="allocPctFund">0%</strong>
+                </div>
+                <div class="legend-prog-track"><div id="allocBarFund" class="prog-fill" style="width:0%; background:#7c3aed;"></div></div>
+                <small id="allocAmtFund" class="legend-amt">₹ 0.00</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- 2. Add New Holding Input Console -->
         <div class="portfolio-add-box">
           <div class="box-title-row">
@@ -692,6 +755,7 @@
               <p>Real-time valuation comparison, individual position returns, portfolio weighting and buy/sell signals.</p>
             </div>
             <div class="table-filter-pills">
+              <button type="button" class="btn btn-outline btn-sm port-export-btn" onclick="exportPortfolioCSV()">📥 Export CSV</button>
               <span class="legend-dot green"></span> <span>BUY</span>
               <span class="legend-dot amber"></span> <span>HOLD</span>
               <span class="legend-dot red"></span> <span>SELL</span>
@@ -870,6 +934,7 @@
 
             <div class="tabs" role="tablist">
               <button class="tab active" data-tab="overview" onclick="showTab('overview',this)">Overview</button>
+              <button class="tab" data-tab="forensic" onclick="showTab('forensic',this)">Forensic &amp; Health</button>
               <button class="tab" data-tab="financials" onclick="showTab('financials',this)">Financials</button>
               <button class="tab" data-tab="ratios" onclick="showTab('ratios',this)">Key ratios</button>
               <button class="tab" data-tab="technical" onclick="showTab('technical',this)">Technicals &amp; DMA</button>
@@ -1057,121 +1122,7 @@
   <!-- =========================================================================
        PAGE 3: 🏥 STOCK HEALTH CHECKER (Dedicated Station)
        ========================================================================= -->
-  <div id="page-health" class="portal-page" style="display: none;">
-    <section class="portal-module-section" id="health-checker">
-      <div class="portal-container">
-        <div class="portal-section-header">
-          <div>
-            <span class="portal-eyebrow eyebrow-health">AUTOMATED FUNDAMENTAL DIAGNOSTIC</span>
-            <h2 class="portal-title">Stock Health Checker</h2>
-            <p class="portal-subtitle">Instantly diagnose solvency, earnings quality, capital efficiency and forensic red flags across 2,000+ listed Indian equities.</p>
-          </div>
-          <div class="health-picker-pills">
-            <span class="picker-label">Select Stock:</span>
-            <button type="button" class="health-pill active" onclick="selectHealthStock('INFY', this)">INFY</button>
-            <button type="button" class="health-pill" onclick="selectHealthStock('TCS', this)">TCS</button>
-            <button type="button" class="health-pill" onclick="selectHealthStock('RELIANCE', this)">RELIANCE</button>
-            <button type="button" class="health-pill" onclick="selectHealthStock('SBIN', this)">SBIN</button>
-            <button type="button" class="health-pill" onclick="selectHealthStock('ITC', this)">ITC</button>
-            <button type="button" class="health-pill" onclick="selectHealthStock('TATAPOWER', this)">TATAPOWER</button>
-          </div>
-        </div>
-
-        <div class="health-dashboard-card">
-          <div class="health-top-banner">
-            <div class="health-summary-info">
-              <div class="health-status-badge" id="healthGradeBadge">GRADE: A+ · EXCEPTIONAL HEALTH</div>
-              <h3 class="health-company-name" id="healthCompanyName">Infosys Limited (NSE: INFY)</h3>
-              <p class="health-company-desc" id="healthCompanyDesc">Demonstrates near-zero debt leverage, world-class capital efficiency (ROE > 28%), stable operating cash flows and pristine forensic audit compliance.</p>
-            </div>
-            <div class="health-composite-box">
-              <div class="health-score-ring">
-                <span class="health-big-num" id="healthBigScore">92</span>
-                <span class="health-score-max">/100</span>
-              </div>
-              <span class="health-ring-label">OVERALL HEALTH SCORE</span>
-            </div>
-          </div>
-
-          <div class="health-pillars-grid">
-            <div class="health-pillar-card">
-              <div class="pillar-head">
-                <div class="pillar-icon">🛡️</div>
-                <div>
-                  <h4>Solvency & Debt Health</h4>
-                  <span class="pillar-verdict pos" id="pillarSolvencyVerdict">Pristine · Zero Debt Risk</span>
-                </div>
-              </div>
-              <div class="pillar-metrics">
-                <div class="pillar-row"><span>Debt to Equity:</span><strong id="healthDte">0.08x</strong></div>
-                <div class="pillar-row"><span>Interest Coverage:</span><strong id="healthIntCov">42.5x</strong></div>
-                <div class="pillar-row"><span>Current Ratio:</span><strong id="healthCurRat">2.4x</strong></div>
-              </div>
-              <div class="pillar-bar"><span style="width: 95%; background: #059669;"></span></div>
-            </div>
-
-            <div class="health-pillar-card">
-              <div class="pillar-head">
-                <div class="pillar-icon">💎</div>
-                <div>
-                  <h4>Capital Efficiency (ROE/ROCE)</h4>
-                  <span class="pillar-verdict pos" id="pillarProfitVerdict">Elite Returns Profile</span>
-                </div>
-              </div>
-              <div class="pillar-metrics">
-                <div class="pillar-row"><span>Return on Equity (ROE):</span><strong id="healthRoe">29.4%</strong></div>
-                <div class="pillar-row"><span>ROCE:</span><strong id="healthRoce">37.8%</strong></div>
-                <div class="pillar-row"><span>Operating Margin:</span><strong id="healthOpm">21.2%</strong></div>
-              </div>
-              <div class="pillar-bar"><span style="width: 92%; background: #059669;"></span></div>
-            </div>
-
-            <div class="health-pillar-card">
-              <div class="pillar-head">
-                <div class="pillar-icon">🚀</div>
-                <div>
-                  <h4>Growth & Earnings Quality</h4>
-                  <span class="pillar-verdict pos" id="pillarGrowthVerdict">Consistent Cash Compounding</span>
-                </div>
-              </div>
-              <div class="pillar-metrics">
-                <div class="pillar-row"><span>5Y Sales CAGR:</span><strong id="healthSalesCagr">11.4%</strong></div>
-                <div class="pillar-row"><span>5Y Profit CAGR:</span><strong id="healthProfCagr">12.8%</strong></div>
-                <div class="pillar-row"><span>OCF to Net Profit:</span><strong id="healthOcfRatio">1.12x</strong></div>
-              </div>
-              <div class="pillar-bar"><span style="width: 86%; background: #059669;"></span></div>
-            </div>
-
-            <div class="health-pillar-card">
-              <div class="pillar-head">
-                <div class="pillar-icon">🔍</div>
-                <div>
-                  <h4>Forensic Red Flags Audit</h4>
-                  <span class="pillar-verdict pos" id="pillarForensicVerdict">Passed 8/8 Red Flag Audits</span>
-                </div>
-              </div>
-              <div class="pillar-metrics">
-                <div class="pillar-row"><span>Promoter Pledge:</span><strong id="healthPledge">0.00% (None)</strong></div>
-                <div class="pillar-row"><span>Auditor Qualifications:</span><strong>Unqualified (Clean)</strong></div>
-                <div class="pillar-row"><span>Contingent Liabilities:</span><strong>Low (< 3% NW)</strong></div>
-              </div>
-              <div class="pillar-bar"><span style="width: 98%; background: #059669;"></span></div>
-            </div>
-          </div>
-
-          <div class="health-action-footer">
-            <span>Detailed valuation, historical financial statements, and XBRL filings are available in the terminal.</span>
-            <button type="button" class="btn btn-outline" id="healthActionBtn" onclick="quickSelect('INFY')">Open Full Statement in Terminal →</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- =========================================================================
-       PAGE 4: 🌐 MARKET OVERVIEW & BREADTH (Dedicated Page)
-       ========================================================================= -->
-    <div id="page-overview" class="portal-page" style="display: none;">
+  <div id="page-overview" class="portal-page" style="display: none;">
     <section class="portal-module-section alt-bg" id="market-overview">
       <div class="portal-container">
         
@@ -2434,43 +2385,53 @@
           </div>
         </div>
 
+        <!-- News Category Filter Pills -->
+        <div class="news-filter-pills-bar" role="tablist" aria-label="News category filter">
+          <button type="button" class="news-filter-btn active" data-cat="all" onclick="filterNewsCategory('all', this)">✦ All Wire</button>
+          <button type="button" class="news-filter-btn" data-cat="rbi" onclick="filterNewsCategory('rbi', this)">🏛️ RBI Policy &amp; Macro</button>
+          <button type="button" class="news-filter-btn" data-cat="earnings" onclick="filterNewsCategory('earnings', this)">📈 Earnings Radar</button>
+          <button type="button" class="news-filter-btn" data-cat="sebi" onclick="filterNewsCategory('sebi', this)">📑 SEBI Circulars</button>
+          <button type="button" class="news-filter-btn" data-cat="corp" onclick="filterNewsCategory('corp', this)">💰 Corporate Actions</button>
+          <button type="button" class="news-filter-btn" data-cat="capex" onclick="filterNewsCategory('capex', this)">⚡ Infra &amp; Power</button>
+        </div>
+
         <div class="news-wire-grid">
-          <article class="news-card">
+          <article class="news-card" data-category="rbi">
             <div class="news-badge-row"><span class="news-tag rbi">🏛️ RBI Policy</span><span class="news-time">2 hours ago</span></div>
             <h4>RBI MPC Maintains Benchmark Repo Rate at 6.50%</h4>
             <p>The Reserve Bank of India’s Monetary Policy Committee voted unanimously to keep the repo rate unchanged, citing sustained macroeconomic resilience and projected FY27 GDP growth above 7.0%.</p>
             <div class="news-footer-meta"><span class="source-tag">Source: RBI Bulletin</span><span class="impact-tag pos">Positive for Equities</span></div>
           </article>
 
-          <article class="news-card">
+          <article class="news-card" data-category="earnings">
             <div class="news-badge-row"><span class="news-tag earnings">📈 Earnings Radar</span><span class="news-time">3 hours ago</span></div>
             <h4>IT &amp; Banking Majors Forecast Steady Margin Expansion in Q3</h4>
             <p>Indian Tier-1 IT consulting exporters alongside leading private sector banks project sequential margin expansion driven by digital transformations, artificial intelligence pipelines, and credit demand.</p>
             <div class="news-footer-meta"><span class="source-tag">Source: Exchange Filings</span><span class="impact-tag pos">Bullish for BFSI &amp; Tech</span></div>
           </article>
 
-          <article class="news-card">
+          <article class="news-card" data-category="sebi">
             <div class="news-badge-row"><span class="news-tag sebi">📑 SEBI Circular</span><span class="news-time">5 hours ago</span></div>
             <h4>SEBI Refines Derivatives Framework to Enhance Investor Safety</h4>
             <p>Market regulator SEBI introduced rationalized contract sizing and margin regulations for equity index derivatives, reinforcing institutional-grade risk management and retail investor protection.</p>
             <div class="news-footer-meta"><span class="source-tag">Source: SEBI Gazette</span><span class="impact-tag neutral">Structural Stability</span></div>
           </article>
 
-          <article class="news-card">
+          <article class="news-card" data-category="corp">
             <div class="news-badge-row"><span class="news-tag corp">💰 Corporate Actions</span><span class="news-time">6 hours ago</span></div>
             <h4>State Bank of India &amp; ITC Announce Interim Dividend Distributions</h4>
             <p>Board resolutions filed on stock exchanges confirmed dividend announcements for eligible shareholders, underscoring solid balance sheet liquidity and consistent capital returns.</p>
             <div class="news-footer-meta"><span class="source-tag">Source: Corporate Filings</span><span class="impact-tag pos">Shareholder Reward</span></div>
           </article>
 
-          <article class="news-card">
+          <article class="news-card" data-category="capex">
             <div class="news-badge-row"><span class="news-tag capex">⚡ Infrastructure &amp; Power</span><span class="news-time">8 hours ago</span></div>
             <h4>Tata Power Inks Multi-Gigawatt Renewable PPA for Industrial Corridors</h4>
             <p>Tata Power Renewable Energy signed long-term power purchase agreements totaling 1.2 GW with top manufacturing hubs, expanding its green generation order book to record highs.</p>
             <div class="news-footer-meta"><span class="source-tag">Source: Press Release</span><span class="impact-tag pos">Growth Catalyst</span></div>
           </article>
 
-          <article class="news-card">
+          <article class="news-card" data-category="rbi">
             <div class="news-badge-row"><span class="news-tag macro">🌍 Global Macro</span><span class="news-time">10 hours ago</span></div>
             <h4>India Logistics Index Rises on Record Port &amp; Freight Corridors</h4>
             <p>Ministry of Commerce data indicated container turnaround times at major ports dropped to under 44 hours, boosting domestic supply chains and manufacturing export throughput.</p>
@@ -2494,6 +2455,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_18"></script>
+<script src="js/app.js?v=20261122_19"></script>
 </body>
 </html>
