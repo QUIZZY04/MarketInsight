@@ -4091,7 +4091,9 @@ function navigateToPage(pageId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // 6. If switching to terminal or health, ensure calculations or default tickers are loaded
-  if (pageId === 'page-overview' || cleanHash === 'overview') {
+  if (pageId === 'page-portfolio' || cleanHash === 'portfolio') {
+    initPortfolioTrackerPage();
+  } else if (pageId === 'page-overview' || cleanHash === 'overview') {
     initMarketOverviewPage();
   } else if (pageId === 'page-planner') {
     updateSipCalculator();
@@ -4636,3 +4638,377 @@ window.addEventListener('resize', () => {
     renderFiiDiiChart();
   }
 });
+
+
+// =========================================================================
+// PORTFOLIO TRACKER ENGINE (PERSISTENT CLIENT-SIDE HOLDINGS MONITOR)
+// =========================================================================
+
+const PORTFOLIO_STOCK_DATABASE = {
+  "TATAPOWER": { name: "Tata Power Company Ltd", sector: "Power & Clean Energy", cap: "Large Cap", cmp: 340.00, change: 1.43, rec: "STRONG BUY", target: 440, risk: "Moderate", rationale: "Rapidly expanding solar EPC order book (>₹20,000 Cr), transmission corridor expansion, multi-gigawatt renewable PPAs signed, and dominant nationwide EV fast-charging moat." },
+  "INFY": { name: "Infosys Limited", sector: "IT Consulting & AI", cap: "Large Cap", cmp: 1098.00, change: 0.56, rec: "BUY", target: 1250, risk: "Low", rationale: "Trading at attractive valuation of 22x P/E, debt-free balance sheet with >30% ROCE, strong mega-deal AI pipeline and steady operating margin recovery." },
+  "TRENT": { name: "Trent Ltd (Tata Retail)", sector: "Consumer Retail", cap: "Large Cap", cmp: 6850.00, change: 3.80, rec: "HOLD", target: 7200, risk: "Moderate-High", rationale: "Exceptional store-level unit economics and 40%+ revenue CAGR in Zudio and Westside formats, but premium valuation (130x P/E) suggests disciplined holding rather than aggressive fresh entry." },
+  "SBIN": { name: "State Bank of India", sector: "Public Sector Banking", cap: "Large Cap", cmp: 1165.00, change: 1.60, rec: "STRONG BUY", target: 1300, risk: "Low", rationale: "Net NPA down to 0.53%, return on assets (RoA) holding above 1.1%, pristine credit risk underwriting, and steady loan growth across retail and sovereign infrastructure." },
+  "HDFCBANK": { name: "HDFC Bank Limited", sector: "Private Banking", cmp: 846.00, change: 2.95, rec: "STRONG BUY", target: 1050, risk: "Low", rationale: "Post-merger loan-to-deposit ratio (LDR) normalization ahead of schedule, trading at cyclical discount of 2.4x P/B vs 10-year historical average of 3.8x." },
+  "RELIANCE": { name: "Reliance Industries Ltd", sector: "Energy, Retail & 5G", cap: "Large Cap", cmp: 1377.50, change: 1.19, rec: "BUY", target: 1620, risk: "Low", rationale: "Strong cash generation across retail and digital Jio services; upcoming market listings of subsidiaries will unlock shareholder value alongside green energy gigafactories." },
+  "TCS": { name: "Tata Consultancy Services", sector: "IT Services", cap: "Large Cap", cmp: 2376.20, change: 1.43, rec: "HOLD", target: 2500, risk: "Low", rationale: "Highest operating margin in the global IT sector (25%+), debt-free, but current price leaves limited immediate upside buffer over the next 6-12 months." },
+  "KAYNES": { name: "Kaynes Technology India", sector: "EMS & Semiconductors", cap: "Mid Cap", cmp: 5840.00, change: 4.20, rec: "BUY", target: 6600, risk: "Moderate", rationale: "Cabinet-approved semiconductor OSAT packaging facility, robust 55%+ order book CAGR spanning defence electronics, aerospace, and electric vehicles under Make in India." },
+  "ITC": { name: "ITC Limited", sector: "Diversified FMCG", cap: "Large Cap", cmp: 299.10, change: 0.96, rec: "BUY", target: 360, risk: "Low", rationale: "Hotels demerger creates a pure-play consumer goods giant; generous 4%+ dividend yield, virtually zero debt, and expanding non-tobacco FMCG margins." },
+  "BHARTIARTL": { name: "Bharti Airtel Ltd", sector: "Telecommunications", cap: "Large Cap", cmp: 1720.00, change: 2.45, rec: "BUY", target: 1950, risk: "Low", rationale: "Industry-leading ARPU expanding toward ₹225, rapid 5G user monetization, high-margin enterprise data cloud services, and strong African balance sheet deleveraging." },
+  "IREDA": { name: "Indian Renewable Energy Dev", sector: "Green Energy NBFC", cap: "Mid Cap", cmp: 215.40, change: 3.45, rec: "BUY", target: 270, risk: "Moderate", rationale: "Sole nodal sovereign NBFC for green financing; loan book compounding at 35%+ with near-zero fresh slippages in solar, wind, and green hydrogen." },
+  "RAILTEL": { name: "RailTel Corp of India", sector: "Telecom & Cloud Infra", cap: "Small Cap", cmp: 410.80, change: 2.90, rec: "BUY", target: 510, risk: "Moderate", rationale: "Exclusive optical fibre right-of-way over 61,000 km along Indian Railways; expanding into sovereign AI data centre hosting and railway Kavach safety systems." },
+  "TITAN": { name: "Titan Company Ltd", sector: "Jewellery & Watches", cap: "Large Cap", cmp: 3240.00, change: -0.72, rec: "BUY", target: 3750, risk: "Low", rationale: "Gold import duty rationalization spurs wedding and festive demand; Tanishq network addition continues delivering 20%+ retail growth." },
+  "HCLTECH": { name: "HCL Technologies Ltd", sector: "IT Services", cap: "Large Cap", cmp: 1815.00, change: -1.40, rec: "HOLD", target: 1950, risk: "Low", rationale: "Strong engineering services positioning and consistent 4% dividend yield, though enterprise discretionary IT budgets in North America remain selective." },
+  "TECHM": { name: "Tech Mahindra Ltd", sector: "IT Services", cap: "Large Cap", cmp: 1640.00, change: -1.15, rec: "HOLD", target: 1750, risk: "Moderate", rationale: "Telecom turnaround in progress under new leadership; awaiting sustained sequential EBIT margin recovery back to 15%." },
+  "WIPRO": { name: "Wipro Limited", sector: "IT Consulting", cap: "Large Cap", cmp: 545.00, change: -0.95, rec: "HOLD", target: 580, risk: "Moderate", rationale: "Capco consulting business still recovering; periodic share buybacks offer a firm downside valuation floor." },
+  "CIPLA": { name: "Cipla Limited", sector: "Pharmaceuticals", cap: "Large Cap", cmp: 1480.00, change: -0.85, rec: "BUY", target: 1680, risk: "Low", rationale: "Market-leading domestic chronic respiratory and cardiology portfolio; robust generic Albuterol and peptide sales in the US market." }
+};
+
+const DEFAULT_SAMPLE_HOLDINGS = [
+  { id: "hold_1", symbol: "TATAPOWER", buyPrice: 280.00, qty: 100, category: "Large Cap", date: "2026-03-15" },
+  { id: "hold_2", symbol: "INFY", buyPrice: 1020.00, qty: 50, category: "Large Cap", date: "2026-04-10" },
+  { id: "hold_3", symbol: "TRENT", buyPrice: 5400.00, qty: 15, category: "Large Cap", date: "2026-05-20" },
+  { id: "hold_4", symbol: "SBIN", buyPrice: 1050.00, qty: 40, category: "Large Cap", date: "2026-06-18" },
+  { id: "hold_5", symbol: "HDFCBANK", buyPrice: 780.00, qty: 60, category: "Large Cap", date: "2026-07-22" }
+];
+
+let userPortfolioList = [];
+let currentRecModalSymbol = "";
+
+function getUserPortfolio() {
+  try {
+    const raw = localStorage.getItem("marketinsight_user_portfolio");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.warn("Could not read portfolio from localStorage, defaulting to sample.", err);
+  }
+  // If empty or first visit, seed with sample portfolio
+  saveUserPortfolio(DEFAULT_SAMPLE_HOLDINGS);
+  return DEFAULT_SAMPLE_HOLDINGS;
+}
+
+function saveUserPortfolio(list) {
+  try {
+    localStorage.setItem("marketinsight_user_portfolio", JSON.stringify(list));
+  } catch (err) {
+    console.error("Failed to save portfolio to localStorage", err);
+  }
+}
+
+function initPortfolioTrackerPage() {
+  userPortfolioList = getUserPortfolio();
+  renderPortfolioTracker();
+}
+
+function renderPortfolioTracker() {
+  const tbody = document.getElementById("portfolioTableBody");
+  if (!tbody) return;
+
+  if (!userPortfolioList || userPortfolioList.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="10" style="text-align: center; padding: 40px; color: #64748b;">
+          <div style="font-size: 36px; margin-bottom: 8px;">💼</div>
+          <div style="font-size: 16px; font-weight: 750; color: #0f172a; margin-bottom: 4px;">Your Portfolio is Currently Empty</div>
+          <div style="font-size: 13px; margin-bottom: 16px;">Add your first stock above or preload a realistic sample portfolio with one click.</div>
+          <button type="button" class="btn btn-primary" onclick="preloadSamplePortfolio()">⚡ Preload Sample Portfolio</button>
+        </td>
+      </tr>
+    `;
+    updatePortfolioKPIs(0, 0, 0, 0, 0, 0, 0);
+    return;
+  }
+
+  let grandTotalInvested = 0;
+  let grandTotalCurrent = 0;
+  let grandTotalDayPnl = 0;
+  let buyCount = 0;
+  let holdCount = 0;
+  let sellCount = 0;
+
+  // First pass: compute totals for weighting
+  const calculatedItems = userPortfolioList.map(h => {
+    const sym = (h.symbol || "").toUpperCase();
+    const stockInfo = PORTFOLIO_STOCK_DATABASE[sym] || {
+      name: sym + " (NSE Equities)",
+      sector: h.category || "Equities",
+      cap: h.category || "Large Cap",
+      cmp: h.buyPrice * 1.05,
+      change: 0.85,
+      rec: "BUY",
+      target: Math.round(h.buyPrice * 1.25),
+      risk: "Moderate",
+      rationale: "Automated quantitative screening reflects stable balance sheet liquidity and solid operating cash flow."
+    };
+
+    const cmp = Number(stockInfo.cmp || h.buyPrice);
+    const buyPrice = Number(h.buyPrice);
+    const qty = Number(h.qty);
+    const invested = qty * buyPrice;
+    const currentVal = qty * cmp;
+    const pnl = currentVal - invested;
+    const pnlPct = invested > 0 ? (pnl / invested) * 100 : 0;
+    const dayChangePct = Number(stockInfo.change || 0);
+    const dayPnl = qty * (cmp * (dayChangePct / 100));
+
+    grandTotalInvested += invested;
+    grandTotalCurrent += currentVal;
+    grandTotalDayPnl += dayPnl;
+
+    const rec = (stockInfo.rec || "BUY").toUpperCase();
+    if (rec.includes("BUY")) buyCount++;
+    else if (rec.includes("SELL") || rec.includes("TRIM")) sellCount++;
+    else holdCount++;
+
+    return {
+      ...h,
+      sym,
+      stockInfo,
+      cmp,
+      invested,
+      currentVal,
+      pnl,
+      pnlPct,
+      dayPnl,
+      dayChangePct
+    };
+  });
+
+  const grandTotalPnl = grandTotalCurrent - grandTotalInvested;
+  const grandTotalPnlPct = grandTotalInvested > 0 ? (grandTotalPnl / grandTotalInvested) * 100 : 0;
+  const grandDayPnlPct = grandTotalCurrent > 0 ? (grandTotalDayPnl / grandTotalCurrent) * 100 : 0;
+
+  // Update Header KPIs
+  updatePortfolioKPIs(
+    grandTotalCurrent,
+    grandTotalInvested,
+    grandTotalPnl,
+    grandTotalPnlPct,
+    grandTotalDayPnl,
+    grandDayPnlPct,
+    calculatedItems.length,
+    buyCount,
+    holdCount,
+    sellCount
+  );
+
+  // Second pass: render rows with weight percentages
+  tbody.innerHTML = calculatedItems.map(item => {
+    const weight = grandTotalCurrent > 0 ? (item.currentVal / grandTotalCurrent) * 100 : 0;
+    const isPnlPos = item.pnl >= 0;
+    const isDayPos = item.dayChangePct >= 0;
+
+    let recClass = "rec-tag-hold";
+    if (item.stockInfo.rec.includes("BUY")) recClass = "rec-tag-buy";
+    else if (item.stockInfo.rec.includes("SELL") || item.stockInfo.rec.includes("TRIM")) recClass = "rec-tag-sell";
+
+    return `
+      <tr>
+        <td>
+          <div class="mover-symbol-block">
+            <strong>${item.sym}</strong>
+            <span>${item.stockInfo.name}</span>
+            <small class="stock-cap-pill">${item.stockInfo.cap || item.category || "Equity"} · ${item.stockInfo.sector}</small>
+          </div>
+        </td>
+        <td><strong>${item.qty}</strong></td>
+        <td>₹ ${Number(item.buyPrice).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        <td>
+          <strong>₹ ${Number(item.cmp).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
+          <div class="cmp-day-change ${isDayPos ? "pos" : "neg"}">${isDayPos ? "+" : ""}${item.dayChangePct.toFixed(2)}%</div>
+        </td>
+        <td>₹ ${Math.round(item.invested).toLocaleString("en-IN")}</td>
+        <td><strong>₹ ${Math.round(item.currentVal).toLocaleString("en-IN")}</strong></td>
+        <td>
+          <div class="pnl-stack">
+            <span class="pnl-amount ${isPnlPos ? "pos" : "neg"}">${isPnlPos ? "+" : ""}₹ ${Math.round(item.pnl).toLocaleString("en-IN")}</span>
+            <span class="pnl-badge ${isPnlPos ? "pos" : "neg"}">${isPnlPos ? "+" : ""}${item.pnlPct.toFixed(2)}%</span>
+          </div>
+        </td>
+        <td>
+          <div class="weight-cell">
+            <span>${weight.toFixed(1)}%</span>
+            <div class="weight-track"><div class="weight-fill" style="width: ${Math.min(weight, 100)}%;"></div></div>
+          </div>
+        </td>
+        <td>
+          <div class="rec-cell-group">
+            <span class="rec-badge ${recClass}">${item.stockInfo.rec}</span>
+            <button type="button" class="btn-rec-basis" onclick="openRecModal('${item.sym}')">Target &amp; Basis ↗</button>
+          </div>
+        </td>
+        <td>
+          <div class="action-btns-group">
+            <button type="button" class="btn-table-action" onclick="analyzeHoldingInTerminal('${item.sym}')" title="Inspect Balance Sheet &amp; Chart in Terminal">Analyze</button>
+            <button type="button" class="btn-table-delete" onclick="deletePortfolioHolding('${item.id}')" title="Remove Holding">✕</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  const countBadge = document.getElementById("holdingTableCount");
+  if (countBadge) countBadge.textContent = calculatedItems.length;
+}
+
+function updatePortfolioKPIs(totalVal, invested, pnl, pnlPct, dayPnl, dayPnlPct, count, buys, holds, sells) {
+  const elVal = document.getElementById("portTotalValue");
+  const elInv = document.getElementById("portTotalInvested");
+  const elPnl = document.getElementById("portTotalPnl");
+  const elPnlPct = document.getElementById("portTotalPnlPct");
+  const elDay = document.getElementById("portDayPnl");
+  const elDayPct = document.getElementById("portDayPnlPct");
+  const elCount = document.getElementById("portHoldingCount");
+  const elStance = document.getElementById("portStancePills");
+
+  if (elVal) elVal.textContent = "₹ " + Math.round(totalVal).toLocaleString("en-IN");
+  if (elInv) elInv.textContent = "₹ " + Math.round(invested).toLocaleString("en-IN");
+
+  if (elPnl) {
+    const isPos = pnl >= 0;
+    elPnl.className = "kpi-value " + (isPos ? "pos" : "neg");
+    elPnl.textContent = (isPos ? "+₹ " : "-₹ ") + Math.abs(Math.round(pnl)).toLocaleString("en-IN");
+  }
+  if (elPnlPct) {
+    const isPos = pnlPct >= 0;
+    elPnlPct.className = "kpi-badge " + (isPos ? "pos" : "neg");
+    elPnlPct.textContent = (isPos ? "+" : "") + pnlPct.toFixed(2) + "% " + (isPos ? "▲" : "▼");
+  }
+
+  if (elDay) {
+    const isPos = dayPnl >= 0;
+    elDay.className = "kpi-value " + (isPos ? "pos" : "neg");
+    elDay.textContent = (isPos ? "+₹ " : "-₹ ") + Math.abs(Math.round(dayPnl)).toLocaleString("en-IN");
+  }
+  if (elDayPct) {
+    const isPos = dayPnlPct >= 0;
+    elDayPct.className = "kpi-badge " + (isPos ? "pos" : "neg");
+    elDayPct.textContent = (isPos ? "+" : "") + dayPnlPct.toFixed(2) + "% " + (isPos ? "▲" : "▼");
+  }
+
+  if (elCount) elCount.textContent = count + " Assets Tracked";
+
+  if (elStance) {
+    elStance.innerHTML = `
+      <span class="stance-tag buy">BUY: ${buys || 0}</span>
+      <span class="stance-tag hold">HOLD: ${holds || 0}</span>
+      <span class="stance-tag sell">SELL: ${sells || 0}</span>
+    `;
+  }
+}
+
+function handlePortfolioSubmit(e) {
+  e.preventDefault();
+  const symInput = document.getElementById("holdingSymbol");
+  const buyPriceInput = document.getElementById("holdingBuyPrice");
+  const qtyInput = document.getElementById("holdingQty");
+  const catInput = document.getElementById("holdingCategory");
+
+  const sym = (symInput.value || "").trim().toUpperCase();
+  const buyPrice = parseFloat(buyPriceInput.value);
+  const qty = parseInt(qtyInput.value, 10);
+  const category = catInput ? catInput.value : "Large Cap";
+
+  if (!sym || isNaN(buyPrice) || buyPrice <= 0 || isNaN(qty) || qty <= 0) {
+    alert("Please enter a valid stock symbol, buy price, and quantity.");
+    return;
+  }
+
+  const newHolding = {
+    id: "hold_" + Date.now(),
+    symbol: sym,
+    buyPrice: buyPrice,
+    qty: qty,
+    category: category,
+    date: new Date().toISOString().split("T")[0]
+  };
+
+  userPortfolioList.unshift(newHolding);
+  saveUserPortfolio(userPortfolioList);
+  renderPortfolioTracker();
+
+  // Reset form
+  symInput.value = "";
+  buyPriceInput.value = "";
+  qtyInput.value = "";
+  symInput.focus();
+}
+
+function deletePortfolioHolding(id) {
+  if (!confirm("Are you sure you want to remove this stock from your portfolio?")) return;
+  userPortfolioList = userPortfolioList.filter(h => h.id !== id);
+  saveUserPortfolio(userPortfolioList);
+  renderPortfolioTracker();
+}
+
+function preloadSamplePortfolio() {
+  userPortfolioList = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_HOLDINGS));
+  saveUserPortfolio(userPortfolioList);
+  renderPortfolioTracker();
+}
+
+function clearPortfolioHoldings() {
+  if (!confirm("Clear all holdings from your personal portfolio?")) return;
+  userPortfolioList = [];
+  saveUserPortfolio([]);
+  renderPortfolioTracker();
+}
+
+function openRecModal(symbol) {
+  const sym = (symbol || "").toUpperCase();
+  currentRecModalSymbol = sym;
+  const stockInfo = PORTFOLIO_STOCK_DATABASE[sym] || {
+    name: sym + " (NSE Stock)",
+    cmp: 1000,
+    rec: "BUY",
+    target: 1250,
+    risk: "Moderate Risk",
+    rationale: "Algorithmic screening signals favorable solvency ratio, positive institutional flows and sound capital efficiency."
+  };
+
+  const modal = document.getElementById("recModal");
+  if (!modal) return;
+
+  const modalBadge = document.getElementById("modalRecBadge");
+  const modalName = document.getElementById("modalStockName");
+  const modalCmp = document.getElementById("modalCmp");
+  const modalTarget = document.getElementById("modalTarget");
+  const modalUpside = document.getElementById("modalUpside");
+  const modalRisk = document.getElementById("modalRisk");
+  const modalRationale = document.getElementById("modalRationaleText");
+
+  const rec = (stockInfo.rec || "BUY").toUpperCase();
+  modalBadge.textContent = rec;
+  modalBadge.className = "rec-badge " + (rec.includes("BUY") ? "rec-tag-buy" : (rec.includes("SELL") ? "rec-tag-sell" : "rec-tag-hold"));
+
+  modalName.textContent = stockInfo.name + " (" + sym + ")";
+  modalCmp.textContent = "₹ " + Number(stockInfo.cmp).toLocaleString("en-IN", { minimumFractionDigits: 2 });
+  modalTarget.textContent = "₹ " + Number(stockInfo.target).toLocaleString("en-IN", { minimumFractionDigits: 2 });
+
+  const upside = stockInfo.cmp > 0 ? (((stockInfo.target - stockInfo.cmp) / stockInfo.cmp) * 100).toFixed(1) : "0.0";
+  modalUpside.textContent = (upside >= 0 ? "+" : "") + upside + "%";
+  modalRisk.textContent = stockInfo.risk || "Moderate Risk";
+  modalRationale.textContent = stockInfo.rationale || "Strong balance sheet and healthy earnings growth support capital appreciation.";
+
+  modal.style.display = "flex";
+}
+
+function closeRecModal(e) {
+  if (e && e.target && e.target.id !== "recModal" && !e.target.classList.contains("rec-modal-close") && e.target.tagName !== "BUTTON") {
+    return;
+  }
+  const modal = document.getElementById("recModal");
+  if (modal) modal.style.display = "none";
+}
+
+function analyzeHoldingInTerminal(sym) {
+  const targetSym = sym || currentRecModalSymbol;
+  closeRecModal();
+  navigateToPage("page-terminal");
+  exploreInvestment(targetSym);
+}

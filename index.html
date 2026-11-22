@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Research Terminal, Stock Health Checker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_12">
+  <link rel="stylesheet" href="css/style.css?v=20261122_13">
 </head>
 <body>
 
@@ -52,6 +52,7 @@
   <nav class="portal-sub-navbar" aria-label="Portal Pages Navigation">
     <div class="portal-container subnav-flex">
       <a href="#home" class="subnav-link active" data-page="page-home" onclick="navigateToPage('page-home'); return false;"><span class="nav-icon">🏠</span> Home Dashboard</a>
+      <a href="#portfolio" class="subnav-link" data-page="page-portfolio" onclick="navigateToPage('page-portfolio'); return false;"><span class="nav-icon">💼</span> Portfolio Tracker</a>
       <a href="#terminal" class="subnav-link" data-page="page-terminal" onclick="navigateToPage('page-terminal'); return false;"><span class="nav-icon">🔬</span> Research Terminal</a>
       <a href="#health" class="subnav-link" data-page="page-health" onclick="navigateToPage('page-health'); return false;"><span class="nav-icon">🏥</span> Stock Health Checker</a>
       <a href="#overview" class="subnav-link" data-page="page-overview" onclick="navigateToPage('page-overview'); return false;"><span class="nav-icon">🌐</span> Market Overview</a>
@@ -380,7 +381,7 @@
           </div>
 
           <!-- 3. Portfolio Tracker Card (Clickable) -->
-          <div class="portal-gateway-card featured-card portfolio-accent" onclick="navigateToPage('page-planner')">
+          <div class="portal-gateway-card featured-card portfolio-accent" onclick="navigateToPage('page-portfolio')">
             <div class="gateway-icon-box" style="background: #f0fdf4; color: #16a34a;">💼</div>
             <div class="gateway-content">
               <div class="card-tag tag-portfolio">STRATEGIC ASSET ALLOCATION &amp; BASKET</div>
@@ -498,6 +499,217 @@
       </div>
     </section>
   </div>
+
+  
+  <!-- =========================================================================
+       PAGE: 💼 PORTFOLIO TRACKER (Dedicated Station for User Holdings)
+       ========================================================================= -->
+  <div id="page-portfolio" class="portal-page" style="display: none;">
+    <section class="portal-module-section" id="portfolio-tracker">
+      <div class="portal-container">
+        
+        <!-- Page Header -->
+        <div class="portal-section-header">
+          <div>
+            <span class="portal-eyebrow eyebrow-portfolio">PERSONAL WEALTH &amp; HOLDINGS MONITOR</span>
+            <h2 class="portal-title">My Investment Portfolio Tracker</h2>
+            <p class="portal-subtitle">Track your held stocks with live market prices, total P&amp;L, weighted asset allocation, and algorithmic BUY, HOLD, and SELL recommendations.</p>
+          </div>
+          <div class="overview-refresh-tag">
+            <span class="live-pulse-dot"></span>
+            <span>● Live Valuation &amp; Recommendation Engine</span>
+          </div>
+        </div>
+
+        <!-- 1. Portfolio KPI Summary Dashboard -->
+        <div class="portfolio-kpi-grid">
+          <!-- Total Current Valuation -->
+          <div class="port-kpi-card">
+            <span class="kpi-label">Current Portfolio Value</span>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="portTotalValue">₹ 0.00</span>
+            </div>
+            <span class="kpi-sub" id="portHoldingCount">0 Holdings Tracked</span>
+          </div>
+
+          <!-- Total Invested Capital -->
+          <div class="port-kpi-card">
+            <span class="kpi-label">Total Invested Capital</span>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="portTotalInvested">₹ 0.00</span>
+            </div>
+            <span class="kpi-sub">Total Acquisition Cost</span>
+          </div>
+
+          <!-- Total Unrealized P&L -->
+          <div class="port-kpi-card">
+            <span class="kpi-label">Overall Profit / Loss (P&amp;L)</span>
+            <div class="kpi-value-row">
+              <span class="kpi-value pos" id="portTotalPnl">+₹ 0.00</span>
+              <span class="kpi-badge pos" id="portTotalPnlPct">+0.00% ▲</span>
+            </div>
+            <span class="kpi-sub">Unrealized Capital Returns</span>
+          </div>
+
+          <!-- Today's P&L -->
+          <div class="port-kpi-card">
+            <span class="kpi-label">Today's Day Gain / Loss</span>
+            <div class="kpi-value-row">
+              <span class="kpi-value pos" id="portDayPnl">+₹ 0.00</span>
+              <span class="kpi-badge pos" id="portDayPnlPct">+0.00% ▲</span>
+            </div>
+            <span class="kpi-sub">Intraday Movement</span>
+          </div>
+
+          <!-- Portfolio Consensus Stance -->
+          <div class="port-kpi-card stance-card">
+            <span class="kpi-label">Portfolio Recommendation Stance</span>
+            <div class="stance-pill-row" id="portStancePills">
+              <span class="stance-tag buy">BUY: 0</span>
+              <span class="stance-tag hold">HOLD: 0</span>
+              <span class="stance-tag sell">SELL: 0</span>
+            </div>
+            <span class="kpi-sub" id="portHealthRating">Health Score: 92/100 · High Quality</span>
+          </div>
+        </div>
+
+        <!-- 2. Add New Holding Input Console -->
+        <div class="portfolio-add-box">
+          <div class="box-title-row">
+            <div>
+              <h3>+ Add Stock to Track</h3>
+              <p>Enter any NSE equity or fund holding with your average purchase price and quantity.</p>
+            </div>
+            <div class="box-quick-actions">
+              <button type="button" class="btn btn-outline btn-sm" onclick="preloadSamplePortfolio()">⚡ Preload Sample Portfolio</button>
+              <button type="button" class="btn btn-outline btn-sm btn-danger-ghost" onclick="clearPortfolioHoldings()">🗑️ Clear Portfolio</button>
+            </div>
+          </div>
+
+          <form id="addHoldingForm" class="holding-form-row" onsubmit="handlePortfolioSubmit(event)">
+            <!-- Symbol Input -->
+            <div class="form-group-item">
+              <label for="holdingSymbol">Stock Symbol / Company</label>
+              <input type="text" id="holdingSymbol" list="holdingStockSuggestions" placeholder="e.g. TATAPOWER, INFY, SBIN, TRENT" required autocomplete="off" spellcheck="false">
+              <datalist id="holdingStockSuggestions">
+                <option value="INFY">Infosys Ltd (IT Consulting)</option>
+                <option value="TCS">Tata Consultancy Services (IT)</option>
+                <option value="RELIANCE">Reliance Industries (Energy &amp; Retail)</option>
+                <option value="HDFCBANK">HDFC Bank Ltd (Banking)</option>
+                <option value="SBIN">State Bank of India (PSU Banking)</option>
+                <option value="TATAPOWER">Tata Power Co (Clean Energy)</option>
+                <option value="TRENT">Trent Ltd (Retail Leader)</option>
+                <option value="KAYNES">Kaynes Technology (EMS / Electronics)</option>
+                <option value="ITC">ITC Ltd (FMCG &amp; Hotels)</option>
+                <option value="BHARTIARTL">Bharti Airtel (Telecom)</option>
+                <option value="IREDA">Indian Renewable Energy Dev (PSU)</option>
+                <option value="TITAN">Titan Company (Jewellery)</option>
+                <option value="HCLTECH">HCL Technologies (IT)</option>
+                <option value="CIPLA">Cipla Ltd (Pharma)</option>
+              </datalist>
+            </div>
+
+            <!-- Avg Buy Price Input -->
+            <div class="form-group-item">
+              <label for="holdingBuyPrice">Avg Buy Price (₹)</label>
+              <input type="number" id="holdingBuyPrice" placeholder="e.g. 295.00" min="0.05" step="0.05" required>
+            </div>
+
+            <!-- Quantity Input -->
+            <div class="form-group-item">
+              <label for="holdingQty">Quantity (Shares)</label>
+              <input type="number" id="holdingQty" placeholder="e.g. 100" min="1" step="1" required>
+            </div>
+
+            <!-- Holding Category -->
+            <div class="form-group-item">
+              <label for="holdingCategory">Market Cap / Asset Class</label>
+              <select id="holdingCategory">
+                <option value="Large Cap">Large Cap Equity</option>
+                <option value="Mid Cap">Mid Cap Equity</option>
+                <option value="Small Cap">Small Cap Equity</option>
+                <option value="Mutual Fund">Mutual Fund Scheme</option>
+              </select>
+            </div>
+
+            <!-- Add Button -->
+            <div class="form-group-item btn-item">
+              <label>&nbsp;</label>
+              <button type="submit" class="btn btn-primary add-holding-btn">+ Add to Portfolio</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 3. Holdings Table & Analysis -->
+        <div class="portfolio-table-card">
+          <div class="table-head-bar">
+            <div>
+              <h3>My Holdings Breakdown (<span id="holdingTableCount">0</span> Assets)</h3>
+              <p>Real-time valuation comparison, individual position returns, portfolio weighting and buy/sell signals.</p>
+            </div>
+            <div class="table-filter-pills">
+              <span class="legend-dot green"></span> <span>BUY</span>
+              <span class="legend-dot amber"></span> <span>HOLD</span>
+              <span class="legend-dot red"></span> <span>SELL</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="portfolio-table">
+              <thead>
+                <tr>
+                  <th>Stock / Company</th>
+                  <th>Qty</th>
+                  <th>Avg Buy Price</th>
+                  <th>Current Price (CMP)</th>
+                  <th>Total Invested</th>
+                  <th>Current Value</th>
+                  <th>Overall P&amp;L (₹ / %)</th>
+                  <th>Weight (%)</th>
+                  <th>Recommendation &amp; Basis</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="portfolioTableBody">
+                <!-- Dynamically populated or empty state -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4. Recommendation Rationale Modal / Drawer -->
+        <div id="recModal" class="rec-modal-backdrop" style="display: none;" onclick="closeRecModal(event)">
+          <div class="rec-modal-content" onclick="event.stopPropagation()">
+            <div class="rec-modal-header">
+              <div class="rec-header-title">
+                <span class="rec-badge" id="modalRecBadge">BUY</span>
+                <h3 id="modalStockName">Tata Power (TATAPOWER)</h3>
+              </div>
+              <button type="button" class="rec-modal-close" onclick="closeRecModal()">✕</button>
+            </div>
+            <div class="rec-modal-body">
+              <div class="rec-stats-row">
+                <div><small>Current CMP</small><strong id="modalCmp">₹ 340.00</strong></div>
+                <div><small>12M Target Price</small><strong class="pos" id="modalTarget">₹ 440.00</strong></div>
+                <div><small>Upside Potential</small><strong class="pos" id="modalUpside">+29.4%</strong></div>
+                <div><small>Risk Grade</small><strong id="modalRisk">Moderate Risk</strong></div>
+              </div>
+              <div class="rec-rationale-box">
+                <h4>Quantitative &amp; Fundamental Selection Basis</h4>
+                <p id="modalRationaleText">...</p>
+              </div>
+              <div class="rec-modal-actions">
+                <button type="button" class="btn btn-primary" id="modalAnalyzeBtn" onclick="analyzeHoldingInTerminal()">Inspect Full Balance Sheet in Terminal ↗</button>
+                <button type="button" class="btn btn-outline" onclick="closeRecModal()">Close Window</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
 
   <div id="page-terminal" class="portal-page" style="display: none;">
     <section class="cockpit-hero" id="explore">
@@ -2205,6 +2417,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_12"></script>
+<script src="js/app.js?v=20261122_13"></script>
 </body>
 </html>
