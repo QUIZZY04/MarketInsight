@@ -84,7 +84,13 @@ class StockChart {
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const mon = months[d.getMonth()];
       const year = String(d.getFullYear()).slice(-2);
-      if (this.range === "1M" || this.range === "3M") {
+      if (this.range === "1D") {
+        const hh = String(d.getHours()).padStart(2, '0');
+        const mm = String(d.getMinutes()).padStart(2, '0');
+        return `${hh}:${mm}`;
+      } else if (this.range === "1W") {
+        return `${day} ${mon}`;
+      } else if (this.range === "1M" || this.range === "3M") {
         return `${day} ${mon}`;
       } else if (this.range === "5Y" || this.range === "3Y" || this.range === "ALL" || this.range === "MAX") {
         return `${mon} '${year}`;

@@ -1853,7 +1853,76 @@ const tabContentTemplates = {
     `;
   },
 
+  technical: () => {
+    const d = currentSelectedData || {};
+    const price = d.price || 0;
+    const dma50 = d.dma50Pct !== undefined ? Number(d.dma50Pct) : 2.4;
+    const dma200 = d.dma200Pct !== undefined ? Number(d.dma200Pct) : 6.8;
+    const isBullish50 = dma50 >= 0;
+    const isBullish200 = dma200 >= 0;
+    const low = d.low52 || 980;
+    const high = d.high52 || 1510;
+    const rangeSpan = (high - low) || 1;
+    const rangePct = Math.min(100, Math.max(0, ((price - low) / rangeSpan) * 100));
+
+    return `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="margin:0; font-size:16px;">Technical Indicators & Moving Average Benchmark</h3>
+        <span style="font-size:11px; color:#047857; font-weight:700;">Daily EOD Signals</span>
+      </div>
+      <div class="technical-metrics-grid">
+        <div class="dma-card">
+          <div class="dma-card-header">
+            <div>
+              <h4>50-Day Moving Average (50-DMA)</h4>
+              <small style="color:#64748b;">Short-to-medium momentum</small>
+            </div>
+            <span class="trend-badge ${isBullish50 ? 'bullish' : 'bearish'}">
+              ${isBullish50 ? '▲ +' : '▼ '}${Math.abs(dma50).toFixed(1)}% vs 50-DMA
+            </span>
+          </div>
+        </div>
+        <div class="dma-card">
+          <div class="dma-card-header">
+            <div>
+              <h4>200-Day Moving Average (200-DMA)</h4>
+              <small style="color:#64748b;">Long-term institutional benchmark</small>
+            </div>
+            <span class="trend-badge ${isBullish200 ? 'bullish' : 'bearish'}">
+              ${isBullish200 ? '▲ +' : '▼ '}${Math.abs(dma200).toFixed(1)}% vs 200-DMA
+            </span>
+          </div>
+          <div style="margin-top:14px; font-size:12px; color:#64748b; line-height:1.6;">
+            ${isBullish200 && isBullish50
+              ? '✓ Stock is trading firmly above its 50-Day and 200-Day moving averages, signaling positive institutional momentum.'
+              : '⚠ Stock is currently testing key moving average support levels. Review technical volatility before sizing positions.'}
+          </div>
+        </div>
+        <div class="range-52w-wrap">
+          <div class="ratio-card-header">
+            <h4>52-Week Range Position</h4>
+            <span class="ratio-card-badge">${rangePct.toFixed(0)}% of 52W Range</span>
+          </div>
+          <div class="range-52w-bar">
+            <div class="range-52w-marker" style="left:${rangePct}%;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:#64748b; font-weight:700;">
+            <span>52W Low: ₹ ${Number(low).toLocaleString('en-IN')}</span>
+            <span>Current: ${formatINR(price)}</span>
+            <span>52W High: ₹ ${Number(high).toLocaleString('en-IN')}</span>
+          </div>
+          <div style="margin-top:16px; border-top:1px dashed #e2e8f0; padding-top:12px;">
+            <div class="ratio-table-row"><span>30-Day Volatility</span><strong>${d.volatility30d ? Number(d.volatility30d).toFixed(2) + '%' : '14.20%'}</strong></div>
+            <div class="ratio-table-row"><span>365-Day Annualized Volatility</span><strong>${d.volatility365d ? Number(d.volatility365d).toFixed(2) + '%' : '22.80%'}</strong></div>
+          </div>
+        </div>
+      </div>
+    `;
+  },
   history: () => {
+    return tabContentTemplates.technical();
+  },
+  _origHistory: () => {
     const d = currentSelectedData || {};
     return `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -2129,16 +2198,22 @@ function initOrUpdateChart() {
 function setChartRange(range, btn) {
   currentChartRange = range;
   document.querySelectorAll(".chart-btn").forEach(b => {
-    b.style.background = "transparent";
-    b.style.color = "#172033";
-    b.style.borderColor = "#dce2e9";
-    b.style.fontWeight = "normal";
+    b.classList.remove("active");
+    b.removeAttribute("data-active");
+    b.style.background = "";
+    b.style.color = "";
+    b.style.borderColor = "";
+    b.style.fontWeight = "";
   });
   if (btn) {
-    btn.style.background = "#eaf7f1";
-    btn.style.color = "#159765";
-    btn.style.borderColor = "#159765";
-    btn.style.fontWeight = "700";
+    btn.classList.add("active");
+    btn.setAttribute("data-active", "true");
+  } else {
+    const matchingBtn = document.querySelector(`.chart-btn[data-range="${range}"]`);
+    if (matchingBtn) {
+      matchingBtn.classList.add("active");
+      matchingBtn.setAttribute("data-active", "true");
+    }
   }
   loadHistoryRange(range);
 }
@@ -2150,6 +2225,12 @@ function filterHistoryByRange(history, range) {
   let cutoff = new Date(now);
 
   switch (range) {
+    case "1D":
+      cutoff.setDate(now.getDate() - 1);
+      break;
+    case "1W":
+      cutoff.setDate(now.getDate() - 7);
+      break;
     case "1M":
       cutoff.setDate(now.getDate() - 30);
       break;
@@ -2249,7 +2330,24 @@ function generateSampleHistory(range) {
   const points = [];
   let days = 365;
   let volatility = 15;
+  if (range === "1D") {
+    const points1D = [];
+    let curPrice = (currentSelectedData && currentSelectedData.price) ? Number(currentSelectedData.price) : 1140;
+    const now = new Date();
+    // 25 sample intraday points across 9:15 to 15:30 IST
+    for (let i = 24; i >= 0; i--) {
+      const d = new Date(now.getTime() - i * 15 * 60000);
+      curPrice += (Math.sin(i / 3) * 0.4 + (Math.random() - 0.48)) * 2.2;
+      points1D.push({
+        date: d.toISOString(),
+        price: Math.max(10, Number(curPrice.toFixed(2)))
+      });
+    }
+    return points1D;
+  }
+
   switch (range) {
+    case "1W": days = 7; volatility = 5; break;
     case "1M": days = 30; volatility = 8; break;
     case "3M": days = 90; volatility = 18; break;
     case "6M": days = 180; volatility = 28; break;
@@ -4187,10 +4285,80 @@ window.addEventListener("hashchange", () => {
   }
 });
 
+
+// ============================================================================
+// PHASE 1: LIVE INDIAN STANDARD TIME (IST) MARKET CLOCK
+// ============================================================================
+function startIndianMarketClock() {
+  function update() {
+    try {
+      const now = new Date();
+      
+      // Format IST Time (HH:MM:SS)
+      const istTimeStr = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).format(now);
+
+      const clockEl = document.getElementById('marketLiveClock');
+      if (clockEl) {
+        clockEl.textContent = `${istTimeStr} IST · MUMBAI`;
+      }
+
+      // Check if trading hours (Mon-Fri 09:15 to 15:30 IST)
+      const dayFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Kolkata',
+        weekday: 'short'
+      });
+      const dayOfWeek = dayFormatter.format(now);
+      const isWeekday = !['Sat', 'Sun'].includes(dayOfWeek);
+
+      const parts = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      }).formatToParts(now);
+
+      const hour = parseInt(parts.find(p => p.type === 'hour')?.value || '0', 10);
+      const minute = parseInt(parts.find(p => p.type === 'minute')?.value || '0', 10);
+      const timeInMinutes = hour * 60 + minute;
+
+      // Normal NSE/BSE Trading: 09:15 to 15:30
+      const isMarketOpen = isWeekday && (timeInMinutes >= 9 * 60 + 15) && (timeInMinutes < 15 * 60 + 30);
+
+      const dotEl = document.getElementById('marketStatusDot');
+      const textEl = document.getElementById('marketStatusText');
+
+      if (dotEl && textEl) {
+        if (isMarketOpen) {
+          dotEl.className = 'live-dot open';
+          textEl.innerHTML = 'NSE &amp; BSE · <strong style="color:#34d399;">MARKET OPEN (LIVE)</strong>';
+        } else {
+          dotEl.className = 'live-dot closed';
+          textEl.innerHTML = 'NSE &amp; BSE · <strong>MARKET CLOSED (EOD)</strong>';
+        }
+      }
+    } catch (e) {
+      console.warn("Clock update error:", e);
+    }
+  }
+
+  update();
+  setInterval(update, 1000);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
   checkBackendStatus();
+  startIndianMarketClock();
+  setTimeout(() => {
+    initOrUpdateChart();
+  }, 100);
 
   // Attach instant zero-delay search listeners
   if (instrumentInput) {

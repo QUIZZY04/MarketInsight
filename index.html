@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Stock Health Check, Portfolio Tracker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
+  <meta name="theme-color" content="#059669">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23059669'/%3E%3Cpath d='M9 23 L23 9 M13 9 L23 9 L23 19' stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_17">
+  <link rel="stylesheet" href="css/style.css?v=20261122_18">
 </head>
 <body>
 
@@ -14,9 +16,10 @@
   <!-- Top Utility Bar -->
   <div class="top-utility-bar">
     <div class="portal-container utility-flex">
-      <div class="market-status-indicator">
-        <span class="live-dot"></span>
-        <span class="status-txt">NSE & BSE · INDIAN FINANCIAL MARKETS · LIVE EXCHANGES</span>
+      <div class="market-status-indicator" id="marketStatusIndicator">
+        <span class="live-dot" id="marketStatusDot"></span>
+        <span class="status-txt" id="marketStatusText">NSE &amp; BSE · LIVE EXCHANGES</span>
+        <span class="market-clock-badge" id="marketLiveClock">--:--:-- IST · MUMBAI</span>
       </div>
       <div class="utility-quick-cues">
         <span>USD/INR: <strong>₹92.68 (+0.09%)</strong></span>
@@ -840,13 +843,37 @@
               </div>
             </div>
 
+            <!-- Main Interactive Stock Price Chart (Front & Center) -->
+            <div class="main-stock-chart-card">
+              <div class="chart-controls-bar">
+                <div class="chart-timeframe-pills" role="tablist" aria-label="Chart Timeframe">
+                  <button type="button" class="chart-btn" data-range="1D" onclick="setChartRange('1D', this)">1D</button>
+                  <button type="button" class="chart-btn" data-range="1W" onclick="setChartRange('1W', this)">1W</button>
+                  <button type="button" class="chart-btn" data-range="1M" onclick="setChartRange('1M', this)">1M</button>
+                  <button type="button" class="chart-btn" data-range="6M" onclick="setChartRange('6M', this)">6M</button>
+                  <button type="button" class="chart-btn active" data-range="1Y" onclick="setChartRange('1Y', this)">1Y</button>
+                  <button type="button" class="chart-btn" data-range="5Y" onclick="setChartRange('5Y', this)">5Y</button>
+                  <button type="button" class="chart-btn" data-range="ALL" onclick="setChartRange('ALL', this)">ALL</button>
+                </div>
+                <div class="chart-stats-meta">
+                  <div id="chartReturnTag" class="chart-return-badge">
+                    <span class="pos">▲ +18.5% (+₹ 171.20)</span>
+                    <span class="range-sub">over past 1Y</span>
+                  </div>
+                  <div id="chartHighLow" class="chart-hl-meta">Low: <strong>₹ 980.0</strong> · High: <strong>₹ 1,510.0</strong></div>
+                </div>
+              </div>
+              <div class="stock-canvas-container">
+                <canvas id="stockPriceChart" style="width:100%; height:230px; display:block; cursor:crosshair;"></canvas>
+              </div>
+            </div>
+
             <div class="tabs" role="tablist">
               <button class="tab active" data-tab="overview" onclick="showTab('overview',this)">Overview</button>
-              <button class="tab" data-tab="history" onclick="showTab('history',this)">History</button>
               <button class="tab" data-tab="financials" onclick="showTab('financials',this)">Financials</button>
               <button class="tab" data-tab="ratios" onclick="showTab('ratios',this)">Key ratios</button>
-              <button class="tab" data-tab="news" onclick="showTab('news',this)">News</button>
-              <button class="tab" data-tab="risk" onclick="showTab('risk',this)">Risk</button>
+              <button class="tab" data-tab="technical" onclick="showTab('technical',this)">Technicals &amp; DMA</button>
+              <button class="tab" data-tab="news" onclick="showTab('news',this)">News &amp; Filings</button>
             </div>
 
             <div class="tab-content" id="tabContent">
@@ -2467,6 +2494,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_17"></script>
+<script src="js/app.js?v=20261122_18"></script>
 </body>
 </html>
