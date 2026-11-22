@@ -7269,3 +7269,104 @@ const overviewCss = `
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================================
+   INVESTMENT PLANNER: VISUAL SEPARATION OF SIP & BASKET SECTIONS
+   ========================================================================= */
+
+/* 1. Section 1: SIP Calculator (Clean Slate Architecture Theme) */
+.planner-sip-section {
+  background: #f8fafc !important; /* Cool Slate Light Tint */
+  border-bottom: 2px solid #e2e8f0;
+  padding: 44px 0 54px;
+}
+
+.planner-sip-section .portal-eyebrow {
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+.planner-sip-section .planner-layout-card {
+  background: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
+}
+
+/* 2. Section 2: Suggested Optimum Basket & Lumpsum Allocation (Fresh Mint / Emerald Theme) */
+.planner-basket-section {
+  background: #f0fdf4 !important; /* Distinct Mint / Light Emerald Tint */
+  border-top: 4px solid #059669 !important; /* Prominent Color Divider */
+  padding: 50px 0 64px;
+  position: relative;
+}
+
+.planner-basket-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #059669 0%, #10b981 50%, #34d399 100%);
+}
+
+.planner-basket-section .portal-eyebrow {
+  background: #dcfce7 !important;
+  color: #15803d !important;
+  border: 1px solid #86efac !important;
+}
+
+.planner-basket-section .section-banner-institutional {
+  background: #ffffff !important;
+  border: 1.5px solid #a7f3d0 !important;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.07);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.planner-basket-section .lumpsum-cards-grid {
+  margin-bottom: 28px;
+}
+
+.planner-basket-section .lumpsum-card {
+  background: #ffffff !important;
+  border: 1.5px solid #a7f3d0 !important;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.05);
+}
+
+.planner-basket-section .basket-header-row {
+  background: #ffffff !important;
+  border: 1.5px solid #a7f3d0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.04);
+  padding: 22px;
+}
+
+.planner-basket-section .basket-tables-container {
+  background: #ffffff !important;
+  border: 1.5px solid #a7f3d0 !important;
+  border-top: none !important;
+  border-radius: 0 0 14px 14px;
+  box-shadow: 0 6px 22px rgba(5, 150, 105, 0.07);
+}
+
+.planner-basket-section .basket-table th {
+  background: #ecfdf5 !important;
+  color: #065f46 !important;
+  border-bottom: 2px solid #a7f3d0 !important;
+  font-weight: 850;
+}
+
+.planner-basket-section .basket-table tr:hover {
+  background: #f6fcf8 !important;
+}
+
+.planner-basket-section .basket-title {
+  color: #065f46 !important;
+}
