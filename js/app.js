@@ -3027,6 +3027,7 @@ function updateSipCalculator(sourceEl) {
 
   // Render Compounding Milestones Grid
   renderSipMilestones(amt, rate, years, isStepUp ? stepUpPct : 0, isInflation);
+  renderSipGrowthCurve(amt, rate, years, isStepUp ? stepUpPct : 0, isInflation);
 }
 
 function renderSipMilestones(baseAmt, ratePct, totalYears, stepUpPct, isInflation) {
@@ -4314,6 +4315,7 @@ function navigateToPage(pageId) {
 
 // Global Header Search Handlers
 function handleHeaderSearch(query) {
+  headerSelectedDropdownIndex = -1;
   const dropdown = document.getElementById("headerDropdown");
   if (!dropdown) return;
 
@@ -4347,13 +4349,48 @@ function handleHeaderSearch(query) {
   dropdown.style.display = "block";
 }
 
+let headerSelectedDropdownIndex = -1;
+
 function handleHeaderSearchKey(e) {
-  if (e.key === "Enter") {
+  const dropdown = document.getElementById("headerDropdown");
+  if (!dropdown || dropdown.style.display !== "block") {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      executeHeaderSearch();
+    }
+    return;
+  }
+
+  const items = dropdown.querySelectorAll(".autocomplete-item");
+  if (!items.length) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      executeHeaderSearch();
+    }
+    return;
+  }
+
+  if (e.key === "ArrowDown") {
     e.preventDefault();
-    executeHeaderSearch();
+    headerSelectedDropdownIndex = (headerSelectedDropdownIndex + 1) % items.length;
+    items.forEach((item, idx) => item.classList.toggle("active-nav", idx === headerSelectedDropdownIndex));
+    items[headerSelectedDropdownIndex]?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    headerSelectedDropdownIndex = (headerSelectedDropdownIndex - 1 + items.length) % items.length;
+    items.forEach((item, idx) => item.classList.toggle("active-nav", idx === headerSelectedDropdownIndex));
+    items[headerSelectedDropdownIndex]?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    if (headerSelectedDropdownIndex >= 0 && items[headerSelectedDropdownIndex]) {
+      items[headerSelectedDropdownIndex].click();
+    } else {
+      executeHeaderSearch();
+    }
+    headerSelectedDropdownIndex = -1;
   } else if (e.key === "Escape") {
-    const dropdown = document.getElementById("headerDropdown");
-    if (dropdown) dropdown.style.display = "none";
+    dropdown.style.display = "none";
+    headerSelectedDropdownIndex = -1;
   }
 }
 
@@ -5463,3 +5500,174 @@ function updatePortfolioAllocationVisual(largeVal, midVal, smallVal, fundVal, to
 
   svg.innerHTML = circlesHtml;
 }
+
+// ============================================================================
+// PHASE 3: INTERACTIVE COMPOUNDING WEALTH GROWTH CURVE ENGINE
+// ============================================================================
+function renderSipGrowthCurve(baseAmt, ratePct, totalYears, stepUpPct, isInflation) {
+  const canvas = document.getElementById("sipGrowthCurveCanvas");
+  if (!canvas) return;
+
+  const parent = canvas.parentElement;
+  const width = parent.clientWidth || 800;
+  const height = 260;
+
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+
+  const ctx = canvas.getContext("2d");
+  ctx.resetTransform();
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, width, height);
+
+  // Generate data points for each year from 0 to totalYears
+  const points = [];
+  const r = (ratePct / 100) / 12;
+
+  points.push({ year: 0, invested: 0, fv: 0 });
+
+  for (let y = 1; y <= totalYears; y++) {
+    let investedYr = 0;
+    let fvYr = 0;
+
+    if (currentPlannerMode === 'sip') {
+      const months = y * 12;
+      if (stepUpPct > 0) {
+        for (let m = 1; m <= months; m++) {
+          const yrIdx = Math.floor((m - 1) / 12);
+          const curM = baseAmt * Math.pow(1 + (stepUpPct / 100), yrIdx);
+          investedYr += curM;
+          fvYr += curM * Math.pow(1 + r, months - m + 1);
+        }
+      } else {
+        investedYr = baseAmt * months;
+        fvYr = baseAmt * ((Math.pow(1 + r, months) - 1) / r) * (1 + r);
+      }
+    } else {
+      // Lumpsum mode
+      investedYr = baseAmt;
+      fvYr = baseAmt * Math.pow(1 + (ratePct / 100), y);
+    }
+
+    if (isInflation) {
+      fvYr = fvYr / Math.pow(1 + 0.06, y);
+    }
+
+    points.push({
+      year: y,
+      invested: Math.round(investedYr),
+      fv: Math.round(fvYr)
+    });
+  }
+
+  const padding = { top: 28, right: 36, bottom: 38, left: 85 };
+  const chartW = width - padding.left - padding.right;
+  const chartH = height - padding.top - padding.bottom;
+
+  const maxVal = Math.max(...points.map(p => p.fv)) * 1.15 || 100000;
+
+  // Horizontal Grid Lines & Y-Axis Labels
+  ctx.strokeStyle = "#f1f5f9";
+  ctx.lineWidth = 1;
+  ctx.fillStyle = "#64748b";
+  ctx.font = "11px Inter, -apple-system, sans-serif";
+  ctx.textAlign = "right";
+
+  const gridSteps = 4;
+  for (let i = 0; i <= gridSteps; i++) {
+    const yVal = (maxVal * (gridSteps - i)) / gridSteps;
+    const y = padding.top + (chartH * i) / gridSteps;
+    ctx.beginPath();
+    ctx.moveTo(padding.left, y);
+    ctx.lineTo(width - padding.right, y);
+    ctx.stroke();
+
+    ctx.fillText(formatINR(Math.round(yVal)), padding.left - 10, y + 4);
+  }
+
+  // Calculate coordinates
+  const coords = points.map(p => {
+    const x = padding.left + (p.year / totalYears) * chartW;
+    const yFv = padding.top + chartH - (p.fv / maxVal) * chartH;
+    const yInv = padding.top + chartH - (p.invested / maxVal) * chartH;
+    return { ...p, x, yFv, yInv };
+  });
+
+  // 1. Shaded Area for Future Value (Wealth created)
+  const gradFv = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartH);
+  gradFv.addColorStop(0, "rgba(5, 150, 105, 0.22)");
+  gradFv.addColorStop(1, "rgba(5, 150, 105, 0.01)");
+
+  ctx.beginPath();
+  ctx.moveTo(coords[0].x, padding.top + chartH);
+  coords.forEach(pt => ctx.lineTo(pt.x, pt.yFv));
+  ctx.lineTo(coords[coords.length - 1].x, padding.top + chartH);
+  ctx.closePath();
+  ctx.fillStyle = gradFv;
+  ctx.fill();
+
+  // 2. Stroke Line for Future Value
+  ctx.beginPath();
+  ctx.moveTo(coords[0].x, coords[0].yFv);
+  coords.forEach(pt => ctx.lineTo(pt.x, pt.yFv));
+  ctx.strokeStyle = "#059669";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // 3. Stroke Line for Invested Capital (Dashed)
+  ctx.save();
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.moveTo(coords[0].x, coords[0].yInv);
+  coords.forEach(pt => ctx.lineTo(pt.x, pt.yInv));
+  ctx.strokeStyle = "#64748b";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.restore();
+
+  // X-Axis Year Labels and Marker Dots
+  ctx.fillStyle = "#64748b";
+  ctx.textAlign = "center";
+  coords.forEach((pt, idx) => {
+    if (idx === 0 || idx === coords.length - 1 || idx % Math.max(1, Math.floor(coords.length / 6)) === 0) {
+      ctx.fillText("Yr " + pt.year, pt.x, height - 12);
+
+      // Marker Dots
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.yFv, 4.5, 0, Math.PI * 2);
+      ctx.fillStyle = "#059669";
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#ffffff";
+      ctx.stroke();
+    }
+  });
+
+  // End Point Tooltip Badge for Final Wealth
+  const lastPt = coords[coords.length - 1];
+  const wealthTxt = "Final: " + formatINR(lastPt.fv);
+  ctx.font = "bold 11px Inter, -apple-system, sans-serif";
+  const badgeW = ctx.measureText(wealthTxt).width + 18;
+  const badgeX = Math.min(width - padding.right - badgeW, lastPt.x - badgeW / 2);
+  const badgeY = Math.max(padding.top - 6, lastPt.yFv - 22);
+
+  ctx.fillStyle = "#0f172a";
+  ctx.beginPath();
+  ctx.roundRect(badgeX, badgeY, badgeW, 20, 5);
+  ctx.fill();
+
+  ctx.fillStyle = "#34d399";
+  ctx.textAlign = "center";
+  ctx.fillText(wealthTxt, badgeX + badgeW / 2, badgeY + 14);
+}
+
+// Window resize listener for growth curve canvas
+window.addEventListener("resize", () => {
+  const pPlanner = document.getElementById("page-planner");
+  if (pPlanner && pPlanner.style.display !== "none") {
+    updateSipCalculator();
+  }
+});
