@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Research Terminal, Stock Health Checker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_5">
+  <link rel="stylesheet" href="css/style.css?v=20261122_6">
 </head>
 <body>
 
@@ -1326,24 +1326,137 @@
   <!-- =========================================================================
        PAGE 4: 🌐 MARKET OVERVIEW & BREADTH (Dedicated Page)
        ========================================================================= -->
-  <div id="page-overview" class="portal-page" style="display: none;">
+    <div id="page-overview" class="portal-page" style="display: none;">
     <section class="portal-module-section alt-bg" id="market-overview">
       <div class="portal-container">
+        
+        <!-- Page Header -->
         <div class="portal-section-header">
           <div>
-            <span class="portal-eyebrow">INSTITUTIONAL BREADTH & LIQUIDITY</span>
+            <span class="portal-eyebrow">NATIONAL EXCHANGE INTELLIGENCE &amp; LIQUIDITY</span>
             <h2 class="portal-title">Indian Market Overview</h2>
-            <p class="portal-subtitle">Exchange-wide market breadth, sector rotation heatmap, and institutional FII/DII cash market activity.</p>
+            <p class="portal-subtitle">Comprehensive Indian equities radar: Key index trackers, market breadth, top gainers &amp; losers, unusual volume spurts, and audited FII/DII institutional cash movements.</p>
           </div>
           <div class="overview-refresh-tag">
-            <span>● SEBI Daily Disclosures Live</span>
+            <span class="live-pulse-dot"></span>
+            <span>● SEBI Daily Disclosures &amp; NSE Live Feeds</span>
           </div>
         </div>
 
-        <div class="market-overview-grid">
-          <div class="overview-panel-card">
-            <div class="overview-panel-head">
-              <h3>NSE Market Breadth</h3>
+        <!-- Section 1: Benchmark Indices Ribbon -->
+        <div class="overview-indices-ribbon">
+          <div class="idx-card">
+            <div class="idx-head">
+              <span class="idx-name">NIFTY 50</span>
+              <span class="idx-change pos">+0.55% ▲</span>
+            </div>
+            <div class="idx-val">25,842.10</div>
+            <div class="idx-sub">+142.30 pts today</div>
+            <div class="idx-range-bar">
+              <div class="idx-range-fill" style="width: 78%;"></div>
+            </div>
+            <div class="idx-range-labels">
+              <span>L: 25,690.40</span>
+              <span>H: 25,880.50</span>
+            </div>
+            <div class="idx-52w">52W: 21,281 — 26,277</div>
+          </div>
+
+          <div class="idx-card">
+            <div class="idx-head">
+              <span class="idx-name">SENSEX</span>
+              <span class="idx-change pos">+0.58% ▲</span>
+            </div>
+            <div class="idx-val">83,920.40</div>
+            <div class="idx-sub">+485.60 pts today</div>
+            <div class="idx-range-bar">
+              <div class="idx-range-fill" style="width: 80%;"></div>
+            </div>
+            <div class="idx-range-labels">
+              <span>L: 83,410.20</span>
+              <span>H: 84,050.80</span>
+            </div>
+            <div class="idx-52w">52W: 70,319 — 85,978</div>
+          </div>
+
+          <div class="idx-card">
+            <div class="idx-head">
+              <span class="idx-name">BANK NIFTY</span>
+              <span class="idx-change pos">+0.77% ▲</span>
+            </div>
+            <div class="idx-val">64,635.80</div>
+            <div class="idx-sub">+495.20 pts today</div>
+            <div class="idx-range-bar">
+              <div class="idx-range-fill" style="width: 74%;"></div>
+            </div>
+            <div class="idx-range-labels">
+              <span>L: 64,120.00</span>
+              <span>H: 64,780.00</span>
+            </div>
+            <div class="idx-52w">52W: 44,429 — 65,850</div>
+          </div>
+
+          <div class="idx-card">
+            <div class="idx-head">
+              <span class="idx-name">NIFTY IT</span>
+              <span class="idx-change neg">-0.28% ▼</span>
+            </div>
+            <div class="idx-val">41,250.60</div>
+            <div class="idx-sub">-115.40 pts today</div>
+            <div class="idx-range-bar">
+              <div class="idx-range-fill fill-neg" style="width: 42%;"></div>
+            </div>
+            <div class="idx-range-labels">
+              <span>L: 41,080.50</span>
+              <span>H: 41,450.00</span>
+            </div>
+            <div class="idx-52w">52W: 32,800 — 44,200</div>
+          </div>
+
+          <div class="idx-card">
+            <div class="idx-head">
+              <span class="idx-name">NIFTY MIDCAP 100</span>
+              <span class="idx-change pos">+1.18% ▲</span>
+            </div>
+            <div class="idx-val">58,450.20</div>
+            <div class="idx-sub">+680.10 pts today</div>
+            <div class="idx-range-bar">
+              <div class="idx-range-fill" style="width: 85%;"></div>
+            </div>
+            <div class="idx-range-labels">
+              <span>L: 57,750.00</span>
+              <span>H: 58,590.00</span>
+            </div>
+            <div class="idx-52w">52W: 39,200 — 60,100</div>
+          </div>
+
+          <div class="idx-card">
+            <div class="idx-head">
+              <span class="idx-name">NIFTY SMALLCAP 100</span>
+              <span class="idx-change pos">+1.42% ▲</span>
+            </div>
+            <div class="idx-val">18,920.50</div>
+            <div class="idx-sub">+265.40 pts today</div>
+            <div class="idx-range-bar">
+              <div class="idx-range-fill" style="width: 88%;"></div>
+            </div>
+            <div class="idx-range-labels">
+              <span>L: 18,640.00</span>
+              <span>H: 18,980.00</span>
+            </div>
+            <div class="idx-52w">52W: 12,400 — 19,450</div>
+          </div>
+        </div>
+
+        <!-- Section 2: Market Breadth & Sector Rotation -->
+        <div class="overview-grid-2col">
+          <!-- Market Breadth Card -->
+          <div class="overview-box-card">
+            <div class="box-card-head">
+              <div>
+                <span class="box-eyebrow">NSE ADVANCE / DECLINE</span>
+                <h3>Market Breadth &amp; Participation</h3>
+              </div>
               <span class="tag-pill">2,320 Traded</span>
             </div>
             <div class="breadth-hero-stats">
@@ -1355,66 +1468,275 @@
                 <span class="num">740</span>
                 <span class="lbl">Declines (31.9%)</span>
               </div>
+              <div class="b-stat unc">
+                <span class="num">95</span>
+                <span class="lbl">Unchanged</span>
+              </div>
             </div>
             <div class="breadth-large-bar">
-              <div class="b-bar-adv" style="width: 68%;">68%</div>
-              <div class="b-bar-dec" style="width: 32%;">32%</div>
+              <div class="b-bar-adv" style="width: 68%;">68.1% Advances</div>
+              <div class="b-bar-dec" style="width: 32%;">31.9% Declines</div>
             </div>
-            <div class="breadth-sub-stats">
-              <div class="sub-row"><span>52-Week Highs Hit Today:</span><strong class="pos">142 Equities ▲</strong></div>
-              <div class="sub-row"><span>52-Week Lows Hit Today:</span><strong class="neg">18 Equities ▼</strong></div>
-              <div class="sub-row"><span>Upper Circuit Lock:</span><strong>64 Stocks</strong></div>
-              <div class="sub-row"><span>Advance/Decline Ratio:</span><strong class="pos">2.14x (Bullish)</strong></div>
+            <div class="breadth-sub-stats-grid">
+              <div class="sub-stat-tile">
+                <span class="tile-lbl">52-Week Highs Hit:</span>
+                <span class="tile-val pos">142 Stocks ▲</span>
+              </div>
+              <div class="sub-stat-tile">
+                <span class="tile-lbl">52-Week Lows Hit:</span>
+                <span class="tile-val neg">18 Stocks ▼</span>
+              </div>
+              <div class="sub-stat-tile">
+                <span class="tile-lbl">Upper Circuit Limit:</span>
+                <span class="tile-val pos">64 Stocks Locked</span>
+              </div>
+              <div class="sub-stat-tile">
+                <span class="tile-lbl">Lower Circuit Limit:</span>
+                <span class="tile-val neg">12 Stocks Locked</span>
+              </div>
+              <div class="sub-stat-tile">
+                <span class="tile-lbl">Advance/Decline Ratio:</span>
+                <span class="tile-val pos">2.14x (Strongly Bullish)</span>
+              </div>
+              <div class="sub-stat-tile">
+                <span class="tile-lbl">Total Cash Turnover:</span>
+                <span class="tile-val highlight">₹1,48,250 Cr</span>
+              </div>
             </div>
           </div>
 
-          <div class="overview-panel-card">
-            <div class="overview-panel-head">
-              <h3>Institutional Activity (FII / DII)</h3>
-              <span class="tag-pill">Cash Market</span>
-            </div>
-            <div class="inst-flows-box">
-              <div class="inst-flow-row pos">
-                <div class="inst-info">
-                  <strong>Foreign Institutional Investors (FII)</strong>
-                  <span>Gross Buy: ₹11,250 Cr · Gross Sell: ₹9,830 Cr</span>
-                </div>
-                <div class="inst-net-val pos">+₹ 1,420 Cr ▲</div>
+          <!-- Sector Heatmap Card -->
+          <div class="overview-box-card">
+            <div class="box-card-head">
+              <div>
+                <span class="box-eyebrow">NSE SECTORAL PERFORMANCE</span>
+                <h3>Sector Rotation &amp; Heatmap</h3>
               </div>
-              <div class="inst-flow-row pos">
-                <div class="inst-info">
-                  <strong>Domestic Institutional Investors (DII)</strong>
-                  <span>Gross Buy: ₹8,940 Cr · Gross Sell: ₹6,590 Cr</span>
-                </div>
-                <div class="inst-net-val pos">+₹ 2,350 Cr ▲</div>
+              <span class="tag-pill">Real-Time Heatmap</span>
+            </div>
+            <div class="sector-heatmap-grid">
+              <div class="sec-tile pos-strong">
+                <div class="sec-top"><span>🚗 Auto</span><strong class="pos">+1.85% ▲</strong></div>
+                <div class="sec-sub">Leader: M&amp;M, Tata Motors</div>
+              </div>
+              <div class="sec-tile pos-strong">
+                <div class="sec-top"><span>🏢 Realty</span><strong class="pos">+1.42% ▲</strong></div>
+                <div class="sec-sub">Leader: DLF, Godrej Prop</div>
+              </div>
+              <div class="sec-tile pos-med">
+                <div class="sec-top"><span>🏛 PSU Banks</span><strong class="pos">+1.28% ▲</strong></div>
+                <div class="sec-sub">Leader: SBIN, Canara Bank</div>
+              </div>
+              <div class="sec-tile pos-med">
+                <div class="sec-top"><span>🏦 Private Banks</span><strong class="pos">+0.75% ▲</strong></div>
+                <div class="sec-sub">Leader: ICICIBANK, HDFC</div>
+              </div>
+              <div class="sec-tile pos-soft">
+                <div class="sec-top"><span>🛒 FMCG</span><strong class="pos">+0.52% ▲</strong></div>
+                <div class="sec-sub">Leader: ITC, Nestlé</div>
+              </div>
+              <div class="sec-tile pos-soft">
+                <div class="sec-top"><span>💊 Pharma</span><strong class="pos">+0.48% ▲</strong></div>
+                <div class="sec-sub">Leader: Sun Pharma, Cipla</div>
+              </div>
+              <div class="sec-tile pos-soft">
+                <div class="sec-top"><span>⚙ Metals</span><strong class="pos">+0.38% ▲</strong></div>
+                <div class="sec-sub">Leader: Tata Steel, JSW</div>
+              </div>
+              <div class="sec-tile pos-soft">
+                <div class="sec-top"><span>⚡ Energy</span><strong class="pos">+0.22% ▲</strong></div>
+                <div class="sec-sub">Leader: Tata Power, NTPC</div>
+              </div>
+              <div class="sec-tile neg-soft">
+                <div class="sec-top"><span>💻 IT Services</span><strong class="neg">-0.28% ▼</strong></div>
+                <div class="sec-sub">Lagging: HCL Tech, Tech M</div>
               </div>
             </div>
-            <div class="inst-total-banner">
-              <span>Net Institutional Cash Flow:</span>
-              <strong class="pos">+₹ 3,770 Cr (Strong Domestic Support)</strong>
-            </div>
-          </div>
-
-          <div class="overview-panel-card">
-            <div class="overview-panel-head">
-              <h3>Sector Rotation Heatmap</h3>
-              <span class="tag-pill">Real-Time</span>
-            </div>
-            <div class="sector-heatmap-matrix">
-              <div class="sec-heat-chip pos"><span>Auto</span><strong>+1.85% ▲</strong></div>
-              <div class="sec-heat-chip pos"><span>Realty</span><strong>+1.42% ▲</strong></div>
-              <div class="sec-heat-chip pos"><span>Bank</span><strong>+0.75% ▲</strong></div>
-              <div class="sec-heat-chip pos"><span>FMCG</span><strong>+0.52% ▲</strong></div>
-              <div class="sec-heat-chip pos"><span>Pharma</span><strong>+0.48% ▲</strong></div>
-              <div class="sec-heat-chip pos"><span>Metal</span><strong>+0.38% ▲</strong></div>
-              <div class="sec-heat-chip pos"><span>Energy</span><strong>+0.12% ▲</strong></div>
-              <div class="sec-heat-chip neg"><span>IT</span><strong>-0.28% ▼</strong></div>
-            </div>
-            <div class="sector-hint">
-              <span>💡 <strong>Sector Trend:</strong> Capital rotation favored Automobile & Real Estate equities following consumer demand updates.</span>
+            <div class="sector-insight-note">
+              💡 <strong>Sector Trend:</strong> Capital rotation favored Automobile, Real Estate, and PSU Banking equities following strong festive demand updates and sovereign infrastructure credit expansion.
             </div>
           </div>
         </div>
+
+        <!-- Section 3: Institutional Investor (FII / DII) Movement with Graph & Audited Details -->
+        <div class="overview-box-card institutional-section">
+          <div class="box-card-head">
+            <div>
+              <span class="box-eyebrow">SEBI AUDITED CASH MARKET FLOWS</span>
+              <h3>Institutional Investor Movement (FII vs DII)</h3>
+              <p class="box-desc">Daily net cash buying/selling by Foreign Institutional Investors (FII) and Domestic Institutional Investors (Mutual Funds, Insurance, Banks).</p>
+            </div>
+            <div class="chart-legend-pills">
+              <span class="leg-pill leg-fii">● FII Net Cash</span>
+              <span class="leg-pill leg-dii">● DII Net Cash</span>
+              <span class="leg-pill leg-tot">● Combined Net Flow</span>
+            </div>
+          </div>
+
+          <!-- Flow Summary Metrics Banner -->
+          <div class="inst-metrics-banner">
+            <div class="inst-m-card pos">
+              <span class="m-tag">FII Daily Cash Flow</span>
+              <div class="m-val pos">+₹ 1,420 Cr ▲</div>
+              <div class="m-sub">Gross Buy: ₹11,250 Cr · Gross Sell: ₹9,830 Cr</div>
+            </div>
+            <div class="inst-m-card pos">
+              <span class="m-tag">DII Daily Cash Flow</span>
+              <div class="m-val pos">+₹ 2,350 Cr ▲</div>
+              <div class="m-sub">Gross Buy: ₹8,940 Cr · Gross Sell: ₹6,590 Cr</div>
+            </div>
+            <div class="inst-m-card total-inflow">
+              <span class="m-tag">Combined Net Cash Flow</span>
+              <div class="m-val highlight">+₹ 3,770 Cr ▲</div>
+              <div class="m-sub">Institutional Consensus: <strong>Strong Bullish Accumulation</strong></div>
+            </div>
+            <div class="inst-m-card mtd-stat">
+              <span class="m-tag">Month-To-Date (MTD) Net</span>
+              <div class="m-val-pair">
+                <span>FII: <strong class="pos">+₹14,250 Cr</strong></span>
+                <span>DII: <strong class="pos">+₹28,600 Cr</strong></span>
+              </div>
+              <div class="m-sub">Domestic SIP monthly run-rate: ₹25,300 Cr+</div>
+            </div>
+          </div>
+
+          <!-- Institutional Interactive Trend Graph -->
+          <div class="inst-chart-container">
+            <div class="chart-caption-bar">
+              <span>📊 10-Session Historical Institutional Net Cash Inflow Trend (₹ Crores)</span>
+              <span class="chart-hint">Hover bars to view exact trading values</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="fiiDiiChartCanvas" height="300"></canvas>
+            </div>
+          </div>
+
+          <!-- Audited Day-by-Day Historical Flow Table -->
+          <div class="inst-table-section">
+            <div class="inst-table-head">
+              <h4>📅 Audited Day-by-Day Institutional Disclosures (Last 10 Trading Sessions)</h4>
+              <button type="button" class="btn-toggle-inst-table" onclick="toggleInstTable()" id="btnToggleInstTable">Hide Audit Table ▲</button>
+            </div>
+            <div class="table-responsive" id="instAuditTableWrapper">
+              <table class="inst-flow-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>FII Gross Buy</th>
+                    <th>FII Gross Sell</th>
+                    <th>FII Net Flow (₹ Cr)</th>
+                    <th>DII Gross Buy</th>
+                    <th>DII Gross Sell</th>
+                    <th>DII Net Flow (₹ Cr)</th>
+                    <th>Combined Net Flow</th>
+                    <th>Market Sentiment &amp; Driver</th>
+                  </tr>
+                </thead>
+                <tbody id="fiiDiiTableBody">
+                  <!-- Rendered dynamically by initMarketOverviewPage -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Stocks Increased (Gainers) vs Stocks Declined (Losers) -->
+        <div class="overview-box-card movers-section">
+          <div class="box-card-head">
+            <div>
+              <span class="box-eyebrow">NSE/BSE ACTIVE PRICE ACTION</span>
+              <h3>Market Movers: Stocks Increased &amp; Declined</h3>
+              <p class="box-desc">Audited day performance across NSE large, mid, and small cap equities.</p>
+            </div>
+            <div class="movers-nav-pills">
+              <button type="button" class="mn-pill active" id="tabGainerBtn" onclick="switchOverviewMovers('gainers')">📈 Stocks Increased (Top Gainers)</button>
+              <button type="button" class="mn-pill" id="tabLoserBtn" onclick="switchOverviewMovers('losers')">📉 Stocks Declined (Top Losers)</button>
+              <button type="button" class="mn-pill" id="tabBothBtn" onclick="switchOverviewMovers('both')">⚖ Side-by-Side View</button>
+            </div>
+          </div>
+
+          <div class="movers-tab-panels">
+            <!-- Gainers Table Panel -->
+            <div class="mover-panel" id="panelGainers">
+              <div class="table-responsive">
+                <table class="mover-data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 25%;">Symbol &amp; Company</th>
+                      <th style="width: 14%;">Sector</th>
+                      <th style="width: 13%;">Current Price</th>
+                      <th style="width: 13%;">Day Change (%)</th>
+                      <th style="width: 14%;">Day Range (Low - High)</th>
+                      <th style="width: 11%;">Volume &amp; Turnover</th>
+                      <th style="width: 10%;">Research</th>
+                    </tr>
+                  </thead>
+                  <tbody id="gainersTableBody">
+                    <!-- Dynamic Rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Losers Table Panel -->
+            <div class="mover-panel" id="panelLosers" style="display: none;">
+              <div class="table-responsive">
+                <table class="mover-data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 25%;">Symbol &amp; Company</th>
+                      <th style="width: 14%;">Sector</th>
+                      <th style="width: 13%;">Current Price</th>
+                      <th style="width: 13%;">Day Change (%)</th>
+                      <th style="width: 14%;">Day Range (Low - High)</th>
+                      <th style="width: 11%;">Volume &amp; Turnover</th>
+                      <th style="width: 10%;">Research</th>
+                    </tr>
+                  </thead>
+                  <tbody id="losersTableBody">
+                    <!-- Dynamic Rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5: Stocks with Higher Volume (Volume Shockers & Spurts) -->
+        <div class="overview-box-card volume-shockers-section">
+          <div class="box-card-head">
+            <div>
+              <span class="box-eyebrow">UNUSUAL LIQUIDITY &amp; ACCUMULATION</span>
+              <h3>Stocks with Higher Volume (Volume Shockers &amp; Spurts)</h3>
+              <p class="box-desc">Stocks experiencing unusual volume spikes vs their 10-day moving average volume, signaling institutional block accumulation or breakout momentum.</p>
+            </div>
+            <div class="volume-filter-pills">
+              <button type="button" class="vf-pill active" onclick="filterVolumeTable('all')">All Volume Shockers</button>
+              <button type="button" class="vf-pill" onclick="filterVolumeTable('high')">⚡ &gt; 3x Volume Spurt</button>
+              <button type="button" class="vf-pill" onclick="filterVolumeTable('large')">Large Caps Only</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="mover-data-table volume-table">
+              <thead>
+                <tr>
+                  <th style="width: 24%;">Symbol &amp; Company</th>
+                  <th style="width: 12%;">Sector</th>
+                  <th style="width: 12%;">Current Price</th>
+                  <th style="width: 12%;">Day Change</th>
+                  <th style="width: 15%;">Volume vs 10D Average</th>
+                  <th style="width: 13%;">Day Turnover</th>
+                  <th style="width: 12%;">Institutional Rationale</th>
+                </tr>
+              </thead>
+              <tbody id="volumeShockersTableBody">
+                <!-- Dynamic Rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </section>
   </div>
@@ -2072,6 +2394,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_5"></script>
+<script src="js/app.js?v=20261122_6"></script>
 </body>
 </html>

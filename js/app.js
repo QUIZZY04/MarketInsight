@@ -4091,7 +4091,9 @@ function navigateToPage(pageId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // 6. If switching to terminal or health, ensure calculations or default tickers are loaded
-  if (pageId === 'page-planner') {
+  if (pageId === 'page-overview' || cleanHash === 'overview') {
+    initMarketOverviewPage();
+  } else if (pageId === 'page-planner') {
     updateSipCalculator();
     updateLumpsumPortfolio();
   } else if (pageId === 'page-terminal' || cleanHash === 'terminal' || cleanHash === 'research') {
@@ -4249,3 +4251,387 @@ document.addEventListener("DOMContentLoaded", () => {
     navigateToPage('page-home');
   }
 });
+
+const fs = require('fs');
+const path = require('path');
+
+// Test assembling JS for overview page
+const overviewJs = `
+// =========================================================================
+// INDIAN MARKET OVERVIEW PAGE LOGIC (BREADTH, FII/DII, GAINERS, VOLUME)
+// =========================================================================
+
+const FII_DII_HISTORICAL_DATA = [
+  { date: "10 Nov", fiiBuy: "₹ 9,450 Cr", fiiSell: "₹ 8,820 Cr", fiiNet: 630, diiBuy: "₹ 7,210 Cr", diiSell: "₹ 5,940 Cr", diiNet: 1270, total: 1900, sentiment: "Broad-based buying across large-caps" },
+  { date: "11 Nov", fiiBuy: "₹ 8,900 Cr", fiiSell: "₹ 9,420 Cr", fiiNet: -520, diiBuy: "₹ 8,120 Cr", diiSell: "₹ 6,410 Cr", diiNet: 1710, total: 1190, sentiment: "DII absorbed foreign profit-taking" },
+  { date: "12 Nov", fiiBuy: "₹ 10,250 Cr", fiiSell: "₹ 9,680 Cr", fiiNet: 570, diiBuy: "₹ 7,850 Cr", diiSell: "₹ 6,200 Cr", diiNet: 1650, total: 2220, sentiment: "Inflows resumed into banking sector" },
+  { date: "13 Nov", fiiBuy: "₹ 9,800 Cr", fiiSell: "₹ 10,450 Cr", fiiNet: -650, diiBuy: "₹ 8,450 Cr", diiSell: "₹ 6,310 Cr", diiNet: 2140, total: 1490, sentiment: "Domestic SIPs supported Nifty 25,600" },
+  { date: "14 Nov", fiiBuy: "₹ 11,100 Cr", fiiSell: "₹ 10,200 Cr", fiiNet: 900, diiBuy: "₹ 8,900 Cr", diiSell: "₹ 7,100 Cr", diiNet: 1800, total: 2700, sentiment: "FII turned net buyers before weekend" },
+  { date: "17 Nov", fiiBuy: "₹ 10,850 Cr", fiiSell: "₹ 9,750 Cr", fiiNet: 1100, diiBuy: "₹ 8,250 Cr", diiSell: "₹ 6,450 Cr", diiNet: 1800, total: 2900, sentiment: "Strong auto & realty momentum" },
+  { date: "18 Nov", fiiBuy: "₹ 11,400 Cr", fiiSell: "₹ 10,820 Cr", fiiNet: 580, diiBuy: "₹ 8,750 Cr", diiSell: "₹ 6,950 Cr", diiNet: 1800, total: 2380, sentiment: "Heavy accumulation in Tata Power & PSU banks" },
+  { date: "19 Nov", fiiBuy: "₹ 9,950 Cr", fiiSell: "₹ 10,320 Cr", fiiNet: -370, diiBuy: "₹ 9,100 Cr", diiSell: "₹ 6,800 Cr", diiNet: 2300, total: 1930, sentiment: "DII set monthly single-day buy high" },
+  { date: "20 Nov", fiiBuy: "₹ 12,100 Cr", fiiSell: "₹ 10,850 Cr", fiiNet: 1250, diiBuy: "₹ 8,650 Cr", diiSell: "₹ 6,450 Cr", diiNet: 2200, total: 3450, sentiment: "Foreign funds aggressively bought private lenders" },
+  { date: "21 Nov", fiiBuy: "₹ 11,250 Cr", fiiSell: "₹ 9,830 Cr", fiiNet: 1420, diiBuy: "₹ 8,940 Cr", diiSell: "₹ 6,590 Cr", diiNet: 2350, total: 3770, sentiment: "Combined +₹3,770 Cr institutional injection" }
+];
+
+const OVERVIEW_GAINERS_DATA = [
+  { sym: "KAYNES", name: "Kaynes Technology India", sec: "EMS & High-Tech", price: "₹ 7,200.00", chgPct: "+2.85%", chgPts: "+₹ 199.50", low: "₹ 7,050.00", high: "₹ 7,280.00", vol: "4.80 L", turnover: "₹ 345 Cr", high52: "-8.3% from 52W High" },
+  { sym: "TRENT", name: "Trent Limited", sec: "Consumer Retail", price: "₹ 6,850.00", chgPct: "+2.05%", chgPts: "+₹ 137.50", low: "₹ 6,760.00", high: "₹ 6,890.00", vol: "12.50 L", turnover: "₹ 856 Cr", high52: "-8.1% from 52W High" },
+  { sym: "IREDA", name: "Indian Renewable Energy Dev", sec: "Green Finance", price: "₹ 215.00", chgPct: "+1.99%", chgPts: "+₹ 4.20", low: "₹ 210.00", high: "₹ 218.50", vol: "1.85 Cr", turnover: "₹ 398 Cr", high52: "-30.6% from 52W High" },
+  { sym: "RAILTEL", name: "RailTel Corporation", sec: "Telecom Infra", price: "₹ 410.00", chgPct: "+1.86%", chgPts: "+₹ 7.50", low: "₹ 401.00", high: "₹ 415.00", vol: "42.00 L", turnover: "₹ 172 Cr", high52: "-33.7% from 52W High" },
+  { sym: "BHARTIARTL", name: "Bharti Airtel Limited", sec: "Telecom & Cloud", price: "₹ 2,161.70", chgPct: "+1.85%", chgPts: "+₹ 39.30", low: "₹ 2,130.00", high: "₹ 2,175.00", vol: "68.20 L", turnover: "₹ 1,470 Cr", high52: "-1.3% from 52W High" },
+  { sym: "SBIN", name: "State Bank of India", sec: "PSU Banking", price: "₹ 1,165.10", chgPct: "+1.60%", chgPts: "+₹ 18.35", low: "₹ 1,148.00", high: "₹ 1,172.00", vol: "1.82 Cr", turnover: "₹ 1,448 Cr", high52: "-0.6% from 52W High" },
+  { sym: "TATAPOWER", name: "Tata Power Company", sec: "Clean Power", price: "₹ 340.00", chgPct: "+1.43%", chgPts: "+₹ 4.80", low: "₹ 334.50", high: "₹ 343.80", vol: "2.45 Cr", turnover: "₹ 1,074 Cr", high52: "-31.3% from 52W High" },
+  { sym: "ICICIBANK", name: "ICICI Bank Limited", sec: "Private Banking", price: "₹ 1,640.00", chgPct: "+1.25%", chgPts: "+₹ 20.25", low: "₹ 1,622.00", high: "₹ 1,648.00", vol: "94.10 L", turnover: "₹ 1,542 Cr", high52: "-2.4% from 52W High" },
+  { sym: "RELIANCE", name: "Reliance Industries", sec: "Conglomerate", price: "₹ 1,377.50", chgPct: "+1.19%", chgPts: "+₹ 16.20", low: "₹ 1,360.00", high: "₹ 1,385.00", vol: "72.00 L", turnover: "₹ 2,145 Cr", high52: "-14.3% from 52W High" }
+];
+
+const OVERVIEW_LOSERS_DATA = [
+  { sym: "HCLTECH", name: "HCL Technologies Ltd", sec: "IT Consulting", price: "₹ 1,815.00", chgPct: "-1.40%", chgPts: "-₹ 25.75", low: "₹ 1,805.00", high: "₹ 1,842.00", vol: "34.00 L", turnover: "₹ 617 Cr", low52: "+38.5% above 52W Low" },
+  { sym: "TECHM", name: "Tech Mahindra Ltd", sec: "IT Services", price: "₹ 1,640.00", chgPct: "-1.15%", chgPts: "-₹ 19.10", low: "₹ 1,632.00", high: "₹ 1,665.00", vol: "21.00 L", turnover: "₹ 344 Cr", low52: "+39.0% above 52W Low" },
+  { sym: "WIPRO", name: "Wipro Limited", sec: "IT Services", price: "₹ 545.00", chgPct: "-0.95%", chgPts: "-₹ 5.20", low: "₹ 542.00", high: "₹ 553.00", vol: "48.00 L", turnover: "₹ 261 Cr", low52: "+29.8% above 52W Low" },
+  { sym: "CIPLA", name: "Cipla Limited", sec: "Pharmaceuticals", price: "₹ 1,480.00", chgPct: "-0.85%", chgPts: "-₹ 12.70", low: "₹ 1,472.00", high: "₹ 1,498.00", vol: "18.00 L", turnover: "₹ 266 Cr", low52: "+27.6% above 52W Low" },
+  { sym: "TITAN", name: "Titan Company Ltd", sec: "Jewellery & Retail", price: "₹ 3,240.00", chgPct: "-0.65%", chgPts: "-₹ 21.20", low: "₹ 3,225.00", high: "₹ 3,275.00", vol: "14.00 L", turnover: "₹ 453 Cr", low52: "+6.2% above 52W Low" },
+  { sym: "SUNPHARMA", name: "Sun Pharma Industries", sec: "Pharma Formulations", price: "₹ 1,765.00", chgPct: "-0.58%", chgPts: "-₹ 10.30", low: "₹ 1,755.00", high: "₹ 1,780.00", vol: "22.50 L", turnover: "₹ 397 Cr", low52: "+48.3% above 52W Low" },
+  { sym: "INFY", name: "Infosys Limited", sec: "IT Bellwether", price: "₹ 1,098.00", chgPct: "-0.45%", chgPts: "-₹ 5.00", low: "₹ 1,092.00", high: "₹ 1,118.00", vol: "82.00 L", turnover: "₹ 1,545 Cr", low52: "+14.4% above 52W Low" }
+];
+
+const OVERVIEW_VOLUME_SHOCKERS_DATA = [
+  { sym: "TATAPOWER", name: "Tata Power Company Ltd", sec: "Clean Power & Capex", price: "₹ 340.00", chgPct: "+1.43%", todayVol: "2,45,00,000", avg10dVol: "64,00,000", multiple: "3.8x", turnover: "₹ 1,074 Cr", catalyst: "Multi-gigawatt pumped hydro and solar capacity announcement driving aggressive institutional accumulation.", cap: "large" },
+  { sym: "IREDA", name: "Indian Renewable Energy Dev", sec: "Green Energy NBFC", price: "₹ 215.00", chgPct: "+1.99%", todayVol: "1,85,00,000", avg10dVol: "44,00,000", multiple: "4.2x", turnover: "₹ 398 Cr", catalyst: "High institutional buying following sovereign green bond issuance approval.", cap: "mid" },
+  { sym: "TRENT", name: "Trent Limited (Tata Retail)", sec: "Lifestyle Retail", price: "₹ 6,850.00", chgPct: "+2.05%", todayVol: "12,50,000", avg10dVol: "3,70,000", multiple: "3.4x", turnover: "₹ 856 Cr", catalyst: "Zudio store expansion pace acceleration and 25%+ same-store-sales trajectory.", cap: "large" },
+  { sym: "KAYNES", name: "Kaynes Technology India", sec: "EMS & Chip Packaging", price: "₹ 7,200.00", chgPct: "+2.85%", todayVol: "4,80,000", avg10dVol: "1,55,000", multiple: "3.1x", turnover: "₹ 345 Cr", catalyst: "Semiconductor ATMP plant state regulatory clearance and export order ramp-up.", cap: "mid" },
+  { sym: "SBIN", name: "State Bank of India", sec: "Public Sector Banking", price: "₹ 1,165.10", chgPct: "+1.60%", todayVol: "1,82,00,000", avg10dVol: "62,00,000", multiple: "2.9x", turnover: "₹ 1,448 Cr", catalyst: "National infrastructure credit book expansion under GoI capital expenditure push.", cap: "large" },
+  { sym: "RAILTEL", name: "RailTel Corporation", sec: "Telecom & Fiber Infra", price: "₹ 410.00", chgPct: "+1.86%", todayVol: "42,00,000", avg10dVol: "15,50,000", multiple: "2.7x", turnover: "₹ 172 Cr", catalyst: "High-value National Broadband optical fiber contract win on railway lines.", cap: "small" },
+  { sym: "HDFCBANK", name: "HDFC Bank Limited", sec: "Private Banking", price: "₹ 846.00", chgPct: "+2.95%", todayVol: "1,14,00,000", avg10dVol: "46,00,000", multiple: "2.5x", turnover: "₹ 1,989 Cr", catalyst: "Institutional block accumulation as CD ratio normalizes toward 85%.", cap: "large" },
+  { sym: "RELIANCE", name: "Reliance Industries Ltd", sec: "Energy & Consumer Retail", price: "₹ 1,377.50", chgPct: "+1.19%", todayVol: "72,00,000", avg10dVol: "38,00,000", multiple: "1.9x", turnover: "₹ 2,145 Cr", catalyst: "Peak 5G capex transition into free-cash harvest phase alongside JioAirFiber adoption.", cap: "large" }
+];
+
+function initMarketOverviewPage() {
+  renderFiiDiiTable();
+  renderGainersTable();
+  renderLosersTable();
+  renderVolumeShockersTable('all');
+  setTimeout(renderFiiDiiChart, 60);
+}
+
+function renderFiiDiiTable() {
+  const tbody = document.getElementById("fiiDiiTableBody");
+  if (!tbody) return;
+  tbody.innerHTML = FII_DII_HISTORICAL_DATA.map(d => {
+    const fiiNetCls = d.fiiNet >= 0 ? 'pos' : 'neg';
+    const fiiNetTxt = (d.fiiNet >= 0 ? '+₹ ' : '-₹ ') + Math.abs(d.fiiNet) + ' Cr';
+    const diiNetCls = d.diiNet >= 0 ? 'pos' : 'neg';
+    const diiNetTxt = (d.diiNet >= 0 ? '+₹ ' : '-₹ ') + Math.abs(d.diiNet) + ' Cr';
+    const totCls = d.total >= 0 ? 'pos' : 'neg';
+    const totTxt = (d.total >= 0 ? '+₹ ' : '-₹ ') + Math.abs(d.total) + ' Cr';
+    return \`
+      <tr>
+        <td><strong>\${d.date}</strong></td>
+        <td>\${d.fiiBuy}</td>
+        <td>\${d.fiiSell}</td>
+        <td><strong class="\${fiiNetCls}">\${fiiNetTxt}</strong></td>
+        <td>\${d.diiBuy}</td>
+        <td>\${d.diiSell}</td>
+        <td><strong class="\${diiNetCls}">\${diiNetTxt}</strong></td>
+        <td><span class="tot-badge \${totCls}">\${totTxt}</span></td>
+        <td class="sub-text">\${d.sentiment}</td>
+      </tr>
+    \`;
+  }).join('');
+}
+
+function renderGainersTable() {
+  const tbody = document.getElementById("gainersTableBody");
+  if (!tbody) return;
+  tbody.innerHTML = OVERVIEW_GAINERS_DATA.map(g => \`
+    <tr>
+      <td>
+        <div class="mover-symbol-block">
+          <strong>\${g.sym}</strong>
+          <span>\${g.name}</span>
+        </div>
+      </td>
+      <td><span class="sec-badge">\${g.sec}</span></td>
+      <td><strong>\${g.price}</strong></td>
+      <td><span class="table-badge pos">\${g.chgPct} ▲</span></td>
+      <td class="range-cell"><span>\${g.low}</span> — <span>\${g.high}</span></td>
+      <td>
+        <div class="vol-cell">
+          <strong>\${g.vol}</strong>
+          <span>\${g.turnover}</span>
+        </div>
+      </td>
+      <td>
+        <button type="button" class="btn-table-action" onclick="quickSelect('\${g.sym}')">Analyze ↗</button>
+      </td>
+    </tr>
+  \`).join('');
+}
+
+function renderLosersTable() {
+  const tbody = document.getElementById("losersTableBody");
+  if (!tbody) return;
+  tbody.innerHTML = OVERVIEW_LOSERS_DATA.map(l => \`
+    <tr>
+      <td>
+        <div class="mover-symbol-block">
+          <strong>\${l.sym}</strong>
+          <span>\${l.name}</span>
+        </div>
+      </td>
+      <td><span class="sec-badge">\${l.sec}</span></td>
+      <td><strong>\${l.price}</strong></td>
+      <td><span class="table-badge neg">\${l.chgPct} ▼</span></td>
+      <td class="range-cell"><span>\${l.low}</span> — <span>\${l.high}</span></td>
+      <td>
+        <div class="vol-cell">
+          <strong>\${l.vol}</strong>
+          <span>\${l.turnover}</span>
+        </div>
+      </td>
+      <td>
+        <button type="button" class="btn-table-action" onclick="quickSelect('\${l.sym}')">Analyze ↗</button>
+      </td>
+    </tr>
+  \`).join('');
+}
+
+function renderVolumeShockersTable(filter) {
+  const tbody = document.getElementById("volumeShockersTableBody");
+  if (!tbody) return;
+  
+  let list = OVERVIEW_VOLUME_SHOCKERS_DATA;
+  if (filter === 'high') {
+    list = list.filter(v => parseFloat(v.multiple) >= 3.0);
+  } else if (filter === 'large') {
+    list = list.filter(v => v.cap === 'large');
+  }
+
+  tbody.innerHTML = list.map(v => \`
+    <tr>
+      <td>
+        <div class="mover-symbol-block">
+          <strong>\${v.sym}</strong>
+          <span>\${v.name}</span>
+        </div>
+      </td>
+      <td><span class="sec-badge">\${v.sec}</span></td>
+      <td><strong>\${v.price}</strong></td>
+      <td><span class="table-badge \${v.chgPct.startsWith('+') ? 'pos' : 'neg'}">\${v.chgPct}</span></td>
+      <td>
+        <div class="vol-shocker-pill">
+          <span class="multiple-tag">\${v.multiple} Spurt ⚡</span>
+          <span class="sub-vol">Vol: \${v.todayVol}</span>
+        </div>
+      </td>
+      <td><strong>\${v.turnover}</strong></td>
+      <td>
+        <div class="catalyst-cell">
+          <span>\${v.catalyst}</span>
+          <button type="button" class="btn-table-action mini" onclick="quickSelect('\${v.sym}')">Analyze ↗</button>
+        </div>
+      </td>
+    </tr>
+  \`).join('');
+}
+
+function switchOverviewMovers(tab) {
+  const pGainers = document.getElementById("panelGainers");
+  const pLosers = document.getElementById("panelLosers");
+  const bGainers = document.getElementById("tabGainerBtn");
+  const bLosers = document.getElementById("tabLoserBtn");
+  const bBoth = document.getElementById("tabBothBtn");
+
+  if (!pGainers || !pLosers) return;
+
+  [bGainers, bLosers, bBoth].forEach(b => { if (b) b.classList.remove('active'); });
+
+  if (tab === 'gainers') {
+    pGainers.style.display = 'block';
+    pLosers.style.display = 'none';
+    if (bGainers) bGainers.classList.add('active');
+  } else if (tab === 'losers') {
+    pGainers.style.display = 'none';
+    pLosers.style.display = 'block';
+    if (bLosers) bLosers.classList.add('active');
+  } else if (tab === 'both') {
+    pGainers.style.display = 'block';
+    pLosers.style.display = 'block';
+    if (bBoth) bBoth.classList.add('active');
+  }
+}
+
+function filterVolumeTable(filter) {
+  document.querySelectorAll('.volume-filter-pills .vf-pill').forEach(b => {
+    b.classList.remove('active');
+  });
+  if (event && event.target) {
+    event.target.classList.add('active');
+  }
+  renderVolumeShockersTable(filter);
+}
+
+function toggleInstTable() {
+  const wrapper = document.getElementById("instAuditTableWrapper");
+  const btn = document.getElementById("btnToggleInstTable");
+  if (!wrapper || !btn) return;
+
+  const isHidden = wrapper.style.display === 'none';
+  wrapper.style.display = isHidden ? 'block' : 'none';
+  btn.textContent = isHidden ? 'Hide Audit Table ▲' : 'View Full Audit Table ▼';
+}
+
+function renderFiiDiiChart() {
+  const canvas = document.getElementById("fiiDiiChartCanvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const parent = canvas.parentElement;
+  const width = parent.clientWidth || 800;
+  const height = 300;
+
+  // High DPI scaling
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+  ctx.scale(dpr, dpr);
+
+  ctx.clearRect(0, 0, width, height);
+
+  // Background
+  ctx.fillStyle = "#090e1a";
+  ctx.fillRect(0, 0, width, height);
+
+  const padding = { top: 40, right: 30, bottom: 45, left: 60 };
+  const chartW = width - padding.left - padding.right;
+  const chartH = height - padding.top - padding.bottom;
+
+  const data = FII_DII_HISTORICAL_DATA;
+  const numDays = data.length;
+
+  // Max and Min values for Y scale
+  const maxVal = 4000;
+  const minVal = -1000;
+  const valRange = maxVal - minVal;
+
+  const getY = (val) => {
+    return padding.top + chartH - ((val - minVal) / valRange) * chartH;
+  };
+
+  const zeroY = getY(0);
+
+  // Horizontal Grid Lines
+  ctx.strokeStyle = "#1e293b";
+  ctx.lineWidth = 1;
+  ctx.fillStyle = "#64748b";
+  ctx.font = "10px Inter, sans-serif";
+  ctx.textAlign = "right";
+
+  const gridSteps = [-1000, 0, 1000, 2000, 3000, 4000];
+  gridSteps.forEach(val => {
+    const y = getY(val);
+    ctx.beginPath();
+    ctx.moveTo(padding.left, y);
+    ctx.lineTo(padding.left + chartW, y);
+    ctx.stroke();
+    ctx.fillText((val >= 0 ? "+" : "") + val + " Cr", padding.left - 8, y + 3);
+  });
+
+  // Zero Line highlight
+  ctx.strokeStyle = "#475569";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(padding.left, zeroY);
+  ctx.lineTo(padding.left + chartW, zeroY);
+  ctx.stroke();
+
+  // Column width calculations
+  const groupW = chartW / numDays;
+  const barW = Math.max(8, Math.min(22, (groupW - 14) / 2));
+
+  // Points for combined line
+  const linePoints = [];
+
+  // Draw Bars
+  data.forEach((d, i) => {
+    const groupCenter = padding.left + i * groupW + groupW / 2;
+
+    // FII Bar
+    const fiiX = groupCenter - barW - 2;
+    const fiiY = getY(Math.max(0, d.fiiNet));
+    const fiiHeight = Math.abs(getY(d.fiiNet) - zeroY);
+    ctx.fillStyle = d.fiiNet >= 0 ? "#38bdf8" : "#f43f5e";
+    ctx.beginPath();
+    if (d.fiiNet >= 0) {
+      ctx.roundRect(fiiX, fiiY, barW, fiiHeight, [3, 3, 0, 0]);
+    } else {
+      ctx.roundRect(fiiX, zeroY, barW, fiiHeight, [0, 0, 3, 3]);
+    }
+    ctx.fill();
+
+    // DII Bar
+    const diiX = groupCenter + 2;
+    const diiY = getY(Math.max(0, d.diiNet));
+    const diiHeight = Math.abs(getY(d.diiNet) - zeroY);
+    ctx.fillStyle = d.diiNet >= 0 ? "#10b981" : "#fbbf24";
+    ctx.beginPath();
+    if (d.diiNet >= 0) {
+      ctx.roundRect(diiX, diiY, barW, diiHeight, [3, 3, 0, 0]);
+    } else {
+      ctx.roundRect(diiX, zeroY, barW, diiHeight, [0, 0, 3, 3]);
+    }
+    ctx.fill();
+
+    // Store line point for combined total
+    const totY = getY(d.total);
+    linePoints.push({ x: groupCenter, y: totY, total: d.total });
+
+    // Date Label
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "10.5px Inter, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(d.date, groupCenter, padding.top + chartH + 18);
+  });
+
+  // Draw Combined Net Line
+  if (linePoints.length > 1) {
+    ctx.strokeStyle = "#fbbf24";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    linePoints.forEach((p, idx) => {
+      if (idx === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
+    });
+    ctx.stroke();
+
+    // Draw Line Dots & Labels
+    linePoints.forEach(p => {
+      ctx.fillStyle = "#fbbf24";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#090e1a";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Top value text
+      ctx.fillStyle = "#f8fafc";
+      ctx.font = "bold 9.5px Inter, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText((p.total >= 0 ? "+" : "") + p.total, p.x, p.y - 8);
+    });
+  }
+}
+
+window.addEventListener('resize', () => {
+  if (document.getElementById("page-overview") && document.getElementById("page-overview").style.display !== 'none') {
+    renderFiiDiiChart();
+  }
+});
+`;
+
+console.log('Overview JS script generated. Length:', overviewJs.length);
