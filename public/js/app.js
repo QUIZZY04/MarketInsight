@@ -4252,13 +4252,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-const fs = require('fs');
-const path = require('path');
-
-// Test assembling JS for overview page
-const overviewJs = `
 // =========================================================================
-// INDIAN MARKET OVERVIEW PAGE LOGIC (BREADTH, FII/DII, GAINERS, VOLUME)
+// INDIAN MARKET OVERVIEW PAGE LOGIC (GLOBAL STANDARD LIGHT THEME)
 // =========================================================================
 
 const FII_DII_HISTORICAL_DATA = [
@@ -4312,7 +4307,9 @@ function initMarketOverviewPage() {
   renderGainersTable();
   renderLosersTable();
   renderVolumeShockersTable('all');
-  setTimeout(renderFiiDiiChart, 60);
+  setTimeout(() => {
+    requestAnimationFrame(renderFiiDiiChart);
+  }, 80);
 }
 
 function renderFiiDiiTable() {
@@ -4325,76 +4322,76 @@ function renderFiiDiiTable() {
     const diiNetTxt = (d.diiNet >= 0 ? '+₹ ' : '-₹ ') + Math.abs(d.diiNet) + ' Cr';
     const totCls = d.total >= 0 ? 'pos' : 'neg';
     const totTxt = (d.total >= 0 ? '+₹ ' : '-₹ ') + Math.abs(d.total) + ' Cr';
-    return \`
+    return `
       <tr>
-        <td><strong>\${d.date}</strong></td>
-        <td>\${d.fiiBuy}</td>
-        <td>\${d.fiiSell}</td>
-        <td><strong class="\${fiiNetCls}">\${fiiNetTxt}</strong></td>
-        <td>\${d.diiBuy}</td>
-        <td>\${d.diiSell}</td>
-        <td><strong class="\${diiNetCls}">\${diiNetTxt}</strong></td>
-        <td><span class="tot-badge \${totCls}">\${totTxt}</span></td>
-        <td class="sub-text">\${d.sentiment}</td>
+        <td><strong>${d.date}</strong></td>
+        <td>${d.fiiBuy}</td>
+        <td>${d.fiiSell}</td>
+        <td><strong class="${fiiNetCls}">${fiiNetTxt}</strong></td>
+        <td>${d.diiBuy}</td>
+        <td>${d.diiSell}</td>
+        <td><strong class="${diiNetCls}">${diiNetTxt}</strong></td>
+        <td><span class="tot-badge ${totCls}">${totTxt}</span></td>
+        <td class="sub-text">${d.sentiment}</td>
       </tr>
-    \`;
+    `;
   }).join('');
 }
 
 function renderGainersTable() {
   const tbody = document.getElementById("gainersTableBody");
   if (!tbody) return;
-  tbody.innerHTML = OVERVIEW_GAINERS_DATA.map(g => \`
+  tbody.innerHTML = OVERVIEW_GAINERS_DATA.map(g => `
     <tr>
       <td>
         <div class="mover-symbol-block">
-          <strong>\${g.sym}</strong>
-          <span>\${g.name}</span>
+          <strong>${g.sym}</strong>
+          <span>${g.name}</span>
         </div>
       </td>
-      <td><span class="sec-badge">\${g.sec}</span></td>
-      <td><strong>\${g.price}</strong></td>
-      <td><span class="table-badge pos">\${g.chgPct} ▲</span></td>
-      <td class="range-cell"><span>\${g.low}</span> — <span>\${g.high}</span></td>
+      <td><span class="sec-badge">${g.sec}</span></td>
+      <td><strong>${g.price}</strong></td>
+      <td><span class="table-badge pos">${g.chgPct} ▲</span></td>
+      <td class="range-cell"><span>${g.low}</span> — <span>${g.high}</span></td>
       <td>
         <div class="vol-cell">
-          <strong>\${g.vol}</strong>
-          <span>\${g.turnover}</span>
+          <strong>${g.vol}</strong>
+          <span>${g.turnover}</span>
         </div>
       </td>
       <td>
-        <button type="button" class="btn-table-action" onclick="quickSelect('\${g.sym}')">Analyze ↗</button>
+        <button type="button" class="btn-table-action" onclick="quickSelect('${g.sym}')">Analyze ↗</button>
       </td>
     </tr>
-  \`).join('');
+  `).join('');
 }
 
 function renderLosersTable() {
   const tbody = document.getElementById("losersTableBody");
   if (!tbody) return;
-  tbody.innerHTML = OVERVIEW_LOSERS_DATA.map(l => \`
+  tbody.innerHTML = OVERVIEW_LOSERS_DATA.map(l => `
     <tr>
       <td>
         <div class="mover-symbol-block">
-          <strong>\${l.sym}</strong>
-          <span>\${l.name}</span>
+          <strong>${l.sym}</strong>
+          <span>${l.name}</span>
         </div>
       </td>
-      <td><span class="sec-badge">\${l.sec}</span></td>
-      <td><strong>\${l.price}</strong></td>
-      <td><span class="table-badge neg">\${l.chgPct} ▼</span></td>
-      <td class="range-cell"><span>\${l.low}</span> — <span>\${l.high}</span></td>
+      <td><span class="sec-badge">${l.sec}</span></td>
+      <td><strong>${l.price}</strong></td>
+      <td><span class="table-badge neg">${l.chgPct} ▼</span></td>
+      <td class="range-cell"><span>${l.low}</span> — <span>${l.high}</span></td>
       <td>
         <div class="vol-cell">
-          <strong>\${l.vol}</strong>
-          <span>\${l.turnover}</span>
+          <strong>${l.vol}</strong>
+          <span>${l.turnover}</span>
         </div>
       </td>
       <td>
-        <button type="button" class="btn-table-action" onclick="quickSelect('\${l.sym}')">Analyze ↗</button>
+        <button type="button" class="btn-table-action" onclick="quickSelect('${l.sym}')">Analyze ↗</button>
       </td>
     </tr>
-  \`).join('');
+  `).join('');
 }
 
 function renderVolumeShockersTable(filter) {
@@ -4408,32 +4405,32 @@ function renderVolumeShockersTable(filter) {
     list = list.filter(v => v.cap === 'large');
   }
 
-  tbody.innerHTML = list.map(v => \`
+  tbody.innerHTML = list.map(v => `
     <tr>
       <td>
         <div class="mover-symbol-block">
-          <strong>\${v.sym}</strong>
-          <span>\${v.name}</span>
+          <strong>${v.sym}</strong>
+          <span>${v.name}</span>
         </div>
       </td>
-      <td><span class="sec-badge">\${v.sec}</span></td>
-      <td><strong>\${v.price}</strong></td>
-      <td><span class="table-badge \${v.chgPct.startsWith('+') ? 'pos' : 'neg'}">\${v.chgPct}</span></td>
+      <td><span class="sec-badge">${v.sec}</span></td>
+      <td><strong>${v.price}</strong></td>
+      <td><span class="table-badge ${v.chgPct.startsWith('+') ? 'pos' : 'neg'}">${v.chgPct}</span></td>
       <td>
         <div class="vol-shocker-pill">
-          <span class="multiple-tag">\${v.multiple} Spurt ⚡</span>
-          <span class="sub-vol">Vol: \${v.todayVol}</span>
+          <span class="multiple-tag">${v.multiple} Spurt ⚡</span>
+          <span class="sub-vol">Vol: ${v.todayVol}</span>
         </div>
       </td>
-      <td><strong>\${v.turnover}</strong></td>
+      <td><strong>${v.turnover}</strong></td>
       <td>
         <div class="catalyst-cell">
-          <span>\${v.catalyst}</span>
-          <button type="button" class="btn-table-action mini" onclick="quickSelect('\${v.sym}')">Analyze ↗</button>
+          <span>${v.catalyst}</span>
+          <button type="button" class="btn-table-action mini" onclick="quickSelect('${v.sym}')">Analyze ↗</button>
         </div>
       </td>
     </tr>
-  \`).join('');
+  `).join('');
 }
 
 function switchOverviewMovers(tab) {
@@ -4466,7 +4463,7 @@ function filterVolumeTable(filter) {
   document.querySelectorAll('.volume-filter-pills .vf-pill').forEach(b => {
     b.classList.remove('active');
   });
-  if (event && event.target) {
+  if (typeof event !== 'undefined' && event && event.target) {
     event.target.classList.add('active');
   }
   renderVolumeShockersTable(filter);
@@ -4488,7 +4485,13 @@ function renderFiiDiiChart() {
 
   const ctx = canvas.getContext("2d");
   const parent = canvas.parentElement;
-  const width = parent.clientWidth || 800;
+  
+  // Calculate reliable width even if parent was just made visible
+  let width = parent ? parent.clientWidth : 0;
+  if (!width || width < 250) {
+    const container = document.querySelector("#market-overview .portal-container");
+    width = container ? (container.clientWidth - 40) : 800;
+  }
   const height = 300;
 
   // High DPI scaling
@@ -4559,7 +4562,7 @@ function renderFiiDiiChart() {
   data.forEach((d, i) => {
     const groupCenter = padding.left + i * groupW + groupW / 2;
 
-    // FII Bar (Corporate Blue for buying, Crimson for selling)
+    // FII Bar (Corporate Royal Blue for buying, Crimson for selling)
     const fiiX = groupCenter - barW - 2;
     const fiiY = getY(Math.max(0, d.fiiNet));
     const fiiHeight = Math.abs(getY(d.fiiNet) - zeroY);
@@ -4628,10 +4631,8 @@ function renderFiiDiiChart() {
 }
 
 window.addEventListener('resize', () => {
-  if (document.getElementById("page-overview") && document.getElementById("page-overview").style.display !== 'none') {
+  const pOverview = document.getElementById("page-overview");
+  if (pOverview && pOverview.style.display !== 'none') {
     renderFiiDiiChart();
   }
 });
-`;
-
-console.log('Overview JS script generated. Length:', overviewJs.length);
