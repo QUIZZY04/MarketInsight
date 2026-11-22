@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Research Terminal, Stock Health Checker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_14">
+  <link rel="stylesheet" href="css/style.css?v=20261122_15">
 </head>
 <body>
 
@@ -102,12 +102,13 @@
           </div>
         </div>
 
-        <div class="indices-cards-grid">
+                <div class="indices-cards-grid">
           <!-- 1. NIFTY 50 -->
-          <article class="index-card">
+          <article class="index-card card-grad-nifty">
+            <div class="card-accent-bar bar-nifty"></div>
             <div class="index-card-header">
               <div>
-                <span class="index-exchange-tag">NSE INDIA</span>
+                <span class="index-exchange-tag tag-nifty">NSE BENCHMARK</span>
                 <h3 class="index-name">NIFTY 50</h3>
               </div>
               <div class="index-badge pos">+1.12% ▲</div>
@@ -118,26 +119,34 @@
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>Day Low: 25,514.40</span>
-                <span>Day High: 25,842.10</span>
+                <span>L: 25,514.40</span>
+                <span>H: 25,842.10</span>
               </div>
               <div class="range-track">
-                <div class="range-fill" style="left: 0%; width: 88%;"></div>
+                <div class="range-fill fill-nifty" style="width: 88%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
-              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Nifty 50 intraday trend">
-                <polyline fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,40 25,36 50,30 75,34 100,22 125,24 150,14 175,10 200,6"/>
-                <circle cx="200" cy="6" r="3.5" fill="#059669"/>
+              <svg class="sparkline-svg" viewBox="0 0 200 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad-nifty" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#10b981" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <polygon fill="url(#grad-nifty)" points="0,32 25,28 50,22 75,26 100,16 125,18 150,10 175,7 200,4 200,36 0,36"/>
+                <polyline fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,32 25,28 50,22 75,26 100,16 125,18 150,10 175,7 200,4"/>
+                <circle cx="200" cy="4" r="2.8" fill="#059669"/>
               </svg>
             </div>
           </article>
 
           <!-- 2. BSE SENSEX -->
-          <article class="index-card">
+          <article class="index-card card-grad-sensex">
+            <div class="card-accent-bar bar-sensex"></div>
             <div class="index-card-header">
               <div>
-                <span class="index-exchange-tag">BSE INDIA</span>
+                <span class="index-exchange-tag tag-sensex">BSE INDIA</span>
                 <h3 class="index-name">BSE SENSEX</h3>
               </div>
               <div class="index-badge pos">+1.08% ▲</div>
@@ -148,26 +157,34 @@
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>Day Low: 83,021.40</span>
-                <span>Day High: 84,045.20</span>
+                <span>L: 83,021.40</span>
+                <span>H: 84,045.20</span>
               </div>
               <div class="range-track">
-                <div class="range-fill" style="left: 0%; width: 85%;"></div>
+                <div class="range-fill fill-sensex" style="width: 85%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
-              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Sensex intraday trend">
-                <polyline fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,38 25,35 50,28 75,30 100,20 125,22 150,12 175,8 200,5"/>
-                <circle cx="200" cy="5" r="3.5" fill="#059669"/>
+              <svg class="sparkline-svg" viewBox="0 0 200 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad-sensex" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <polygon fill="url(#grad-sensex)" points="0,30 25,27 50,20 75,22 100,14 125,16 150,9 175,6 200,3 200,36 0,36"/>
+                <polyline fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,30 25,27 50,20 75,22 100,14 125,16 150,9 175,6 200,3"/>
+                <circle cx="200" cy="3" r="2.8" fill="#2563eb"/>
               </svg>
             </div>
           </article>
 
           <!-- 3. BANK NIFTY -->
-          <article class="index-card">
+          <article class="index-card card-grad-bank">
+            <div class="card-accent-bar bar-bank"></div>
             <div class="index-card-header">
               <div>
-                <span class="index-exchange-tag">NSE SECTORAL</span>
+                <span class="index-exchange-tag tag-bank">NSE BANKING</span>
                 <h3 class="index-name">BANK NIFTY</h3>
               </div>
               <div class="index-badge pos">+2.49% ▲</div>
@@ -178,26 +195,34 @@
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>Day Low: 63,064.40</span>
-                <span>Day High: 64,802.10</span>
+                <span>L: 63,064.40</span>
+                <span>H: 64,802.10</span>
               </div>
               <div class="range-track">
-                <div class="range-fill" style="left: 0%; width: 92%;"></div>
+                <div class="range-fill fill-bank" style="width: 92%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
-              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Bank Nifty intraday trend">
-                <polyline fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,42 25,38 50,26 75,28 100,16 125,18 150,9 175,6 200,3"/>
-                <circle cx="200" cy="3" r="3.5" fill="#059669"/>
+              <svg class="sparkline-svg" viewBox="0 0 200 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad-bank" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#059669" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <polygon fill="url(#grad-bank)" points="0,34 25,30 50,18 75,20 100,12 125,13 150,7 175,5 200,2 200,36 0,36"/>
+                <polyline fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,34 25,30 50,18 75,20 100,12 125,13 150,7 175,5 200,2"/>
+                <circle cx="200" cy="2" r="2.8" fill="#059669"/>
               </svg>
             </div>
           </article>
 
           <!-- 4. NIFTY IT -->
-          <article class="index-card">
+          <article class="index-card card-grad-it">
+            <div class="card-accent-bar bar-it"></div>
             <div class="index-card-header">
               <div>
-                <span class="index-exchange-tag">NSE SECTORAL</span>
+                <span class="index-exchange-tag tag-it">NSE TECH</span>
                 <h3 class="index-name">NIFTY IT</h3>
               </div>
               <div class="index-badge neg">-0.46% ▼</div>
@@ -208,26 +233,34 @@
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>Day Low: 31,180.20</span>
-                <span>Day High: 31,540.00</span>
+                <span>L: 31,180.20</span>
+                <span>H: 31,540.00</span>
               </div>
               <div class="range-track">
-                <div class="range-fill danger" style="left: 0%; width: 38%;"></div>
+                <div class="range-fill fill-it" style="width: 38%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
-              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Nifty IT intraday trend">
-                <polyline fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,15 25,20 50,18 75,28 100,32 125,26 150,35 175,40 200,38"/>
-                <circle cx="200" cy="38" r="3.5" fill="#dc2626"/>
+              <svg class="sparkline-svg" viewBox="0 0 200 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad-it" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#dc2626" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#dc2626" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <polygon fill="url(#grad-it)" points="0,10 25,14 50,13 75,22 100,26 125,20 150,28 175,32 200,30 200,36 0,36"/>
+                <polyline fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,10 25,14 50,13 75,22 100,26 125,20 150,28 175,32 200,30"/>
+                <circle cx="200" cy="30" r="2.8" fill="#dc2626"/>
               </svg>
             </div>
           </article>
 
           <!-- 5. NIFTY MIDCAP 100 -->
-          <article class="index-card">
+          <article class="index-card card-grad-midcap">
+            <div class="card-accent-bar bar-midcap"></div>
             <div class="index-card-header">
               <div>
-                <span class="index-exchange-tag">NSE BROAD</span>
+                <span class="index-exchange-tag tag-midcap">NSE MID-CAP</span>
                 <h3 class="index-name">NIFTY MIDCAP 100</h3>
               </div>
               <div class="index-badge pos">+0.72% ▲</div>
@@ -238,26 +271,34 @@
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>Day Low: 58,031.40</span>
-                <span>Day High: 58,580.00</span>
+                <span>L: 58,031.40</span>
+                <span>H: 58,580.00</span>
               </div>
               <div class="range-track">
-                <div class="range-fill" style="left: 0%; width: 78%;"></div>
+                <div class="range-fill fill-midcap" style="width: 78%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
-              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Nifty Midcap intraday trend">
-                <polyline fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,32 25,30 50,25 75,26 100,18 125,20 150,14 175,10 200,8"/>
-                <circle cx="200" cy="8" r="3.5" fill="#059669"/>
+              <svg class="sparkline-svg" viewBox="0 0 200 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad-midcap" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <polygon fill="url(#grad-midcap)" points="0,26 25,24 50,19 75,21 100,14 125,16 150,11 175,8 200,6 200,36 0,36"/>
+                <polyline fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,26 25,24 50,19 75,21 100,14 125,16 150,11 175,8 200,6"/>
+                <circle cx="200" cy="6" r="2.8" fill="#7c3aed"/>
               </svg>
             </div>
           </article>
 
           <!-- 6. NIFTY SMALLCAP 100 -->
-          <article class="index-card">
+          <article class="index-card card-grad-smallcap">
+            <div class="card-accent-bar bar-smallcap"></div>
             <div class="index-card-header">
               <div>
-                <span class="index-exchange-tag">NSE BROAD</span>
+                <span class="index-exchange-tag tag-smallcap">NSE SMALL-CAP</span>
                 <h3 class="index-name">NIFTY SMALLCAP 100</h3>
               </div>
               <div class="index-badge pos">+1.42% ▲</div>
@@ -268,26 +309,34 @@
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>Day Low: 18,640.00</span>
-                <span>Day High: 18,980.00</span>
+                <span>L: 18,640.00</span>
+                <span>H: 18,980.00</span>
               </div>
               <div class="range-track">
-                <div class="range-fill" style="left: 0%; width: 85%;"></div>
+                <div class="range-fill fill-smallcap" style="width: 85%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
-              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Nifty Smallcap intraday trend">
-                <polyline fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,36 25,32 50,28 75,30 100,19 125,16 150,11 175,7 200,4"/>
-                <circle cx="200" cy="4" r="3.5" fill="#059669"/>
+              <svg class="sparkline-svg" viewBox="0 0 200 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad-smallcap" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#f97316" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#f97316" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <polygon fill="url(#grad-smallcap)" points="0,28 25,25 50,21 75,23 100,15 125,12 150,8 175,5 200,3 200,36 0,36"/>
+                <polyline fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,28 25,25 50,21 75,23 100,15 125,12 150,8 175,5 200,3"/>
+                <circle cx="200" cy="3" r="2.8" fill="#ea580c"/>
               </svg>
             </div>
           </article>
 
           <!-- 7. NIFTY AUTO -->
-          <article class="index-card">
+          <article class="index-card card-grad-auto">
+            <div class="card-accent-bar bar-auto"></div>
             <div class="index-card-header">
               <div>
-                <span class="index-exchange-tag">NSE SECTORAL</span>
+                <span class="index-exchange-tag tag-auto">NSE SECTORAL</span>
                 <h3 class="index-name">NIFTY AUTO</h3>
               </div>
               <div class="index-badge pos">+1.35% ▲</div>
@@ -302,22 +351,30 @@
                 <span>Day High: 25,480.00</span>
               </div>
               <div class="range-track">
-                <div class="range-fill" style="left: 0%; width: 88%;"></div>
+                <div class="range-fill fill-auto" style="width: 88%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
-              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Nifty Auto intraday trend">
-                <polyline fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,35 25,34 50,26 75,22 100,18 125,20 150,12 175,8 200,5"/>
-                <circle cx="200" cy="5" r="3.5" fill="#059669"/>
+              <svg class="sparkline-svg" viewBox="0 0 200 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad-auto" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <polygon fill="url(#grad-auto)" points="0,27 25,26 50,20 75,17 100,14 125,15 150,9 175,6 200,4 200,36 0,36"/>
+                <polyline fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,27 25,26 50,20 75,17 100,14 125,15 150,9 175,6 200,4"/>
+                <circle cx="200" cy="4" r="2.8" fill="#0891b2"/>
               </svg>
             </div>
           </article>
 
           <!-- 8. INDIA VIX -->
-          <article class="index-card">
+          <article class="index-card card-grad-vix">
+            <div class="card-accent-bar bar-vix"></div>
             <div class="index-card-header">
               <div>
-                <span class="index-exchange-tag">VOLATILITY</span>
+                <span class="index-exchange-tag tag-vix">VOLATILITY</span>
                 <h3 class="index-name">INDIA VIX</h3>
               </div>
               <div class="index-badge pos">-3.62% ▼</div>
@@ -332,17 +389,24 @@
                 <span>Day High: 18.25</span>
               </div>
               <div class="range-track">
-                <div class="range-fill" style="left: 0%; width: 32%;"></div>
+                <div class="range-fill fill-vix" style="width: 32%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
-              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="India VIX intraday trend">
-                <polyline fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,15 25,18 50,22 75,20 100,28 125,25 150,34 175,38 200,40"/>
-                <circle cx="200" cy="40" r="3.5" fill="#2563eb"/>
+              <svg class="sparkline-svg" viewBox="0 0 200 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad-vix" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#64748b" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#64748b" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <polygon fill="url(#grad-vix)" points="0,12 25,14 50,17 75,15 100,22 125,19 150,26 175,30 200,32 200,36 0,36"/>
+                <polyline fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,12 25,14 50,17 75,15 100,22 125,19 150,26 175,30 200,32"/>
+                <circle cx="200" cy="32" r="2.8" fill="#475569"/>
               </svg>
             </div>
           </article>
-        </div>
+        </div></div>
       </div>
     </section>
 
@@ -2426,6 +2490,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_14"></script>
+<script src="js/app.js?v=20261122_15"></script>
 </body>
 </html>

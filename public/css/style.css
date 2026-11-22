@@ -7370,3 +7370,267 @@ const overviewCss = `
 .planner-basket-section .basket-title {
   color: #065f46 !important;
 }
+
+
+/* =========================================================================
+   COMPACT & COLORFUL GRADIENT INDEX CARDS (ZERO IDLE SPACE 4x2 MATRIX)
+   ========================================================================= */
+
+.indices-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important; /* Perfect 4x2 Matrix for 8 Cards */
+  gap: 12px !important;
+  margin-top: 14px !important;
+}
+
+.index-card {
+  position: relative !important;
+  border-radius: 12px !important;
+  padding: 10px 12px 8px !important;
+  min-height: 114px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04) !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+  overflow: hidden !important;
+}
+
+.index-card:hover {
+  transform: translateY(-3px) !important;
+}
+
+.card-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 2;
+}
+
+.index-card-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  margin-bottom: 4px !important;
+  gap: 6px !important;
+}
+
+.index-name {
+  font-size: 13.5px !important;
+  font-weight: 850 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.3px !important;
+}
+
+.index-exchange-tag {
+  display: inline-block !important;
+  font-size: 8.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  padding: 1.5px 5px !important;
+  border-radius: 4px !important;
+  margin-bottom: 2px !important;
+  text-transform: uppercase !important;
+}
+
+.index-badge {
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  padding: 2px 6px !important;
+  border-radius: 5px !important;
+  white-space: nowrap !important;
+}
+
+.index-price-row {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 6px !important;
+  margin-bottom: 4px !important;
+}
+
+.index-price {
+  font-size: 16.5px !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+  letter-spacing: -0.4px !important;
+}
+
+.index-diff {
+  font-size: 10px !important;
+  font-weight: 750 !important;
+}
+
+.index-range-bar {
+  margin-bottom: 4px !important;
+}
+
+.range-labels {
+  display: flex !important;
+  justify-content: space-between !important;
+  font-size: 8.5px !important;
+  color: #64748b !important;
+  font-weight: 650 !important;
+  margin-bottom: 2px !important;
+}
+
+.range-track {
+  width: 100% !important;
+  height: 3px !important;
+  background: rgba(0, 0, 0, 0.06) !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+}
+
+.range-fill {
+  height: 100% !important;
+  border-radius: 2px !important;
+}
+
+.index-sparkline-wrap {
+  width: 100% !important;
+  height: 32px !important;
+  margin-top: 2px !important;
+}
+
+.sparkline-svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+/* Individual Gradient Schemes */
+
+/* 1. NIFTY 50 (Emerald - Cyan Gradient) */
+.card-grad-nifty {
+  background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+}
+.card-grad-nifty:hover {
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2) !important;
+  border-color: #10b981 !important;
+}
+.bar-nifty { background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); }
+.tag-nifty { color: #047857 !important; background: rgba(16, 185, 129, 0.12) !important; }
+.fill-nifty { background: linear-gradient(90deg, #10b981, #059669); }
+
+/* 2. BSE SENSEX (Royal Blue - Indigo Gradient) */
+.card-grad-sensex {
+  background: linear-gradient(145deg, #ffffff 0%, #eff6ff 100%) !important;
+  border: 1px solid rgba(59, 130, 246, 0.35) !important;
+}
+.card-grad-sensex:hover {
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2) !important;
+  border-color: #3b82f6 !important;
+}
+.bar-sensex { background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%); }
+.tag-sensex { color: #1d4ed8 !important; background: rgba(59, 130, 246, 0.12) !important; }
+.fill-sensex { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+
+/* 3. BANK NIFTY (Deep Emerald - Teal Gradient) */
+.card-grad-bank {
+  background: linear-gradient(145deg, #ffffff 0%, #ecfdf5 100%) !important;
+  border: 1px solid rgba(5, 150, 105, 0.35) !important;
+}
+.card-grad-bank:hover {
+  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.2) !important;
+  border-color: #059669 !important;
+}
+.bar-bank { background: linear-gradient(90deg, #059669 0%, #10b981 100%); }
+.tag-bank { color: #065f46 !important; background: rgba(5, 150, 105, 0.12) !important; }
+.fill-bank { background: linear-gradient(90deg, #059669, #10b981); }
+
+/* 4. NIFTY IT (Rose - Coral Tech Gradient) */
+.card-grad-it {
+  background: linear-gradient(145deg, #ffffff 0%, #fff1f2 100%) !important;
+  border: 1px solid rgba(244, 63, 94, 0.35) !important;
+}
+.card-grad-it:hover {
+  box-shadow: 0 8px 24px rgba(244, 63, 94, 0.2) !important;
+  border-color: #f43f5e !important;
+}
+.bar-it { background: linear-gradient(90deg, #f43f5e 0%, #fb7185 100%); }
+.tag-it { color: #be123c !important; background: rgba(244, 63, 94, 0.12) !important; }
+.fill-it { background: linear-gradient(90deg, #f43f5e, #dc2626); }
+
+/* 5. NIFTY MIDCAP 100 (Purple - Fuchsia Gradient) */
+.card-grad-midcap {
+  background: linear-gradient(145deg, #ffffff 0%, #faf5ff 100%) !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+}
+.card-grad-midcap:hover {
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2) !important;
+  border-color: #a855f7 !important;
+}
+.bar-midcap { background: linear-gradient(90deg, #8b5cf6 0%, #d946ef 100%); }
+.tag-midcap { color: #6d28d9 !important; background: rgba(168, 85, 247, 0.12) !important; }
+.fill-midcap { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+
+/* 6. NIFTY SMALLCAP 100 (Orange - Amber Gradient) */
+.card-grad-smallcap {
+  background: linear-gradient(145deg, #ffffff 0%, #fff7ed 100%) !important;
+  border: 1px solid rgba(249, 115, 22, 0.35) !important;
+}
+.card-grad-smallcap:hover {
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.2) !important;
+  border-color: #f97316 !important;
+}
+.bar-smallcap { background: linear-gradient(90deg, #f97316 0%, #eab308 100%); }
+.tag-smallcap { color: #c2410c !important; background: rgba(249, 115, 22, 0.12) !important; }
+.fill-smallcap { background: linear-gradient(90deg, #f97316, #ea580c); }
+
+/* 7. NIFTY AUTO (Cyan - Teal Gradient) */
+.card-grad-auto {
+  background: linear-gradient(145deg, #ffffff 0%, #f0fdfa 100%) !important;
+  border: 1px solid rgba(20, 184, 166, 0.35) !important;
+}
+.card-grad-auto:hover {
+  box-shadow: 0 8px 24px rgba(20, 184, 166, 0.2) !important;
+  border-color: #14b8a6 !important;
+}
+.bar-auto { background: linear-gradient(90deg, #06b6d4 0%, #0284c7 100%); }
+.tag-auto { color: #0f766e !important; background: rgba(20, 184, 166, 0.12) !important; }
+.fill-auto { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+
+/* 8. INDIA VIX (Slate - Cobalt Gradient) */
+.card-grad-vix {
+  background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%) !important;
+  border: 1px solid rgba(100, 116, 139, 0.35) !important;
+}
+.card-grad-vix:hover {
+  box-shadow: 0 8px 24px rgba(100, 116, 139, 0.2) !important;
+  border-color: #64748b !important;
+}
+.bar-vix { background: linear-gradient(90deg, #64748b 0%, #3b82f6 100%); }
+.tag-vix { color: #334155 !important; background: rgba(100, 116, 139, 0.12) !important; }
+.fill-vix { background: linear-gradient(90deg, #64748b, #475569); }
+
+/* Responsive arrangement: ensure no idle space across all breakpoints */
+@media (max-width: 1200px) {
+  .indices-cards-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .indices-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important; /* 2x4 Matrix on tablets = 0 idle space */
+    gap: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .indices-cards-grid {
+    grid-template-columns: 1fr 1fr !important; /* compact 2 columns on mobile = 0 idle space */
+    gap: 8px !important;
+  }
+  .index-card {
+    padding: 8px 10px 6px !important;
+  }
+  .index-price {
+    font-size: 14.5px !important;
+  }
+}
