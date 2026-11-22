@@ -6162,3 +6162,448 @@ const overviewCss = `
   .inst-metrics-banner { grid-template-columns: 1fr; }
   .overview-indices-ribbon { grid-template-columns: repeat(2, 1fr); }
 }
+
+
+/* =========================================================================
+   GLOBAL STANDARD LIGHT THEME & HEADER DESIGN ENHANCEMENTS
+   ========================================================================= */
+
+/* Top Utility Bar & Branding Light / High-Contrast */
+.portal-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #0f172a;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -0.5px;
+}
+
+.brand-logo-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #2563eb 0%, #059669 100%);
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+
+.brand-text {
+  color: #0f172a;
+}
+
+.brand-text strong {
+  color: #2563eb !important;
+}
+
+.brand-edition {
+  font-size: 10px;
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 850;
+  letter-spacing: 0.6px;
+  margin-left: 4px;
+}
+
+/* Global Light Sub-Navbar */
+.portal-sub-navbar {
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.subnav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 16px;
+  color: #334155 !important;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-bottom: 3px solid transparent;
+  transition: all 0.15s ease;
+  border-radius: 0;
+}
+
+.subnav-link:hover {
+  color: #0f172a !important;
+  background: #f8fafc !important;
+}
+
+.subnav-link.active {
+  color: #1d4ed8 !important;
+  border-bottom: 3px solid #2563eb !important;
+  background: #eff6ff !important;
+  font-weight: 850 !important;
+}
+
+/* Highlighted Eyebrow Badges Across All Pages */
+.portal-eyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  margin-bottom: 6px !important;
+}
+
+.eyebrow-home {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.eyebrow-gateways {
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+.eyebrow-pulse {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+}
+
+.eyebrow-terminal {
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+.eyebrow-health {
+  background: #fff1f2 !important;
+  color: #be123c !important;
+  border: 1px solid #fecdd3 !important;
+}
+
+.eyebrow-overview {
+  background: #ecfdf5 !important;
+  color: #047857 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+.eyebrow-planner {
+  background: #fef3c7 !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+}
+
+.eyebrow-movers {
+  background: #fff7ed !important;
+  color: #c2410c !important;
+  border: 1px solid #fed7aa !important;
+}
+
+.eyebrow-funds {
+  background: #f5f3ff !important;
+  color: #6d28d9 !important;
+  border: 1px solid #ddd6fe !important;
+}
+
+.eyebrow-news {
+  background: #f0fdf4 !important;
+  color: #15803d !important;
+  border: 1px solid #bbf7d0 !important;
+}
+
+/* Executive Pulse Grid on Home */
+.executive-pulse-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.pulse-summary-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pulse-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.pulse-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.pulse-tag {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.4px;
+}
+
+.pulse-tag.tag-fii {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.pulse-tag.tag-movers {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+}
+
+.pulse-tag.tag-news {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.pulse-status-badge {
+  font-size: 11px;
+  font-weight: 850;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.pulse-status-badge.pos {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.pulse-status-badge.neutral {
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.pulse-card-title {
+  font-size: 16.5px;
+  font-weight: 850;
+  color: #0f172a;
+  margin: 0 0 8px;
+  line-height: 1.35;
+}
+
+.pulse-card-desc {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.pulse-metrics-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.metric-pill {
+  flex: 1;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metric-pill span {
+  font-size: 10.5px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.metric-pill strong {
+  font-size: 12.5px;
+  font-weight: 850;
+  color: #0f172a;
+}
+
+.metric-pill strong.pos {
+  color: #047857;
+}
+
+.pulse-bullet-list {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: #334155;
+  margin-bottom: 16px;
+}
+
+.pulse-btn {
+  width: 100%;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.pulse-btn:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+  color: #1e40af;
+}
+
+/* Movers 52-Week Range Mini */
+.range-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.range-mini-bar {
+  flex: 1;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  min-width: 60px;
+}
+
+.mini-fill {
+  height: 100%;
+  background: #059669;
+  border-radius: 3px;
+}
+
+.mini-fill.danger {
+  background: #dc2626;
+}
+
+.turnover-txt {
+  color: #1d4ed8;
+  font-weight: 800;
+}
+
+.turnover-highlight {
+  color: #1d4ed8;
+  font-weight: 850;
+  font-size: 14px;
+}
+
+/* Mutual Funds Radar Enhancements */
+.badge-flexi { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-small { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+.badge-mid { background: #fdf4ff; color: #a21caf; border: 1px solid #f5d0fe; }
+.badge-blue { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.badge-index { background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; }
+
+.mf-highlights-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin: 12px 0;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+.mf-highlights-bar strong {
+  color: #0f172a;
+}
+
+.mf-actions-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mf-sip-btn {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 800 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+  flex: 1;
+}
+
+.mf-sip-btn:hover {
+  background: #1d4ed8 !important;
+}
+
+/* News Wire Footer Meta */
+.news-footer-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 11.5px;
+}
+
+.source-tag {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.impact-tag {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.impact-tag.pos {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.impact-tag.neutral {
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+@media (max-width: 1024px) {
+  .executive-pulse-grid {
+    grid-template-columns: 1fr;
+  }
+}
