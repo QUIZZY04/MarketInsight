@@ -732,6 +732,270 @@ function renderStockData(data) {
 }
 
 const DEMO_STOCK_STORE = {
+  TRENT: {
+    symbol: "TRENT",
+    name: "Trent Limited",
+    price: 6850.00,
+    prevClose: 6780.00,
+    changePercent: 1.03,
+    open: 6790.00,
+    high: 6890.00,
+    low: 6760.00,
+    volume: 1250000,
+    mktCap: 2435000000000,
+    pe: 85.0,
+    pb: 22.1,
+    high52: 7450.00,
+    low52: 2850.00,
+    divYield: 0.07,
+    sector: "Consumer Discretionary",
+    industry: "Retail - Apparel & Lifestyle",
+    debtToEquity: 0.08,
+    currentRatio: 1.65,
+    interestCoverage: 12.4,
+    totalDebt: 6500000000,
+    workingCapital: 28000000000,
+    revenueGrowthYoy: 54.2,
+    profitGrowthYoy: 62.8,
+    revenueGrowthQoq: 8.5,
+    epsGrowthYoy: 58.0,
+    distanceFrom52wHighPct: -8.1,
+    distanceFrom52wLowPct: 140.4,
+    priceVs50dmaPct: 4.5,
+    priceVs200dmaPct: 22.8,
+    return1w: 2.1,
+    return1m: 4.8,
+    return3m: 14.5,
+    return6m: 35.2,
+    return1y: 65.0,
+    return3y: 180.0,
+    return5y: 700.0,
+    promoterHolding: 37.0,
+    fiiHolding: 28.5,
+    diiHolding: 17.2,
+    mutualFundsHolding: 10.4,
+    publicHolding: 17.3
+  },
+  PIDILITIND: {
+    symbol: "PIDILITIND",
+    name: "Pidilite Industries Ltd",
+    price: 2890.00,
+    prevClose: 2865.00,
+    changePercent: 0.87,
+    open: 2870.00,
+    high: 2910.00,
+    low: 2860.00,
+    volume: 820000,
+    mktCap: 1468000000000,
+    pe: 72.1,
+    pb: 17.6,
+    high52: 3250.00,
+    low52: 2480.00,
+    divYield: 0.55,
+    sector: "Materials",
+    industry: "Specialty Chemicals & Adhesives",
+    debtToEquity: 0.02,
+    currentRatio: 2.15,
+    interestCoverage: 28.5,
+    totalDebt: 2800000000,
+    workingCapital: 32000000000,
+    revenueGrowthYoy: 14.8,
+    profitGrowthYoy: 18.2,
+    revenueGrowthQoq: 3.4,
+    epsGrowthYoy: 17.5,
+    distanceFrom52wHighPct: -11.1,
+    distanceFrom52wLowPct: 16.5,
+    priceVs50dmaPct: 1.2,
+    priceVs200dmaPct: 3.8,
+    return1w: 0.8,
+    return1m: 2.6,
+    return3m: 5.4,
+    return6m: 11.2,
+    return1y: 18.0,
+    return3y: 52.0,
+    return5y: 145.0,
+    promoterHolding: 69.8,
+    fiiHolding: 11.2,
+    diiHolding: 8.5,
+    mutualFundsHolding: 4.8,
+    publicHolding: 10.5
+  },
+  ZOMATO: {
+    symbol: "ZOMATO",
+    name: "Zomato Limited",
+    price: 265.00,
+    prevClose: 260.50,
+    changePercent: 1.73,
+    open: 262.00,
+    high: 268.00,
+    low: 260.00,
+    volume: 38500000,
+    mktCap: 2340000000000,
+    pe: 185.0,
+    pb: 8.8,
+    high52: 298.20,
+    low52: 125.00,
+    divYield: 0.00,
+    sector: "Consumer Services",
+    industry: "Online Food & Quick Commerce",
+    debtToEquity: 0.01,
+    currentRatio: 4.25,
+    interestCoverage: 15.0,
+    totalDebt: 1500000000,
+    workingCapital: 125000000000,
+    revenueGrowthYoy: 68.5,
+    profitGrowthYoy: 142.0,
+    revenueGrowthQoq: 14.2,
+    epsGrowthYoy: 125.0,
+    distanceFrom52wHighPct: -11.1,
+    distanceFrom52wLowPct: 112.0,
+    priceVs50dmaPct: 3.2,
+    priceVs200dmaPct: 18.5,
+    return1w: 2.4,
+    return1m: 6.8,
+    return3m: 18.2,
+    return6m: 38.0,
+    return1y: 52.0,
+    return3y: 110.0,
+    return5y: 140.0,
+    promoterHolding: 0.0,
+    fiiHolding: 54.2,
+    diiHolding: 18.5,
+    mutualFundsHolding: 12.8,
+    publicHolding: 27.3
+  },
+  IREDA: {
+    symbol: "IREDA",
+    name: "Indian Renewable Energy Dev Agency",
+    price: 215.00,
+    prevClose: 210.80,
+    changePercent: 1.99,
+    open: 212.00,
+    high: 218.50,
+    low: 210.00,
+    volume: 18500000,
+    mktCap: 577000000000,
+    pe: 22.4,
+    pb: 4.1,
+    high52: 310.00,
+    low52: 98.00,
+    divYield: 0.00,
+    sector: "Financials",
+    industry: "Renewable Energy Financing / NBFC",
+    debtToEquity: 5.40,
+    currentRatio: 1.45,
+    interestCoverage: 1.8,
+    totalDebt: 450000000000,
+    workingCapital: 35000000000,
+    revenueGrowthYoy: 38.2,
+    profitGrowthYoy: 36.5,
+    revenueGrowthQoq: 7.2,
+    epsGrowthYoy: 32.0,
+    distanceFrom52wHighPct: -30.6,
+    distanceFrom52wLowPct: 119.4,
+    priceVs50dmaPct: 2.4,
+    priceVs200dmaPct: 12.8,
+    return1w: 2.8,
+    return1m: 7.4,
+    return3m: 14.2,
+    return6m: 42.0,
+    return1y: 85.0,
+    return3y: 160.0,
+    return5y: 220.0,
+    promoterHolding: 75.0,
+    fiiHolding: 4.5,
+    diiHolding: 2.8,
+    mutualFundsHolding: 1.9,
+    publicHolding: 17.7
+  },
+  KAYNES: {
+    symbol: "KAYNES",
+    name: "Kaynes Technology India Ltd",
+    price: 7200.00,
+    prevClose: 7080.00,
+    changePercent: 1.69,
+    open: 7100.00,
+    high: 7280.00,
+    low: 7050.00,
+    volume: 480000,
+    mktCap: 460000000000,
+    pe: 88.5,
+    pb: 14.2,
+    high52: 7850.00,
+    low52: 2450.00,
+    divYield: 0.00,
+    sector: "Industrials & Technology",
+    industry: "Electronics Manufacturing Services (EMS)",
+    debtToEquity: 0.15,
+    currentRatio: 2.80,
+    interestCoverage: 8.5,
+    totalDebt: 3200000000,
+    workingCapital: 18500000000,
+    revenueGrowthYoy: 58.4,
+    profitGrowthYoy: 65.0,
+    revenueGrowthQoq: 11.2,
+    epsGrowthYoy: 62.0,
+    distanceFrom52wHighPct: -8.3,
+    distanceFrom52wLowPct: 193.9,
+    priceVs50dmaPct: 5.2,
+    priceVs200dmaPct: 28.5,
+    return1w: 3.1,
+    return1m: 8.5,
+    return3m: 22.0,
+    return6m: 48.0,
+    return1y: 72.0,
+    return3y: 210.0,
+    return5y: 450.0,
+    promoterHolding: 57.8,
+    fiiHolding: 14.2,
+    diiHolding: 18.5,
+    mutualFundsHolding: 14.2,
+    publicHolding: 9.5
+  },
+  RAILTEL: {
+    symbol: "RAILTEL",
+    name: "RailTel Corporation of India Ltd",
+    price: 410.00,
+    prevClose: 402.50,
+    changePercent: 1.86,
+    open: 405.00,
+    high: 415.00,
+    low: 401.00,
+    volume: 4200000,
+    mktCap: 131500000000,
+    pe: 32.5,
+    pb: 5.1,
+    high52: 618.00,
+    low52: 285.00,
+    divYield: 1.46,
+    sector: "Telecommunications",
+    industry: "Telecom Infrastructure & Data Services",
+    debtToEquity: 0.00,
+    currentRatio: 1.95,
+    interestCoverage: 45.0,
+    totalDebt: 0,
+    workingCapital: 14500000000,
+    revenueGrowthYoy: 26.5,
+    profitGrowthYoy: 28.0,
+    revenueGrowthQoq: 4.8,
+    epsGrowthYoy: 27.2,
+    distanceFrom52wHighPct: -33.7,
+    distanceFrom52wLowPct: 43.9,
+    priceVs50dmaPct: 1.8,
+    priceVs200dmaPct: 6.5,
+    return1w: 1.5,
+    return1m: 4.2,
+    return3m: 9.8,
+    return6m: 18.5,
+    return1y: 48.0,
+    return3y: 165.0,
+    return5y: 240.0,
+    promoterHolding: 72.8,
+    fiiHolding: 2.4,
+    diiHolding: 4.5,
+    mutualFundsHolding: 3.2,
+    publicHolding: 20.3
+  },
   RELIANCE: {
     symbol: "RELIANCE",
     name: "Reliance Industries Ltd",
@@ -2626,677 +2890,899 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
   const container = document.getElementById("basketTablesContainer");
   if (!container) return;
 
-  // ============================================================
-  //  COMPREHENSIVE INSTRUMENT CATALOG — Nov 2026
-  //  Each instrument: price, valuation, returns, quality, basis
-  // ============================================================
-  let stocksList = [];
-  let fundsList  = [];
-  let otherList  = [];
+  // ── INSTRUMENT CATALOG PER RISK PROFILE (PROPER LARGE, MID, SMALL CAP MIX) ──
+  let stocksList = [], fundsList = [], otherList = [];
+  let capSummary = { large: 0, mid: 0, small: 0 };
 
-  // ---- CONSERVATIVE BASKET ----
   if (currentLumpRisk === 'conservative') {
+    // 70% Large Cap, 20% Mid Cap, 10% Small Cap
+    capSummary = { large: 70, mid: 20, small: 10 };
     stocksList = [
       {
-        sym: "HDFCBANK", name: "HDFC Bank Limited",
-        price: "₹846.00", mktCap: "₹6.47L Cr", sec: "Private Banking",
-        pe: "19.4x", pb: "2.3x", roe: "16.8%", debtEq: "7.8x (bank)", divYield: "1.18%",
-        ret1y: "+26.0%", ret3y: "+44.0%", ret5y: "+78.0%",
-        qualityScore: 88, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "India's largest private sector bank trading at a 15-year valuation discount (P/B 2.3x vs 10yr avg 3.4x) post HDFC merger. CD ratio normalizing from 110% → 85% over next 6 quarters will structurally re-rate the stock. Net NPA at 0.33% — best-in-class among Tier-1 banks. GNPA declining trajectory 1.26% → <1% by FY27.",
-        futureCatalyst: "CD ratio normalization unlocking ₹2.1L Cr deposit growth headroom; insurance & HDB Financial Services IPO unlocking embedded subsidiaries value; RBI rate cut cycle to expand NIM by 15-20 bps by FY27; merger synergies yet to fully reflect in financials.",
-        macroAlignment: "Direct beneficiary of India's formalization of credit and rising middle-class mortgage demand."
+        sym: "HDFCBANK", name: "HDFC Bank Limited", cap: "Large", wt: 25, price: "₹846.00",
+        mktCap: "₹6.47L Cr", pe: "19.4x", pb: "2.3x", roe: "16.8%", divY: "1.18%", debtEq: "7.8x (bank)",
+        ret1y: "+26.0%", ret3y: "+44.0%", ret5y: "+78.0%", qualityScore: 88, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "Private Banking",
+        basis: "India's premier private banking franchise trading at a 15-year valuation low (P/B 2.3x vs 10Y avg 3.4x). Post-merger CD ratio normalizing from 110% to 85% unlocks ₹2L Cr deposit expansion. Net NPA at 0.33% is the lowest among Tier-1 Indian lenders.",
+        catalyst: "CD ratio normalization driving 15-20 bps NIM expansion by FY27; HDB Financial Services IPO unlocking embedded subsidiary valuation; steady 18% credit expansion in retail mortgages.",
+        macro: "Direct beneficiary of formal credit expansion across India's middle class."
       },
       {
-        sym: "RELIANCE", name: "Reliance Industries Ltd",
-        price: "₹1,377.50", mktCap: "₹18.59L Cr", sec: "Conglomerate",
-        pe: "24.1x", pb: "2.1x", roe: "9.4%", debtEq: "0.42x", divYield: "0.37%",
-        ret1y: "+19.8%", ret3y: "+42.0%", ret5y: "+84.0%",
-        qualityScore: 84, qualityRating: "PREMIUM QUALITY",
-        selectionBasis: "India's most diversified conglomerate — O2C + Jio (500M+ subscribers) + Retail (18,000+ stores) + Green Energy (100GW target by 2030). Multi-engine free cash flow generation provides defensive stability for conservative portfolios. 5G capex cycle peaked; now FCF harvest phase for Jio.",
-        futureCatalyst: "New Energy (solar panels, green hydrogen, electrolyzers) targeting ₹5,000-cr EBITDA by FY28; Jio Financial Services scaling; Retail IPO potential unlocking subsidiary value; Jio AirFiber targeting 100M homes by FY28.",
-        macroAlignment: "Structurally positioned across all India mega-themes: digital connectivity, clean energy, organized retail."
+        sym: "RELIANCE", name: "Reliance Industries Ltd", cap: "Large", wt: 25, price: "₹1,377.50",
+        mktCap: "₹18.59L Cr", pe: "24.1x", pb: "2.1x", roe: "9.4%", divY: "0.37%", debtEq: "0.42x",
+        ret1y: "+19.8%", ret3y: "+42.0%", ret5y: "+84.0%", qualityScore: 84, qualityRating: "PREMIUM QUALITY",
+        sec: "Conglomerate & Energy",
+        basis: "India's highest free cash-generating enterprise. Jio (500M+ telecom subs) and Reliance Retail (18,000+ stores) now generate over 50% of EBITDA, shielding the balance sheet from global oil volatility.",
+        catalyst: "5G capex cycle peaked; Jio entering massive cash harvest phase; New Energy (solar modules, green hydrogen) targeting ₹5,000 Cr EBITDA by FY28; JioAirFiber scaling to 100M homes.",
+        macro: "Rides every major secular tailwind: telecom digitalization, organized retail, green energy."
       },
       {
-        sym: "ITC", name: "ITC Limited",
-        price: "₹299.10", mktCap: "₹3.73L Cr", sec: "Consumer FMCG",
-        pe: "18.8x", pb: "5.2x", roe: "27.6%", debtEq: "0.00x", divYield: "3.85%",
-        ret1y: "+15.5%", ret3y: "+34.0%", ret5y: "+92.0%",
-        qualityScore: 86, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "Zero-debt FMCG powerhouse with ₹25,000 Cr+ cash on balance sheet. Highest dividend yield among Nifty-50 (3.85%). Hotels demerger (ITC Hotels listing) creates binary value-unlock catalyst. FMCG segment crossing ₹20,000 Cr revenue with 10%+ margins. Cigarette volumes inflecting post-GST stabilization.",
-        futureCatalyst: "ITC Hotels demerger and separate NSE listing unlocking real estate + hospitality NAV; FMCG segment margin expansion 10% → 15% by FY27; agri-business vertical growing 20% YoY; paperboards capacity expansion.",
-        macroAlignment: "Defensive allocation with high dividend yield acting as buffer in market downturns."
+        sym: "ITC", name: "ITC Limited", cap: "Large", wt: 20, price: "₹299.10",
+        mktCap: "₹3.73L Cr", pe: "18.8x", pb: "5.2x", roe: "27.6%", divY: "3.85%", debtEq: "0.00x",
+        ret1y: "+15.5%", ret3y: "+34.0%", ret5y: "+92.0%", qualityScore: 86, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "Consumer FMCG",
+        basis: "Zero-debt FMCG powerhouse boasting ₹25,000 Cr+ liquid cash. Highest dividend yield among Nifty 50 constituents (3.85%). Cigarette volume growth is stable post-GST rationalization while FMCG revenues exceed ₹20,000 Cr.",
+        catalyst: "ITC Hotels separate NSE listing unlocking hospitality NAV; FMCG EBITDA margins expanding 10% → 15%; agri-business exports compounding at 20% YoY.",
+        macro: "Defensive cash flows with generous dividend yield providing portfolio downside cushioning."
       },
       {
-        sym: "INFY", name: "Infosys Limited",
-        price: "₹1,098.00", mktCap: "₹4.56L Cr", sec: "IT Services",
-        pe: "22.4x", pb: "7.1x", roe: "32.5%", debtEq: "0.00x", divYield: "2.42%",
-        ret1y: "+12.0%", ret3y: "+22.0%", ret5y: "+45.0%",
-        qualityScore: 83, qualityRating: "HIGH QUALITY",
-        selectionBasis: "Debt-free IT bellwether with consistent 20%+ ROE and ₹35,000 Cr+ free cash flow annually. Revenue guidance upgraded to 4.5-5% for FY27 — indicating AI deal momentum recovery. 65 large deal wins in H1 FY27. Buyback and dividend payout ratio ~90% of FCF rewards long-term shareholders consistently.",
-        futureCatalyst: "Generative AI & enterprise cloud transformation driving new deal cycle with 40%+ AI-augmented services by FY28; margin recovery to 22-23% from current 20.8%; Cobalt cloud platform differentiation vs peers.",
-        macroAlignment: "USD-earning export business provides natural INR depreciation hedge for the portfolio."
+        sym: "PIDILITIND", name: "Pidilite Industries Ltd", cap: "Mid", wt: 10, price: "₹2,890.00",
+        mktCap: "₹1.47L Cr", pe: "72.1x", pb: "17.6x", roe: "25.4%", divY: "0.55%", debtEq: "0.02x",
+        ret1y: "+18.0%", ret3y: "+52.0%", ret5y: "+145.0%", qualityScore: 85, qualityRating: "PREMIUM QUALITY",
+        sec: "Specialty Chemicals",
+        basis: "Near-monopoly market share (70%+) in consumer adhesives with iconic brand Fevicol. Pricing power is unmatched in Indian consumer materials. Negligible debt and steady 25%+ ROE across economic cycles.",
+        catalyst: "Booming Indian construction & residential real estate upcycle driving demand; waterproof chemicals expanding rapidly; ₹200 Cr+ annual new product launches.",
+        macro: "Essential building material company benefiting from urban housing revival."
+      },
+      {
+        sym: "TATAPOWER", name: "Tata Power Company Ltd", cap: "Mid", wt: 10, price: "₹340.00",
+        mktCap: "₹1.08L Cr", pe: "28.5x", pb: "3.8x", roe: "14.2%", divY: "0.44%", debtEq: "1.35x",
+        ret1y: "+28.5%", ret3y: "+65.0%", ret5y: "+240.0%", qualityScore: 80, qualityRating: "HIGH QUALITY",
+        sec: "Clean Energy & Utilities",
+        basis: "India's largest integrated renewable energy utility with 14GW operational and 10GW under construction. #1 in Indian rooftop solar with over 1.2M installations. Supported by Tata Group corporate backing.",
+        catalyst: "Execution of 10GW green power pipeline adding ₹8,000 Cr annual EBITDA by FY28; 4GW domestic solar module factory enjoying PLI subsidies; 7GW pumped hydro energy storage.",
+        macro: "Direct beneficiary of India's 500GW national green energy target by 2030."
+      },
+      {
+        sym: "RAILTEL", name: "RailTel Corporation of India", cap: "Small", wt: 10, price: "₹410.00",
+        mktCap: "₹13,150 Cr", pe: "32.5x", pb: "5.1x", roe: "15.8%", divY: "1.46%", debtEq: "0.00x",
+        ret1y: "+48.0%", ret3y: "+165.0%", ret5y: "+240.0%", qualityScore: 78, qualityRating: "HIGH QUALITY",
+        sec: "Telecom Infrastructure",
+        basis: "Exclusive optical fibre network spanning 65,000+ km along Indian Railway tracks. Zero private competition possible on railway right-of-way. Completely debt-free PSU with high cash reserves.",
+        catalyst: "National Broadband Mission expansion; smart city and defence secure communications contracts; edge data center rollout; 5G railway signaling upgrades.",
+        macro: "India's digital connectivity backbone infrastructure with government-backed monopoly."
       }
     ];
     fundsList = [
       {
-        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth",
-        nav: "₹252.61", aum: "₹18,200 Cr", expRatio: "0.10%", wt: 55,
-        cat: "Large Cap Index",
-        ret1y: "+20.4%", ret3y: "+16.2%", ret5y: "+17.5%",
-        sharpe: "1.18", alpha: "0.0%", beta: "1.00",
-        fundManager: "Passively Managed (Nifty 50 Replication)",
-        mandateStyle: "Passive / Index Tracking",
-        selectionBasis: "Lowest total expense ratio (0.10%) in category. Zero fund manager risk. Nifty 50 has delivered 16-17% CAGR over 25 years — structurally the most cost-efficient core equity exposure for conservative investors. Tracking error <0.05% — industry best.",
-        futureCatalyst: "India's GDP growth 7%+ sustaining corporate earnings; Nifty 50 EPS growing at 14-15% YoY through FY28; FII inflows accelerating as Indian weight in MSCI EM increases."
+        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth", wt: 55, nav: "₹252.61",
+        cat: "Large Cap Index", aum: "₹18,200 Cr", exp: "0.10%", sharpe: "1.18", alpha: "0.0%",
+        ret1y: "+20.4%", ret3y: "+16.2%", ret5y: "+17.5%", manager: "Nirman Morakhia (Passive Replication)",
+        basis: "Rock-bottom expense ratio of 0.10% with industry-leading tracking error (<0.05%). Replicates India's top 50 corporate leaders, delivering 16-17% long-term CAGR with zero fund-manager risk.",
+        catalyst: "India's rising MSCI Emerging Markets weighting attracting billions in passive institutional foreign flows."
       },
       {
-        code: "119598", name: "SBI Bluechip Fund — Direct Growth",
-        nav: "₹106.80", aum: "₹51,200 Cr", expRatio: "0.78%", wt: 45,
-        cat: "Large Cap Equity",
-        ret1y: "+18.2%", ret3y: "+15.6%", ret5y: "+16.8%",
-        sharpe: "1.24", alpha: "+1.8%", beta: "0.92",
-        fundManager: "Sohini Andani (22-yr track record)",
-        mandateStyle: "Active Large Cap / Quality Bias",
-        selectionBasis: "India's largest large-cap active fund (₹51,200 Cr AUM) with consistent 1st quartile performance across 5, 7, 10 year rolling periods. Beta 0.92 provides ~8% downside protection vs Nifty during corrections. Manager Sohini Andani's quality-tilt philosophy perfectly suited for conservative risk profiles.",
-        futureCatalyst: "Quality factor outperformance in uncertain macro environment; large-cap leadership as mid/small cap valuations get stretched; SEBI large-cap mandate ensures portfolio stays defensive."
+        code: "119598", name: "SBI Bluechip Fund — Direct Growth", wt: 45, nav: "₹106.80",
+        cat: "Large Cap Active", aum: "₹51,200 Cr", exp: "0.78%", sharpe: "1.24", alpha: "+1.8%",
+        ret1y: "+18.2%", ret3y: "+15.6%", ret5y: "+16.8%", manager: "Sohini Andani (22Y Experience)",
+        basis: "India's premier bluechip fund with a disciplined quality-growth mandate. Low beta of 0.92 provides critical downside containment during broader market drawdowns.",
+        catalyst: "Large-cap valuations offer superior safety margin over mid/small cap multiples in the current market cycle."
       }
     ];
     otherList = [
       {
-        inst: "Sovereign Gold Bonds (SGB) — RBI Series", yield: "Gold ₹1,26,450/10g + 2.5% p.a. interest",
-        wt: 35, role: "Inflation hedge + sovereign guarantee",
-        ret5y: "+14.2% CAGR (INR)", taxNote: "0% LTCG at maturity (held to 8-yr tenor) vs 20% physical gold",
-        macroNote: "USD/INR depreciation of ₹92.68 supports gold in INR terms; global recession fears & geopolitical risk add to gold demand thesis.",
-        selectionBasis: "SGBs offer 2.5% annual interest on face value IN ADDITION to gold price appreciation — the only instrument with dual return. Zero LTCG at maturity makes effective post-tax return 20-25% superior to physical gold ETFs for the same gold price movement."
+        inst: "Sovereign Gold Bonds (SGB) — RBI Tranches", wt: 35, type: "G", yield: "₹1,26,450 / 10g + 2.5% p.a.",
+        ret5y: "+14.2% CAGR", taxNote: "0% LTCG tax at 8-year maturity",
+        basis: "The single most tax-efficient gold vehicle globally. Earns 2.5% sovereign annual interest paid semi-annually on top of gold price appreciation, with full LTCG tax exemption at maturity.",
+        macro: "Shields real purchasing power against USD/INR currency depreciation (₹92.68) and global inflation."
       },
       {
-        inst: "7.18% GOI 2033 / Bharat Bond ETF (Apr-2033)", yield: "7.15% YTM",
-        wt: 45, role: "Sovereign risk-free income anchor",
-        ret5y: "+7.2% CAGR", taxNote: "Bharat Bond ETF: Indexation benefit reduces effective tax to 1-2% for 10yr holding",
-        macroNote: "RBI repo rate at 6.5%; rate cut cycle expected → bond prices rise → capital gains on top of yield. 10-yr G-Sec spread vs US Treasury at 250 bps is historically high — FII bond inflows likely.",
-        selectionBasis: "Bharat Bond ETF provides AAA PSU bond diversification within single ETF structure. YTM of 7.15% with near-zero credit risk. Indexation post 3yr holding lowers effective tax rate structurally. Bond duration of 7.8 years — optimal for a 7-8yr conservative holding period."
+        inst: "Bharat Bond ETF 2033 / 7.18% GS 2033", wt: 45, type: "D", yield: "7.15% YTM",
+        ret5y: "+7.2% CAGR", taxNote: "AAA PSU Sovereign Security",
+        basis: "Invests exclusively in AAA-rated public sector bonds and Government of India securities. Offers 7.15% risk-free yield with absolute safety of principal.",
+        macro: "RBI monetary easing cycle will generate capital appreciation on bond prices on top of coupon yields."
       },
       {
-        inst: "ABSL Liquid Fund / Mirae Asset Overnight Fund", yield: "6.75-6.85% annualized",
-        wt: 20, role: "Tactical liquidity buffer",
-        ret5y: "+6.1% CAGR", taxNote: "Taxable at slab rate (liquid funds) — optimal for short-term parking <3yr",
-        macroNote: "RBI liquidity corridor tightened; call money rates elevated — liquid/overnight funds benefit directly with same-day redemption facility.",
-        selectionBasis: "Capital safety with daily liquidity. Used as tactical buffer to deploy into equities during significant corrections (>10% drawdowns). Overnight fund has zero duration risk — NAV cannot fall unlike debt funds."
+        inst: "ABSL Liquid / Mirae Asset Overnight Fund", wt: 20, type: "D", yield: "6.80% Annualized",
+        ret5y: "+6.1% CAGR", taxNote: "Daily T+1 liquidity",
+        basis: "Liquid capital preservation tool providing instant dry powder to capitalize on market corrections (>10% dips) without equity exit penalties.",
+        macro: "Protects liquidity while earning near-repo-rate returns with zero mark-to-market volatility."
       }
     ];
 
-  // ---- MODERATE BASKET ----
   } else if (currentLumpRisk === 'moderate') {
+    // 50% Large Cap, 30% Mid Cap, 20% Small Cap
+    capSummary = { large: 50, mid: 30, small: 20 };
     stocksList = [
       {
-        sym: "BHARTIARTL", name: "Bharti Airtel Limited",
-        price: "₹2,161.70", mktCap: "₹12.84L Cr", sec: "Telecom & Digital",
-        pe: "48.2x", pb: "9.1x", roe: "19.4%", debtEq: "1.15x", divYield: "0.37%",
-        ret1y: "+46.0%", ret3y: "+98.0%", ret5y: "+220.0%",
-        qualityScore: 91, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "Duopoly telecom market (Airtel + Jio) with structural pricing power — ARPU grew ₹183 → ₹233 in 2 years, still 40-50% below global EM peers suggesting 2-3 more tariff hike cycles. 5G subscriber addition at 3.5M/month; Africa operations (Airtel Africa, 14 countries) adding currency diversification. FCF surged to ₹35,000 Cr annualized — delevering rapidly.",
-        futureCatalyst: "ARPU path to ₹300+ by FY28 (vs ₹233 today); 5G enterprise B2B revenues inflecting (Airtel IQ cloud, IoT); Nxtra data center business scaling; Airtel Africa potential separate listing unlocking subsidiary value.",
-        macroAlignment: "Rides India's digital economy growth; pricing power insulated from inflation pressures."
+        sym: "BHARTIARTL", name: "Bharti Airtel Limited", cap: "Large", wt: 20, price: "₹2,161.70",
+        mktCap: "₹12.84L Cr", pe: "48.2x", pb: "9.1x", roe: "19.4%", divY: "0.37%", debtEq: "1.15x",
+        ret1y: "+46.0%", ret3y: "+98.0%", ret5y: "+220.0%", qualityScore: 91, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "Telecom & Cloud",
+        basis: "Duopolistic Indian telecom leader with massive pricing leverage. ARPU climbed from ₹183 to ₹233 with clear trajectory toward ₹300+. Operating leverage converts every incremental rupee of ARPU into 75%+ EBITDA margin. Annualized free cash flow exceeds ₹35,000 Cr.",
+        catalyst: "Upcoming tariff hike rounds; enterprise B2B (Airtel IQ, cloud data centers) revenues scaling past ₹12,000 Cr; Africa operations listing unlocking subsidiary valuation.",
+        macro: "Unshakable subscription business model riding India's explosive mobile data explosion."
       },
       {
-        sym: "ICICIBANK", name: "ICICI Bank Limited",
-        price: "₹1,640.00", mktCap: "₹11.78L Cr", sec: "Private Banking",
-        pe: "18.2x", pb: "2.9x", roe: "18.5%", debtEq: "7.2x (bank)", divYield: "0.95%",
-        ret1y: "+42.0%", ret3y: "+84.0%", ret5y: "+195.0%",
-        qualityScore: 92, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "India's highest ROA bank (2.1%) among Tier-1 private banks — a full 60 bps above HDFC Bank. Net NPA at 0.42% with GNPA declining to 2.16% — a 10-year low. 50%+ market share in housing finance growth, credit card spends & SME loans. Conservative provisioning coverage at 82% provides future earnings buffer.",
-        futureCatalyst: "Credit cycle upcycle in SME/retail/personal loans; ICICI Prudential Life + ICICI Lombard embedded value not in current stock price; technology-led C/I ratio improvement from 44% → 40% by FY28; RBI rate cut cycle expanding NIM.",
-        macroAlignment: "India's private credit formalization is a decade-long structural tailwind; ICICI best positioned to capture it."
+        sym: "ICICIBANK", name: "ICICI Bank Limited", cap: "Large", wt: 20, price: "₹1,640.00",
+        mktCap: "₹11.78L Cr", pe: "18.2x", pb: "2.9x", roe: "18.5%", divY: "0.95%", debtEq: "7.2x (bank)",
+        ret1y: "+42.0%", ret3y: "+84.0%", ret5y: "+195.0%", qualityScore: 92, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "Private Banking",
+        basis: "Highest return on assets (ROA 2.1%) among Tier-1 Indian private banks. Net NPA of 0.42% is at a historic low. Leading market share in housing finance, digital credit cards, and SME underwriting.",
+        catalyst: "Robust retail credit expansion; embedded valuation of ICICI Prudential Life and ICICI Lombard not fully captured in bank PE; tech-driven cost-to-income ratio dropping toward 40%.",
+        macro: "Structural financialization of household savings directly funnels through ICICI's digital ecosystem."
       },
       {
-        sym: "RELIANCE", name: "Reliance Industries Ltd",
-        price: "₹1,377.50", mktCap: "₹18.59L Cr", sec: "Conglomerate",
-        pe: "24.1x", pb: "2.1x", roe: "9.4%", debtEq: "0.42x", divYield: "0.37%",
-        ret1y: "+19.8%", ret3y: "+42.0%", ret5y: "+84.0%",
-        qualityScore: 84, qualityRating: "PREMIUM QUALITY",
-        selectionBasis: "Multi-engine conglomerate where standalone valuation understates sum-of-parts NAV. Jio alone valued at ₹8-9L Cr by DCF; Retail at ₹4-5L Cr; O2C (petrochem) generates ₹60,000 Cr annual EBITDA. Mukesh Ambani committed ₹8L Cr capex through 2030 across green energy and digital — creating long-term asset-building moat.",
-        futureCatalyst: "New Energy business targeting ₹1L Cr EBITDA by 2035; Jio Financial Services becoming India's digital NBFC giant; Retail IPO; JioAirFiber scaling to 100M homes — Reliance is building the digital/energy highway of India.",
-        macroAlignment: "India's largest private company with presence in every growth sector of the economy."
+        sym: "TCS", name: "Tata Consultancy Services", cap: "Large", wt: 10, price: "₹2,376.20",
+        mktCap: "₹8.60L Cr", pe: "26.2x", pb: "12.8x", roe: "53.2%", divY: "1.65%", debtEq: "0.00x",
+        ret1y: "+14.5%", ret3y: "+28.5%", ret5y: "+58.0%", qualityScore: 89, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "IT Services",
+        basis: "World's most profitable IT services corporation with an unmatched ROE of 53.2%. Completely debt-free with ₹60,000 Cr cash reserve. High payout ratio returning ~90% of free cash flow via regular buybacks and dividends.",
+        catalyst: "Generative AI enterprise contracts ($24B+ TCV won in H1 FY27); large-scale BSNL 4G/5G deployment (₹15,000 Cr+ deal); global BFSI tech modernization.",
+        macro: "Strong USD-denominated revenues provide a natural currency hedge against rupee depreciation."
       },
       {
-        sym: "TATAPOWER", name: "Tata Power Company Ltd",
-        price: "₹340.00", mktCap: "₹1.08L Cr", sec: "Clean Energy & Utilities",
-        pe: "28.5x", pb: "3.8x", roe: "14.2%", debtEq: "1.52x", divYield: "0.44%",
-        ret1y: "+28.5%", ret3y: "+65.0%", ret5y: "+240.0%",
-        qualityScore: 79, qualityRating: "HIGH QUALITY",
-        selectionBasis: "India's leading integrated clean energy company: 14GW operational + 10GW under construction + 20GW pipeline. Largest rooftop solar installer (#1 in India with 1.2M+ rooftop installs). Tata Power Solar (EPC + modules) benefiting from India's PLI scheme and China+1 manufacturing shift. Mundra port coal exposure being structurally reduced.",
-        futureCatalyst: "10GW renewable capacity addition through FY28; Tata Power Solar module factory (India's largest at 4GW capacity); EV charging network (1,500+ stations) monetization; pumped hydro storage pipeline of 7GW riding green energy storage demand.",
-        macroAlignment: "India's Energy Transition — ₹20L Cr investment opportunity through 2030; 500GW renewable target by GoI directly benefits Tata Power."
+        sym: "TATAPOWER", name: "Tata Power Company Ltd", cap: "Mid", wt: 15, price: "₹340.00",
+        mktCap: "₹1.08L Cr", pe: "28.5x", pb: "3.8x", roe: "14.2%", divY: "0.44%", debtEq: "1.35x",
+        ret1y: "+28.5%", ret3y: "+65.0%", ret5y: "+240.0%", qualityScore: 80, qualityRating: "HIGH QUALITY",
+        sec: "Clean Energy",
+        basis: "Integrated clean power leader positioned across solar EPC, domestic module fabrication, utility wind/solar generation, and EV fast-charging corridors across 500+ Indian cities.",
+        catalyst: "10GW green power commissioning doubling operational EBITDA by FY28; 4GW solar cell/module facility tapping PLI incentives; 7GW pumped hydro energy storage pipeline.",
+        macro: "Frontrunner in India's ₹20L Cr clean power capital transition through 2030."
       },
       {
-        sym: "TCS", name: "Tata Consultancy Services Ltd",
-        price: "₹2,376.20", mktCap: "₹8.60L Cr", sec: "IT Services",
-        pe: "26.2x", pb: "12.8x", roe: "53.2%", debtEq: "0.00x", divYield: "1.65%",
-        ret1y: "+14.5%", ret3y: "+28.5%", ret5y: "+58.0%",
-        qualityScore: 89, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "World's most profitable IT services company (ROE 53.2% — industry-defining). Revenue diversified across 46 industries, 55 countries, 600,000+ employees. AI demand accelerating — secured $24B+ TCV in FY27 H1. Buyback machine: ₹24,000 Cr buyback + ₹18 special dividend in FY27. Zero debt, ₹60,000 Cr cash on books.",
-        futureCatalyst: "Generative AI-led enterprise transformation (Cognitive Business Ops, TCS Pace Ports); BSNL 4G/5G network rollout (₹15,000 Cr+ order) delivering over FY27-28; North America banking sector BFSI spend recovery; Europe defense tech spending uptick post-geopolitical tensions.",
-        macroAlignment: "USD-denominated revenues = natural currency hedge; global digital transformation is a multi-decade megatrend."
+        sym: "TRENT", name: "Trent Limited", cap: "Mid", wt: 15, price: "₹6,850.00",
+        mktCap: "₹2.44L Cr", pe: "85.0x", pb: "22.1x", roe: "26.3%", divY: "0.07%", debtEq: "0.08x",
+        ret1y: "+65.0%", ret3y: "+180.0%", ret5y: "+700.0%", qualityScore: 88, qualityRating: "HIGH GROWTH COMPOUNDER",
+        sec: "Retail & Apparel",
+        basis: "India's highest compounding retail business. Zudio value-fashion chain achieves store-level payback within 6 months and 70%+ IRR. Same-store-sales-growth (SSSG) consistently exceeds 25%.",
+        catalyst: "Expanding Zudio network from 700 to 2,000 stores by FY28; Westside network doubling to 500 outlets; launch of standalone Zudio Beauty and Cosmetics stores.",
+        macro: "Captures the secular upgrade of Indian consumers from unbranded to branded fashion."
+      },
+      {
+        sym: "IREDA", name: "Indian Renewable Energy Dev Agency", cap: "Small", wt: 10, price: "₹215.00",
+        mktCap: "₹57,700 Cr", pe: "22.4x", pb: "4.1x", roe: "18.6%", divY: "0.00%", debtEq: "5.40x",
+        ret1y: "+85.0%", ret3y: "+160.0%", ret5y: "+220.0%", qualityScore: 81, qualityRating: "PREMIUM QUALITY",
+        sec: "Renewable NBFC",
+        basis: "Only listed PSU financier dedicated 100% to green power and transition technologies. Loan book compounding at 35%+ YoY with gross NPA contained below 2%.",
+        catalyst: "Mandatory financing partner for India's 500GW target; AAA domestic rating gives lowest cost of borrowing; potential MSCI index inclusion spurring institutional inflows.",
+        macro: "Purest financial play on India's multi-decade green energy buildout."
+      },
+      {
+        sym: "KAYNES", name: "Kaynes Technology India Ltd", cap: "Small", wt: 10, price: "₹7,200.00",
+        mktCap: "₹46,000 Cr", pe: "88.5x", pb: "14.2x", roe: "16.8%", divY: "0.00%", debtEq: "0.15x",
+        ret1y: "+72.0%", ret3y: "+210.0%", ret5y: "+450.0%", qualityScore: 82, qualityRating: "HIGH GROWTH COMPOUNDER",
+        sec: "EMS & High-Tech",
+        basis: "India's premium Electronics Manufacturing Services (EMS) provider. Huge order book equal to 4x annual revenues provides exceptional multi-year revenue visibility across aerospace, defence, and IoT.",
+        catalyst: "Semiconductor ATMP / OSAT testing facility commercialization in FY28; PLI incentives; EV motor controller and battery management system orders surging.",
+        macro: "Prime beneficiary of global 'China+1' electronics manufacturing migration to India."
       }
     ];
     fundsList = [
       {
-        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth",
-        nav: "₹94.15", aum: "₹86,500 Cr", expRatio: "0.63%", wt: 55,
-        cat: "Flexi Cap Equity",
-        ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%",
-        sharpe: "1.52", alpha: "+3.6%", beta: "0.78",
-        fundManager: "Rajeev Thakkar & Raunak Onkar",
-        mandateStyle: "Value / Quality / Global Diversified",
-        selectionBasis: "India's most unique flexi cap fund with 20-25% mandated international exposure (Alphabet, Meta, Amazon). Beta 0.78 means 22% less volatility than Nifty while delivering alpha of 3.6% — exceptional risk-adjusted returns. AMFI data shows top 1% fund across all 3, 5, 7 year rolling periods. AUM of ₹86,500 Cr indicates strong institutional faith.",
-        futureCatalyst: "International allocation (FAANG/AI platform companies) adding USD exposure; Indian value portfolio aligns with quality factor outperformance; Rajeev Thakkar's 25-year institutional-grade track record; zero high-churn style — low portfolio turnover = tax efficiency."
+        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 55, nav: "₹94.15",
+        cat: "Flexi Cap Equity", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
+        ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%", manager: "Rajeev Thakkar & Raunak Onkar",
+        basis: "Distinctive 20-25% offshore allocation (Alphabet, Meta, Amazon) delivers invaluable international diversification and direct exposure to global GenAI leaders in an Indian mutual fund.",
+        catalyst: "Low turnover ratio maximizes long-term compounding and avoids taxable short-term trading drag."
       },
       {
-        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth",
-        nav: "₹252.61", aum: "₹18,200 Cr", expRatio: "0.10%", wt: 45,
-        cat: "Large Cap Index",
-        ret1y: "+20.4%", ret3y: "+16.2%", ret5y: "+17.5%",
-        sharpe: "1.18", alpha: "0.0%", beta: "1.00",
-        fundManager: "Passively Managed",
-        mandateStyle: "Passive Index Replication",
-        selectionBasis: "Core India equity exposure at 0.10% expense ratio — 8x cheaper than average active fund. The 'satellite allocation' alongside PPFAS active fund creates a core-satellite portfolio architecture. Nifty 50 EPS growth at 14-15% with FII inflows accelerating on MSCI weight increase.",
-        futureCatalyst: "India's rising MSCI EM weight (target 20%+ by 2027 from current 17.9%) driving passive FII inflows; corporate earnings growth 15% CAGR through FY28; market breadth expansion in Nifty 50 composition."
+        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth", wt: 45, nav: "₹252.61",
+        cat: "Large Cap Index", aum: "₹18,200 Cr", exp: "0.10%", sharpe: "1.18", alpha: "0.0%",
+        ret1y: "+20.4%", ret3y: "+16.2%", ret5y: "+17.5%", manager: "Nirman Morakhia",
+        basis: "Core-satellite portfolio anchor delivering broad-market exposure at near-zero operating cost (0.10% TER). Ensures the basket does not fall behind benchmark rally phases.",
+        catalyst: "Consistently outpaces over 65% of actively managed large-cap funds over 10-year rolling horizons."
       }
     ];
     otherList = [
       {
-        inst: "Sovereign Gold Bonds (SGB) / Nippon Gold BeES ETF", yield: "Gold ₹1,26,450/10g + 2.5% p.a. (SGB)",
-        wt: 50, role: "Geopolitical hedge + portfolio insurance",
-        ret5y: "+14.2% CAGR (INR)", taxNote: "SGB: 0% LTCG at maturity. Gold ETF: 20% LTCG after 2yr holding.",
-        macroNote: "Gold-equity correlation = -0.18 (excellent diversifier). USD/INR at ₹92.68 — INR depreciation trend amplifies gold returns in rupee terms. Central bank gold buying at record highs globally.",
-        selectionBasis: "Gold has delivered 14.2% CAGR in INR terms over 5 years — matching or beating large-cap equity returns with negative equity correlation. SGB's 2.5% annual interest + gold appreciation makes it structurally superior to physical gold and ETFs for 5yr+ holding periods."
+        inst: "Sovereign Gold Bonds (SGB) / Nippon Gold ETF", wt: 50, type: "G", yield: "₹1,26,450 / 10g + 2.5% p.a.",
+        ret5y: "+14.2% CAGR", taxNote: "0% LTCG on SGB at maturity",
+        basis: "Acts as portfolio shock absorber during global geopolitical or stagflationary shocks. Demonstrates negative correlation (-0.18) to Indian equities.",
+        macro: "Central bank gold reserves globally at all-time highs; ongoing currency debasement hedge."
       },
       {
-        inst: "AAA Corporate Bond Fund (Target Maturity 2029) / Bharat Bond ETF", yield: "7.55-7.80% YTM",
-        wt: 50, role: "Predictable accrual income & volatility damper",
-        ret5y: "+7.5% CAGR", taxNote: "Indexation available after 3yr; Bharat Bond ETF: effective tax rate 1-2% for long-term holders",
-        macroNote: "RBI rate cut cycle beginning — bond prices rise as yields fall, adding capital gains on top of 7.5-7.8% accrual. Indian 10-yr G-Sec yield premium vs US at 250 bps — historically compelling for FII bond inflows driving price appreciation.",
-        selectionBasis: "Target maturity funds offer predictable YTM with no reinvestment risk — closest to FD returns without credit risk. Bharat Bond ETF invests ONLY in AAA-rated PSU bonds — zero default risk. 7.5-7.8% post-tax effective return in a rate-cut cycle environment is superior to bank FDs."
+        inst: "AAA Corporate Bond Fund / Bharat Bond ETF 2029", wt: 50, type: "D", yield: "7.65% YTM",
+        ret5y: "+7.5% CAGR", taxNote: "High liquidity debt",
+        basis: "Captures steady accrual income while interest rates remain near multi-year highs. Zero credit risk by restricting strictly to AAA-rated state and central enterprises.",
+        macro: "Capital gains locked in as RBI begins softening policy corridor."
       }
     ];
 
-  // ---- AGGRESSIVE BASKET ----
   } else if (currentLumpRisk === 'aggressive') {
+    // 35% Large Cap, 35% Mid Cap, 30% Small Cap
+    capSummary = { large: 35, mid: 35, small: 30 };
     stocksList = [
       {
-        sym: "BHARTIARTL", name: "Bharti Airtel Limited",
-        price: "₹2,161.70", mktCap: "₹12.84L Cr", sec: "Telecom & Digital",
-        pe: "48.2x", pb: "9.1x", roe: "19.4%", debtEq: "1.15x", divYield: "0.37%",
-        ret1y: "+46.0%", ret3y: "+98.0%", ret5y: "+220.0%",
-        qualityScore: 91, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "India's most powerful telecom franchise — ARPU at ₹233, path to ₹300+ in 24 months means 25-30% revenue growth with almost no corresponding cost increase. Operating leverage is extreme. FCF crossing ₹35,000 Cr accelerates debt reduction. Aggressive profile rewards the high PE (48x) which is justified by earnings growth of 35%+ CAGR.",
-        futureCatalyst: "ARPU path ₹300+ → ₹400 by FY30; 5G enterprise monetization (Airtel IQ, Cloud, IoT B2B); Nxtra Data Centers IPO; Africa expansion to 20 countries. PEG ratio of 1.4x — cheap relative to growth.",
-        macroAlignment: "Secular digitalization — India will add 300M more internet users by 2030, all using Airtel's network."
+        sym: "BHARTIARTL", name: "Bharti Airtel Limited", cap: "Large", wt: 15, price: "₹2,161.70",
+        mktCap: "₹12.84L Cr", pe: "48.2x", pb: "9.1x", roe: "19.4%", divY: "0.37%", debtEq: "1.15x",
+        ret1y: "+46.0%", ret3y: "+98.0%", ret5y: "+220.0%", qualityScore: 91, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "Telecom & Cloud",
+        basis: "Pure cash-flow compounder. Operating leverage in mobile data is historic: ARPU path from ₹233 toward ₹350+ generates 75% incremental EBITDA. 5G capex is behind us, unlocking surging free cash.",
+        catalyst: "Next tariff hikes; Airtel Business enterprise cloud and IoT acceleration; Africa listing value realization.",
+        macro: "Unmatched pricing power across 380M+ active data subscribers."
       },
       {
-        sym: "TATAPOWER", name: "Tata Power Company Ltd",
-        price: "₹340.00", mktCap: "₹1.08L Cr", sec: "Clean Energy",
-        pe: "28.5x", pb: "3.8x", roe: "14.2%", debtEq: "1.52x", divYield: "0.44%",
-        ret1y: "+28.5%", ret3y: "+65.0%", ret5y: "+240.0%",
-        qualityScore: 79, qualityRating: "HIGH QUALITY",
-        selectionBasis: "India's Energy Transition is the biggest capital cycle in a generation — ₹20L Cr investments through 2030. Tata Power is the purest play with operational + EPC + manufacturing + rooftop solar + EV charging across the value chain. PE of 28.5x grossly undervalues the 10GW under-construction pipeline which will add ₹8,000-10,000 Cr EBITDA by FY28.",
-        futureCatalyst: "10GW renewable capacity addition; Tata Power Solar 4GW module factory (PLI beneficiary); pumped hydro 7GW pipeline; EV charging network monetization; Mundra coal demerger unlocking clean energy pure-play valuation re-rating.",
-        macroAlignment: "India's 500GW renewable target, Rs 10L Cr Green Energy Corridor investment = multi-decade tailwind."
+        sym: "ICICIBANK", name: "ICICI Bank Limited", cap: "Large", wt: 10, price: "₹1,640.00",
+        mktCap: "₹11.78L Cr", pe: "18.2x", pb: "2.9x", roe: "18.5%", divY: "0.95%", debtEq: "7.2x (bank)",
+        ret1y: "+42.0%", ret3y: "+84.0%", ret5y: "+195.0%", qualityScore: 92, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "Private Banking",
+        basis: "The highest quality anchor in Indian finance. ROA 2.1% is top 1% globally. Subsidiaries (ICICI Pru Life, Lombard, Securities) represent over 25% of the bank's market cap in embedded equity.",
+        catalyst: "SME and retail credit upcycle; tech stack efficiency; valuation unlock in unlisted digital subsidiaries.",
+        macro: "Unstoppable expansion in retail banking and commercial credit."
       },
       {
-        sym: "SBIN", name: "State Bank of India",
-        price: "₹1,165.10", mktCap: "₹10.40L Cr", sec: "Public Sector Banking",
-        pe: "11.5x", pb: "1.6x", roe: "15.2%", debtEq: "12.1x (bank)", divYield: "2.14%",
-        ret1y: "+38.0%", ret3y: "+72.0%", ret5y: "+160.0%",
-        qualityScore: 82, qualityRating: "PREMIUM QUALITY",
-        selectionBasis: "India's largest bank by deposits and assets — trading at PE 11.5x, the CHEAPEST large-cap quality bank in the world for its ROE profile. GNPA collapsed from 10.9% (2018) → 2.21% (2026) — a historic NPL cleanup complete. Infra credit expansion (₹11L Cr capex budget) directly channels through SBI. ROE structurally expanded from 7% → 15%.",
-        futureCatalyst: "Infrastructure & capex financing leadership under government's ₹11L Cr CAPEX push; rural credit expansion (Jan Dhan leverage); SBI Life/SBI Cards embedded subsidiaries growing at 25%+ compounding; global issuance of masala bonds riding India's investment grade upgrade potential.",
-        macroAlignment: "PSU bank outperformance cycle has years remaining — private credit penetration still at 50% of GDP vs 150% China."
+        sym: "SBIN", name: "State Bank of India", cap: "Large", wt: 10, price: "₹1,165.10",
+        mktCap: "₹10.40L Cr", pe: "11.5x", pb: "1.6x", roe: "15.2%", divY: "2.14%", debtEq: "12.1x (bank)",
+        ret1y: "+38.0%", ret3y: "+72.0%", ret5y: "+160.0%", qualityScore: 82, qualityRating: "PREMIUM QUALITY",
+        sec: "Public Sector Banking",
+        basis: "World's most undervalued mega-cap bank at 11.5x P/E. Gross NPA collapsed from 10.9% to 2.21% in a historic asset-cleanup. ROE sustained at 15%+ on an colossal ₹60L Cr balance sheet.",
+        catalyst: "Prime beneficiary of India's ₹11L Cr public capex push; massive deposit franchise; value creation in SBI Life & SBI Cards.",
+        macro: "Backbone of India's industrial capital expenditure cycle."
       },
       {
-        sym: "TRENT", name: "Trent Limited",
-        price: "₹6,850.00", mktCap: "₹2.44L Cr", sec: "Consumer Retail",
-        pe: "85.0x", pb: "22.1x", roe: "26.3%", debtEq: "0.08x", divYield: "0.07%",
-        ret1y: "+65.0%", ret3y: "+180.0%", ret5y: "+700.0%",
-        qualityScore: 88, qualityRating: "HIGH GROWTH COMPOUNDER",
-        selectionBasis: "India's highest-compounding large-cap retail stock (5Y CAGR 700%+). Zudio (value fashion) expanding at 150+ stores/year — a Zara/H&M equivalent at Indian price points. Westside targeting 500 stores by FY27. SSSG (Same-Store-Sales-Growth) consistently 25%+. Tata Group backing provides real estate access and brand credibility unavailable to competitors.",
-        futureCatalyst: "Zudio store count 700 → 2,000 by FY28; Westside 220 → 500 stores; Zara India partnership extension; possible Trent Foods and beauty verticals; Zudio's private label strategy hitting 90%+ own-brand margin improvement.",
-        macroAlignment: "India's organized retail penetration at 12% vs 85% USA — a 7x expansion opportunity over 10 years."
+        sym: "TRENT", name: "Trent Limited", cap: "Mid", wt: 15, price: "₹6,850.00",
+        mktCap: "₹2.44L Cr", pe: "85.0x", pb: "22.1x", roe: "26.3%", divY: "0.07%", debtEq: "0.08x",
+        ret1y: "+65.0%", ret3y: "+180.0%", ret5y: "+700.0%", qualityScore: 88, qualityRating: "HIGH GROWTH COMPOUNDER",
+        sec: "Retail Compounder",
+        basis: "The undisputed leader in retail compounding. Zudio's rapid inventory turns (every 14 days) and 150+ new stores per year create an impenetrable competitive moat.",
+        catalyst: "Zudio store count scaling toward 2,500; Zudio Beauty cosmetics launch; Westside premium margin expansion.",
+        macro: "Exponential growth in youth fashion and discretionary consumer spend."
       },
       {
-        sym: "ICICIBANK", name: "ICICI Bank Limited",
-        price: "₹1,640.00", mktCap: "₹11.78L Cr", sec: "Private Banking",
-        pe: "18.2x", pb: "2.9x", roe: "18.5%", debtEq: "7.2x (bank)", divYield: "0.95%",
-        ret1y: "+42.0%", ret3y: "+84.0%", ret5y: "+195.0%",
-        qualityScore: 92, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "Highest ROA (2.1%) in Tier-1 Indian banking. The aggressive portfolio needs a quality anchor that still delivers 40%+ annual returns. ICICI Bank's credit quality, technology stack (iMobile Pay — 20M active users) and embedded subsidiaries (ICICI Pru Life, ICICI Lombard, ICICI Securities) make it India's closest equivalent to a financial services conglomerate.",
-        futureCatalyst: "Embedded subsidiaries listing/value unlock; credit cycle expansion in SME loans; instant credit underwriting using AI-ML cutting processing time by 80%; NIM expansion of 10-15 bps per 25 bps rate cut.",
-        macroAlignment: "India's private credit formalization, rising middle class loan demand, and retail banking expansion."
+        sym: "TATAPOWER", name: "Tata Power Company Ltd", cap: "Mid", wt: 10, price: "₹340.00",
+        mktCap: "₹1.08L Cr", pe: "28.5x", pb: "3.8x", roe: "14.2%", divY: "0.44%", debtEq: "1.35x",
+        ret1y: "+28.5%", ret3y: "+65.0%", ret5y: "+240.0%", qualityScore: 80, qualityRating: "HIGH QUALITY",
+        sec: "Clean Energy Capex",
+        basis: "10GW green power pipeline currently under construction is not factored into stock price. When operational by FY28, operational EBITDA will nearly double.",
+        catalyst: "4GW solar cell facility commissioning; 7GW pumped hydro rollout; demerger of legacy coal assets.",
+        macro: "National clean energy transition mandate backed by government policy."
+      },
+      {
+        sym: "ZOMATO", name: "Zomato Limited", cap: "Mid", wt: 10, price: "₹265.00",
+        mktCap: "₹2.34L Cr", pe: "185.0x", pb: "8.8x", roe: "4.2%", divY: "0.00%", debtEq: "0.01x",
+        ret1y: "+52.0%", ret3y: "+110.0%", ret5y: "+140.0%", qualityScore: 79, qualityRating: "HIGH GROWTH",
+        sec: "Quick Commerce & Tech",
+        basis: "Dominant quick-commerce and food delivery platform. Blinkit is growing gross order value (GOV) at 120%+ YoY with positive store-level contribution margins in mature metros.",
+        catalyst: "Quick-commerce dark store footprint expanding to 1,500 locations; District entertainment app scaling; strong network effects.",
+        macro: "10-minute instant delivery disrupting modern retail and supermarket grocery."
+      },
+      {
+        sym: "IREDA", name: "Indian Renewable Energy Dev Agency", cap: "Small", wt: 15, price: "₹215.00",
+        mktCap: "₹57,700 Cr", pe: "22.4x", pb: "4.1x", roe: "18.6%", divY: "0.00%", debtEq: "5.40x",
+        ret1y: "+85.0%", ret3y: "+160.0%", ret5y: "+220.0%", qualityScore: 81, qualityRating: "PREMIUM QUALITY",
+        sec: "Green Financing",
+        basis: "India's highest growth sovereign clean-tech financier. Loan book expanding 35%+ with gross NPA below 2%. Essential partner for solar, wind, green hydrogen, and EV infrastructure developers.",
+        catalyst: "₹50,000 Cr loan disbursement run-rate; sovereign fund backing; prospective inclusion in major international indices.",
+        macro: "Exclusive lending gateway for India's ₹20L Cr renewable investments."
+      },
+      {
+        sym: "KAYNES", name: "Kaynes Technology India Ltd", cap: "Small", wt: 15, price: "₹7,200.00",
+        mktCap: "₹46,000 Cr", pe: "88.5x", pb: "14.2x", roe: "16.8%", divY: "0.00%", debtEq: "0.15x",
+        ret1y: "+72.0%", ret3y: "+210.0%", ret5y: "+450.0%", qualityScore: 82, qualityRating: "HIGH GROWTH COMPOUNDER",
+        sec: "EMS & Semiconductors",
+        basis: "Advanced electronics manufacturing services with 4x revenue order book coverage. Deep presence in aerospace, defence, medical devices, and railway electronics.",
+        catalyst: "State-of-the-art semiconductor OSAT / ATMP chip packaging plant operational in FY28; defence electronics exports surging.",
+        macro: "Strategic spearhead of Make in India and global supply chain re-alignment."
       }
     ];
     fundsList = [
       {
-        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth",
-        nav: "₹94.15", aum: "₹86,500 Cr", expRatio: "0.63%", wt: 40,
-        cat: "Flexi Cap / Global",
-        ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%",
-        sharpe: "1.52", alpha: "+3.6%", beta: "0.78",
-        fundManager: "Rajeev Thakkar & Raunak Onkar",
-        mandateStyle: "Value / Quality / Global Diversified",
-        selectionBasis: "Even in an aggressive portfolio, PPFAS Flexi Cap acts as the 'quality ballast' — beta 0.78 reduces extreme drawdown risk while the international allocation (20-25% in Alphabet/Meta/Amazon) provides USD-hedge and AI platform exposure unavailable in pure Indian equity funds. Sharpe of 1.52 — best risk-adjusted return in category.",
-        futureCatalyst: "International AI platform companies (Alphabet, Meta) outperforming on GenAI monetization; Indian value portfolio aligns with India's quality-earnings growth upcycle; fund size provides institutional access to IPOs and rights issues unavailable to retail investors."
+        code: "120828", name: "Quant Small Cap Fund — Direct Growth", wt: 60, nav: "₹284.73",
+        cat: "Small Cap Equity", aum: "₹28,400 Cr", exp: "0.64%", sharpe: "1.38", alpha: "+9.2%",
+        ret1y: "+28.6%", ret3y: "+26.4%", ret5y: "+35.1%", manager: "Sanjeev Sharma (Quant VLRT Algo)",
+        basis: "Highest 5-year alpha-generating equity fund in India (+9.2% over benchmark). Proprietary algorithmic VLRT model screens 10,000+ stocks systematically to capture dynamic sector momentum.",
+        catalyst: "Indian mid/small cap corporate earnings expanding at 20%+ CAGR through FY29."
       },
       {
-        code: "120828", name: "Quant Small Cap Fund — Direct Growth",
-        nav: "₹284.73", aum: "₹28,400 Cr", expRatio: "0.64%", wt: 60,
-        cat: "Small Cap Equity",
-        ret1y: "+28.6%", ret3y: "+26.4%", ret5y: "+35.1%",
-        sharpe: "1.38", alpha: "+9.2%", beta: "1.14",
-        fundManager: "Sanjeev Sharma & Team (Quant algo-driven model)",
-        mandateStyle: "Quantitative Momentum / Small Cap",
-        selectionBasis: "India's highest 5-year alpha-generating small-cap fund (+9.2% over benchmark). Quant Mutual Fund's proprietary VLRT (Valuation, Liquidity, Risk, Time) model screens 10,000+ stocks — systematic approach removes human emotion bias. Beta 1.14 is acceptable for aggressive investors with 5yr+ horizon where small-cap cycles fully play out.",
-        futureCatalyst: "India's mid/small cap earnings expected to grow 20%+ CAGR through FY29 as domestic capex cycle matures; Quant's algo model already capturing sector rotation signals; small-cap India is a 40-50M emerging middle-class consumption and infrastructure beneficiary."
+        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 40, nav: "₹94.15",
+        cat: "Flexi Cap / Global", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
+        ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%", manager: "Rajeev Thakkar & Raunak Onkar",
+        basis: "Functions as essential quality ballast in aggressive mandates. Low beta of 0.78 dampens severe portfolio drawdown while delivering outsized risk-adjusted returns.",
+        catalyst: "Global AI platform holdings (Alphabet, Meta) monetize generative AI across global enterprise clients."
       }
     ];
     otherList = [
       {
-        inst: "Multi-Asset Gold ETF (Nippon / HDFC Gold ETF) + Sovereign Gold Bonds", yield: "Gold ₹1,26,450/10g",
-        wt: 50, role: "Tail risk hedge + currency depreciation buffer",
-        ret5y: "+14.2% CAGR (INR)", taxNote: "SGB: 0% LTCG at maturity. Gold ETF: 20% with indexation after 2yr.",
-        macroNote: "In aggressive portfolios, gold serves as 'portfolio insurance' — when equity falls 20%+, gold historically rises 10-15%, cushioning drawdowns by 300-400 bps.",
-        selectionBasis: "Gold delivered 14.2% 5Y CAGR in INR — rivaling large-cap equity with NEGATIVE correlation to equities. Aggressive portfolios with high equity beta NEED uncorrelated assets. Gold-to-S&P 500 correlation = -0.18 makes it the optimal diversifier. SGB structure gives 2.5% extra annual return on top."
+        inst: "Multi-Asset Gold & Silver ETF Mix (70:30)", wt: 50, type: "G", yield: "Gold ₹1,26,450 / 10g | Silver ₹1,02,000 / kg",
+        ret5y: "+16.2% Blended CAGR", taxNote: "20% LTCG after 2 years with indexation",
+        basis: "Silver's green industrial demand (photovoltaic panels, EV circuits) complements gold's monetary sovereign hedge, providing higher beta commodity returns.",
+        macro: "Commodity super-cycle driven by energy transition and global supply constraints."
       },
       {
-        inst: "Liquid Fund / Overnight Fund (Mirae Asset / ABSL) — Dip-Buying Reserve", yield: "6.75-6.85% annualized",
-        wt: 50, role: "Tactical firepower for market corrections",
-        ret5y: "+6.1% CAGR", taxNote: "Taxable at slab rate — optimal only as short-term tactical buffer",
-        macroNote: "Nifty has had 10%+ corrections every 18-24 months historically. Maintaining 5-10% liquid war chest allows buying quality stocks at significant discounts during fear-driven market crashes.",
-        selectionBasis: "Overnight funds earn near-repo-rate returns with ZERO NAV risk. The aggressive investor who keeps this war chest deployed during market dips (like March 2020 or Oct 2022) earns significantly superior 3-5yr returns versus fully-invested peers. This is a proven institutional wealth management strategy."
+        inst: "Overnight & Liquid Tactical War Chest", wt: 50, type: "D", yield: "6.85% Annualized",
+        ret5y: "+6.1% CAGR", taxNote: "Instant redemption",
+        basis: "Strategic dry powder dedicated exclusively to deploying into high-conviction growth stocks during severe market dips (>10-15% panic corrections).",
+        macro: "Allows aggressive investors to purchase compounding leaders at steep cyclical discounts."
       }
     ];
 
-  // ---- VERY AGGRESSIVE BASKET ----
   } else {
+    // Very Aggressive: 25% Large Cap, 35% Mid Cap, 40% Small Cap
+    capSummary = { large: 25, mid: 35, small: 40 };
     stocksList = [
       {
-        sym: "BHARTIARTL", name: "Bharti Airtel Limited",
-        price: "₹2,161.70", mktCap: "₹12.84L Cr", sec: "Telecom Monopoly",
-        pe: "48.2x", pb: "9.1x", roe: "19.4%", debtEq: "1.15x", divYield: "0.37%",
-        ret1y: "+46.0%", ret3y: "+98.0%", ret5y: "+220.0%",
-        qualityScore: 91, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "Highest conviction pick for very aggressive profile. India's 5G monetization is in inning 2 of 9 — ARPU at ₹233 must reach ₹350-400 for Airtel to earn its cost of capital on 5G capex. That 50-70% ARPU journey over 3-4 years = 50-70% revenue growth with 70-80% EBITDA margin = explosive earnings leverage. FCF tripling is base case.",
-        futureCatalyst: "ARPU ₹400 by FY30; Airtel Business (B2B enterprise cloud) crossing ₹10,000 Cr revenue; Africa Airtel listing; Nxtra Data Center IPO; 5G IoT monetization from smart cities + Industry 4.0.",
-        macroAlignment: "India's digital infrastructure buildout — the biggest investment cycle since 1991 liberalization."
+        sym: "BHARTIARTL", name: "Bharti Airtel Limited", cap: "Large", wt: 15, price: "₹2,161.70",
+        mktCap: "₹12.84L Cr", pe: "48.2x", pb: "9.1x", roe: "19.4%", divY: "0.37%", debtEq: "1.15x",
+        ret1y: "+46.0%", ret3y: "+98.0%", ret5y: "+220.0%", qualityScore: 91, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "Telecom Monopoly",
+        basis: "India's 5G monetization is just starting. Moving ARPU from ₹233 toward ₹400 over 4 years translates to 60%+ top-line growth with massive 75%+ EBITDA margins.",
+        catalyst: "B2B enterprise digitalization (Nxtra data centers, Airtel IQ); tariff revisions; African subsidiary monetization.",
+        macro: "Digital highway of modern India with unmatched pricing elasticity."
       },
       {
-        sym: "TRENT", name: "Trent Limited",
-        price: "₹6,850.00", mktCap: "₹2.44L Cr", sec: "Retail Compounder",
-        pe: "85.0x", pb: "22.1x", roe: "26.3%", debtEq: "0.08x", divYield: "0.07%",
-        ret1y: "+65.0%", ret3y: "+180.0%", ret5y: "+700.0%",
-        qualityScore: 88, qualityRating: "HIGH GROWTH COMPOUNDER",
-        selectionBasis: "Zudio is India's answer to Zara/SHEIN — affordable fashion at ₹300-500 price point in a 1.4B population market. Store economics: each Zudio store becomes profitable in 6 months, IRR of 70%+. SSSG 25% means even existing stores are growing explosively. Very aggressive investors are rewarded for holding through PE compression — revenue growth will drive PE down from 85x to 40x as earnings scale.",
-        futureCatalyst: "Zudio 700 → 3,000 stores over 5 years; Beauty/Cosmetics vertical launch (Zudio Beauty); Food & Grocery potential foray; Trent's access to Tata Group land bank for mall/store placement is unfair competitive advantage.",
-        macroAlignment: "India organized retail: ₹65L Cr market, 12% penetrated → 50% penetrated in 10 years = ₹25L Cr incremental organized retail opportunity."
+        sym: "ICICIBANK", name: "ICICI Bank Limited", cap: "Large", wt: 10, price: "₹1,640.00",
+        mktCap: "₹11.78L Cr", pe: "18.2x", pb: "2.9x", roe: "18.5%", divY: "0.95%", debtEq: "7.2x (bank)",
+        ret1y: "+42.0%", ret3y: "+84.0%", ret5y: "+195.0%", qualityScore: 92, qualityRating: "INSTITUTIONAL GRADE",
+        sec: "Private Banking",
+        basis: "Top-tier private lender delivering 2.1% ROA. High provisioning coverage (82%) eliminates downside credit surprises. Digital super-app iMobile Pay boasts 20M+ active users.",
+        catalyst: "SME loan book expansion; subsidiaries value realization; retail market share gains from competitors.",
+        macro: "Direct channel for India's ongoing financial formalization."
       },
       {
-        sym: "SBIN", name: "State Bank of India",
-        price: "₹1,165.10", mktCap: "₹10.40L Cr", sec: "PSU Banking Turnaround",
-        pe: "11.5x", pb: "1.6x", roe: "15.2%", debtEq: "12.1x (bank)", divYield: "2.14%",
-        ret1y: "+38.0%", ret3y: "+72.0%", ret5y: "+160.0%",
-        qualityScore: 82, qualityRating: "PREMIUM QUALITY",
-        selectionBasis: "World's cheapest quality bank at PE 11.5x and ROE 15.2% — a PEG ratio of 0.6x is classically undervalued. SBI's NPL cleanup from 10.9% to 2.21% is one of the most dramatic balance sheet transformations in global banking history. Very aggressive investors buy quality at value: SBI is both. Infrastructure capex lending leadership adds direct government policy tailwind.",
-        futureCatalyst: "Infrastructure financing (₹11L Cr capex) direct beneficiary; SBI Life crossing ₹2L Cr market cap standalone; SBI Cards profitability inflection; NIM expansion of 15 bps in rate-cut cycle; potential MSCI weight increase driving ₹8,000+ Cr passive FII inflows.",
-        macroAlignment: "India's credit-to-GDP ratio at 50% vs 150% global average — decades of credit expansion ahead with SBI as primary channel."
+        sym: "TRENT", name: "Trent Limited", cap: "Mid", wt: 20, price: "₹6,850.00",
+        mktCap: "₹2.44L Cr", pe: "85.0x", pb: "22.1x", roe: "26.3%", divY: "0.07%", debtEq: "0.08x",
+        ret1y: "+65.0%", ret3y: "+180.0%", ret5y: "+700.0%", qualityScore: 88, qualityRating: "HIGH GROWTH COMPOUNDER",
+        sec: "Retail Disruption",
+        basis: "India's highest compounding consumption stock (700%+ 5Y return). Zudio format breaks store payback records across Tier 1-4 cities with 25%+ SSSG.",
+        catalyst: "Store count expanding to 3,000+ units; standalone Zudio Beauty stores; expansion into value grocery.",
+        macro: "Branded retail transition in an economy adding 50M middle-class shoppers every 3 years."
       },
       {
-        sym: "ICICIBANK", name: "ICICI Bank Limited",
-        price: "₹1,640.00", mktCap: "₹11.78L Cr", sec: "Private Banking",
-        pe: "18.2x", pb: "2.9x", roe: "18.5%", debtEq: "7.2x (bank)", divYield: "0.95%",
-        ret1y: "+42.0%", ret3y: "+84.0%", ret5y: "+195.0%",
-        qualityScore: 92, qualityRating: "INSTITUTIONAL GRADE",
-        selectionBasis: "Highest quality anchor in the very aggressive basket. ICICI Bank's ROA 2.1% is a world-class metric — only 15-20 banks globally achieve this consistently. The embedded subsidiaries alone (ICICI Pru ₹1.1L Cr + ICICI Lombard ₹88,000 Cr + ICICI Securities ₹25,000 Cr) are worth nearly 25% of ICICI Bank's own market cap — essentially hidden embedded value not reflected in PE.",
-        futureCatalyst: "Subsidiary IPOs/listings unlocking embedded value; SME credit cycle expansion; iMobile Pay becoming India's leading financial super-app; NIM expansion; credit card market share gain from HDFC Bank's card-business slowdown.",
-        macroAlignment: "India's rising middle-class insurance and wealth management penetration = 10-year structural tailwind for ICICI's subsidiaries."
+        sym: "TATAPOWER", name: "Tata Power Company Ltd", cap: "Mid", wt: 15, price: "₹340.00",
+        mktCap: "₹1.08L Cr", pe: "28.5x", pb: "3.8x", roe: "14.2%", divY: "0.44%", debtEq: "1.35x",
+        ret1y: "+28.5%", ret3y: "+65.0%", ret5y: "+240.0%", qualityScore: 80, qualityRating: "HIGH QUALITY",
+        sec: "Clean Energy Alpha",
+        basis: "The 10GW under-construction renewable pipeline will double company EBITDA by FY28, driving significant multiple re-rating toward pure green IPPs.",
+        catalyst: "Execution of 10GW green pipeline; 4GW module fabrication; 7GW pumped hydro rollout; legacy coal demerger.",
+        macro: "Essential anchor of India's green industrial modernization."
       },
       {
-        sym: "TATAPOWER", name: "Tata Power Company Ltd",
-        price: "₹340.00", mktCap: "₹1.08L Cr", sec: "Clean Energy Alpha",
-        pe: "28.5x", pb: "3.8x", roe: "14.2%", debtEq: "1.52x", divYield: "0.44%",
-        ret1y: "+28.5%", ret3y: "+65.0%", ret5y: "+240.0%",
-        qualityScore: 79, qualityRating: "HIGH QUALITY",
-        selectionBasis: "Energy transition alpha play — the 10GW renewable pipeline currently under construction is not in the stock price. At completion (FY28-29), Tata Power will have 24GW+ operational capacity, the EBITDA will nearly double, and PE will compress dramatically from 28.5x to 15-18x even without stock price change — implying 60-80% return from earnings alone without multiple expansion.",
-        futureCatalyst: "10GW under construction completion; Tata Power Solar 4GW module factory (India's largest, PLI funded); pumped hydro 7GW pipeline; Mundra coal demerger creating clean energy pure-play re-rating; EV charging network monetization.",
-        macroAlignment: "India 500GW renewable target is a government-backed mandate — the equivalent of 60 years of historical power build in 10 years."
+        sym: "IREDA", name: "Indian Renewable Energy Dev Agency", cap: "Small", wt: 15, price: "₹215.00",
+        mktCap: "₹57,700 Cr", pe: "22.4x", pb: "4.1x", roe: "18.6%", divY: "0.00%", debtEq: "5.40x",
+        ret1y: "+85.0%", ret3y: "+160.0%", ret5y: "+220.0%", qualityScore: 81, qualityRating: "PREMIUM QUALITY",
+        sec: "Clean Tech Lending",
+        basis: "Exclusive green financier enjoying sovereign backing and 35%+ loan compounding with sub-2% NPAs. Enjoys structural borrowing cost advantage.",
+        catalyst: "₹50,000 Cr annual loan disbursement target; global green bond issuance; international index inclusion.",
+        macro: "Exclusive lending gateway for India's 500GW renewable installation goal."
+      },
+      {
+        sym: "KAYNES", name: "Kaynes Technology India Ltd", cap: "Small", wt: 15, price: "₹7,200.00",
+        mktCap: "₹46,000 Cr", pe: "88.5x", pb: "14.2x", roe: "16.8%", divY: "0.00%", debtEq: "0.15x",
+        ret1y: "+72.0%", ret3y: "+210.0%", ret5y: "+450.0%", qualityScore: 82, qualityRating: "HIGH GROWTH COMPOUNDER",
+        sec: "EMS & Semiconductors",
+        basis: "India's highest growth EMS manufacturer with 4x annual order book coverage. Poised to transition into high-margin semiconductor testing and packaging.",
+        catalyst: "Commercial launch of semiconductor OSAT / ATMP plant; aerospace and defence export orders accelerating.",
+        macro: "High-tech manufacturing migration from China to India."
+      },
+      {
+        sym: "RAILTEL", name: "RailTel Corporation of India", cap: "Small", wt: 10, price: "₹410.00",
+        mktCap: "₹13,150 Cr", pe: "32.5x", pb: "5.1x", roe: "15.8%", divY: "1.46%", debtEq: "0.00x",
+        ret1y: "+48.0%", ret3y: "+165.0%", ret5y: "+240.0%", qualityScore: 78, qualityRating: "HIGH QUALITY",
+        sec: "Digital Infra Monopoly",
+        basis: "Exclusive optical fibre network across 65,000+ km along Indian Railway tracks. Zero competition possible on railway right-of-way. Debt-free with attractive 1.46% dividend yield.",
+        catalyst: "RailWire broadband expansion; edge data center rollout; defence and smart city communications contracts; 5G railway signaling upgrades.",
+        macro: "Sovereign monopoly over critical railway telecom infrastructure."
       }
     ];
     fundsList = [
       {
-        code: "120828", name: "Quant Small Cap Fund — Direct Growth",
-        nav: "₹284.73", aum: "₹28,400 Cr", expRatio: "0.64%", wt: 55,
-        cat: "Small Cap Equity",
-        ret1y: "+28.6%", ret3y: "+26.4%", ret5y: "+35.1%",
-        sharpe: "1.38", alpha: "+9.2%", beta: "1.14",
-        fundManager: "Sanjeev Sharma (Quant VLRT Algo Model)",
-        mandateStyle: "Quantitative Momentum / Small Cap",
-        selectionBasis: "India's highest 5Y alpha small-cap fund (+9.2% vs benchmark) — absolutely suited for very aggressive mandates. Quant's systematic VLRT model identifies market cycles and rotates sectors proactively — unlike human fund managers who lag cycle recognition. Beta 1.14 — highest market sensitivity among recommended funds, appropriate for aggressive risk-takers with 5yr+ horizon.",
-        futureCatalyst: "Indian small-cap earnings expected to grow 22-25% CAGR through FY29 as domestic capex cycle matures; 60M new demat account holders deploying SIP money creating small-cap demand; Quant's algo model well-positioned to capture upcoming small-cap midcycle rally."
+        code: "120828", name: "Quant Small Cap Fund — Direct Growth", wt: 60, nav: "₹284.73",
+        cat: "Small Cap Equity", aum: "₹28,400 Cr", exp: "0.64%", sharpe: "1.38", alpha: "+9.2%",
+        ret1y: "+28.6%", ret3y: "+26.4%", ret5y: "+35.1%", manager: "Sanjeev Sharma (Quant Algo)",
+        basis: "Top-performing small-cap fund in India (+9.2% alpha). Algorithmic execution eliminates human emotional biases and swiftly reallocates capital into emerging market leaders.",
+        catalyst: "Unprecedented domestic retail SIP inflows fueling small-cap liquidity and earnings compounding."
       },
       {
-        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth",
-        nav: "₹94.15", aum: "₹86,500 Cr", expRatio: "0.63%", wt: 45,
-        cat: "Flexi Cap / Global Diversified",
-        ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%",
-        sharpe: "1.52", alpha: "+3.6%", beta: "0.78",
-        fundManager: "Rajeev Thakkar & Raunak Onkar",
-        mandateStyle: "Value / Quality / International",
-        selectionBasis: "Even in a very aggressive basket, PPFAS provides essential 'global AI exposure' — 20-25% allocation in Alphabet, Meta, Amazon acts as a global GenAI monetization play within an Indian MF wrapper. No other Indian mutual fund provides this international quality alongside domestic value picks. Sharpe 1.52 is best-in-class — counterbalances the Quant Small Cap's high beta.",
-        futureCatalyst: "International allocation benefiting from AI platform revenue explosions (Alphabet +35% YoY, Meta +20% YoY); domestic India value portfolio aligned with earnings growth; fund's low turnover means tax efficiency — no short-term capital gains churn."
+        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 40, nav: "₹94.15",
+        cat: "Flexi Cap / Global", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
+        ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%", manager: "Rajeev Thakkar & Raunak Onkar",
+        basis: "Mandatory international exposure (Alphabet, Meta, Amazon) dampens pure Indian mid/small-cap volatility while capturing global AI software compounding.",
+        catalyst: "Global mega-cap technology firms driving enterprise AI productivity across the world."
       }
     ];
     otherList = [
       {
-        inst: "Multi-Asset Commodity ETF / Gold + Silver ETF Mix", yield: "Gold ₹1,26,450/10g | Silver ₹1,02,000/kg",
-        wt: 60, role: "Commodity cycle diversifier and tail hedge",
-        ret5y: "+14.2% CAGR gold, +18.5% CAGR silver (INR)", taxNote: "Commodity ETFs: 20% LTCG after 2yr holding with indexation benefit",
-        macroNote: "Very aggressive portfolios with 80%+ equity need commodity diversification. Gold-equity correlation -0.18 and silver's industrial demand from EV/solar panels adds industrial cycle exposure.",
-        selectionBasis: "Silver has outperformed gold in 2024-26 on green energy demand (solar panels use 100g silver each; global solar installations growing 40% YoY). Silver 5Y CAGR of 18.5% in INR terms makes it superior to gold for aggressive investors willing to accept volatility. A 70:30 gold:silver split in this allocation is recommended."
+        inst: "Silver & Gold Commodity ETF Mix (60:40)", wt: 60, type: "G", yield: "Silver ₹1,02,000 / kg | Gold ₹1,26,450 / 10g",
+        ret5y: "+17.8% Blended CAGR", taxNote: "Industrial & Safe Haven",
+        basis: "Silver demand is driven heavily by solar PV and EV electronics (100g silver per solar panel). Offers aggressive commodity upside with built-in safe haven insurance.",
+        macro: "Green industrial commodity revolution combined with geopolitical sovereign hedge."
       },
       {
-        inst: "Liquid/Overnight Fund — Tactical Dip-Buying Reserve", yield: "6.75-6.85% annualized",
-        wt: 40, role: "Opportunistic equity deployment reserve",
-        ret5y: "+6.1% CAGR", taxNote: "Taxable at slab rate — treat as 12-24 month tactical weapon, not long-term hold",
-        macroNote: "Very aggressive investors MUST keep tactical reserves to exploit market panic. Those who deployed cash during Oct 2022 (Nifty -17%), Jun 2022 (-18%), and Mar 2020 (-38%) earned 2-3x market returns over the following 18 months.",
-        selectionBasis: "Market crashes of 15-30% occur every 2-3 years in India. Maintaining 5-8% tactical cash in an overnight fund (earning 6.8% while waiting) lets very aggressive investors buy their conviction stocks at 25-40% discounts during fear-driven corrections — a core institutional wealth management technique."
+        inst: "Tactical Crash Deployment Reserve (Overnight)", wt: 40, type: "D", yield: "6.85% Annualized",
+        ret5y: "+6.1% CAGR", taxNote: "Zero duration risk",
+        basis: "High-conviction investors maintain dry powder to aggressively accumulate top holdings during steep 15-25% cyclical market corrections.",
+        macro: "Historically, deploying tactical reserves during sharp market panics generates 2-3x benchmark returns over subsequent 24 months."
       }
     ];
   }
 
-  // ========== BASKET QUALITY SUMMARY COMPUTATION ==========
-  const qualityScores = stocksList.map(s => s.qualityScore);
-  const avgQuality = Math.round(qualityScores.reduce((a, b) => a + b, 0) / qualityScores.length);
-  const peValues = stocksList.map(s => parseFloat(s.pe));
-  const wtdPE = (peValues.reduce((a, v, i) => a + v * (stocksList[i].wt || 20), 0) / peValues.reduce((a, v, i) => a + (stocksList[i].wt || 20), 0)).toFixed(1);
-  const highReturn = stocksList.filter(s => parseFloat(s.ret3y) > 20).length;
-  const basketGrade = avgQuality >= 88 ? 'A+' : avgQuality >= 80 ? 'A' : 'B+';
-  const gradeLabel = avgQuality >= 88 ? 'Institutional Grade' : avgQuality >= 80 ? 'Premium Quality' : 'High Quality';
-  const gradeClass = avgQuality >= 88 ? 'grade-aplus' : avgQuality >= 80 ? 'grade-a' : 'grade-b';
-  const divScore = currentLumpRisk === 'conservative' ? '8.6' : currentLumpRisk === 'moderate' ? '8.9' : '8.2';
+  // ── QUALITY SCORE COMPUTATION ──
+  const avgQ = Math.round(stocksList.reduce((acc, s) => acc + s.qualityScore, 0) / stocksList.length);
+  const highRetCount = stocksList.filter(s => parseFloat(s.ret3y) > 20).length;
+  const gradeLabel = avgQ >= 88 ? 'Institutional Grade' : avgQ >= 80 ? 'Premium Quality' : 'High Quality';
+  const gradeClass = avgQ >= 88 ? 'grade-aplus' : avgQ >= 80 ? 'grade-a' : 'grade-b';
 
-  // ========== HTML RENDERING ==========
-  const renderStockRow = (s) => {
-    const itemAlloc = Math.round(stockAmt * (s.wt / 100));
-    const retColor1 = s.ret1y.startsWith('+') ? '#16a34a' : '#dc2626';
-    const retColor3 = s.ret3y.startsWith('+') ? '#16a34a' : '#dc2626';
-    const retColor5 = s.ret5y.startsWith('+') ? '#16a34a' : '#dc2626';
-    const qBarW = s.qualityScore;
-    const qBarColor = s.qualityScore >= 88 ? '#6366f1' : s.qualityScore >= 80 ? '#10b981' : '#f59e0b';
+  // ── STOCKS TABLE ROWS ──
+  const stocksRowsHtml = stocksList.map((s, idx) => {
+    const alloc = formatINR(Math.round(stockAmt * (s.wt / 100)));
+    const rowId = 'stk-' + idx;
+    const capClass = s.cap === 'Large' ? 'cap-l' : s.cap === 'Mid' ? 'cap-m' : 'cap-s';
+    
     return `
-      <tr>
-        <td>
-          <div class="instrument-cell">
-            <strong>${s.sym}</strong>
-            <span>${s.name}</span>
-            <span class="quality-badge quality-badge-${s.qualityScore >= 88 ? 'inst' : s.qualityScore >= 80 ? 'prem' : 'high'}">${s.qualityRating}</span>
-          </div>
-        </td>
-        <td>
-          <div class="cmp-cell">
-            <strong>${s.price}</strong>
-            <span class="sub-text">MCap: ${s.mktCap}</span>
-          </div>
-        </td>
-        <td>
-          <div class="valuation-cell">
-            <span>PE: <strong>${s.pe}</strong></span>
-            <span>PB: <strong>${s.pb}</strong></span>
-            <span>ROE: <strong>${s.roe}</strong></span>
-            <span>Div: <strong>${s.divYield}</strong></span>
-          </div>
-        </td>
-        <td>
-          <div class="returns-cell">
-            <span style="color:${retColor1}"><strong>${s.ret1y}</strong><br><small>1Y</small></span>
-            <span style="color:${retColor3}"><strong>${s.ret3y}</strong><br><small>3Y CAGR</small></span>
-            <span style="color:${retColor5}"><strong>${s.ret5y}</strong><br><small>5Y CAGR</small></span>
-          </div>
-        </td>
-        <td>
-          <div class="quality-cell">
-            <div class="quality-score-num">${s.qualityScore}<span>/100</span></div>
-            <div class="quality-bar-mini"><div style="width:${qBarW}%;background:${qBarColor};"></div></div>
-            <span class="sub-text">${s.sec}</span>
-          </div>
-        </td>
-        <td>
-          <div class="basis-cell">
-            <div class="basis-title">📌 Selection Basis</div>
-            <div class="basis-text">${s.selectionBasis}</div>
-            <div class="catalyst-title">🚀 Growth Catalyst</div>
-            <div class="catalyst-text">${s.futureCatalyst}</div>
-          </div>
-        </td>
-        <td>
-          <div class="action-cell">
-            <div class="weight-alloc-display">
-              <div><span class="weight-badge">${s.wt}%</span></div>
-              <div class="alloc-amt">${formatINR(itemAlloc)}</div>
+      <tr class="basket-main-row" id="row-${rowId}">
+        <td class="col-instrument">
+          <div class="bk-instrument-header">
+            <div class="bk-title-row">
+              <span class="bk-sym">${s.sym}</span>
+              <span class="cap-pill ${capClass}">${s.cap.toUpperCase()} CAP</span>
+              <span class="bk-sec">${s.sec}</span>
             </div>
-            <button type="button" class="btn-terminal-link" onclick="quickSelect('${s.sym}')">Analyze ↗</button>
+            <div class="bk-fullname">${s.name}</div>
+            <div class="bk-btn-group">
+              <button type="button" class="bk-action-btn" id="btn-basis-${rowId}" onclick="toggleBasketDrawer('${rowId}', 'basis')">
+                <span class="btn-icon">📋</span> Basis
+              </button>
+              <button type="button" class="bk-action-btn" id="btn-returns-${rowId}" onclick="toggleBasketDrawer('${rowId}', 'returns')">
+                <span class="btn-icon">📊</span> Analysis &amp; Returns
+              </button>
+              <button type="button" class="bk-action-btn" id="btn-catalyst-${rowId}" onclick="toggleBasketDrawer('${rowId}', 'catalyst')">
+                <span class="btn-icon">🚀</span> Growth Thesis
+              </button>
+              <button type="button" class="bk-action-btn bk-btn-terminal" onclick="quickSelect('${s.sym}')">
+                <span>🔍 Terminal ↗</span>
+              </button>
+            </div>
+          </div>
+        </td>
+        <td class="col-price">
+          <div class="bk-price-val">${s.price}</div>
+          <div class="bk-sub-meta">MCap: ${s.mktCap}</div>
+        </td>
+        <td class="col-alloc">
+          <span class="wt-pill">${s.wt}%</span>
+          <div class="bk-alloc-amt">${alloc}</div>
+        </td>
+        <td class="col-returns">
+          <div class="bk-ret-chips">
+            <div class="ret-chip ret-pos"><span>1Y:</span> ${s.ret1y}</div>
+            <div class="ret-chip ret-pos"><span>3Y:</span> ${s.ret3y}</div>
+            <div class="ret-chip ret-pos"><span>5Y:</span> ${s.ret5y}</div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- EXPANDABLE DRAWER ROW -->
+      <tr class="basket-drawer-row" id="drawer-${rowId}" style="display:none;">
+        <td colspan="4" class="drawer-container-cell">
+          <div class="bk-drawer-panel">
+            <div class="drawer-header-strip">
+              <div class="drawer-nav-tabs">
+                <button type="button" class="drawer-tab-btn drawer-btn-basis" onclick="switchBasketDrawerTab('${rowId}', 'basis')">
+                  📋 Selection Basis
+                </button>
+                <button type="button" class="drawer-tab-btn drawer-btn-returns" onclick="switchBasketDrawerTab('${rowId}', 'returns')">
+                  📊 Ratios &amp; Multi-Year Returns
+                </button>
+                <button type="button" class="drawer-tab-btn drawer-btn-catalyst" onclick="switchBasketDrawerTab('${rowId}', 'catalyst')">
+                  🚀 Growth Catalyst &amp; Macro
+                </button>
+              </div>
+              <button type="button" class="drawer-close-btn" onclick="closeBasketDrawer('${rowId}')">✕ Close</button>
+            </div>
+
+            <!-- Tab 1: Selection Basis -->
+            <div class="drawer-tab-content drawer-tab-basis">
+              <div class="drawer-card-box">
+                <div class="drawer-box-title">📌 In-Depth Selection Basis</div>
+                <p class="drawer-box-desc">${s.basis}</p>
+                <div class="drawer-box-footer">
+                  <span class="drawer-meta-tag">Market Capitalization: <strong>${s.mktCap}</strong></span>
+                  <span class="drawer-meta-tag">Sector: <strong>${s.sec}</strong></span>
+                  <span class="drawer-meta-tag">Quality Rating: <strong>${s.qualityRating} (${s.qualityScore}/100)</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 2: Ratios & Returns -->
+            <div class="drawer-tab-content drawer-tab-returns" style="display:none;">
+              <div class="drawer-card-box">
+                <div class="drawer-box-title">📊 Key Financial Multiples &amp; Historical Track Record</div>
+                <div class="drawer-ratios-grid">
+                  <div class="ratio-card">
+                    <span class="r-label">P/E Ratio</span>
+                    <span class="r-val">${s.pe}</span>
+                  </div>
+                  <div class="ratio-card">
+                    <span class="r-label">P/B Ratio</span>
+                    <span class="r-val">${s.pb}</span>
+                  </div>
+                  <div class="ratio-card">
+                    <span class="r-label">Return on Equity (ROE)</span>
+                    <span class="r-val r-highlight">${s.roe}</span>
+                  </div>
+                  <div class="ratio-card">
+                    <span class="r-label">Debt / Equity</span>
+                    <span class="r-val">${s.debtEq}</span>
+                  </div>
+                  <div class="ratio-card">
+                    <span class="r-label">Dividend Yield</span>
+                    <span class="r-val">${s.divY}</span>
+                  </div>
+                  <div class="ratio-card">
+                    <span class="r-label">Quality Score</span>
+                    <span class="r-val r-score">${s.qualityScore}/100</span>
+                  </div>
+                </div>
+                <div class="drawer-returns-comparison">
+                  <div class="ret-comp-card">
+                    <span class="rc-label">1-Year Absolute Return</span>
+                    <span class="rc-val rc-pos">${s.ret1y}</span>
+                  </div>
+                  <div class="ret-comp-card">
+                    <span class="rc-label">3-Year Annualized CAGR</span>
+                    <span class="rc-val rc-pos">${s.ret3y}</span>
+                  </div>
+                  <div class="ret-comp-card">
+                    <span class="rc-label">5-Year Annualized CAGR</span>
+                    <span class="rc-val rc-pos">${s.ret5y}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 3: Growth Catalyst -->
+            <div class="drawer-tab-content drawer-tab-catalyst" style="display:none;">
+              <div class="drawer-card-box">
+                <div class="drawer-box-title">🚀 Forward-Looking Catalysts &amp; Industry Tailwinds</div>
+                <p class="drawer-box-desc">${s.catalyst}</p>
+                <div class="drawer-macro-strip">
+                  <strong>Macro Alignment:</strong> ${s.macro}
+                </div>
+              </div>
+            </div>
           </div>
         </td>
       </tr>
     `;
-  };
+  }).join('');
 
-  const renderFundRow = (f) => {
-    const itemAlloc = Math.round(fundAmt * (f.wt / 100));
-    const retColor1 = f.ret1y.startsWith('+') ? '#16a34a' : '#dc2626';
-    const retColor3 = f.ret3y.startsWith('+') ? '#16a34a' : '#dc2626';
-    const retColor5 = f.ret5y.startsWith('+') ? '#16a34a' : '#dc2626';
+  // ── MUTUAL FUNDS TABLE ROWS ──
+  const fundsRowsHtml = fundsList.map((f, idx) => {
+    const alloc = formatINR(Math.round(fundAmt * (f.wt / 100)));
+    const rowId = 'fnd-' + idx;
+    
     return `
-      <tr>
-        <td>
-          <div class="instrument-cell">
-            <strong style="font-size:12.5px;">${f.name}</strong>
-            <span>AMFI Code: ${f.code} | AUM: ${f.aum}</span>
-            <span>Manager: ${f.fundManager}</span>
-            <span class="quality-badge quality-badge-inst">${f.mandateStyle}</span>
-          </div>
-        </td>
-        <td>
-          <div class="cmp-cell">
-            <strong>NAV ${f.nav}</strong>
-            <span class="sub-text">Exp Ratio: ${f.expRatio}</span>
-          </div>
-        </td>
-        <td>
-          <div class="valuation-cell">
-            <span>Sharpe: <strong>${f.sharpe}</strong></span>
-            <span>Alpha: <strong style="color:#16a34a">${f.alpha}</strong></span>
-            <span>Beta: <strong>${f.beta}</strong></span>
-          </div>
-        </td>
-        <td>
-          <div class="returns-cell">
-            <span style="color:${retColor1}"><strong>${f.ret1y}</strong><br><small>1Y</small></span>
-            <span style="color:${retColor3}"><strong>${f.ret3y}</strong><br><small>3Y CAGR</small></span>
-            <span style="color:${retColor5}"><strong>${f.ret5y}</strong><br><small>5Y CAGR</small></span>
-          </div>
-        </td>
-        <td>
-          <div class="quality-cell">
-            <span class="quality-badge quality-badge-inst">${f.cat}</span>
-          </div>
-        </td>
-        <td>
-          <div class="basis-cell">
-            <div class="basis-title">📌 Selection Basis</div>
-            <div class="basis-text">${f.selectionBasis}</div>
-            <div class="catalyst-title">🚀 Growth Catalyst</div>
-            <div class="catalyst-text">${f.futureCatalyst}</div>
-          </div>
-        </td>
-        <td>
-          <div class="action-cell">
-            <div class="weight-alloc-display">
-              <div><span class="weight-badge">${f.wt}%</span></div>
-              <div class="alloc-amt">${formatINR(itemAlloc)}</div>
+      <tr class="basket-main-row" id="row-${rowId}">
+        <td class="col-instrument">
+          <div class="bk-instrument-header">
+            <div class="bk-title-row">
+              <span class="bk-sym">${f.name}</span>
+              <span class="cap-pill cap-fund">MUTUAL FUND</span>
+              <span class="bk-sec">${f.cat}</span>
             </div>
-            <button type="button" class="btn-terminal-link" onclick="quickSelect('${f.code}')">View Fund ↗</button>
+            <div class="bk-fullname">AMFI Scheme Code: ${f.code} &nbsp;|&nbsp; AUM: ${f.aum} &nbsp;|&nbsp; Expense Ratio: ${f.exp}</div>
+            <div class="bk-btn-group">
+              <button type="button" class="bk-action-btn" id="btn-basis-${rowId}" onclick="toggleBasketDrawer('${rowId}', 'basis')">
+                <span class="btn-icon">📋</span> Selection Rationale
+              </button>
+              <button type="button" class="bk-action-btn" id="btn-returns-${rowId}" onclick="toggleBasketDrawer('${rowId}', 'returns')">
+                <span class="btn-icon">📊</span> Returns &amp; Risk Metrics
+              </button>
+              <button type="button" class="bk-action-btn bk-btn-terminal" onclick="quickSelect('${f.code}')">
+                <span>🔍 View Scheme ↗</span>
+              </button>
+            </div>
+          </div>
+        </td>
+        <td class="col-price">
+          <div class="bk-price-val">NAV ${f.nav}</div>
+          <div class="bk-sub-meta">Manager: ${f.manager}</div>
+        </td>
+        <td class="col-alloc">
+          <span class="wt-pill">${f.wt}%</span>
+          <div class="bk-alloc-amt">${alloc}</div>
+        </td>
+        <td class="col-returns">
+          <div class="bk-ret-chips">
+            <div class="ret-chip ret-pos"><span>1Y:</span> ${f.ret1y}</div>
+            <div class="ret-chip ret-pos"><span>3Y:</span> ${f.ret3y}</div>
+            <div class="ret-chip ret-pos"><span>5Y:</span> ${f.ret5y}</div>
+          </div>
+        </td>
+      </tr>
+
+      <tr class="basket-drawer-row" id="drawer-${rowId}" style="display:none;">
+        <td colspan="4" class="drawer-container-cell">
+          <div class="bk-drawer-panel">
+            <div class="drawer-header-strip">
+              <div class="drawer-nav-tabs">
+                <button type="button" class="drawer-tab-btn drawer-btn-basis" onclick="switchBasketDrawerTab('${rowId}', 'basis')">
+                  📋 Fund Strategy &amp; Selection Basis
+                </button>
+                <button type="button" class="drawer-tab-btn drawer-btn-returns" onclick="switchBasketDrawerTab('${rowId}', 'returns')">
+                  📊 Risk Ratios (Sharpe / Alpha)
+                </button>
+              </div>
+              <button type="button" class="drawer-close-btn" onclick="closeBasketDrawer('${rowId}')">✕ Close</button>
+            </div>
+
+            <div class="drawer-tab-content drawer-tab-basis">
+              <div class="drawer-card-box">
+                <div class="drawer-box-title">📌 Mandate &amp; Strategic Role</div>
+                <p class="drawer-box-desc">${f.basis}</p>
+                <div class="drawer-macro-strip">
+                  <strong>Growth Catalyst:</strong> ${f.catalyst}
+                </div>
+              </div>
+            </div>
+
+            <div class="drawer-tab-content drawer-tab-returns" style="display:none;">
+              <div class="drawer-card-box">
+                <div class="drawer-box-title">📊 Fund Risk Ratios &amp; Rolling Performance</div>
+                <div class="drawer-ratios-grid">
+                  <div class="ratio-card">
+                    <span class="r-label">Sharpe Ratio</span>
+                    <span class="r-val r-highlight">${f.sharpe}</span>
+                  </div>
+                  <div class="ratio-card">
+                    <span class="r-label">Alpha vs Index</span>
+                    <span class="r-val r-highlight">${f.alpha}</span>
+                  </div>
+                  <div class="ratio-card">
+                    <span class="r-label">Total Expense Ratio</span>
+                    <span class="r-val">${f.exp}</span>
+                  </div>
+                  <div class="ratio-card">
+                    <span class="r-label">Total AUM</span>
+                    <span class="r-val">${f.aum}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </td>
       </tr>
     `;
-  };
+  }).join('');
 
-  const renderOtherRow = (o) => {
-    const isGold = o.inst.toLowerCase().includes('gold') || o.inst.toLowerCase().includes('commodity');
+  // ── GOLD & FIXED INCOME ROWS ──
+  const otherRowsHtml = otherList.map((o, idx) => {
+    const isGold = o.type === 'G';
     const baseAmt = isGold ? goldAmt : debtAmt;
-    const itemAlloc = Math.round(baseAmt * (o.wt / 100));
+    const alloc = formatINR(Math.round(baseAmt * (o.wt / 100)));
+    const rowId = 'oth-' + idx;
+    const typeClass = isGold ? 'cap-gold' : 'cap-debt';
+    const typeLabel = isGold ? '🪙 GOLD / HEDGE' : '📄 FIXED INCOME';
+
     return `
-      <tr>
-        <td colspan="2">
-          <div class="instrument-cell">
-            <strong>${o.inst}</strong>
-            <span>5Y CAGR: <strong style="color:#16a34a">${o.ret5y}</strong></span>
-            <span class="sub-text">${o.taxNote}</span>
+      <tr class="basket-main-row" id="row-${rowId}">
+        <td class="col-instrument">
+          <div class="bk-instrument-header">
+            <div class="bk-title-row">
+              <span class="bk-sym">${o.inst}</span>
+              <span class="cap-pill ${typeClass}">${typeLabel}</span>
+            </div>
+            <div class="bk-fullname">${o.taxNote}</div>
+            <div class="bk-btn-group">
+              <button type="button" class="bk-action-btn" id="btn-basis-${rowId}" onclick="toggleBasketDrawer('${rowId}', 'basis')">
+                <span class="btn-icon">📋</span> Selection Rationale &amp; Macro Role
+              </button>
+            </div>
           </div>
         </td>
-        <td>
-          <div class="cmp-cell">
-            <strong style="font-size:12px;">${o.yield}</strong>
+        <td class="col-price">
+          <div class="bk-price-val">${o.yield}</div>
+        </td>
+        <td class="col-alloc">
+          <span class="wt-pill">${o.wt}%</span>
+          <div class="bk-alloc-amt">${alloc}</div>
+        </td>
+        <td class="col-returns">
+          <div class="bk-ret-chips">
+            <div class="ret-chip ret-pos"><span>5Y CAGR:</span> ${o.ret5y}</div>
           </div>
         </td>
-        <td>
-          <div class="basis-cell">
-            <div class="basis-title">📌 Why This?</div>
-            <div class="basis-text">${o.selectionBasis}</div>
-            <div class="catalyst-title">🌐 Macro Context</div>
-            <div class="catalyst-text">${o.macroNote}</div>
-          </div>
-        </td>
-        <td colspan="2">
-          <div class="basis-cell">
-            <div class="basis-title">🛡 Portfolio Role</div>
-            <div class="basis-text">${o.role}</div>
-          </div>
-        </td>
-        <td>
-          <div class="action-cell">
-            <div class="weight-alloc-display">
-              <div><span class="weight-badge">${o.wt}% of class</span></div>
-              <div class="alloc-amt">${formatINR(itemAlloc)}</div>
+      </tr>
+
+      <tr class="basket-drawer-row" id="drawer-${rowId}" style="display:none;">
+        <td colspan="4" class="drawer-container-cell">
+          <div class="bk-drawer-panel">
+            <div class="drawer-header-strip">
+              <div class="drawer-nav-tabs">
+                <button type="button" class="drawer-tab-btn drawer-btn-basis active">
+                  📋 Strategic Portfolio Role
+                </button>
+              </div>
+              <button type="button" class="drawer-close-btn" onclick="closeBasketDrawer('${rowId}')">✕ Close</button>
+            </div>
+            <div class="drawer-tab-content drawer-tab-basis">
+              <div class="drawer-card-box">
+                <div class="drawer-box-title">📌 Asset Class Role &amp; Tax Advantage</div>
+                <p class="drawer-box-desc">${o.basis}</p>
+                <div class="drawer-macro-strip">
+                  <strong>Macro Hedge:</strong> ${o.macro}
+                </div>
+              </div>
             </div>
           </div>
         </td>
       </tr>
     `;
-  };
-
-  const stocksRowsHtml = stocksList.map(renderStockRow).join('');
-  const fundsRowsHtml  = fundsList.map(renderFundRow).join('');
-  const otherRowsHtml  = otherList.map(renderOtherRow).join('');
+  }).join('');
 
   container.innerHTML = `
-    <!-- Basket Quality Summary Header -->
-    <div class="basket-quality-summary">
-      <div class="bqs-item">
-        <div class="bqs-label">Basket Avg Quality Score</div>
-        <div class="bqs-value ${gradeClass}">${avgQuality}<span>/100</span></div>
+    <!-- SUMMARY STRIP: DIVERSIFICATION & MIX -->
+    <div class="bk-summary-banner">
+      <div class="bk-sum-item">
+        <span class="bk-sum-label">Equity Cap Mix</span>
+        <span class="bk-sum-val">
+          <span class="cap-tag-l">🔵 ${capSummary.large}% Large</span> ·
+          <span class="cap-tag-m">🟢 ${capSummary.mid}% Mid</span> ·
+          <span class="cap-tag-s">🟠 ${capSummary.small}% Small</span>
+        </span>
       </div>
-      <div class="bqs-item">
-        <div class="bqs-label">Weighted Basket PE</div>
-        <div class="bqs-value">${wtdPE}x</div>
+      <div class="bk-sum-item">
+        <span class="bk-sum-label">Basket Quality Grade</span>
+        <span class="bk-sum-val ${gradeClass}">${gradeLabel} (${avgQ}/100)</span>
       </div>
-      <div class="bqs-item">
-        <div class="bqs-label">Stocks with 3Y CAGR &gt; 20%</div>
-        <div class="bqs-value grade-aplus">${highReturn}/${stocksList.length}</div>
+      <div class="bk-sum-item">
+        <span class="bk-sum-label">High-Return Track Record</span>
+        <span class="bk-sum-val grade-aplus">${highRetCount}/${stocksList.length} Stocks &gt; 20% 3Y CAGR</span>
       </div>
-      <div class="bqs-item">
-        <div class="bqs-label">Portfolio Diversification Score</div>
-        <div class="bqs-value">${divScore}/10</div>
-      </div>
-      <div class="bqs-item bqs-grade">
-        <div class="bqs-label">Overall Basket Grade</div>
-        <div class="bqs-value ${gradeClass}">${basketGrade} — ${gradeLabel}</div>
+      <div class="bk-sum-hint">
+        💡 <strong>Clean View:</strong> Click <strong>📋 Basis</strong>, <strong>📊 Returns</strong> or <strong>🚀 Growth Thesis</strong> near any stock name to open comprehensive institutional research.
       </div>
     </div>
 
-    <!-- Category 1: Direct Stocks -->
+    <!-- 1. DIRECT EQUITIES -->
     <div class="basket-category-section">
       <div class="basket-category-header">
-        <span>📈 1. DIRECT INDIAN EQUITIES (NSE) — DEEP ANALYSIS</span>
+        <span>📈 1. DIRECT EQUITIES (NSE) — BALANCED CAP MIX</span>
         <span class="cat-alloc-badge">Total Allocation: ${formatINR(stockAmt)}</span>
       </div>
       <div class="table-responsive">
-        <table class="basket-table-styled basket-table-comprehensive">
+        <table class="basket-table-clean">
           <thead>
             <tr>
-              <th>Instrument &amp; Quality</th>
-              <th>CMP &amp; Market Cap</th>
-              <th>Valuation Metrics</th>
-              <th>Historical Returns</th>
-              <th>Quality Score</th>
-              <th>Selection Basis &amp; Growth Catalyst</th>
-              <th>Weight &amp; Allocation</th>
+              <th style="width: 44%;">Instrument &amp; Research Actions</th>
+              <th style="width: 18%;">CMP &amp; Market Cap</th>
+              <th style="width: 18%;">Weight &amp; Allocation</th>
+              <th style="width: 20%;">Historical Returns</th>
             </tr>
           </thead>
-          <tbody>${stocksRowsHtml}</tbody>
+          <tbody>
+            ${stocksRowsHtml}
+          </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Category 2: Mutual Funds -->
+    <!-- 2. MUTUAL FUNDS -->
     <div class="basket-category-section">
       <div class="basket-category-header">
-        <span>📊 2. MUTUAL FUND SCHEMES (AMFI) — INSTITUTIONAL ANALYSIS</span>
+        <span>📊 2. TOP MUTUAL FUND SCHEMES (AMFI)</span>
         <span class="cat-alloc-badge">Total Allocation: ${formatINR(fundAmt)}</span>
       </div>
       <div class="table-responsive">
-        <table class="basket-table-styled basket-table-comprehensive">
+        <table class="basket-table-clean">
           <thead>
             <tr>
-              <th>Scheme &amp; Manager</th>
-              <th>NAV &amp; Expense</th>
-              <th>Risk Metrics</th>
-              <th>Historical Returns</th>
-              <th>Category</th>
-              <th>Selection Basis &amp; Growth Catalyst</th>
-              <th>Weight &amp; Allocation</th>
+              <th style="width: 44%;">Scheme &amp; Research Actions</th>
+              <th style="width: 18%;">Latest NAV &amp; Manager</th>
+              <th style="width: 18%;">Weight &amp; Allocation</th>
+              <th style="width: 20%;">Historical Track Record</th>
             </tr>
           </thead>
-          <tbody>${fundsRowsHtml}</tbody>
+          <tbody>
+            ${fundsRowsHtml}
+          </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Category 3: Gold & Debt -->
+    <!-- 3. GOLD & FIXED INCOME -->
     <div class="basket-category-section">
       <div class="basket-category-header">
-        <span>🪙 3. STRATEGIC GOLD &amp; FIXED INCOME — STABILITY LAYER</span>
+        <span>🪙 3. STRATEGIC GOLD &amp; FIXED INCOME (STABILITY LAYER)</span>
         <span class="cat-alloc-badge">Total Allocation: ${formatINR(goldAmt + debtAmt)}</span>
       </div>
       <div class="table-responsive">
-        <table class="basket-table-styled basket-table-comprehensive">
+        <table class="basket-table-clean">
           <thead>
             <tr>
-              <th colspan="2">Asset / Instrument &amp; Returns</th>
-              <th>Rate / Yield</th>
-              <th>Selection Basis &amp; Macro Context</th>
-              <th colspan="2">Portfolio Role</th>
-              <th>Allocation</th>
+              <th style="width: 44%;">Asset Class &amp; Research</th>
+              <th style="width: 18%;">Rate / Yield</th>
+              <th style="width: 18%;">Weight &amp; Allocation</th>
+              <th style="width: 20%;">5-Year Performance</th>
             </tr>
           </thead>
-          <tbody>${otherRowsHtml}</tbody>
+          <tbody>
+            ${otherRowsHtml}
+          </tbody>
         </table>
       </div>
     </div>
 
     <div class="basket-disclaimer">
-      ⚠️ <strong>Disclaimer:</strong> This basket is generated for educational and informational purposes based on publicly available market data as of November 2026. This is NOT SEBI-registered investment advice. Past returns do not guarantee future performance. Please consult a SEBI-registered investment advisor before making investment decisions.
+      ⚠️ <strong>Educational Disclaimer:</strong> This optimum basket is designed based on historical compound returns, financial statement health, and audited public filings as of November 2026. This does not constitute SEBI-registered personal investment advice. Please review with a licensed financial advisor.
     </div>
   `;
+}
+
+// ── INTERACTIVE BASKET DRAWER EXPANSION HANDLERS ──
+function toggleBasketDrawer(rowId, activeTab) {
+  const drawer = document.getElementById('drawer-' + rowId);
+  if (!drawer) return;
+
+  const isCurrentlyOpen = drawer.style.display !== 'none';
+  const currentTab = drawer.getAttribute('data-active-tab');
+
+  // If already open and user clicked the same tab button, collapse it
+  if (isCurrentlyOpen && currentTab === activeTab) {
+    drawer.style.display = 'none';
+    drawer.removeAttribute('data-active-tab');
+    clearBasketActiveButtons(rowId);
+    return;
+  }
+
+  // Open the drawer
+  drawer.style.display = 'table-row';
+  drawer.setAttribute('data-active-tab', activeTab);
+
+  // Switch internal tab content
+  const tabContents = drawer.querySelectorAll('.drawer-tab-content');
+  tabContents.forEach(c => c.style.display = 'none');
+  const targetContent = drawer.querySelector('.drawer-tab-' + activeTab);
+  if (targetContent) targetContent.style.display = 'block';
+
+  // Highlight the tab button inside drawer
+  const tabBtns = drawer.querySelectorAll('.drawer-tab-btn');
+  tabBtns.forEach(b => b.classList.remove('active'));
+  const activeTabBtn = drawer.querySelector('.drawer-btn-' + activeTab);
+  if (activeTabBtn) activeTabBtn.classList.add('active');
+
+  // Highlight triggering button in main row
+  clearBasketActiveButtons(rowId);
+  const triggerBtn = document.getElementById('btn-' + activeTab + '-' + rowId);
+  if (triggerBtn) triggerBtn.classList.add('btn-active');
+}
+
+function switchBasketDrawerTab(rowId, activeTab) {
+  const drawer = document.getElementById('drawer-' + rowId);
+  if (!drawer) return;
+
+  drawer.setAttribute('data-active-tab', activeTab);
+
+  const tabContents = drawer.querySelectorAll('.drawer-tab-content');
+  tabContents.forEach(c => c.style.display = 'none');
+  const targetContent = drawer.querySelector('.drawer-tab-' + activeTab);
+  if (targetContent) targetContent.style.display = 'block';
+
+  const tabBtns = drawer.querySelectorAll('.drawer-tab-btn');
+  tabBtns.forEach(b => b.classList.remove('active'));
+  const activeTabBtn = drawer.querySelector('.drawer-btn-' + activeTab);
+  if (activeTabBtn) activeTabBtn.classList.add('active');
+
+  clearBasketActiveButtons(rowId);
+  const triggerBtn = document.getElementById('btn-' + activeTab + '-' + rowId);
+  if (triggerBtn) triggerBtn.classList.add('btn-active');
+}
+
+function closeBasketDrawer(rowId) {
+  const drawer = document.getElementById('drawer-' + rowId);
+  if (drawer) {
+    drawer.style.display = 'none';
+    drawer.removeAttribute('data-active-tab');
+  }
+  clearBasketActiveButtons(rowId);
+}
+
+function clearBasketActiveButtons(rowId) {
+  ['basis', 'returns', 'catalyst'].forEach(t => {
+    const btn = document.getElementById('btn-' + t + '-' + rowId);
+    if (btn) btn.classList.remove('btn-active');
+  });
 }
 
 
