@@ -3558,7 +3558,7 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
                 <span class="btn-icon">🚀</span> Growth Thesis
               </button>
               <button type="button" class="bk-action-btn bk-btn-terminal" onclick="quickSelect('${s.sym}')">
-                <span>🔍 Terminal ↗</span>
+                <span>🩺 Health Check ↗</span>
               </button>
             </div>
           </div>
@@ -4059,6 +4059,11 @@ function navigateToPage(pageId) {
     pageId = 'page-' + pageId;
   }
 
+  // Route health requests to the unified Stock Health Check station
+  if (pageId === 'page-health') {
+    pageId = 'page-terminal';
+  }
+
   // 1. Hide all pages
   const allPages = document.querySelectorAll('.portal-page');
   allPages.forEach(p => {
@@ -4167,7 +4172,7 @@ function executeHeaderSearch() {
   const dropdown = document.getElementById("headerDropdown");
   if (dropdown) dropdown.style.display = "none";
 
-  // Switch to Research Terminal & Explore
+  // Switch to Stock Health Check & Explore
   navigateToPage('page-terminal');
   exploreInvestment(query);
 }
@@ -4844,7 +4849,7 @@ function renderPortfolioTracker() {
         </td>
         <td>
           <div class="action-btns-group">
-            <button type="button" class="btn-table-action" onclick="analyzeHoldingInTerminal('${item.sym}')" title="Inspect Balance Sheet &amp; Chart in Terminal">Analyze</button>
+            <button type="button" class="btn-table-action" onclick="analyzeHoldingInTerminal('${item.sym}')" title="Inspect Balance Sheet &amp; Chart in Stock Health Check">Analyze</button>
             <button type="button" class="btn-table-delete" onclick="deletePortfolioHolding('${item.id}')" title="Remove Holding">✕</button>
           </div>
         </td>

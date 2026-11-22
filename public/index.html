@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Research Terminal, Stock Health Checker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
+  <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Stock Health Check, Portfolio Tracker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_16">
+  <link rel="stylesheet" href="css/style.css?v=20261122_17">
 </head>
 <body>
 
@@ -43,8 +43,8 @@
     </div>
 
     <div class="header-cta-actions">
-      <button type="button" class="btn btn-outline-nav" onclick="navigateToPage('page-health')">Health Checker</button>
-      <button type="button" class="btn btn-primary-nav" onclick="navigateToPage('page-terminal')">Research Terminal</button>
+      <button type="button" class="btn btn-outline-nav" onclick="navigateToPage('page-portfolio')">Portfolio Tracker</button>
+      <button type="button" class="btn btn-primary-nav" onclick="navigateToPage('page-terminal')">Stock Health Check</button>
     </div>
   </div>
 
@@ -53,8 +53,7 @@
     <div class="portal-container subnav-flex">
       <a href="#home" class="subnav-link active" data-page="page-home" onclick="navigateToPage('page-home'); return false;"><span class="nav-icon">🏠</span> Home Dashboard</a>
       <a href="#portfolio" class="subnav-link" data-page="page-portfolio" onclick="navigateToPage('page-portfolio'); return false;"><span class="nav-icon">💼</span> Portfolio Tracker</a>
-      <a href="#terminal" class="subnav-link" data-page="page-terminal" onclick="navigateToPage('page-terminal'); return false;"><span class="nav-icon">🔬</span> Research Terminal</a>
-      <a href="#health" class="subnav-link" data-page="page-health" onclick="navigateToPage('page-health'); return false;"><span class="nav-icon">🏥</span> Stock Health Checker</a>
+      <a href="#terminal" class="subnav-link" data-page="page-terminal" onclick="navigateToPage('page-terminal'); return false;"><span class="nav-icon">🩺</span> Stock Health Check</a>
       <a href="#overview" class="subnav-link" data-page="page-overview" onclick="navigateToPage('page-overview'); return false;"><span class="nav-icon">🌐</span> Market Overview</a>
       <a href="#planner" class="subnav-link" data-page="page-planner" onclick="navigateToPage('page-planner'); return false;"><span class="nav-icon">💰</span> Investment Planner</a>
       <a href="#movers" class="subnav-link" data-page="page-movers" onclick="navigateToPage('page-movers'); return false;"><span class="nav-icon">🔥</span> Market Movers</a>
@@ -422,14 +421,14 @@
         </div>
 
         <div class="portal-cards-gateway-grid home-featured-grid">
-          <!-- 1. Stock Health Checker Card (Clickable) -->
-          <div class="portal-gateway-card featured-card health-accent" onclick="navigateToPage('page-health')">
-            <div class="gateway-icon-box" style="background: #fff1f2; color: #e11d48;">🏥</div>
+          <!-- 1. Stock Health Check Card (Clickable) -->
+          <div class="portal-gateway-card featured-card health-accent" onclick="navigateToPage('page-terminal')">
+            <div class="gateway-icon-box" style="background: #fff1f2; color: #e11d48;">🩺</div>
             <div class="gateway-content">
-              <div class="card-tag tag-health">FORENSIC &amp; SOLVENCY AUDIT</div>
-              <h3>Stock Health Checker</h3>
-              <p>Automated fundamental diagnostic testing solvency, Altman Z-Score, DuPont ROE/ROCE compounding quality, and forensic accounting red flags for 2,000+ Indian equities.</p>
-              <span class="gateway-link">Open Stock Health Checker →</span>
+              <div class="card-tag tag-health">FUNDAMENTAL &amp; HEALTH AUDIT</div>
+              <h3>Stock Health Check</h3>
+              <p>Automated fundamental diagnostic testing solvency, Altman Z-Score, DuPont ROE/ROCE compounding quality, live candlestick charts, and forensic accounting red flags.</p>
+              <span class="gateway-link">Open Stock Health Check →</span>
             </div>
           </div>
 
@@ -463,28 +462,6 @@
               <h3>Investment Planner &amp; SIP Calculator</h3>
               <p>Simulate monthly Systematic Investment Plans (SIP) with annual step-up growth, inflation adjustments, milestone targets, and risk-rated lumpsum capital allocation.</p>
               <span class="gateway-link">Launch Investment Planner →</span>
-            </div>
-          </div>
-
-          <!-- Supplementary Gateway: Research Terminal -->
-          <div class="portal-gateway-card" onclick="navigateToPage('page-terminal')">
-            <div class="gateway-icon-box" style="background: #eff6ff; color: #2563eb;">🔬</div>
-            <div class="gateway-content">
-              <div class="card-tag" style="background: #eff6ff; color: #2563eb;">EQUITY &amp; FUND RESEARCH</div>
-              <h3>Research Terminal</h3>
-              <p>Dedicated search cockpit for 2,000+ equities, live candlestick and line charts, multi-factor intelligence scoring, and audited XBRL financial statements.</p>
-              <span class="gateway-link">Launch Research Terminal →</span>
-            </div>
-          </div>
-
-          <!-- Supplementary Gateway: Market Movers -->
-          <div class="portal-gateway-card" onclick="navigateToPage('page-movers')">
-            <div class="gateway-icon-box" style="background: #fff7ed; color: #ea580c;">🔥</div>
-            <div class="gateway-content">
-              <div class="card-tag" style="background: #fff7ed; color: #ea580c;">BREAKOUT RADAR</div>
-              <h3>Market Movers &amp; Momentum</h3>
-              <p>Real-time 52-week high breakout screeners, intraday volume surge leaders, pullback alerts, and most active stocks by total turnover value.</p>
-              <span class="gateway-link">Track Market Movers →</span>
             </div>
           </div>
         </div>
@@ -763,7 +740,7 @@
                 <p id="modalRationaleText">...</p>
               </div>
               <div class="rec-modal-actions">
-                <button type="button" class="btn btn-primary" id="modalAnalyzeBtn" onclick="analyzeHoldingInTerminal()">Inspect Full Balance Sheet in Terminal ↗</button>
+                <button type="button" class="btn btn-primary" id="modalAnalyzeBtn" onclick="analyzeHoldingInTerminal()">Inspect in Stock Health Check ↗</button>
                 <button type="button" class="btn btn-outline" onclick="closeRecModal()">Close Window</button>
               </div>
             </div>
@@ -781,9 +758,9 @@
         <div class="hero-command-center">
           <div class="terminal-command-bar">
             <div class="terminal-brand-header">
-              <div class="eyebrow-badge"><span class="dot"></span> RESEARCH TERMINAL</div>
-              <h1 class="hero-title">Indian Equities &amp; Mutual Funds Intelligence</h1>
-              <p class="hero-subtitle">Real-time quotes, audited fundamentals, XBRL statements and multi-factor quantitative models.</p>
+              <div class="eyebrow-badge"><span class="dot"></span> STOCK HEALTH CHECK</div>
+              <h1 class="hero-title">Stock Health Check &amp; Equities Intelligence</h1>
+              <p class="hero-subtitle">Comprehensive fundamental health audit, solvency diagnostics, audited XBRL statements and multi-factor quantitative models.</p>
             </div>
             <div class="terminal-header-meta">
               <span class="terminal-status-pill">● LIVE BHARATSTOCK FEED · NSE &amp; BSE ACTIVE</span>
@@ -815,7 +792,7 @@
               </div>
 
               <button class="btn btn-primary search-action-btn" onclick="exploreInvestment()">
-                <span>Explore Terminal</span>
+                <span>Check Stock Health</span>
                 <span class="btn-arrow" aria-hidden="true">→</span>
               </button>
             </div>
@@ -2490,6 +2467,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_16"></script>
+<script src="js/app.js?v=20261122_17"></script>
 </body>
 </html>
