@@ -4501,11 +4501,11 @@ function renderFiiDiiChart() {
 
   ctx.clearRect(0, 0, width, height);
 
-  // Background
-  ctx.fillStyle = "#090e1a";
+  // Global Standard Light Background
+  ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, width, height);
 
-  const padding = { top: 40, right: 30, bottom: 45, left: 60 };
+  const padding = { top: 40, right: 30, bottom: 45, left: 65 };
   const chartW = width - padding.left - padding.right;
   const chartH = height - padding.top - padding.bottom;
 
@@ -4523,11 +4523,11 @@ function renderFiiDiiChart() {
 
   const zeroY = getY(0);
 
-  // Horizontal Grid Lines
-  ctx.strokeStyle = "#1e293b";
+  // Horizontal Grid Lines (Light gray)
+  ctx.strokeStyle = "#e2e8f0";
   ctx.lineWidth = 1;
   ctx.fillStyle = "#64748b";
-  ctx.font = "10px Inter, sans-serif";
+  ctx.font = "10.5px Inter, -apple-system, sans-serif";
   ctx.textAlign = "right";
 
   const gridSteps = [-1000, 0, 1000, 2000, 3000, 4000];
@@ -4537,11 +4537,11 @@ function renderFiiDiiChart() {
     ctx.moveTo(padding.left, y);
     ctx.lineTo(padding.left + chartW, y);
     ctx.stroke();
-    ctx.fillText((val >= 0 ? "+" : "") + val + " Cr", padding.left - 8, y + 3);
+    ctx.fillText((val >= 0 ? "+" : "") + val + " Cr", padding.left - 8, y + 3.5);
   });
 
   // Zero Line highlight
-  ctx.strokeStyle = "#475569";
+  ctx.strokeStyle = "#94a3b8";
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(padding.left, zeroY);
@@ -4559,11 +4559,11 @@ function renderFiiDiiChart() {
   data.forEach((d, i) => {
     const groupCenter = padding.left + i * groupW + groupW / 2;
 
-    // FII Bar
+    // FII Bar (Corporate Blue for buying, Crimson for selling)
     const fiiX = groupCenter - barW - 2;
     const fiiY = getY(Math.max(0, d.fiiNet));
     const fiiHeight = Math.abs(getY(d.fiiNet) - zeroY);
-    ctx.fillStyle = d.fiiNet >= 0 ? "#38bdf8" : "#f43f5e";
+    ctx.fillStyle = d.fiiNet >= 0 ? "#2563eb" : "#ef4444";
     ctx.beginPath();
     if (d.fiiNet >= 0) {
       ctx.roundRect(fiiX, fiiY, barW, fiiHeight, [3, 3, 0, 0]);
@@ -4572,11 +4572,11 @@ function renderFiiDiiChart() {
     }
     ctx.fill();
 
-    // DII Bar
+    // DII Bar (Emerald Green for buying, Amber for selling)
     const diiX = groupCenter + 2;
     const diiY = getY(Math.max(0, d.diiNet));
     const diiHeight = Math.abs(getY(d.diiNet) - zeroY);
-    ctx.fillStyle = d.diiNet >= 0 ? "#10b981" : "#fbbf24";
+    ctx.fillStyle = d.diiNet >= 0 ? "#059669" : "#f59e0b";
     ctx.beginPath();
     if (d.diiNet >= 0) {
       ctx.roundRect(diiX, diiY, barW, diiHeight, [3, 3, 0, 0]);
@@ -4589,16 +4589,16 @@ function renderFiiDiiChart() {
     const totY = getY(d.total);
     linePoints.push({ x: groupCenter, y: totY, total: d.total });
 
-    // Date Label
-    ctx.fillStyle = "#94a3b8";
-    ctx.font = "10.5px Inter, sans-serif";
+    // Date Label (Crisp slate)
+    ctx.fillStyle = "#475569";
+    ctx.font = "11px Inter, -apple-system, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText(d.date, groupCenter, padding.top + chartH + 18);
   });
 
-  // Draw Combined Net Line
+  // Draw Combined Net Line (Gold / Amber Trendline)
   if (linePoints.length > 1) {
-    ctx.strokeStyle = "#fbbf24";
+    ctx.strokeStyle = "#d97706";
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     linePoints.forEach((p, idx) => {
@@ -4609,18 +4609,18 @@ function renderFiiDiiChart() {
 
     // Draw Line Dots & Labels
     linePoints.forEach(p => {
-      ctx.fillStyle = "#fbbf24";
+      ctx.fillStyle = "#d97706";
       ctx.beginPath();
       ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = "#090e1a";
+      ctx.fillStyle = "#ffffff";
       ctx.beginPath();
       ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
       ctx.fill();
 
-      // Top value text
-      ctx.fillStyle = "#f8fafc";
-      ctx.font = "bold 9.5px Inter, sans-serif";
+      // Top value text (Dark, readable typography)
+      ctx.fillStyle = "#0f172a";
+      ctx.font = "bold 10px Inter, -apple-system, sans-serif";
       ctx.textAlign = "center";
       ctx.fillText((p.total >= 0 ? "+" : "") + p.total, p.x, p.y - 8);
     });
