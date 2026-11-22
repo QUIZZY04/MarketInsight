@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Research Terminal, Stock Health Checker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_10">
+  <link rel="stylesheet" href="css/style.css?v=20261122_12">
 </head>
 <body>
 
@@ -35,10 +35,11 @@
     </a>
 
     <!-- Header Terminal Direct Action (Search is strictly housed in Research Terminal) -->
-    <div class="header-quick-launch">
-      <button type="button" class="btn btn-search-launch" onclick="navigateToPage('page-terminal')" title="Open Research Terminal Search">
-        <span class="search-nav-icon">⌕</span> <span>Search Ticker in Terminal</span>
-      </button>
+    <div class="header-search-wrap">
+      <span class="header-search-icon" aria-hidden="true">⌕</span>
+      <input type="text" id="headerSearchInput" placeholder="Quick search NSE stocks or mutual funds (e.g. INFY, RELIANCE, TATAPOWER, PPFAS)..." autocomplete="off" spellcheck="false" oninput="handleHeaderSearch(this.value)" onkeydown="handleHeaderSearchKey(event)" aria-label="Global search">
+      <button type="button" class="header-search-btn" onclick="executeHeaderSearch()">Search</button>
+      <div id="headerDropdown" class="header-autocomplete-dropdown" role="listbox"></div>
     </div>
 
     <div class="header-cta-actions">
@@ -85,15 +86,15 @@
   <!-- =========================================================================
        PAGE 1: 🏠 HOME DASHBOARD
        ========================================================================= -->
-  <div id="page-home" class="portal-page">
-    <!-- Major Indian Indices Cards with Graphs Grid -->
+    <div id="page-home" class="portal-page">
+    <!-- Major Indian Indices Cards with Graphs Grid (All Indexes Report) -->
     <section class="indices-hub-section" id="indices-hub">
       <div class="portal-container">
         <div class="portal-section-header">
           <div>
             <span class="portal-eyebrow eyebrow-home">REAL-TIME EXCHANGE BENCHMARKS</span>
-            <h2 class="portal-title">Major Indian Market Indices</h2>
-            <p class="portal-subtitle">Live levels, intraday session price action and graphs across National Stock Exchange (NSE) &amp; Bombay Stock Exchange (BSE).</p>
+            <h2 class="portal-title">Major Indian Market Indices Reports</h2>
+            <p class="portal-subtitle">Live levels, intraday price action and trend graphs across National Stock Exchange (NSE) &amp; Bombay Stock Exchange (BSE) benchmark indices.</p>
           </div>
           <div class="indices-meta-pill">
             <span class="dot"></span> <span>Market Status: <strong>NORMAL TRADING</strong> · EOD Updated</span>
@@ -221,12 +222,12 @@
             </div>
           </article>
 
-          <!-- 5. NIFTY MIDCAP -->
+          <!-- 5. NIFTY MIDCAP 100 -->
           <article class="index-card">
             <div class="index-card-header">
               <div>
                 <span class="index-exchange-tag">NSE BROAD</span>
-                <h3 class="index-name">NIFTY MIDCAP</h3>
+                <h3 class="index-name">NIFTY MIDCAP 100</h3>
               </div>
               <div class="index-badge pos">+0.72% ▲</div>
             </div>
@@ -251,7 +252,67 @@
             </div>
           </article>
 
-          <!-- 6. INDIA VIX -->
+          <!-- 6. NIFTY SMALLCAP 100 -->
+          <article class="index-card">
+            <div class="index-card-header">
+              <div>
+                <span class="index-exchange-tag">NSE BROAD</span>
+                <h3 class="index-name">NIFTY SMALLCAP 100</h3>
+              </div>
+              <div class="index-badge pos">+1.42% ▲</div>
+            </div>
+            <div class="index-price-row">
+              <span class="index-price">18,920.50</span>
+              <span class="index-diff pos">+265.40 pts</span>
+            </div>
+            <div class="index-range-bar">
+              <div class="range-labels">
+                <span>Day Low: 18,640.00</span>
+                <span>Day High: 18,980.00</span>
+              </div>
+              <div class="range-track">
+                <div class="range-fill" style="left: 0%; width: 85%;"></div>
+              </div>
+            </div>
+            <div class="index-sparkline-wrap">
+              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Nifty Smallcap intraday trend">
+                <polyline fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,36 25,32 50,28 75,30 100,19 125,16 150,11 175,7 200,4"/>
+                <circle cx="200" cy="4" r="3.5" fill="#059669"/>
+              </svg>
+            </div>
+          </article>
+
+          <!-- 7. NIFTY AUTO -->
+          <article class="index-card">
+            <div class="index-card-header">
+              <div>
+                <span class="index-exchange-tag">NSE SECTORAL</span>
+                <h3 class="index-name">NIFTY AUTO</h3>
+              </div>
+              <div class="index-badge pos">+1.35% ▲</div>
+            </div>
+            <div class="index-price-row">
+              <span class="index-price">25,430.80</span>
+              <span class="index-diff pos">+338.50 pts</span>
+            </div>
+            <div class="index-range-bar">
+              <div class="range-labels">
+                <span>Day Low: 25,090.00</span>
+                <span>Day High: 25,480.00</span>
+              </div>
+              <div class="range-track">
+                <div class="range-fill" style="left: 0%; width: 88%;"></div>
+              </div>
+            </div>
+            <div class="index-sparkline-wrap">
+              <svg class="sparkline-svg" viewBox="0 0 200 45" preserveAspectRatio="none" aria-label="Nifty Auto intraday trend">
+                <polyline fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,35 25,34 50,26 75,22 100,18 125,20 150,12 175,8 200,5"/>
+                <circle cx="200" cy="5" r="3.5" fill="#059669"/>
+              </svg>
+            </div>
+          </article>
+
+          <!-- 8. INDIA VIX -->
           <article class="index-card">
             <div class="index-card-header">
               <div>
@@ -284,75 +345,81 @@
       </div>
     </section>
 
-    <!-- Executive Portal Gateway Hub: Dedicated Access to All Specialized Pages -->
+    <!-- Clickable Cards of Pages: Stock Health Checker, Market Overview, Portfolio Tracker, Investment Planner -->
     <section class="portal-module-section alt-bg" id="home-portal-gateways">
       <div class="portal-container">
         <div class="portal-section-header">
           <div>
             <span class="portal-eyebrow eyebrow-gateways">SPECIALIZED FINANCIAL MODULES</span>
-            <h2 class="portal-title">Explore MarketInsight Modules</h2>
-            <p class="portal-subtitle">Access focused, uncompromised tools engineered for serious Indian equity investors and wealth managers.</p>
+            <h2 class="portal-title">Explore Core Platform Stations</h2>
+            <p class="portal-subtitle">Direct one-click access to the platform's four flagship engines: fundamental health, institutional market overview, portfolio tracking and compounding planning.</p>
           </div>
         </div>
 
-        <div class="portal-cards-gateway-grid">
-          <!-- 1. Research Terminal Gateway -->
+        <div class="portal-cards-gateway-grid home-featured-grid">
+          <!-- 1. Stock Health Checker Card (Clickable) -->
+          <div class="portal-gateway-card featured-card health-accent" onclick="navigateToPage('page-health')">
+            <div class="gateway-icon-box" style="background: #fff1f2; color: #e11d48;">🏥</div>
+            <div class="gateway-content">
+              <div class="card-tag tag-health">FORENSIC &amp; SOLVENCY AUDIT</div>
+              <h3>Stock Health Checker</h3>
+              <p>Automated fundamental diagnostic testing solvency, Altman Z-Score, DuPont ROE/ROCE compounding quality, and forensic accounting red flags for 2,000+ Indian equities.</p>
+              <span class="gateway-link">Open Stock Health Checker →</span>
+            </div>
+          </div>
+
+          <!-- 2. Market Overview Card (Clickable) -->
+          <div class="portal-gateway-card featured-card overview-accent" onclick="navigateToPage('page-overview')">
+            <div class="gateway-icon-box" style="background: #ecfdf5; color: #059669;">🌐</div>
+            <div class="gateway-content">
+              <div class="card-tag tag-overview">INSTITUTIONAL FII / DII &amp; BREADTH</div>
+              <h3>Market Overview</h3>
+              <p>Track institutional investor movement (FII vs DII) with interactive visual graphs, 10-day audited SEBI cash disclosures, market breadth, top gainers, losers, and volume shockers.</p>
+              <span class="gateway-link">Explore Market Overview →</span>
+            </div>
+          </div>
+
+          <!-- 3. Portfolio Tracker Card (Clickable) -->
+          <div class="portal-gateway-card featured-card portfolio-accent" onclick="navigateToPage('page-planner')">
+            <div class="gateway-icon-box" style="background: #f0fdf4; color: #16a34a;">💼</div>
+            <div class="gateway-content">
+              <div class="card-tag tag-portfolio">STRATEGIC ASSET ALLOCATION &amp; BASKET</div>
+              <h3>Portfolio Tracker &amp; Optimum Basket</h3>
+              <p>Deep-analyzed Suggested Optimum Basket combining top multi-cap growth stocks (Kaynes, Trent, Tata Power, SBI) with 5 top AMFI mutual funds and risk asset distribution.</p>
+              <span class="gateway-link">View Portfolio Tracker &amp; Basket →</span>
+            </div>
+          </div>
+
+          <!-- 4. Investment Planner Card (Clickable) -->
+          <div class="portal-gateway-card featured-card planner-accent" onclick="navigateToPage('page-planner')">
+            <div class="gateway-icon-box" style="background: #fef3c7; color: #d97706;">💰</div>
+            <div class="gateway-content">
+              <div class="card-tag tag-planner">SCIENTIFIC WEALTH COMPOUNDING</div>
+              <h3>Investment Planner &amp; SIP Calculator</h3>
+              <p>Simulate monthly Systematic Investment Plans (SIP) with annual step-up growth, inflation adjustments, milestone targets, and risk-rated lumpsum capital allocation.</p>
+              <span class="gateway-link">Launch Investment Planner →</span>
+            </div>
+          </div>
+
+          <!-- Supplementary Gateway: Research Terminal -->
           <div class="portal-gateway-card" onclick="navigateToPage('page-terminal')">
             <div class="gateway-icon-box" style="background: #eff6ff; color: #2563eb;">🔬</div>
             <div class="gateway-content">
+              <div class="card-tag" style="background: #eff6ff; color: #2563eb;">EQUITY &amp; FUND RESEARCH</div>
               <h3>Research Terminal</h3>
-              <p>Explore real-time quotes, technical oscillators, interactive charts, audited balance sheets and valuation models for 2,000+ Indian equities.</p>
-              <span class="gateway-link">Launch Terminal →</span>
+              <p>Dedicated search cockpit for 2,000+ equities, live candlestick and line charts, multi-factor intelligence scoring, and audited XBRL financial statements.</p>
+              <span class="gateway-link">Launch Research Terminal →</span>
             </div>
           </div>
 
-          <!-- 2. Market Overview Gateway -->
-          <div class="portal-gateway-card" onclick="navigateToPage('page-overview')">
-            <div class="gateway-icon-box" style="background: #ecfdf5; color: #059669;">🌐</div>
-            <div class="gateway-content">
-              <h3>Indian Market Overview</h3>
-              <p>Track institutional investor movement (FII vs DII) with interactive visual graphs, 10-session audited flows, stocks increased &amp; declined, and volume shockers.</p>
-              <span class="gateway-link">View Market Overview →</span>
-            </div>
-          </div>
-
-          <!-- 3. Stock Health Checker Gateway -->
-          <div class="portal-gateway-card" onclick="navigateToPage('page-health')">
-            <div class="gateway-icon-box" style="background: #fff1f2; color: #e11d48;">🏥</div>
-            <div class="gateway-content">
-              <h3>Stock Health Checker</h3>
-              <p>Automated fundamental forensic diagnostic evaluating solvency, Altman Z-Score, DuPont ROE/ROCE compounding quality, and accounting red flags.</p>
-              <span class="gateway-link">Check Stock Health →</span>
-            </div>
-          </div>
-
-          <!-- 4. Investment Planner Gateway -->
-          <div class="portal-gateway-card" onclick="navigateToPage('page-planner')">
-            <div class="gateway-icon-box" style="background: #fef3c7; color: #d97706;">💰</div>
-            <div class="gateway-content">
-              <h3>Investment Planner &amp; Basket</h3>
-              <p>Scientific SIP calculator with milestone compounding charts, lumpsum risk asset allocation, and the curated Suggested Optimum Multi-Cap Basket.</p>
-              <span class="gateway-link">Plan Portfolio &amp; Basket →</span>
-            </div>
-          </div>
-
-          <!-- 5. Market Movers Gateway -->
+          <!-- Supplementary Gateway: Market Movers -->
           <div class="portal-gateway-card" onclick="navigateToPage('page-movers')">
             <div class="gateway-icon-box" style="background: #fff7ed; color: #ea580c;">🔥</div>
             <div class="gateway-content">
+              <div class="card-tag" style="background: #fff7ed; color: #ea580c;">BREAKOUT RADAR</div>
               <h3>Market Movers &amp; Momentum</h3>
-              <p>Dedicated breakout screener tracking 52-week high leaders, intraday surge leaders, heavy volume spurts, and most active stocks by turnover.</p>
+              <p>Real-time 52-week high breakout screeners, intraday volume surge leaders, pullback alerts, and most active stocks by total turnover value.</p>
               <span class="gateway-link">Track Market Movers →</span>
-            </div>
-          </div>
-
-          <!-- 6. Mutual Funds Gateway -->
-          <div class="portal-gateway-card" onclick="navigateToPage('page-funds')">
-            <div class="gateway-icon-box" style="background: #f5f3ff; color: #7c3aed;">▦</div>
-            <div class="gateway-content">
-              <h3>Mutual Funds &amp; ETF Radar</h3>
-              <p>Curated AMFI-verified top performers across Flexi-Cap, Small-Cap, Mid-Cap, Bluechip, and Low-Cost Passive Index funds with 5-year CAGR records.</p>
-              <span class="gateway-link">Explore Mutual Funds →</span>
             </div>
           </div>
         </div>
@@ -432,7 +499,7 @@
     </section>
   </div>
 
-  <!-- <div id="page-terminal" class="portal-page" style="display: none;">
+  <div id="page-terminal" class="portal-page" style="display: none;">
     <section class="cockpit-hero" id="explore">
       <div class="cockpit-container">
         <div class="hero-command-center">
@@ -1934,7 +2001,7 @@
     </section>
   </div>
 
-  <!-- <div id="page-funds" class="portal-page" style="display: none;">
+  <div id="page-funds" class="portal-page" style="display: none;">
     <section class="portal-module-section" id="mutual-funds">
       <div class="portal-container">
         <div class="portal-section-header">
@@ -2064,7 +2131,7 @@
     </section>
   </div>
 
-  <!-- <div id="page-news" class="portal-page" style="display: none;">
+  <div id="page-news" class="portal-page" style="display: none;">
     <section class="portal-module-section alt-bg" id="financial-news">
       <div class="portal-container">
         <div class="portal-section-header">
@@ -2138,6 +2205,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_10"></script>
+<script src="js/app.js?v=20261122_12"></script>
 </body>
 </html>

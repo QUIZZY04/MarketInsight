@@ -6649,3 +6649,67 @@ const overviewCss = `
 .btn-search-launch:hover .search-nav-icon {
   color: #ffffff;
 }
+
+
+/* Featured Gateway Cards on Home */
+.card-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 850;
+  letter-spacing: 0.6px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.card-tag.tag-health {
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+}
+
+.card-tag.tag-overview {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.card-tag.tag-portfolio {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.card-tag.tag-planner {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.portal-gateway-card.featured-card {
+  border: 1.5px solid #e2e8f0;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-gateway-card.health-accent:hover {
+  border-color: #f43f5e;
+  box-shadow: 0 16px 36px rgba(244, 63, 94, 0.12);
+}
+
+.portal-gateway-card.overview-accent:hover {
+  border-color: #059669;
+  box-shadow: 0 16px 36px rgba(5, 150, 105, 0.12);
+}
+
+.portal-gateway-card.portfolio-accent:hover {
+  border-color: #16a34a;
+  box-shadow: 0 16px 36px rgba(22, 163, 74, 0.12);
+}
+
+.portal-gateway-card.planner-accent:hover {
+  border-color: #d97706;
+  box-shadow: 0 16px 36px rgba(217, 119, 6, 0.12);
+}
