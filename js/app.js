@@ -732,6 +732,138 @@ function renderStockData(data) {
 }
 
 const DEMO_STOCK_STORE = {
+  "127042": {
+    symbol: "127042",
+    name: "Motilal Oswal Midcap Fund (Direct-Growth)",
+    price: 112.45,
+    prevClose: 111.60,
+    changePercent: 0.76,
+    open: 112.45,
+    high: 112.45,
+    low: 112.45,
+    volume: 1,
+    mktCap: 198000000000,
+    pe: 28.2,
+    pb: 5.6,
+    high52: 116.80,
+    low52: 80.20,
+    divYield: 0.0,
+    sector: "Mutual Funds",
+    industry: "Mid Cap Equity",
+    debtToEquity: 0.0,
+    currentRatio: 1.0,
+    interestCoverage: 99.0,
+    totalDebt: 0,
+    workingCapital: 198000000000,
+    revenueGrowthYoy: 24.5,
+    profitGrowthYoy: 38.5,
+    revenueGrowthQoq: 6.2,
+    epsGrowthYoy: 32.0,
+    distanceFrom52wHighPct: -3.7,
+    distanceFrom52wLowPct: 40.2,
+    priceVs50dmaPct: 2.1,
+    priceVs200dmaPct: 12.8,
+    return1w: 1.1,
+    return1m: 3.4,
+    return3m: 9.8,
+    return6m: 19.5,
+    return1y: 38.5,
+    return3y: 29.2,
+    return5y: 28.4,
+    promoterHolding: 0.0,
+    fiiHolding: 0.0,
+    diiHolding: 0.0,
+    mutualFundsHolding: 0.0,
+    publicHolding: 100.0
+  },
+  "119777": {
+    symbol: "119777",
+    name: "SBI Contra Fund (Direct-Growth)",
+    price: 418.60,
+    prevClose: 415.80,
+    changePercent: 0.67,
+    open: 418.60,
+    high: 418.60,
+    low: 418.60,
+    volume: 1,
+    mktCap: 382000000000,
+    pe: 18.5,
+    pb: 3.2,
+    high52: 432.50,
+    low52: 312.00,
+    divYield: 0.0,
+    sector: "Mutual Funds",
+    industry: "Contra / Value Equity",
+    debtToEquity: 0.0,
+    currentRatio: 1.0,
+    interestCoverage: 99.0,
+    totalDebt: 0,
+    workingCapital: 382000000000,
+    revenueGrowthYoy: 22.0,
+    profitGrowthYoy: 32.4,
+    revenueGrowthQoq: 5.4,
+    epsGrowthYoy: 28.0,
+    distanceFrom52wHighPct: -3.2,
+    distanceFrom52wLowPct: 34.2,
+    priceVs50dmaPct: 1.6,
+    priceVs200dmaPct: 8.9,
+    return1w: 0.8,
+    return1m: 2.9,
+    return3m: 8.4,
+    return6m: 16.8,
+    return1y: 32.4,
+    return3y: 24.8,
+    return5y: 26.4,
+    promoterHolding: 0.0,
+    fiiHolding: 0.0,
+    diiHolding: 0.0,
+    mutualFundsHolding: 0.0,
+    publicHolding: 100.0
+  },
+  "118560": {
+    symbol: "118560",
+    name: "Nippon India Small Cap Fund (Direct-Growth)",
+    price: 184.20,
+    prevClose: 182.90,
+    changePercent: 0.71,
+    open: 184.20,
+    high: 184.20,
+    low: 184.20,
+    volume: 1,
+    mktCap: 560000000000,
+    pe: 26.8,
+    pb: 4.8,
+    high52: 192.40,
+    low52: 135.00,
+    divYield: 0.0,
+    sector: "Mutual Funds",
+    industry: "Small Cap Equity",
+    debtToEquity: 0.0,
+    currentRatio: 1.0,
+    interestCoverage: 99.0,
+    totalDebt: 0,
+    workingCapital: 560000000000,
+    revenueGrowthYoy: 26.0,
+    profitGrowthYoy: 34.2,
+    revenueGrowthQoq: 5.8,
+    epsGrowthYoy: 30.5,
+    distanceFrom52wHighPct: -4.3,
+    distanceFrom52wLowPct: 36.4,
+    priceVs50dmaPct: 1.9,
+    priceVs200dmaPct: 11.2,
+    return1w: 0.9,
+    return1m: 3.1,
+    return3m: 9.2,
+    return6m: 18.2,
+    return1y: 31.5,
+    return3y: 25.8,
+    return5y: 32.8,
+    promoterHolding: 0.0,
+    fiiHolding: 0.0,
+    diiHolding: 0.0,
+    mutualFundsHolding: 0.0,
+    publicHolding: 100.0
+  },
   TRENT: {
     symbol: "TRENT",
     name: "Trent Limited",
@@ -2890,7 +3022,7 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
   const container = document.getElementById("basketTablesContainer");
   if (!container) return;
 
-  // ── INSTRUMENT CATALOG PER RISK PROFILE (PROPER LARGE, MID, SMALL CAP MIX) ──
+  // ── INSTRUMENT CATALOG PER RISK PROFILE (MULTI-CAP EQUITIES + TOP 5 MUTUAL FUNDS) ──
   let stocksList = [], fundsList = [], otherList = [];
   let capSummary = { large: 0, mid: 0, small: 0 };
 
@@ -2903,7 +3035,7 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
         mktCap: "₹6.47L Cr", pe: "19.4x", pb: "2.3x", roe: "16.8%", divY: "1.18%", debtEq: "7.8x (bank)",
         ret1y: "+26.0%", ret3y: "+44.0%", ret5y: "+78.0%", qualityScore: 88, qualityRating: "INSTITUTIONAL GRADE",
         sec: "Private Banking",
-        basis: "India's premier private banking franchise trading at a 15-year valuation low (P/B 2.3x vs 10Y avg 3.4x). Post-merger CD ratio normalizing from 110% to 85% unlocks ₹2L Cr deposit expansion. Net NPA at 0.33% is the lowest among Tier-1 Indian lenders.",
+        basis: "India's premier private banking franchise trading at a 15-year valuation discount (P/B 2.3x vs 10Y historical avg 3.4x). Post-merger CD ratio normalization from 110% to 85% unlocks ₹2L Cr deposit expansion. Net NPA at 0.33% is the lowest among Tier-1 Indian lenders.",
         catalyst: "CD ratio normalization driving 15-20 bps NIM expansion by FY27; HDB Financial Services IPO unlocking embedded subsidiary valuation; steady 18% credit expansion in retail mortgages.",
         macro: "Direct beneficiary of formal credit expansion across India's middle class."
       },
@@ -2953,22 +3085,46 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
         macro: "India's digital connectivity backbone infrastructure with government-backed monopoly."
       }
     ];
+
+    // TOP 5 MUTUAL FUNDS FOR CONSERVATIVE PROFILE
     fundsList = [
       {
-        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth", wt: 55, nav: "₹252.61",
-        cat: "Large Cap Index", aum: "₹18,200 Cr", exp: "0.10%", sharpe: "1.18", alpha: "0.0%",
-        ret1y: "+20.4%", ret3y: "+16.2%", ret5y: "+17.5%", manager: "Nirman Morakhia (Passive Replication)",
-        basis: "Rock-bottom expense ratio of 0.10% with industry-leading tracking error (<0.05%). Replicates India's top 50 corporate leaders, delivering 16-17% long-term CAGR with zero fund-manager risk.",
-        catalyst: "India's rising MSCI Emerging Markets weighting attracting billions in passive institutional foreign flows."
+        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth", wt: 30, nav: "₹252.61",
+        cat: "Large Cap Passive Index", aum: "₹18,200 Cr", exp: "0.10%", sharpe: "1.18", alpha: "0.0%",
+        ret1y: "+20.4%", ret3y: "+16.2%", ret5y: "+17.5%", manager: "Nirman Morakhia (Index Specialist)",
+        basis: "Ultra-low 0.10% total expense ratio with exceptional sub-0.05% tracking error. Replicates India's top 50 bluechip corporations, offering core market participation at minimum cost.",
+        catalyst: "India's weight in MSCI Emerging Markets expanding toward 22% by 2027, guaranteeing steady passive FII inflows."
       },
       {
-        code: "119598", name: "SBI Bluechip Fund — Direct Growth", wt: 45, nav: "₹106.80",
-        cat: "Large Cap Active", aum: "₹51,200 Cr", exp: "0.78%", sharpe: "1.24", alpha: "+1.8%",
+        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 25, nav: "₹94.15",
+        cat: "Flexi Cap Equity (Global)", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
+        ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%", manager: "Rajeev Thakkar & Raunak Onkar",
+        basis: "Top-ranked flexi cap fund over 10-year rolling horizons. 20-25% offshore allocation (Alphabet, Meta, Amazon) gives global tech compounding & USD hedge unavailable elsewhere in India.",
+        catalyst: "Disciplined value investing and low portfolio turnover avoid short-term capital gains tax churn."
+      },
+      {
+        code: "119598", name: "SBI Bluechip Fund — Direct Growth", wt: 20, nav: "₹106.80",
+        cat: "Large Cap Active Equity", aum: "₹51,200 Cr", exp: "0.78%", sharpe: "1.24", alpha: "+1.8%",
         ret1y: "+18.2%", ret3y: "+15.6%", ret5y: "+16.8%", manager: "Sohini Andani (22Y Experience)",
-        basis: "India's premier bluechip fund with a disciplined quality-growth mandate. Low beta of 0.92 provides critical downside containment during broader market drawdowns.",
-        catalyst: "Large-cap valuations offer superior safety margin over mid/small cap multiples in the current market cycle."
+        basis: "Disciplined quality-growth mandate with a low beta of 0.92, offering superior downside cushioning during market corrections while beating benchmark indices.",
+        catalyst: "Flight to quality large caps as mid/small cap valuations reach elevated cycle levels."
+      },
+      {
+        code: "119777", name: "SBI Contra Fund — Direct Growth", wt: 15, nav: "₹418.60",
+        cat: "Contra / Value Equity", aum: "₹38,200 Cr", exp: "0.67%", sharpe: "1.41", alpha: "+6.4%",
+        ret1y: "+32.4%", ret3y: "+24.8%", ret5y: "+26.4%", manager: "Dinesh Balachandran (Value Veteran)",
+        basis: "India's highest performing contra fund with a 5Y CAGR of 26.4%. Invests in neglected sectors with strong fundamentals before mainstream market re-rating.",
+        catalyst: "Continued cyclical outperformance in infrastructure, manufacturing, and public enterprise lending."
+      },
+      {
+        code: "127042", name: "Motilal Oswal Midcap Fund — Direct Growth", wt: 10, nav: "₹112.45",
+        cat: "Mid Cap Equity", aum: "₹19,800 Cr", exp: "0.68%", sharpe: "1.45", alpha: "+7.8%",
+        ret1y: "+38.5%", ret3y: "+29.2%", ret5y: "+28.4%", manager: "Niket Shah (Midcap Specialist)",
+        basis: "#1 ranking mid-cap fund over 3 & 5 years (28.4% 5Y CAGR). High-conviction portfolio of 25-30 companies with strong ROCE and high capital reinvestment runway.",
+        catalyst: "Earnings compounding of 25%+ in top mid-tier industrial and consumer franchise holdings."
       }
     ];
+
     otherList = [
       {
         inst: "Sovereign Gold Bonds (SGB) — RBI Tranches", wt: 35, type: "G", yield: "₹1,26,450 / 10g + 2.5% p.a.",
@@ -3058,22 +3214,46 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
         macro: "Prime beneficiary of global 'China+1' electronics manufacturing migration to India."
       }
     ];
+
+    // TOP 5 MUTUAL FUNDS FOR MODERATE PROFILE
     fundsList = [
       {
-        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 55, nav: "₹94.15",
-        cat: "Flexi Cap Equity", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
+        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 25, nav: "₹94.15",
+        cat: "Flexi Cap Equity (Global)", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
         ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%", manager: "Rajeev Thakkar & Raunak Onkar",
-        basis: "Distinctive 20-25% offshore allocation (Alphabet, Meta, Amazon) delivers invaluable international diversification and direct exposure to global GenAI leaders in an Indian mutual fund.",
-        catalyst: "Low turnover ratio maximizes long-term compounding and avoids taxable short-term trading drag."
+        basis: "India's benchmark-beating flexi cap fund. Holds 20-25% in global technology leaders (Alphabet, Meta, Amazon) to participate in global AI monetization while protecting against rupee depreciation.",
+        catalyst: "Disciplined value focus and low turnover ensure maximum long-term post-tax wealth compounding."
       },
       {
-        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth", wt: 45, nav: "₹252.61",
-        cat: "Large Cap Index", aum: "₹18,200 Cr", exp: "0.10%", sharpe: "1.18", alpha: "0.0%",
+        code: "127042", name: "Motilal Oswal Midcap Fund — Direct Growth", wt: 20, nav: "₹112.45",
+        cat: "Mid Cap Equity", aum: "₹19,800 Cr", exp: "0.68%", sharpe: "1.45", alpha: "+7.8%",
+        ret1y: "+38.5%", ret3y: "+29.2%", ret5y: "+28.4%", manager: "Niket Shah (Midcap Specialist)",
+        basis: "#1 ranking midcap scheme over 3 and 5 years in India. High-conviction portfolio with low beta of 0.95 and unmatched alpha (+7.8%). Focused on scalable mid-cap category leaders.",
+        catalyst: "Accelerating earnings growth in manufacturing, defence, and high-growth consumer midcaps."
+      },
+      {
+        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth", wt: 20, nav: "₹252.61",
+        cat: "Large Cap Passive Index", aum: "₹18,200 Cr", exp: "0.10%", sharpe: "1.18", alpha: "0.0%",
         ret1y: "+20.4%", ret3y: "+16.2%", ret5y: "+17.5%", manager: "Nirman Morakhia",
-        basis: "Core-satellite portfolio anchor delivering broad-market exposure at near-zero operating cost (0.10% TER). Ensures the basket does not fall behind benchmark rally phases.",
-        catalyst: "Consistently outpaces over 65% of actively managed large-cap funds over 10-year rolling horizons."
+        basis: "Cost-free foundation anchor (0.10% TER). Ensures the moderate portfolio tracks core economic growth and participates fully during broad-market index surges.",
+        catalyst: "India's corporate earnings compounding at 14-16% YoY through FY28."
+      },
+      {
+        code: "119777", name: "SBI Contra Fund — Direct Growth", wt: 20, nav: "₹418.60",
+        cat: "Contra / Value Equity", aum: "₹38,200 Cr", exp: "0.67%", sharpe: "1.41", alpha: "+6.4%",
+        ret1y: "+32.4%", ret3y: "+24.8%", ret5y: "+26.4%", manager: "Dinesh Balachandran",
+        basis: "Demonstrated mastery of rotation into undervalued cyclicals before market consensus. Sharpe of 1.41 provides superior risk-adjusted returns with exceptional downside buffer.",
+        catalyst: "Value unlock in heavy capital expenditure and banking sectors."
+      },
+      {
+        code: "120828", name: "Quant Small Cap Fund — Direct Growth", wt: 15, nav: "₹284.73",
+        cat: "Small Cap Equity", aum: "₹28,400 Cr", exp: "0.64%", sharpe: "1.38", alpha: "+9.2%",
+        ret1y: "+28.6%", ret3y: "+26.4%", ret5y: "+35.1%", manager: "Sanjeev Sharma (Quant Algo)",
+        basis: "Top-tier small-cap alpha kicker. Algorithmic multi-factor VLRT framework captures high-momentum small-cap winners while managing sector rotation quantitatively.",
+        catalyst: "Domestic industrial recovery delivering exponential profit scaling in small-cap market leaders."
       }
     ];
+
     otherList = [
       {
         inst: "Sovereign Gold Bonds (SGB) / Nippon Gold ETF", wt: 50, type: "G", yield: "₹1,26,450 / 10g + 2.5% p.a.",
@@ -3166,22 +3346,46 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
         macro: "Strategic spearhead of Make in India and global supply chain re-alignment."
       }
     ];
+
+    // TOP 5 MUTUAL FUNDS FOR AGGRESSIVE PROFILE
     fundsList = [
       {
-        code: "120828", name: "Quant Small Cap Fund — Direct Growth", wt: 60, nav: "₹284.73",
+        code: "120828", name: "Quant Small Cap Fund — Direct Growth", wt: 25, nav: "₹284.73",
         cat: "Small Cap Equity", aum: "₹28,400 Cr", exp: "0.64%", sharpe: "1.38", alpha: "+9.2%",
         ret1y: "+28.6%", ret3y: "+26.4%", ret5y: "+35.1%", manager: "Sanjeev Sharma (Quant VLRT Algo)",
-        basis: "Highest 5-year alpha-generating equity fund in India (+9.2% over benchmark). Proprietary algorithmic VLRT model screens 10,000+ stocks systematically to capture dynamic sector momentum.",
-        catalyst: "Indian mid/small cap corporate earnings expanding at 20%+ CAGR through FY29."
+        basis: "Highest 5-year alpha-generating fund in India (+9.2% over benchmark, 35.1% 5Y CAGR). Algorithmic momentum execution eliminates human biases and captures high-growth small-cap multibaggers early.",
+        catalyst: "Explosive earnings growth in mid/small cap capital goods, renewables, and defence suppliers."
       },
       {
-        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 40, nav: "₹94.15",
-        cat: "Flexi Cap / Global", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
+        code: "127042", name: "Motilal Oswal Midcap Fund — Direct Growth", wt: 25, nav: "₹112.45",
+        cat: "Mid Cap Equity", aum: "₹19,800 Cr", exp: "0.68%", sharpe: "1.45", alpha: "+7.8%",
+        ret1y: "+38.5%", ret3y: "+29.2%", ret5y: "+28.4%", manager: "Niket Shah (High-Conviction)",
+        basis: "#1 ranking midcap scheme in India over 3 and 5 years. Focused high-conviction portfolio of 25-30 scalable market leaders. Delivers 28.4% 5Y CAGR with robust +7.8% alpha.",
+        catalyst: "Rapid capacity expansions in portfolio manufacturing, aerospace, and EMS leaders."
+      },
+      {
+        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 20, nav: "₹94.15",
+        cat: "Flexi Cap / Global AI", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
         ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%", manager: "Rajeev Thakkar & Raunak Onkar",
-        basis: "Functions as essential quality ballast in aggressive mandates. Low beta of 0.78 dampens severe portfolio drawdown while delivering outsized risk-adjusted returns.",
-        catalyst: "Global AI platform holdings (Alphabet, Meta) monetize generative AI across global enterprise clients."
+        basis: "Functions as essential quality ballast in aggressive portfolios. Low beta of 0.78 dampens drawdowns while 20-25% offshore holdings capture global AI monetization.",
+        catalyst: "Global mega-cap technology firms driving enterprise AI productivity across the world."
+      },
+      {
+        code: "119777", name: "SBI Contra Fund — Direct Growth", wt: 15, nav: "₹418.60",
+        cat: "Contra / Value Equity", aum: "₹38,200 Cr", exp: "0.67%", sharpe: "1.41", alpha: "+6.4%",
+        ret1y: "+32.4%", ret3y: "+24.8%", ret5y: "+26.4%", manager: "Dinesh Balachandran",
+        basis: "Top-performing value-contra strategy. Generates massive alpha (+6.4%) with a conservative beta of 0.88, delivering consistent 1st-quartile returns across market regimes.",
+        catalyst: "Sustained economic formalization and capital capex revival in cyclical heavyweights."
+      },
+      {
+        code: "148721", name: "HDFC Nifty 50 Index Fund — Direct Growth", wt: 15, nav: "₹252.61",
+        cat: "Large Cap Passive Index", aum: "₹18,200 Cr", exp: "0.10%", sharpe: "1.18", alpha: "0.0%",
+        ret1y: "+20.4%", ret3y: "+16.2%", ret5y: "+17.5%", manager: "Nirman Morakhia",
+        basis: "Ultra low-cost 0.10% index fund acting as core foundation to ensure aggressive allocations stay anchored to India's top 50 corporate leaders.",
+        catalyst: "Passive FII index basket buying on emerging market index inclusion."
       }
     ];
+
     otherList = [
       {
         inst: "Multi-Asset Gold & Silver ETF Mix (70:30)", wt: 50, type: "G", yield: "Gold ₹1,26,450 / 10g | Silver ₹1,02,000 / kg",
@@ -3265,22 +3469,46 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
         macro: "Sovereign monopoly over critical railway telecom infrastructure."
       }
     ];
+
+    // TOP 5 MUTUAL FUNDS FOR VERY AGGRESSIVE PROFILE
     fundsList = [
       {
-        code: "120828", name: "Quant Small Cap Fund — Direct Growth", wt: 60, nav: "₹284.73",
+        code: "120828", name: "Quant Small Cap Fund — Direct Growth", wt: 30, nav: "₹284.73",
         cat: "Small Cap Equity", aum: "₹28,400 Cr", exp: "0.64%", sharpe: "1.38", alpha: "+9.2%",
         ret1y: "+28.6%", ret3y: "+26.4%", ret5y: "+35.1%", manager: "Sanjeev Sharma (Quant Algo)",
-        basis: "Top-performing small-cap fund in India (+9.2% alpha). Algorithmic execution eliminates human emotional biases and swiftly reallocates capital into emerging market leaders.",
-        catalyst: "Unprecedented domestic retail SIP inflows fueling small-cap liquidity and earnings compounding."
+        basis: "India's undisputed small-cap return leader (+9.2% alpha, 35.1% 5Y CAGR). Algorithmic execution swiftly reallocates capital into emerging sector winners.",
+        catalyst: "Massive retail SIP inflows and domestic manufacturing expansion driving small-cap multibaggers."
       },
       {
-        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 40, nav: "₹94.15",
-        cat: "Flexi Cap / Global", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
+        code: "127042", name: "Motilal Oswal Midcap Fund — Direct Growth", wt: 25, nav: "₹112.45",
+        cat: "Mid Cap Equity", aum: "₹19,800 Cr", exp: "0.68%", sharpe: "1.45", alpha: "+7.8%",
+        ret1y: "+38.5%", ret3y: "+29.2%", ret5y: "+28.4%", manager: "Niket Shah (High-Conviction)",
+        basis: "#1 ranking mid-cap scheme in India over 3 and 5 years. Focused high-conviction portfolio of 25-30 companies delivering 28.4% 5Y CAGR.",
+        catalyst: "High ROCE mid-tier manufacturing and tech enterprises sustaining 25%+ profit compounding."
+      },
+      {
+        code: "118560", name: "Nippon India Small Cap Fund — Direct Growth", wt: 15, nav: "₹184.20",
+        cat: "Small Cap Equity", aum: "₹56,000 Cr", exp: "0.67%", sharpe: "1.32", alpha: "+6.8%",
+        ret1y: "+31.5%", ret3y: "+25.8%", ret5y: "+32.8%", manager: "Samir Rachh (Small-Cap Veteran)",
+        basis: "India's largest small-cap fund with an exceptional 5Y CAGR of 32.8%. Deeply diversified across 150+ stocks with extensive ground-level research.",
+        catalyst: "Extensive pipeline of emerging micro and small-cap leaders graduating into mid-cap status."
+      },
+      {
+        code: "122639", name: "Parag Parikh Flexi Cap Fund — Direct Growth", wt: 15, nav: "₹94.15",
+        cat: "Flexi Cap / Global AI", aum: "₹86,500 Cr", exp: "0.63%", sharpe: "1.52", alpha: "+3.6%",
         ret1y: "+22.4%", ret3y: "+19.8%", ret5y: "+24.2%", manager: "Rajeev Thakkar & Raunak Onkar",
-        basis: "Mandatory international exposure (Alphabet, Meta, Amazon) dampens pure Indian mid/small-cap volatility while capturing global AI software compounding.",
+        basis: "Mandatory international exposure (Alphabet, Meta, Amazon) dampens small-cap volatility while capturing global AI software compounding.",
         catalyst: "Global mega-cap technology firms driving enterprise AI productivity across the world."
+      },
+      {
+        code: "119777", name: "SBI Contra Fund — Direct Growth", wt: 15, nav: "₹418.60",
+        cat: "Contra / Value Equity", aum: "₹38,200 Cr", exp: "0.67%", sharpe: "1.41", alpha: "+6.4%",
+        ret1y: "+32.4%", ret3y: "+24.8%", ret5y: "+26.4%", manager: "Dinesh Balachandran",
+        basis: "Top-performing contra fund in India (26.4% 5Y CAGR). Identifies early cycle turnarounds in capital goods, power, and banking.",
+        catalyst: "Sustained economic formalization and capital capex revival in cyclical heavyweights."
       }
     ];
+
     otherList = [
       {
         inst: "Silver & Gold Commodity ETF Mix (60:40)", wt: 60, type: "G", yield: "Silver ₹1,02,000 / kg | Gold ₹1,26,450 / 10g",
@@ -3447,7 +3675,7 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
     `;
   }).join('');
 
-  // ── MUTUAL FUNDS TABLE ROWS ──
+  // ── MUTUAL FUNDS TABLE ROWS (ALL 5 TOP-PERFORMING FUNDS) ──
   const fundsRowsHtml = fundsList.map((f, idx) => {
     const alloc = formatINR(Math.round(fundAmt * (f.wt / 100)));
     const rowId = 'fnd-' + idx;
@@ -3536,6 +3764,20 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
                   <div class="ratio-card">
                     <span class="r-label">Total AUM</span>
                     <span class="r-val">${f.aum}</span>
+                  </div>
+                </div>
+                <div class="drawer-returns-comparison">
+                  <div class="ret-comp-card">
+                    <span class="rc-label">1-Year Return</span>
+                    <span class="rc-val rc-pos">${f.ret1y}</span>
+                  </div>
+                  <div class="ret-comp-card">
+                    <span class="rc-label">3-Year Annualized CAGR</span>
+                    <span class="rc-val rc-pos">${f.ret3y}</span>
+                  </div>
+                  <div class="ret-comp-card">
+                    <span class="rc-label">5-Year Annualized CAGR</span>
+                    <span class="rc-val rc-pos">${f.ret5y}</span>
                   </div>
                 </div>
               </div>
@@ -3627,11 +3869,11 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
         <span class="bk-sum-val ${gradeClass}">${gradeLabel} (${avgQ}/100)</span>
       </div>
       <div class="bk-sum-item">
-        <span class="bk-sum-label">High-Return Track Record</span>
-        <span class="bk-sum-val grade-aplus">${highRetCount}/${stocksList.length} Stocks &gt; 20% 3Y CAGR</span>
+        <span class="bk-sum-label">Top Performing Funds</span>
+        <span class="bk-sum-val grade-aplus">${fundsList.length} Top-Ranked Schemes</span>
       </div>
       <div class="bk-sum-hint">
-        💡 <strong>Clean View:</strong> Click <strong>📋 Basis</strong>, <strong>📊 Returns</strong> or <strong>🚀 Growth Thesis</strong> near any stock name to open comprehensive institutional research.
+        💡 <strong>Clean View:</strong> Click <strong>📋 Basis</strong>, <strong>📊 Returns &amp; Ratios</strong> or <strong>🚀 Growth Thesis</strong> near any instrument name to view in-depth institutional research without cluttering the screen.
       </div>
     </div>
 
@@ -3658,10 +3900,10 @@ function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
       </div>
     </div>
 
-    <!-- 2. MUTUAL FUNDS -->
+    <!-- 2. MUTUAL FUNDS (AT LEAST 5 TOP FUNDS) -->
     <div class="basket-category-section">
       <div class="basket-category-header">
-        <span>📊 2. TOP MUTUAL FUND SCHEMES (AMFI)</span>
+        <span>📊 2. TOP ${fundsList.length} MUTUAL FUND SCHEMES (AMFI) — BASED ON 3Y &amp; 5Y ALPHA</span>
         <span class="cat-alloc-badge">Total Allocation: ${formatINR(fundAmt)}</span>
       </div>
       <div class="table-responsive">
