@@ -4301,3 +4301,703 @@ footer {
     position: static;
   }
 }
+
+
+/* =============================================================================
+   ADVANCED INVESTMENT PLANNER & LUMPSUM PORTFOLIO ARCHITECT STYLES
+   ============================================================================= */
+
+.planner-input-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 3px 10px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.planner-input-wrap:focus-within {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+}
+
+.planner-input-wrap.large {
+  padding: 5px 12px;
+}
+
+.planner-text-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14.5px;
+  font-weight: 750;
+  color: #0f172a;
+  width: 95px;
+  text-align: right;
+  font-family: inherit;
+  font-feature-settings: "tnum";
+}
+
+.planner-input-wrap.large .planner-text-input {
+  font-size: 16px;
+  width: 125px;
+}
+
+.input-prefix,
+.input-suffix {
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  user-select: none;
+}
+
+.input-prefix {
+  margin-right: 4px;
+}
+
+.input-suffix {
+  margin-left: 4px;
+}
+
+.chip-presets-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.preset-chip {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 650;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preset-chip:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.preset-chip.active {
+  background: #ecfdf5;
+  border-color: #059669;
+  color: #047857;
+  font-weight: 750;
+}
+
+.planner-advanced-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.advanced-option-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #334155;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #059669;
+  cursor: pointer;
+}
+
+.mini-number-input {
+  width: 50px;
+  padding: 2px 6px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 750;
+  color: #0f172a;
+  text-align: center;
+  outline: none;
+}
+
+.mini-number-input:focus {
+  border-color: #059669;
+}
+
+.sub-txt {
+  font-size: 11.5px;
+  color: #64748b;
+}
+
+.compounding-milestones {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.milestones-title {
+  font-size: 11.5px;
+  font-weight: 750;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 8px;
+}
+
+.milestones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+  gap: 6px;
+}
+
+.milestone-pill {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.milestone-yr {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.milestone-val {
+  font-size: 12px;
+  font-weight: 850;
+  color: #0f172a;
+  margin-top: 2px;
+  font-feature-settings: "tnum";
+}
+
+/* =============================================================================
+   LUMPSUM PORTFOLIO ARCHITECT STYLES
+   ============================================================================= */
+
+.lumpsum-portfolio-section {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 2px solid #e2e8f0;
+}
+
+.section-banner-institutional {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.banner-title-group .portal-eyebrow {
+  color: #059669;
+}
+
+.market-condition-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.lumpsum-architect-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.architect-inputs-card,
+.architect-projections-card,
+.optimum-basket-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.card-header-styled {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.header-text-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-badge {
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.card-header-styled h3 {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.badge-status-green {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  font-size: 11px;
+  font-weight: 750;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.architect-group {
+  margin-bottom: 20px;
+}
+
+.architect-group:last-child {
+  margin-bottom: 0;
+}
+
+.risk-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.risk-option-card {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.risk-option-card:hover {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+  transform: translateY(-1px);
+}
+
+.risk-option-card.active {
+  background: #ecfdf5;
+  border-color: #059669;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.12);
+}
+
+.risk-opt-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 750;
+  color: #0f172a;
+}
+
+.risk-option-card.active .risk-opt-header {
+  color: #065f46;
+}
+
+.risk-sub {
+  font-size: 11px;
+  color: #64748b;
+  margin: 3px 0 6px;
+}
+
+.risk-tag {
+  font-size: 10px;
+  font-weight: 700;
+  color: #047857;
+  background: rgba(5, 150, 105, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.horizon-pills-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.horizon-pill {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 11.5px;
+  font-weight: 650;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.horizon-pill:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.horizon-pill.active {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  font-weight: 750;
+}
+
+.architect-select {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.architect-select:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+}
+
+/* Projection Summary Box */
+.projection-summary-box {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.proj-headline {
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #065f46;
+  letter-spacing: 0.5px;
+}
+
+.proj-big-number {
+  font-size: 32px;
+  font-weight: 900;
+  color: #064e3b;
+  margin: 6px 0;
+  letter-spacing: -0.5px;
+  font-feature-settings: "tnum";
+}
+
+.proj-gain-badge {
+  display: inline-block;
+  background: #059669;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 750;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+}
+
+.proj-cagr-meta {
+  font-size: 12px;
+  color: #047857;
+  font-weight: 600;
+}
+
+/* Multi-Asset Breakdown */
+.mix-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #475569;
+  letter-spacing: 0.4px;
+}
+
+.total-capital-tag {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.multi-asset-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+  margin: 8px 0 16px;
+  background: #e2e8f0;
+}
+
+.mix-seg.stocks { background: #2563eb; }
+.mix-seg.funds { background: #059669; }
+.mix-seg.gold { background: #d97706; }
+.mix-seg.debt { background: #64748b; }
+
+.mix-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.mix-legend-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.mix-legend-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #334155;
+  font-weight: 700;
+}
+
+.dot-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-color.stocks { background: #2563eb; }
+.dot-color.funds { background: #059669; }
+.dot-color.gold { background: #d97706; }
+.dot-color.debt { background: #64748b; }
+
+.mix-pct {
+  font-size: 18px;
+  font-weight: 850;
+  color: #0f172a;
+  margin: 3px 0 1px;
+  font-feature-settings: "tnum";
+}
+
+.mix-amt {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  font-feature-settings: "tnum";
+}
+
+.macro-strategy-rationale {
+  background: #f8fafc;
+  border-left: 4px solid #059669;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  margin-top: 18px;
+}
+
+.rationale-header {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #065f46;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.macro-strategy-rationale p {
+  font-size: 12px;
+  color: #334155;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Optimum Basket Card & Tables */
+.basket-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.basket-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  color: #059669;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.basket-title {
+  font-size: 18px;
+  font-weight: 850;
+  color: #0f172a;
+  margin: 3px 0;
+}
+
+.basket-subtitle {
+  font-size: 12.5px;
+  color: #64748b;
+  margin: 0;
+}
+
+.basket-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.basket-category-section {
+  margin-bottom: 24px;
+}
+
+.basket-category-header {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f172a;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.basket-category-header .cat-alloc-badge {
+  font-size: 11.5px;
+  font-weight: 750;
+  color: #047857;
+  background: #ecfdf5;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.basket-table-styled {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+}
+
+.basket-table-styled th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+  color: #64748b;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.basket-table-styled td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 12.5px;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.basket-table-styled tr:hover {
+  background: #f8fafc;
+}
+
+.instrument-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.instrument-cell strong {
+  font-size: 13.5px;
+  color: #0f172a;
+}
+
+.instrument-cell span {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.weight-badge {
+  display: inline-block;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  font-weight: 800;
+  font-size: 11.5px;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.btn-terminal-link {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #047857;
+  font-size: 11px;
+  font-weight: 750;
+  padding: 4px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-terminal-link:hover {
+  background: #ecfdf5;
+  border-color: #059669;
+}
+
+@media (max-width: 900px) {
+  .lumpsum-architect-grid {
+    grid-template-columns: 1fr;
+  }
+  .risk-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

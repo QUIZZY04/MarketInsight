@@ -2268,6 +2268,9 @@ function selectHealthStock(ticker, btnEl) {
 
 // SIP / Lumpsum Wealth Planner
 let currentPlannerMode = 'sip';
+let currentLumpRisk = 'moderate';
+let currentLumpPeriod = 5;
+let currentLumpAmount = 500000;
 
 function switchPlannerMode(mode) {
   currentPlannerMode = mode;
@@ -2275,61 +2278,133 @@ function switchPlannerMode(mode) {
   document.querySelectorAll(".btnModeLump, #btnModeLump").forEach(el => el.classList.toggle("active", mode === 'lumpsum'));
 
   const isSip = mode === 'sip';
-  document.querySelectorAll(".labelInvestmentAmount, #labelInvestmentAmount").forEach(lbl => {
-    lbl.textContent = isSip ? "Monthly Investment Amount:" : "One-Time Lumpsum Investment:";
+  document.querySelectorAll(".labelInvestmentAmount, #labelInvestmentAmount").forEach(el => {
+    el.textContent = isSip ? "Monthly Investment Amount:" : "Total Lumpsum Investment Amount:";
   });
-  document.querySelectorAll(".sipAmountRange, #sipAmountRange").forEach(range => {
-    range.min = isSip ? "1000" : "10000";
-    range.max = isSip ? "100000" : "2000000";
-    range.step = isSip ? "1000" : "10000";
-    range.value = isSip ? "10000" : "200000";
-  });
+
+  const amtInput = document.querySelector(".sipAmountInput, #sipAmountInput");
+  const amtRange = document.querySelector(".sipAmountRange, #sipAmountRange");
+  if (isSip) {
+    if (amtRange) { amtRange.min = "1000"; amtRange.max = "100000"; amtRange.step = "1000"; amtRange.value = "10000"; }
+    if (amtInput) { amtInput.value = "10000"; }
+  } else {
+    if (amtRange) { amtRange.min = "10000"; amtRange.max = "2000000"; amtRange.step = "10000"; amtRange.value = "200000"; }
+    if (amtInput) { amtInput.value = "200000"; }
+  }
+  updateSipCalculator();
+  updateLumpsumPortfolio();
+}
+
+function handleSipInput(inputEl, field) {
+  const val = parseFloat(inputEl.value) || 0;
+  if (field === 'amount') {
+    document.querySelectorAll(".sipAmountRange, #sipAmountRange").forEach(el => { el.value = Math.min(el.max, Math.max(el.min, val)); });
+    document.querySelectorAll(".sipAmountInput, #sipAmountInput").forEach(el => { if (el !== inputEl) el.value = val; });
+  } else if (field === 'rate') {
+    document.querySelectorAll(".sipRateRange, #sipRateRange").forEach(el => { el.value = Math.min(el.max, Math.max(el.min, val)); });
+    document.querySelectorAll(".sipRateInput, #sipRateInput").forEach(el => { if (el !== inputEl) el.value = val; });
+  } else if (field === 'years') {
+    document.querySelectorAll(".sipYearsRange, #sipYearsRange").forEach(el => { el.value = Math.min(el.max, Math.max(el.min, val)); });
+    document.querySelectorAll(".sipYearsInput, #sipYearsInput").forEach(el => { if (el !== inputEl) el.value = val; });
+  }
+  updateSipCalculator(inputEl);
+}
+
+function setSipPreset(field, val) {
+  if (field === 'amount') {
+    document.querySelectorAll(".sipAmountInput, #sipAmountInput").forEach(el => { el.value = val; });
+    document.querySelectorAll(".sipAmountRange, #sipAmountRange").forEach(el => { el.value = Math.min(el.max, val); });
+  } else if (field === 'rate') {
+    document.querySelectorAll(".sipRateInput, #sipRateInput").forEach(el => { el.value = val; });
+    document.querySelectorAll(".sipRateRange, #sipRateRange").forEach(el => { el.value = val; });
+  } else if (field === 'years') {
+    document.querySelectorAll(".sipYearsInput, #sipYearsInput").forEach(el => { el.value = val; });
+    document.querySelectorAll(".sipYearsRange, #sipYearsRange").forEach(el => { el.value = val; });
+  }
   updateSipCalculator();
 }
 
-function updateSipCalculator(sourceRange) {
+function updateSipCalculator(sourceEl) {
   let amt = 10000, rate = 14.5, years = 10;
-  if (sourceRange) {
-    if (sourceRange.classList.contains("sipAmountRange") || sourceRange.id === "sipAmountRange") {
-      amt = parseFloat(sourceRange.value) || 10000;
-      document.querySelectorAll(".sipAmountRange, #sipAmountRange").forEach(el => { el.value = amt; });
-    }
-    if (sourceRange.classList.contains("sipRateRange") || sourceRange.id === "sipRateRange") {
-      rate = parseFloat(sourceRange.value) || 14.5;
-      document.querySelectorAll(".sipRateRange, #sipRateRange").forEach(el => { el.value = rate; });
-    }
-    if (sourceRange.classList.contains("sipYearsRange") || sourceRange.id === "sipYearsRange") {
-      years = parseInt(sourceRange.value) || 10;
-      document.querySelectorAll(".sipYearsRange, #sipYearsRange").forEach(el => { el.value = years; });
-    }
-  } else {
-    const amtEl = document.querySelector(".sipAmountRange, #sipAmountRange");
-    const rateEl = document.querySelector(".sipRateRange, #sipRateRange");
-    const yearsEl = document.querySelector(".sipYearsRange, #sipYearsRange");
-    if (amtEl) amt = parseFloat(amtEl.value) || 10000;
-    if (rateEl) rate = parseFloat(rateEl.value) || 14.5;
-    if (yearsEl) years = parseInt(yearsEl.value) || 10;
+
+  const amtInput = document.querySelector(".sipAmountInput, #sipAmountInput");
+  const rateInput = document.querySelector(".sipRateInput, #sipRateInput");
+  const yearsInput = document.querySelector(".sipYearsInput, #sipYearsInput");
+
+  if (sourceEl && (sourceEl.classList.contains("sipAmountRange") || sourceEl.id === "sipAmountRange")) {
+    amt = parseFloat(sourceEl.value) || 10000;
+    if (amtInput) amtInput.value = amt;
+  } else if (amtInput) {
+    amt = parseFloat(amtInput.value) || 10000;
   }
 
-  document.querySelectorAll(".sipAmountDisplay, #sipAmountDisplay").forEach(el => { el.textContent = formatINR(amt); });
-  document.querySelectorAll(".sipRateDisplay, #sipRateDisplay").forEach(el => { el.textContent = rate.toFixed(1) + "%"; });
-  document.querySelectorAll(".sipYearsDisplay, #sipYearsDisplay").forEach(el => { el.textContent = years + (years === 1 ? " Year" : " Years"); });
+  if (sourceEl && (sourceEl.classList.contains("sipRateRange") || sourceEl.id === "sipRateRange")) {
+    rate = parseFloat(sourceEl.value) || 14.5;
+    if (rateInput) rateInput.value = rate;
+  } else if (rateInput) {
+    rate = parseFloat(rateInput.value) || 14.5;
+  }
+
+  if (sourceEl && (sourceEl.classList.contains("sipYearsRange") || sourceEl.id === "sipYearsRange")) {
+    years = parseInt(sourceEl.value) || 10;
+    if (yearsInput) yearsInput.value = years;
+  } else if (yearsInput) {
+    years = parseInt(yearsInput.value) || 10;
+  }
+
+  document.querySelectorAll(".sipAmountRange, #sipAmountRange").forEach(el => {
+    if (el !== sourceEl) el.value = Math.min(el.max, Math.max(el.min, amt));
+  });
+  document.querySelectorAll(".sipRateRange, #sipRateRange").forEach(el => {
+    if (el !== sourceEl) el.value = Math.min(el.max, Math.max(el.min, rate));
+  });
+  document.querySelectorAll(".sipYearsRange, #sipYearsRange").forEach(el => {
+    if (el !== sourceEl) el.value = Math.min(el.max, Math.max(el.min, years));
+  });
+
+  // Check step-up and inflation toggles
+  const stepUpToggle = document.getElementById("sipStepUpToggle");
+  const stepUpRateEl = document.getElementById("sipStepUpRate");
+  const isStepUp = stepUpToggle && stepUpToggle.checked;
+  const stepUpPct = isStepUp ? (parseFloat(stepUpRateEl?.value) || 10) : 0;
+
+  const inflationToggle = document.getElementById("sipInflationToggle");
+  const isInflation = inflationToggle && inflationToggle.checked;
+  const inflationRate = 0.06; // 6.0% Indian inflation baseline
 
   let invested = 0;
   let futureVal = 0;
 
   if (currentPlannerMode === 'sip') {
-    const months = years * 12;
+    const totalMonths = years * 12;
     const monthlyRate = (rate / 100) / 12;
-    invested = amt * months;
-    if (monthlyRate > 0) {
-      futureVal = Math.round(amt * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
+
+    if (isStepUp && stepUpPct > 0) {
+      for (let m = 1; m <= totalMonths; m++) {
+        const yearIndex = Math.floor((m - 1) / 12);
+        const currentMonthly = amt * Math.pow(1 + (stepUpPct / 100), yearIndex);
+        invested += currentMonthly;
+        const remainingMonths = totalMonths - m + 1;
+        futureVal += currentMonthly * Math.pow(1 + monthlyRate, remainingMonths);
+      }
+      invested = Math.round(invested);
+      futureVal = Math.round(futureVal);
     } else {
-      futureVal = invested;
+      invested = amt * totalMonths;
+      if (monthlyRate > 0) {
+        futureVal = Math.round(amt * ((Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate) * (1 + monthlyRate));
+      } else {
+        futureVal = invested;
+      }
     }
   } else {
     invested = amt;
     futureVal = Math.round(amt * Math.pow(1 + (rate / 100), years));
+  }
+
+  // Deflate for inflation if requested
+  if (isInflation && years > 0) {
+    futureVal = Math.round(futureVal / Math.pow(1 + inflationRate, years));
   }
 
   const gains = Math.max(0, futureVal - invested);
@@ -2352,6 +2427,419 @@ function updateSipCalculator(sourceRange) {
     : `For a shorter ${years}-year horizon, prioritize capital safety with <strong>50% in Conservative Large-Cap / Balanced Advantage Funds</strong> and <strong>50% in Short-Duration Debt Funds / FDs</strong>.`;
 
   document.querySelectorAll(".strategyDesc, #strategyDesc").forEach(el => { el.innerHTML = strategyHtml; });
+
+  // Render Compounding Milestones Grid
+  renderSipMilestones(amt, rate, years, isStepUp ? stepUpPct : 0, isInflation);
+}
+
+function renderSipMilestones(baseAmt, ratePct, totalYears, stepUpPct, isInflation) {
+  const container = document.getElementById("sipMilestonesGrid");
+  if (!container) return;
+
+  const milestones = [1, 3, 5, 10, 15, 20, 25, 30].filter(y => y <= Math.max(totalYears, 5));
+  if (!milestones.includes(totalYears) && totalYears > 1) {
+    milestones.push(totalYears);
+    milestones.sort((a, b) => a - b);
+  }
+
+  const r = (ratePct / 100) / 12;
+  const htmlArr = milestones.map(y => {
+    let fv = 0;
+    const months = y * 12;
+    if (stepUpPct > 0) {
+      for (let m = 1; m <= months; m++) {
+        const yrIdx = Math.floor((m - 1) / 12);
+        const curM = baseAmt * Math.pow(1 + (stepUpPct / 100), yrIdx);
+        fv += curM * Math.pow(1 + r, months - m + 1);
+      }
+    } else {
+      fv = baseAmt * ((Math.pow(1 + r, months) - 1) / r) * (1 + r);
+    }
+    if (isInflation) {
+      fv = fv / Math.pow(1 + 0.06, y);
+    }
+    return `
+      <div class="milestone-pill">
+        <div class="milestone-yr">${y} ${y === 1 ? 'Year' : 'Years'}</div>
+        <div class="milestone-val">${formatINR(Math.round(fv))}</div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = htmlArr.join('');
+}
+
+
+// =============================================================================
+// INSTITUTIONAL LUMPSUM PORTFOLIO ARCHITECT (Grounded in 2026 Climate)
+// =============================================================================
+
+function setLumpRisk(risk) {
+  currentLumpRisk = risk;
+  ['conservative', 'moderate', 'aggressive', 'very_aggressive'].forEach(r => {
+    const card = document.getElementById('riskOpt-' + r);
+    if (card) card.classList.toggle('active', r === risk);
+  });
+  updateLumpsumPortfolio();
+}
+
+function setLumpPeriod(years) {
+  currentLumpPeriod = years;
+  const input = document.getElementById("lumpPeriodInput");
+  if (input) input.value = years;
+
+  [2, 5, 8, 15].forEach(y => {
+    const pill = document.getElementById('pillHorizon' + y);
+    if (pill) pill.classList.toggle('active', y === years);
+  });
+  updateLumpsumPortfolio();
+}
+
+function setLumpAmount(amt) {
+  currentLumpAmount = amt;
+  const input = document.getElementById("lumpAmountInput");
+  const range = document.getElementById("lumpAmountRange");
+  if (input) input.value = amt;
+  if (range) range.value = Math.min(range.max, Math.max(range.min, amt));
+  updateLumpsumPortfolio();
+}
+
+function syncLumpRange(rangeEl) {
+  const amt = parseFloat(rangeEl.value) || 500000;
+  const input = document.getElementById("lumpAmountInput");
+  if (input) input.value = amt;
+  updateLumpsumPortfolio();
+}
+
+function updateLumpsumPortfolio() {
+  const amtInput = document.getElementById("lumpAmountInput");
+  const periodInput = document.getElementById("lumpPeriodInput");
+  const objSelect = document.getElementById("lumpObjectiveSelect");
+
+  const amount = amtInput ? (parseFloat(amtInput.value) || 500000) : 500000;
+  const years = periodInput ? (parseInt(periodInput.value) || 5) : 5;
+  const objective = objSelect ? objSelect.value : 'wealth_creation';
+
+  currentLumpAmount = amount;
+  currentLumpPeriod = years;
+
+  // Multi-Asset Allocation Ratios & Expected CAGRs based on Risk Profile
+  let stockPct = 35, fundPct = 30, goldPct = 15, debtPct = 20, expectedCagr = 14.5;
+  let riskName = "Moderate Compounding", riskColor = "#059669";
+
+  if (currentLumpRisk === 'conservative') {
+    stockPct = 20; fundPct = 20; goldPct = 15; debtPct = 45; expectedCagr = 10.5;
+    riskName = "Conservative Preservation"; riskColor = "#2563eb";
+  } else if (currentLumpRisk === 'moderate') {
+    stockPct = 35; fundPct = 30; goldPct = 15; debtPct = 20; expectedCagr = 14.5;
+    riskName = "Moderate Balanced"; riskColor = "#059669";
+  } else if (currentLumpRisk === 'aggressive') {
+    stockPct = 45; fundPct = 35; goldPct = 10; debtPct = 10; expectedCagr = 16.8;
+    riskName = "Aggressive Wealth Growth"; riskColor = "#d97706";
+  } else if (currentLumpRisk === 'very_aggressive') {
+    stockPct = 55; fundPct = 35; goldPct = 5; debtPct = 5; expectedCagr = 19.2;
+    riskName = "Alpha Momentum"; riskColor = "#dc2626";
+  }
+
+  // Adjust slightly for objective
+  if (objective === 'dividend_cashflow') {
+    expectedCagr = Math.max(9.5, expectedCagr - 1.5);
+  } else if (objective === 'balanced_growth') {
+    expectedCagr = Math.max(10.0, expectedCagr - 0.5);
+  }
+
+  // Amounts
+  const stockAmt = Math.round(amount * (stockPct / 100));
+  const fundAmt = Math.round(amount * (fundPct / 100));
+  const goldAmt = Math.round(amount * (goldPct / 100));
+  const debtAmt = Math.round(amount * (debtPct / 100));
+
+  // Future Maturity Value & Multiplier
+  const futureVal = Math.round(amount * Math.pow(1 + (expectedCagr / 100), years));
+  const gainAmt = Math.max(0, futureVal - amount);
+  const gainPct = ((gainAmt / amount) * 100).toFixed(1);
+  const multiplier = (futureVal / amount).toFixed(2);
+
+  // Update Summary Box
+  const matValEl = document.getElementById("lumpMaturityValue");
+  if (matValEl) matValEl.textContent = formatINR(futureVal);
+
+  const gainBadgeEl = document.getElementById("lumpGainBadge");
+  if (gainBadgeEl) gainBadgeEl.textContent = `+${formatINR(gainAmt)} (+${gainPct}% Gain · ${multiplier}x Multiplier)`;
+
+  const cagrMetaEl = document.getElementById("lumpCagrMeta");
+  if (cagrMetaEl) cagrMetaEl.innerHTML = `Expected Blended Portfolio CAGR: <strong>${expectedCagr.toFixed(1)}% p.a.</strong> (Target ${years}-Year Horizon)`;
+
+  const capTagEl = document.getElementById("lumpCapitalTag");
+  if (capTagEl) capTagEl.textContent = `Total Capital: ${formatINR(amount)}`;
+
+  // Update Asset Mix Bar & Legend
+  const barStocks = document.getElementById("barMixStocks");
+  const barFunds = document.getElementById("barMixFunds");
+  const barGold = document.getElementById("barMixGold");
+  const barDebt = document.getElementById("barMixDebt");
+
+  if (barStocks) barStocks.style.width = stockPct + "%";
+  if (barFunds) barFunds.style.width = fundPct + "%";
+  if (barGold) barGold.style.width = goldPct + "%";
+  if (barDebt) barDebt.style.width = debtPct + "%";
+
+  const elMixPctStocks = document.getElementById("mixPctStocks");
+  const elMixAmtStocks = document.getElementById("mixAmtStocks");
+  if (elMixPctStocks) elMixPctStocks.textContent = stockPct + "%";
+  if (elMixAmtStocks) elMixAmtStocks.textContent = formatINR(stockAmt);
+
+  const elMixPctFunds = document.getElementById("mixPctFunds");
+  const elMixAmtFunds = document.getElementById("mixAmtFunds");
+  if (elMixPctFunds) elMixPctFunds.textContent = fundPct + "%";
+  if (elMixAmtFunds) elMixAmtFunds.textContent = formatINR(fundAmt);
+
+  const elMixPctGold = document.getElementById("mixPctGold");
+  const elMixAmtGold = document.getElementById("mixAmtGold");
+  if (elMixPctGold) elMixPctGold.textContent = goldPct + "%";
+  if (elMixAmtGold) elMixAmtGold.textContent = formatINR(goldAmt);
+
+  const elMixPctDebt = document.getElementById("mixPctDebt");
+  const elMixAmtDebt = document.getElementById("mixAmtDebt");
+  if (elMixPctDebt) elMixPctDebt.textContent = debtPct + "%";
+  if (elMixAmtDebt) elMixAmtDebt.textContent = formatINR(debtAmt);
+
+  // Update Strategic Grounding Rationale
+  const ratText = document.getElementById("rationaleText");
+  if (ratText) {
+    if (currentLumpRisk === 'conservative') {
+      ratText.innerHTML = `With NIFTY at ~25,800 and high sovereign yields, this conservative setup anchors ${debtPct}% in AAA/sovereign debt, ${goldPct}% in sovereign gold (at ₹1,26,450/10g) to protect purchasing power, and ${stockPct + fundPct}% in cash-flow generative, dividend bluechips (HDFC Bank, Reliance, ITC) for safe compounding.`;
+    } else if (currentLumpRisk === 'moderate') {
+      ratText.innerHTML = `At NIFTY 25,800 (P/E ~22.4x), this balanced allocation captures secular Indian GDP expansion with ${stockPct}% direct bluechips (Airtel, ICICI Bank, Reliance, Tata Power), ${fundPct}% Flexi-Cap/Index MFs (PPFAS & HDFC Nifty 50), plus ${goldPct}% gold and ${debtPct}% debt as a downside buffer.`;
+    } else if (currentLumpRisk === 'aggressive') {
+      ratText.innerHTML = `Optimized for multi-year capital compounding: ${stockPct}% allocated to high-growth market leaders (Airtel, Tata Power, SBI, Trent), ${fundPct}% to high-alpha small/flexi-cap funds (Quant Small Cap & PPFAS), with ${goldPct + debtPct}% reserve for opportunistic dip deployment.`;
+    } else {
+      ratText.innerHTML = `Aggressive alpha capture model: ${stockPct}% momentum equities (Tata Power, Trent, SBI, Airtel), ${fundPct}% high-conviction small-cap alpha (Quant Small Cap), keeping a lean ${goldPct + debtPct}% buffer to maximize compound returns over ${years} years.`;
+    }
+  }
+
+  // Render Suggested Optimum Basket Tables
+  renderOptimumBasket(amount, stockAmt, fundAmt, goldAmt, debtAmt);
+}
+
+function renderOptimumBasket(totalAmount, stockAmt, fundAmt, goldAmt, debtAmt) {
+  const container = document.getElementById("basketTablesContainer");
+  if (!container) return;
+
+  // Specific Instruments Catalog Grounded in Current Live Prices
+  let stocksList = [];
+  let fundsList = [];
+  let otherList = [];
+
+  if (currentLumpRisk === 'conservative') {
+    stocksList = [
+      { sym: "HDFCBANK", name: "HDFC Bank Limited", price: "₹ 846.00", wt: 30, sec: "Financials / Banking", thesis: "Tier-1 private banking franchise at historic valuation discount" },
+      { sym: "RELIANCE", name: "Reliance Industries Ltd", price: "₹ 1,377.50", wt: 30, sec: "Conglomerate / Energy", thesis: "Resilient consumer retail & telecom cash flow generation" },
+      { sym: "ITC", name: "ITC Limited", price: "₹ 299.10", wt: 25, sec: "Consumer FMCG", thesis: "Defensive cash flows, resilient balance sheet & steady dividend yield" },
+      { sym: "INFY", name: "Infosys Limited", price: "₹ 1,098.00", wt: 15, sec: "Information Technology", thesis: "Robust operating margins, debt-free balance sheet & buyback support" }
+    ];
+    fundsList = [
+      { code: "148721", name: "HDFC Nifty 50 Index Fund", nav: "₹ 252.61", wt: 50, cat: "Index (Large Cap)", thesis: "Lowest tracking error core Indian equities foundation" },
+      { code: "119598", name: "SBI Bluechip Fund", nav: "₹ 106.80", wt: 50, cat: "Large Cap Equity", thesis: "Consistent downside risk containment & audited track record" }
+    ];
+    otherList = [
+      { inst: "Sovereign Gold Bonds / Nippon Gold ETF", yield: "₹ 1,26,450 / 10g", wt: 35, role: "Hedge against inflation and currency depreciation (USD/INR ₹92.68)" },
+      { inst: "7.18% GS 2033 (Government Security) / Bharat Bond", yield: "7.15% Yield", wt: 45, role: "Sovereign risk-free fixed income coupon backing capital safety" },
+      { inst: "Aditya Birla Sun Life Liquid / Arbitrage Fund", yield: "6.85% Yield", wt: 20, role: "Ultra-low volatility cash management buffer for tactical liquidity" }
+    ];
+  } else if (currentLumpRisk === 'moderate') {
+    stocksList = [
+      { sym: "BHARTIARTL", name: "Bharti Airtel Limited", price: "₹ 2,161.70", wt: 25, sec: "Telecom & Digital", thesis: "Expanding ARPU, 5G market leadership and robust return on capital" },
+      { sym: "ICICIBANK", name: "ICICI Bank Limited", price: "₹ 1,640.00", wt: 25, sec: "Private Banking", thesis: "Best-in-class return on assets (ROA) and superior asset quality" },
+      { sym: "RELIANCE", name: "Reliance Industries Ltd", price: "₹ 1,377.50", wt: 20, sec: "Energy & Retail", thesis: "Multi-engine conglomerate with ongoing green energy investments" },
+      { sym: "TATAPOWER", name: "Tata Power Company Ltd", price: "₹ 340.00", wt: 15, sec: "Clean Energy & Utilities", thesis: "Renewables transition, transmission capex & rooftop solar scale" },
+      { sym: "TCS", name: "Tata Consultancy Services Ltd", price: "₹ 2,376.20", wt: 15, sec: "IT Services", thesis: "Global digital enterprise transformation and resilient dividend payout" }
+    ];
+    fundsList = [
+      { code: "122639", name: "Parag Parikh Flexi Cap Fund", nav: "₹ 94.15", wt: 50, cat: "Flexi Cap Equity", thesis: "Disciplined value investing with defensive international exposure" },
+      { code: "148721", name: "HDFC Nifty 50 Index Fund", nav: "₹ 252.61", wt: 50, cat: "Large Cap Index", thesis: "Broad market participation capturing India's macroeconomic GDP trajectory" }
+    ];
+    otherList = [
+      { inst: "Sovereign Gold Bonds / HDFC Gold ETF", yield: "₹ 1,26,450 / 10g", wt: 45, role: "Hedge against geopolitical tail risks and global macroeconomic volatility" },
+      { inst: "Corporate Bond Fund (AAA Rated) / Target Maturity", yield: "7.55% Accrual", wt: 55, role: "Predictable accrual income stabilizing portfolio quarterly returns" }
+    ];
+  } else if (currentLumpRisk === 'aggressive') {
+    stocksList = [
+      { sym: "BHARTIARTL", name: "Bharti Airtel Limited", price: "₹ 2,161.70", wt: 25, sec: "Telecom & Cloud", thesis: "Secular digitization beneficiary with expanding free cash flow" },
+      { sym: "TATAPOWER", name: "Tata Power Company Ltd", price: "₹ 340.00", wt: 25, sec: "Clean Energy Capex", thesis: "Clean power turnaround play with massive order pipeline" },
+      { sym: "SBIN", name: "State Bank of India", price: "₹ 1,165.10", wt: 20, sec: "Public Sector Banking", thesis: "Credit expansion leader riding India's infrastructure revival" },
+      { sym: "TRENT", name: "Trent Limited", price: "₹ 6,850.00", wt: 15, sec: "Consumer Retail", thesis: "Highest-compounding fashion retail chain (Westside/Zudio) in India" },
+      { sym: "ICICIBANK", name: "ICICI Bank Limited", price: "₹ 1,640.00", wt: 15, sec: "Private Banking", thesis: "Underwriting strength & retail credit compounding" }
+    ];
+    fundsList = [
+      { code: "120828", name: "Quant Small Cap Fund", nav: "₹ 310.57", wt: 55, cat: "Small Cap High Alpha", thesis: "Dynamic quantitative momentum algorithm with proven outperformance" },
+      { code: "122639", name: "Parag Parikh Flexi Cap Fund", nav: "₹ 94.15", wt: 45, cat: "Flexi Cap Equity", thesis: "Multi-cap core compounder to balance small cap cyclicality" }
+    ];
+    otherList = [
+      { inst: "Sovereign Gold Bonds / Gold ETF", yield: "₹ 1,26,450 / 10g", wt: 50, role: "Non-correlated wealth preserver protecting portfolio against equity corrections" },
+      { inst: "Arbitrage / Short-Duration Debt Fund", yield: "7.10% Yield", wt: 50, role: "Tactical war chest for opportunistic deployment on market pullbacks" }
+    ];
+  } else {
+    // Very Aggressive
+    stocksList = [
+      { sym: "TATAPOWER", name: "Tata Power Company Ltd", price: "₹ 340.00", wt: 25, sec: "Energy Transition", thesis: "High-beta green energy transformation with exponential generation targets" },
+      { sym: "TRENT", name: "Trent Limited", price: "₹ 6,850.00", wt: 25, sec: "Consumer Compounding", thesis: "Unprecedented store expansion rate & market share capture" },
+      { sym: "SBIN", name: "State Bank of India", price: "₹ 1,165.10", wt: 20, sec: "Financials / PSU", thesis: "Leveraged beneficiary of corporate capex & loan growth" },
+      { sym: "BHARTIARTL", name: "Bharti Airtel Limited", price: "₹ 2,161.70", wt: 15, sec: "Telecom / Data", thesis: "Monopolistic pricing power and expanding institutional sponsorship" },
+      { sym: "INFY", name: "Infosys Limited", price: "₹ 1,098.00", wt: 15, sec: "Information Technology", thesis: "Cyclical enterprise AI demand acceleration rebound" }
+    ];
+    fundsList = [
+      { code: "120828", name: "Quant Small Cap Fund", nav: "₹ 310.57", wt: 60, cat: "Small Cap High Alpha", thesis: "Unconstrained alpha generation in high-growth mid & small enterprises" },
+      { code: "122639", name: "Parag Parikh Flexi Cap Fund", nav: "₹ 94.15", wt: 40, cat: "Flexi Cap Equity", thesis: "Long-term compounding anchor with disciplined risk controls" }
+    ];
+    otherList = [
+      { inst: "Multi-Asset Gold / Commodity ETF", yield: "₹ 1,26,450 / 10g", wt: 50, role: "Strategic hedge against tail events" },
+      { inst: "Overnight / Liquid Cash Reserves", yield: "6.75% Yield", wt: 50, role: "Instant dip-buying capital for market corrections" }
+    ];
+  }
+
+  // Generate HTML for Direct Stocks
+  const stocksRowsHtml = stocksList.map(s => {
+    const itemAlloc = Math.round(stockAmt * (s.wt / 100));
+    return `
+      <tr>
+        <td>
+          <div class="instrument-cell">
+            <strong>${s.sym}</strong>
+            <span>${s.name}</span>
+          </div>
+        </td>
+        <td><strong>${s.price}</strong></td>
+        <td><span class="weight-badge">${s.wt}%</span></td>
+        <td><strong>${formatINR(itemAlloc)}</strong></td>
+        <td><span class="sub-text">${s.sec}</span></td>
+        <td><span style="font-size:11.5px; color:#475569;">${s.thesis}</span></td>
+        <td><button type="button" class="btn-terminal-link" onclick="quickSelect('${s.sym}')">Analyze ↗</button></td>
+      </tr>
+    `;
+  }).join('');
+
+  // Generate HTML for Mutual Funds
+  const fundsRowsHtml = fundsList.map(f => {
+    const itemAlloc = Math.round(fundAmt * (f.wt / 100));
+    return `
+      <tr>
+        <td>
+          <div class="instrument-cell">
+            <strong>${f.name}</strong>
+            <span>AMFI Scheme Code: ${f.code}</span>
+          </div>
+        </td>
+        <td><strong>${f.nav}</strong></td>
+        <td><span class="weight-badge">${f.wt}%</span></td>
+        <td><strong>${formatINR(itemAlloc)}</strong></td>
+        <td><span class="sub-text">${f.cat}</span></td>
+        <td><span style="font-size:11.5px; color:#475569;">${f.thesis}</span></td>
+        <td><button type="button" class="btn-terminal-link" onclick="quickSelect('${f.code}')">View Scheme ↗</button></td>
+      </tr>
+    `;
+  }).join('');
+
+  // Generate HTML for Other Investments (Gold & Debt)
+  const otherRowsHtml = otherList.map(o => {
+    const subAmt = (o.inst.includes('Gold') ? goldAmt : debtAmt);
+    const itemAlloc = Math.round(subAmt * (o.wt / 100));
+    return `
+      <tr>
+        <td><strong>${o.inst}</strong></td>
+        <td>${o.yield}</td>
+        <td><span class="weight-badge">${o.wt}% of asset class</span></td>
+        <td><strong>${formatINR(itemAlloc)}</strong></td>
+        <td colspan="3"><span style="font-size:11.5px; color:#475569;">${o.role}</span></td>
+      </tr>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <!-- Category 1: Direct Stocks -->
+    <div class="basket-category-section">
+      <div class="basket-category-header">
+        <span>📈 1. DIRECT INDIAN EQUITIES (NSE)</span>
+        <span class="cat-alloc-badge">Total Allocation: ${formatINR(stockAmt)}</span>
+      </div>
+      <div class="table-responsive">
+        <table class="basket-table-styled">
+          <thead>
+            <tr>
+              <th>Instrument</th>
+              <th>Current Price</th>
+              <th>Target Weight</th>
+              <th>Rupee Allocation</th>
+              <th>Sector</th>
+              <th>Strategic Selection Rationale</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${stocksRowsHtml}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Category 2: Mutual Funds -->
+    <div class="basket-category-section">
+      <div class="basket-category-header">
+        <span>📊 2. TOP MUTUAL FUND SCHEMES (AMFI)</span>
+        <span class="cat-alloc-badge">Total Allocation: ${formatINR(fundAmt)}</span>
+      </div>
+      <div class="table-responsive">
+        <table class="basket-table-styled">
+          <thead>
+            <tr>
+              <th>Scheme Name</th>
+              <th>Latest NAV</th>
+              <th>Target Weight</th>
+              <th>Rupee Allocation</th>
+              <th>Category</th>
+              <th>Investment Rationale</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${fundsRowsHtml}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Category 3: Sovereign Gold & Debt -->
+    <div class="basket-category-section">
+      <div class="basket-category-header">
+        <span>🪙 3. STRATEGIC GOLD &amp; FIXED INCOME (STABILITY &amp; HEDGE)</span>
+        <span class="cat-alloc-badge">Total Allocation: ${formatINR(goldAmt + debtAmt)}</span>
+      </div>
+      <div class="table-responsive">
+        <table class="basket-table-styled">
+          <thead>
+            <tr>
+              <th>Asset / Instrument</th>
+              <th>Current Rate / Yield</th>
+              <th>Internal Weight</th>
+              <th>Rupee Allocation</th>
+              <th colspan="3">Macro Role in Portfolio</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${otherRowsHtml}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function loadBasketIntoTerminal(ticker = 'RELIANCE') {
+  quickSelect(ticker);
+}
+
+function exportPortfolioPlan() {
+  window.print();
 }
 
 // Market Movers Tab Switching
@@ -2411,6 +2899,7 @@ function navigateToPage(pageId) {
   // 6. If switching to terminal or health, ensure calculations or default tickers are loaded
   if (pageId === 'page-planner') {
     updateSipCalculator();
+    updateLumpsumPortfolio();
   } else if (pageId === 'page-terminal' || cleanHash === 'terminal' || cleanHash === 'research') {
     showTab(currentActiveTab || 'overview');
     if (currentSelectedData) {

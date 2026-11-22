@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Research Terminal, Stock Health Checker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_1">
+  <link rel="stylesheet" href="css/style.css?v=20261122_2">
 </head>
 <body>
 
@@ -611,28 +611,54 @@
                 <div class="planner-control-group">
                   <div class="control-label-row">
                     <label class="labelInvestmentAmount">Monthly Investment Amount:</label>
-                    <div class="control-bubble sipAmountDisplay">₹ 10,000</div>
+                    <div class="planner-input-wrap">
+                      <span class="input-prefix">₹</span>
+                      <input type="number" class="planner-text-input sipAmountInput" value="10000" min="500" max="5000000" step="500" oninput="handleSipInput(this, 'amount')" aria-label="Monthly Investment Amount">
+                    </div>
                   </div>
                   <input type="range" class="planner-slider sipAmountRange" min="1000" max="100000" step="1000" value="10000" oninput="updateSipCalculator(this)">
-                  <div class="slider-marks"><span>₹1k</span><span>₹25k</span><span>₹50k</span><span>₹1L</span></div>
+                  <div class="chip-presets-row">
+                    <button type="button" class="preset-chip" onclick="setSipPreset('amount', 2500)">₹2.5k</button>
+                    <button type="button" class="preset-chip" onclick="setSipPreset('amount', 5000)">₹5k</button>
+                    <button type="button" class="preset-chip active" onclick="setSipPreset('amount', 10000)">₹10k</button>
+                    <button type="button" class="preset-chip" onclick="setSipPreset('amount', 25000)">₹25k</button>
+                    <button type="button" class="preset-chip" onclick="setSipPreset('amount', 50000)">₹50k</button>
+                  </div>
                 </div>
 
                 <div class="planner-control-group">
                   <div class="control-label-row">
                     <label>Expected Annual Return (% CAGR):</label>
-                    <div class="control-bubble sipRateDisplay">14.5%</div>
+                    <div class="planner-input-wrap">
+                      <input type="number" class="planner-text-input sipRateInput" value="14.5" min="1" max="40" step="0.1" oninput="handleSipInput(this, 'rate')" aria-label="Expected Annual Return Rate">
+                      <span class="input-suffix">%</span>
+                    </div>
                   </div>
                   <input type="range" class="planner-slider sipRateRange" min="6" max="24" step="0.5" value="14.5" oninput="updateSipCalculator(this)">
-                  <div class="slider-marks"><span>6% (FD)</span><span>12% (Nifty)</span><span>14.5% (Flexi)</span><span>20% (Small Cap)</span></div>
+                  <div class="chip-presets-row">
+                    <button type="button" class="preset-chip" onclick="setSipPreset('rate', 7.5)">7.5% (Debt)</button>
+                    <button type="button" class="preset-chip" onclick="setSipPreset('rate', 12.0)">12% (Nifty)</button>
+                    <button type="button" class="preset-chip active" onclick="setSipPreset('rate', 14.5)">14.5% (Flexi)</button>
+                    <button type="button" class="preset-chip" onclick="setSipPreset('rate', 18.0)">18% (Small)</button>
+                  </div>
                 </div>
 
                 <div class="planner-control-group">
                   <div class="control-label-row">
-                    <label>Time Horizon (Years):</label>
-                    <div class="control-bubble sipYearsDisplay">10 Years</div>
+                    <label>Time Horizon (Tenure):</label>
+                    <div class="planner-input-wrap">
+                      <input type="number" class="planner-text-input sipYearsInput" value="10" min="1" max="40" step="1" oninput="handleSipInput(this, 'years')" aria-label="Time Horizon in Years">
+                      <span class="input-suffix">Yrs</span>
+                    </div>
                   </div>
                   <input type="range" class="planner-slider sipYearsRange" min="1" max="30" step="1" value="10" oninput="updateSipCalculator(this)">
-                  <div class="slider-marks"><span>1 Yr</span><span>5 Yrs</span><span>10 Yrs</span><span>20 Yrs</span><span>30 Yrs</span></div>
+                  <div class="chip-presets-row">
+                    <button type="button" class="preset-chip" onclick="setSipPreset('years', 3)">3 Yrs</button>
+                    <button type="button" class="preset-chip" onclick="setSipPreset('years', 5)">5 Yrs</button>
+                    <button type="button" class="preset-chip active" onclick="setSipPreset('years', 10)">10 Yrs</button>
+                    <button type="button" class="preset-chip" onclick="setSipPreset('years', 15)">15 Yrs</button>
+                    <button type="button" class="preset-chip" onclick="setSipPreset('years', 20)">20 Yrs</button>
+                  </div>
                 </div>
               </div>
 
@@ -1399,11 +1425,12 @@
   <div id="page-planner" class="portal-page" style="display: none;">
     <section class="portal-module-section" id="investment-planner">
       <div class="portal-container">
+        <!-- Section 1 Header: SIP Calculator & Wealth Compounding -->
         <div class="portal-section-header">
           <div>
-            <span class="portal-eyebrow">WEALTH ACCUMULATION & COMPOUNDING</span>
-            <h2 class="portal-title">Smart Investment Planner & SIP Calculator</h2>
-            <p class="portal-subtitle">Simulate multi-year compounding growth, model monthly Systematic Investment Plans (SIP), and optimize your equity asset allocation.</p>
+            <span class="portal-eyebrow">WEALTH ACCUMULATION &amp; COMPOUNDING</span>
+            <h2 class="portal-title">Smart Investment Planner &amp; SIP Calculator</h2>
+            <p class="portal-subtitle">Simulate multi-year compounding growth, model monthly Systematic Investment Plans (SIP) with annual step-up options, and adjust for inflation.</p>
           </div>
           <div class="planner-mode-toggle">
             <button type="button" class="mode-btn active" id="btnModeSip" onclick="switchPlannerMode('sip')">Monthly SIP</button>
@@ -1413,42 +1440,91 @@
 
         <div class="planner-layout-card">
           <div class="planner-controls-col">
+            <!-- Field 1: Amount -->
             <div class="planner-control-group">
               <div class="control-label-row">
-                <label for="sipAmountRange" id="labelInvestmentAmount">Monthly Investment Amount:</label>
-                <div class="control-bubble" id="sipAmountDisplay">₹ 10,000</div>
+                <label for="sipAmountInput" class="labelInvestmentAmount">Monthly Investment Amount:</label>
+                <div class="planner-input-wrap">
+                  <span class="input-prefix">₹</span>
+                  <input type="number" id="sipAmountInput" class="planner-text-input sipAmountInput" value="10000" min="500" max="5000000" step="500" oninput="handleSipInput(this, 'amount')" aria-label="Monthly Investment Amount">
+                </div>
               </div>
-              <input type="range" class="planner-slider" id="sipAmountRange" min="1000" max="100000" step="1000" value="10000" oninput="updateSipCalculator()">
-              <div class="slider-marks"><span>₹1k</span><span>₹25k</span><span>₹50k</span><span>₹1L</span></div>
+              <input type="range" class="planner-slider sipAmountRange" id="sipAmountRange" min="1000" max="100000" step="1000" value="10000" oninput="updateSipCalculator(this)">
+              <div class="chip-presets-row">
+                <button type="button" class="preset-chip" onclick="setSipPreset('amount', 2500)">₹2.5k</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('amount', 5000)">₹5k</button>
+                <button type="button" class="preset-chip active" onclick="setSipPreset('amount', 10000)">₹10k</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('amount', 25000)">₹25k</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('amount', 50000)">₹50k</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('amount', 100000)">₹1 Lakh</button>
+              </div>
             </div>
 
+            <!-- Field 2: Expected Return Rate -->
             <div class="planner-control-group">
               <div class="control-label-row">
-                <label for="sipRateRange">Expected Annual Return (% CAGR):</label>
-                <div class="control-bubble" id="sipRateDisplay">14.5%</div>
+                <label for="sipRateInput">Expected Annual Return (% CAGR):</label>
+                <div class="planner-input-wrap">
+                  <input type="number" id="sipRateInput" class="planner-text-input sipRateInput" value="14.5" min="1" max="40" step="0.1" oninput="handleSipInput(this, 'rate')" aria-label="Expected Annual Return Rate">
+                  <span class="input-suffix">%</span>
+                </div>
               </div>
-              <input type="range" class="planner-slider" id="sipRateRange" min="6" max="24" step="0.5" value="14.5" oninput="updateSipCalculator()">
-              <div class="slider-marks"><span>6% (FD)</span><span>12% (Nifty)</span><span>14.5% (Flexi)</span><span>20% (Small Cap)</span></div>
+              <input type="range" class="planner-slider sipRateRange" id="sipRateRange" min="6" max="24" step="0.5" value="14.5" oninput="updateSipCalculator(this)">
+              <div class="chip-presets-row">
+                <button type="button" class="preset-chip" onclick="setSipPreset('rate', 7.5)">7.5% (FD/Debt)</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('rate', 12.0)">12.0% (Nifty 50)</button>
+                <button type="button" class="preset-chip active" onclick="setSipPreset('rate', 14.5)">14.5% (Flexi Cap)</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('rate', 18.0)">18.0% (Small Cap)</button>
+              </div>
             </div>
 
+            <!-- Field 3: Time Horizon -->
             <div class="planner-control-group">
               <div class="control-label-row">
-                <label for="sipYearsRange">Time Horizon (Years):</label>
-                <div class="control-bubble" id="sipYearsDisplay">10 Years</div>
+                <label for="sipYearsInput">Time Horizon (Tenure):</label>
+                <div class="planner-input-wrap">
+                  <input type="number" id="sipYearsInput" class="planner-text-input sipYearsInput" value="10" min="1" max="40" step="1" oninput="handleSipInput(this, 'years')" aria-label="Time Horizon in Years">
+                  <span class="input-suffix">Years</span>
+                </div>
               </div>
-              <input type="range" class="planner-slider" id="sipYearsRange" min="1" max="30" step="1" value="10" oninput="updateSipCalculator()">
-              <div class="slider-marks"><span>1 Yr</span><span>5 Yrs</span><span>10 Yrs</span><span>20 Yrs</span><span>30 Yrs</span></div>
+              <input type="range" class="planner-slider sipYearsRange" id="sipYearsRange" min="1" max="30" step="1" value="10" oninput="updateSipCalculator(this)">
+              <div class="chip-presets-row">
+                <button type="button" class="preset-chip" onclick="setSipPreset('years', 3)">3 Yrs</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('years', 5)">5 Yrs</button>
+                <button type="button" class="preset-chip active" onclick="setSipPreset('years', 10)">10 Yrs</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('years', 15)">15 Yrs</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('years', 20)">20 Yrs</button>
+                <button type="button" class="preset-chip" onclick="setSipPreset('years', 25)">25 Yrs</button>
+              </div>
+            </div>
+
+            <!-- Advanced Extra Options: Step-Up SIP & Inflation Toggle -->
+            <div class="planner-advanced-box">
+              <div class="advanced-option-row">
+                <label class="checkbox-label" for="sipStepUpToggle">
+                  <input type="checkbox" id="sipStepUpToggle" onchange="updateSipCalculator()">
+                  <span>Annual Step-Up SIP (+</span>
+                </label>
+                <input type="number" id="sipStepUpRate" class="mini-number-input" value="10" min="1" max="30" step="1" oninput="updateSipCalculator()" aria-label="Step-up percentage">
+                <span class="sub-txt">% increase each year)</span>
+              </div>
+              <div class="advanced-option-row">
+                <label class="checkbox-label" for="sipInflationToggle">
+                  <input type="checkbox" id="sipInflationToggle" onchange="updateSipCalculator()">
+                  <span>Adjust for 6.0% Inflation (View purchasing power in today's money)</span>
+                </label>
+              </div>
             </div>
           </div>
 
           <div class="planner-results-col">
             <div class="results-card-inner">
               <div class="results-headline">Projected Portfolio Value</div>
-              <div class="big-wealth-number" id="futureValueResult">₹ 27,86,340</div>
+              <div class="big-wealth-number futureValueResult" id="futureValueResult">₹ 27,86,340</div>
 
               <div class="wealth-breakdown-bar">
-                <div class="bar-seg invested" id="barInvested" style="width: 43%;"></div>
-                <div class="bar-seg gains" id="barGains" style="width: 57%;"></div>
+                <div class="bar-seg invested barInvested" id="barInvested" style="width: 43%;"></div>
+                <div class="bar-seg gains barGains" id="barGains" style="width: 57%;"></div>
               </div>
 
               <div class="wealth-legend-row">
@@ -1456,22 +1532,230 @@
                   <span class="legend-color invested"></span>
                   <div>
                     <small>Invested Capital</small>
-                    <strong id="investedAmountResult">₹ 12,00,000</strong>
+                    <strong class="investedAmountResult" id="investedAmountResult">₹ 12,00,000</strong>
                   </div>
                 </div>
                 <div class="legend-box">
                   <span class="legend-color gains"></span>
                   <div>
                     <small>Estimated Wealth Created</small>
-                    <strong class="pos" id="gainsAmountResult">₹ 15,86,340</strong>
+                    <strong class="pos gainsAmountResult" id="gainsAmountResult">₹ 15,86,340</strong>
                   </div>
                 </div>
               </div>
 
               <div class="asset-strategy-box">
                 <div class="strategy-title">💡 Recommended Portfolio Allocation:</div>
-                <p id="strategyDesc">For a 10-year horizon, allocate <strong>70% to Flexi-Cap / NIFTY 50 Index Funds</strong>, <strong>20% to High-Yield Corporate Debt</strong>, and <strong>10% to Sovereign Gold / Liquid Assets</strong>.</p>
+                <p class="strategyDesc" id="strategyDesc">For a 10-year horizon, allocate <strong>70% to Flexi-Cap / NIFTY 50 Index Funds</strong>, <strong>20% to High-Yield Corporate Debt</strong>, and <strong>10% to Sovereign Gold / Liquid Assets</strong>.</p>
               </div>
+
+              <!-- Compounding Schedule Milestones -->
+              <div class="compounding-milestones">
+                <div class="milestones-title">📈 Compounding Wealth Milestones:</div>
+                <div class="milestones-grid" id="sipMilestonesGrid">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================================================
+             SEPARATE SECTION: 💼 CREATE YOUR LUMPSUM PORTFOLIO & OPTIMUM ASSET BASKET
+             Grounded in Current Indian Macro Situation (Nov 2026: NIFTY ~25,800 · Gold ~₹1.26L)
+             ========================================================================= -->
+        <div class="lumpsum-portfolio-section" id="lumpsum-portfolio-architect">
+          <div class="section-banner-institutional">
+            <div class="banner-title-group">
+              <span class="portal-eyebrow">PORTFOLIO ARCHITECT · STRATEGIC ASSET ALLOCATION</span>
+              <h2 class="portal-title">Create Your Lumpsum Portfolio &amp; Optimum Basket</h2>
+              <p class="portal-subtitle">Deploy a one-time capital sum into an institutional-grade, risk-optimized mix of direct Indian equities, top mutual fund schemes, sovereign gold, and fixed income tailored to current market valuations and future secular growth.</p>
+            </div>
+            <div class="market-condition-cue">
+              <span class="live-dot"></span>
+              <span>GROUNDED IN CURRENT 2026 MACRO ENVIRONMENT (NIFTY ~25,800 · SENSEX ~83,900 · GOLD ~₹1.26L)</span>
+            </div>
+          </div>
+
+          <div class="lumpsum-architect-grid">
+            <!-- Left Column: Interactive Inputs -->
+            <div class="architect-inputs-card">
+              <div class="card-header-styled">
+                <div class="header-text-group">
+                  <span class="step-badge">STEP 1</span>
+                  <h3>Configure Capital &amp; Risk Parameters</h3>
+                </div>
+                <span class="badge-accent">Dynamic Model</span>
+              </div>
+
+              <!-- Field 1: Amount -->
+              <div class="architect-group">
+                <div class="control-label-row">
+                  <label for="lumpAmountInput"><strong>Lumpsum Investment Amount:</strong></label>
+                  <div class="planner-input-wrap large">
+                    <span class="input-prefix">₹</span>
+                    <input type="number" id="lumpAmountInput" class="planner-text-input" value="500000" min="10000" max="100000000" step="10000" oninput="updateLumpsumPortfolio()" aria-label="Lumpsum Investment Amount">
+                  </div>
+                </div>
+                <input type="range" id="lumpAmountRange" class="planner-slider" min="50000" max="2500000" step="25000" value="500000" oninput="syncLumpRange(this)">
+                <div class="chip-presets-row">
+                  <button type="button" class="preset-chip" onclick="setLumpAmount(100000)">₹1 Lakh</button>
+                  <button type="button" class="preset-chip" onclick="setLumpAmount(250000)">₹2.5 Lakh</button>
+                  <button type="button" class="preset-chip active" id="chipLump5L" onclick="setLumpAmount(500000)">₹5 Lakh</button>
+                  <button type="button" class="preset-chip" onclick="setLumpAmount(1000000)">₹10 Lakh</button>
+                  <button type="button" class="preset-chip" onclick="setLumpAmount(2500000)">₹25 Lakh</button>
+                  <button type="button" class="preset-chip" onclick="setLumpAmount(5000000)">₹50 Lakh</button>
+                </div>
+              </div>
+
+              <!-- Field 2: Risk Profile -->
+              <div class="architect-group">
+                <label><strong>Risk Tolerance Profile:</strong></label>
+                <div class="risk-cards-grid">
+                  <div class="risk-option-card" onclick="setLumpRisk('conservative')" id="riskOpt-conservative">
+                    <div class="risk-opt-header">
+                      <span class="risk-icon">🛡️</span>
+                      <strong>Conservative</strong>
+                    </div>
+                    <div class="risk-sub">Capital Preservation &amp; Dividends</div>
+                    <div class="risk-tag">20% Stocks · 20% MF · 15% Gold · 45% Debt</div>
+                  </div>
+
+                  <div class="risk-option-card active" onclick="setLumpRisk('moderate')" id="riskOpt-moderate">
+                    <div class="risk-opt-header">
+                      <span class="risk-icon">⚖️</span>
+                      <strong>Moderate (Recommended)</strong>
+                    </div>
+                    <div class="risk-sub">Balanced Wealth Compounding</div>
+                    <div class="risk-tag">35% Stocks · 30% MF · 15% Gold · 20% Debt</div>
+                  </div>
+
+                  <div class="risk-option-card" onclick="setLumpRisk('aggressive')" id="riskOpt-aggressive">
+                    <div class="risk-opt-header">
+                      <span class="risk-icon">🚀</span>
+                      <strong>Aggressive Growth</strong>
+                    </div>
+                    <div class="risk-sub">Maximum Capital Appreciation</div>
+                    <div class="risk-tag">45% Stocks · 35% MF · 10% Gold · 10% Debt</div>
+                  </div>
+
+                  <div class="risk-option-card" onclick="setLumpRisk('very_aggressive')" id="riskOpt-very_aggressive">
+                    <div class="risk-opt-header">
+                      <span class="risk-icon">⚡</span>
+                      <strong>Alpha Momentum</strong>
+                    </div>
+                    <div class="risk-sub">High-Conviction Mid &amp; Small Cap</div>
+                    <div class="risk-tag">55% Stocks · 35% MF · 5% Gold · 5% Cash</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Field 3: Period to Hold -->
+              <div class="architect-group">
+                <div class="control-label-row">
+                  <label for="lumpPeriodInput"><strong>Period to Hold (Years):</strong></label>
+                  <div class="planner-input-wrap">
+                    <input type="number" id="lumpPeriodInput" class="planner-text-input" value="5" min="1" max="30" step="1" oninput="updateLumpsumPortfolio()" aria-label="Period to hold in years">
+                    <span class="input-suffix">Years</span>
+                  </div>
+                </div>
+                <div class="horizon-pills-row">
+                  <button type="button" class="horizon-pill" id="pillHorizon2" onclick="setLumpPeriod(2)">1-3 Yrs (Short-Med)</button>
+                  <button type="button" class="horizon-pill active" id="pillHorizon5" onclick="setLumpPeriod(5)">3-5 Yrs (Medium)</button>
+                  <button type="button" class="horizon-pill" id="pillHorizon8" onclick="setLumpPeriod(8)">5-10 Yrs (Long Term)</button>
+                  <button type="button" class="horizon-pill" id="pillHorizon15" onclick="setLumpPeriod(15)">10+ Yrs (Generational)</button>
+                </div>
+              </div>
+
+              <!-- Field 4: Investment Objective -->
+              <div class="architect-group">
+                <label for="lumpObjectiveSelect"><strong>Primary Investment Objective:</strong></label>
+                <select id="lumpObjectiveSelect" class="architect-select" onchange="updateLumpsumPortfolio()">
+                  <option value="wealth_creation" selected>Wealth Maximization (Long-Term Capital Appreciation)</option>
+                  <option value="balanced_growth">Balanced Growth with Volatility Buffer</option>
+                  <option value="dividend_cashflow">Dividend Cashflow &amp; Income Generation</option>
+                  <option value="retirement_corpus">Retirement Nest Egg (Tax-Efficient Growth)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Right Column: Projected Returns & Strategic Asset Allocation -->
+            <div class="architect-projections-card">
+              <div class="card-header-styled">
+                <div class="header-text-group">
+                  <span class="step-badge">STEP 2</span>
+                  <h3>Projected Growth &amp; Asset Allocation</h3>
+                </div>
+                <span class="badge-status-green">Optimal Allocation</span>
+              </div>
+
+              <div class="projection-summary-box">
+                <div class="proj-headline">Projected Portfolio Value at Maturity</div>
+                <div class="proj-big-number" id="lumpMaturityValue">₹ 9,84,005</div>
+                <div class="proj-gain-badge" id="lumpGainBadge">+₹ 4,84,005 (+96.8% Gain · 1.97x Multiplier)</div>
+                <div class="proj-cagr-meta" id="lumpCagrMeta">Expected Blended Portfolio CAGR: <strong>14.5% p.a.</strong></div>
+              </div>
+
+              <!-- Asset Mix Allocation Breakdown Bar -->
+              <div class="asset-mix-breakdown">
+                <div class="mix-title-row">
+                  <span>RECOMMENDED ASSET ALLOCATION MIX</span>
+                  <span class="total-capital-tag" id="lumpCapitalTag">Total: ₹ 5,00,000</span>
+                </div>
+                <div class="multi-asset-bar">
+                  <div class="mix-seg stocks" id="barMixStocks" style="width: 35%;" title="Direct Stocks"></div>
+                  <div class="mix-seg funds" id="barMixFunds" style="width: 30%;" title="Mutual Funds"></div>
+                  <div class="mix-seg gold" id="barMixGold" style="width: 15%;" title="Gold & Commodities"></div>
+                  <div class="mix-seg debt" id="barMixDebt" style="width: 20%;" title="Fixed Income & Liquid"></div>
+                </div>
+
+                <div class="mix-legend-grid">
+                  <div class="mix-legend-card">
+                    <div class="mix-legend-header"><span class="dot-color stocks"></span><strong>Direct Stocks (NSE)</strong></div>
+                    <div class="mix-pct" id="mixPctStocks">35%</div>
+                    <div class="mix-amt" id="mixAmtStocks">₹ 1,75,000</div>
+                  </div>
+                  <div class="mix-legend-card">
+                    <div class="mix-legend-header"><span class="dot-color funds"></span><strong>Mutual Funds (AMFI)</strong></div>
+                    <div class="mix-pct" id="mixPctFunds">30%</div>
+                    <div class="mix-amt" id="mixAmtFunds">₹ 1,50,000</div>
+                  </div>
+                  <div class="mix-legend-card">
+                    <div class="mix-legend-header"><span class="dot-color gold"></span><strong>Sovereign Gold / ETFs</strong></div>
+                    <div class="mix-pct" id="mixPctGold">15%</div>
+                    <div class="mix-amt" id="mixAmtGold">₹ 75,000</div>
+                  </div>
+                  <div class="mix-legend-card">
+                    <div class="mix-legend-header"><span class="dot-color debt"></span><strong>Fixed Income &amp; Debt</strong></div>
+                    <div class="mix-pct" id="mixPctDebt">20%</div>
+                    <div class="mix-amt" id="mixAmtDebt">₹ 1,00,000</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="macro-strategy-rationale" id="macroStrategyRationale">
+                <div class="rationale-header">💡 Strategic Macro Grounding (Current 2026 Climate):</div>
+                <p id="rationaleText">At current index levels (NIFTY ~25,800, P/E ~22.4x), this allocation balances compound growth in institutional leaders with a 15% sovereign gold buffer (hedging USD/INR at ₹92.68) and a 20% fixed income anchor to capture steady accrual and allow opportunistic rebalancing.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detailed Optimum Basket of Specific Instruments -->
+          <div class="optimum-basket-card">
+            <div class="basket-header-row">
+              <div>
+                <span class="basket-eyebrow">STEP 3 · ACTIONABLE PORTFOLIO BASKET</span>
+                <h3 class="basket-title">Suggested Optimum Basket of Instruments</h3>
+                <p class="basket-subtitle">Specific instruments selected as per current audited valuations, institutional ownership, and multi-year secular earnings growth.</p>
+              </div>
+              <div class="basket-actions">
+                <button type="button" class="btn btn-outline-sm" onclick="exportPortfolioPlan()">📥 Print / Export Allocation</button>
+                <button type="button" class="btn btn-primary-sm" onclick="loadBasketIntoTerminal('RELIANCE')">🔬 Open Lead Asset in Terminal</button>
+              </div>
+            </div>
+
+            <div class="basket-tables-container" id="basketTablesContainer">
+              <!-- Dynamically rendered by updateLumpsumPortfolio() in app.js -->
             </div>
           </div>
         </div>
