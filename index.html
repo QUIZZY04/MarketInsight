@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MarketInsight - Comprehensive Indian Financial Portal with dedicated pages for Research Terminal, Stock Health Checker, Market Overview, Investment Planner, Market Movers, Mutual Funds and News.">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_9">
+  <link rel="stylesheet" href="css/style.css?v=20261122_10">
 </head>
 <body>
 
@@ -34,12 +34,11 @@
       <span class="brand-edition">FINANCE</span>
     </a>
 
-    <!-- Global Header Search Bar -->
-    <div class="header-search-wrap">
-      <span class="header-search-icon" aria-hidden="true">⌕</span>
-      <input type="text" id="headerSearchInput" placeholder="Search NSE stocks, symbols, mutual funds (e.g. INFY, Reliance, PPFAS)..." autocomplete="off" spellcheck="false" aria-label="Global search">
-      <button type="button" class="header-search-btn" onclick="executeHeaderSearch()">Explore</button>
-      <div id="headerDropdown" class="header-autocomplete-dropdown" role="listbox"></div>
+    <!-- Header Terminal Direct Action (Search is strictly housed in Research Terminal) -->
+    <div class="header-quick-launch">
+      <button type="button" class="btn btn-search-launch" onclick="navigateToPage('page-terminal')" title="Open Research Terminal Search">
+        <span class="search-nav-icon">⌕</span> <span>Search Ticker in Terminal</span>
+      </button>
     </div>
 
     <div class="header-cta-actions">
@@ -839,111 +838,6 @@
           <div class="overview-refresh-tag">
             <span class="live-pulse-dot"></span>
             <span>● SEBI Daily Disclosures &amp; NSE Live Feeds</span>
-          </div>
-        </div>
-
-        <!-- Section 1: Benchmark Indices Ribbon -->
-        <div class="overview-indices-ribbon">
-          <div class="idx-card">
-            <div class="idx-head">
-              <span class="idx-name">NIFTY 50</span>
-              <span class="idx-change pos">+0.55% ▲</span>
-            </div>
-            <div class="idx-val">25,842.10</div>
-            <div class="idx-sub">+142.30 pts today</div>
-            <div class="idx-range-bar">
-              <div class="idx-range-fill" style="width: 78%;"></div>
-            </div>
-            <div class="idx-range-labels">
-              <span>L: 25,690.40</span>
-              <span>H: 25,880.50</span>
-            </div>
-            <div class="idx-52w">52W: 21,281 — 26,277</div>
-          </div>
-
-          <div class="idx-card">
-            <div class="idx-head">
-              <span class="idx-name">SENSEX</span>
-              <span class="idx-change pos">+0.58% ▲</span>
-            </div>
-            <div class="idx-val">83,920.40</div>
-            <div class="idx-sub">+485.60 pts today</div>
-            <div class="idx-range-bar">
-              <div class="idx-range-fill" style="width: 80%;"></div>
-            </div>
-            <div class="idx-range-labels">
-              <span>L: 83,410.20</span>
-              <span>H: 84,050.80</span>
-            </div>
-            <div class="idx-52w">52W: 70,319 — 85,978</div>
-          </div>
-
-          <div class="idx-card">
-            <div class="idx-head">
-              <span class="idx-name">BANK NIFTY</span>
-              <span class="idx-change pos">+0.77% ▲</span>
-            </div>
-            <div class="idx-val">64,635.80</div>
-            <div class="idx-sub">+495.20 pts today</div>
-            <div class="idx-range-bar">
-              <div class="idx-range-fill" style="width: 74%;"></div>
-            </div>
-            <div class="idx-range-labels">
-              <span>L: 64,120.00</span>
-              <span>H: 64,780.00</span>
-            </div>
-            <div class="idx-52w">52W: 44,429 — 65,850</div>
-          </div>
-
-          <div class="idx-card">
-            <div class="idx-head">
-              <span class="idx-name">NIFTY IT</span>
-              <span class="idx-change neg">-0.28% ▼</span>
-            </div>
-            <div class="idx-val">41,250.60</div>
-            <div class="idx-sub">-115.40 pts today</div>
-            <div class="idx-range-bar">
-              <div class="idx-range-fill fill-neg" style="width: 42%;"></div>
-            </div>
-            <div class="idx-range-labels">
-              <span>L: 41,080.50</span>
-              <span>H: 41,450.00</span>
-            </div>
-            <div class="idx-52w">52W: 32,800 — 44,200</div>
-          </div>
-
-          <div class="idx-card">
-            <div class="idx-head">
-              <span class="idx-name">NIFTY MIDCAP 100</span>
-              <span class="idx-change pos">+1.18% ▲</span>
-            </div>
-            <div class="idx-val">58,450.20</div>
-            <div class="idx-sub">+680.10 pts today</div>
-            <div class="idx-range-bar">
-              <div class="idx-range-fill" style="width: 85%;"></div>
-            </div>
-            <div class="idx-range-labels">
-              <span>L: 57,750.00</span>
-              <span>H: 58,590.00</span>
-            </div>
-            <div class="idx-52w">52W: 39,200 — 60,100</div>
-          </div>
-
-          <div class="idx-card">
-            <div class="idx-head">
-              <span class="idx-name">NIFTY SMALLCAP 100</span>
-              <span class="idx-change pos">+1.42% ▲</span>
-            </div>
-            <div class="idx-val">18,920.50</div>
-            <div class="idx-sub">+265.40 pts today</div>
-            <div class="idx-range-bar">
-              <div class="idx-range-fill" style="width: 88%;"></div>
-            </div>
-            <div class="idx-range-labels">
-              <span>L: 18,640.00</span>
-              <span>H: 18,980.00</span>
-            </div>
-            <div class="idx-52w">52W: 12,400 — 19,450</div>
           </div>
         </div>
 
@@ -2244,6 +2138,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_9"></script>
+<script src="js/app.js?v=20261122_10"></script>
 </body>
 </html>
