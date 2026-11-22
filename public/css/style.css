@@ -1749,12 +1749,12 @@ footer {
 }
 
 /* ==========================================================================
-   Cockpit 3-Column Live Analysis Grid (Full Real-Estate Efficiency)
+   Cockpit 2-Column Live Analysis Grid (Focused Health & Valuation Cockpit)
    ========================================================================== */
 .cockpit-analysis-grid {
   display: grid;
-  grid-template-columns: 1.35fr 0.9fr 0.75fr;
-  gap: 14px;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 18px;
   align-items: start;
   width: 100%;
   box-sizing: border-box;
@@ -2551,34 +2551,19 @@ footer {
    ========================================================================== */
 @media (max-width: 1100px) {
   .cockpit-analysis-grid {
-    grid-template-columns: 1.3fr 1fr;
-    gap: 14px;
-  }
-  .market-radar-modern {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-  }
-  .radar-header {
-    grid-column: 1 / -1;
-  }
-  .sector-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1.25fr 1fr;
+    gap: 16px;
   }
 }
 
 @media (max-width: 900px) {
   .cockpit-analysis-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 16px;
   }
   .cockpit-hero {
     min-height: auto;
     padding: 16px 0 28px;
-  }
-  .market-radar-modern {
-    grid-template-columns: 1fr;
   }
 }
 
