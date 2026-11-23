@@ -201,6 +201,7 @@ async function fetchAllLiveIndices() {
     BANKNIFTY: '^NSEBANK',
     NIFTYIT: '^CNXIT',
     MIDCAP: 'NIFTY_MIDCAP_100.NS',
+    SMALLCAP: '^CNXSC',
     AUTO: '^CNXAUTO',
     VIX: '^INDIAVIX',
     USDINR: 'USDINR=X',
@@ -256,6 +257,9 @@ async function fetchAllLiveIndices() {
   // Fallbacks for key indices if network query fails
   if (!results.NIFTY) {
     results.NIFTY = { price: 25441.25, prevClose: 25800.60, change: -359.35, changePercent: -1.39, high: 25992.60, low: 25401.20 };
+  }
+  if (!results.SMALLCAP) {
+    results.SMALLCAP = { price: 18920.50, prevClose: 18655.10, change: 265.40, changePercent: 1.42, high: 18980.00, low: 18640.00 };
   }
   if (!results.SENSEX) {
     results.SENSEX = { price: 82700.60, prevClose: 83919.71, change: -1219.11, changePercent: -1.45, high: 84662.96, low: 82691.27 };
