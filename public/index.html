@@ -22,7 +22,7 @@
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23059669'/%3E%3Cpath d='M9 23 L23 9 M13 9 L23 9 L23 19' stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261122_21">
+  <link rel="stylesheet" href="css/style.css?v=20261123_1">
 </head>
 <body>
 
@@ -1009,16 +1009,16 @@
             </div>
           </div>
 
-          <!-- Column 2: Quantitative Signal Speedometer & Factor Model -->
+          <!-- Column 2: Stock Health Speedometer & Fundamental Analysis -->
           <div class="speedo-modern">
             <div class="meter-wrap">
               <div class="speedo-header">
-                <h3>Quantitative Signal Speedometer</h3>
-                <span class="speedo-subtitle">Multi-Factor Fundamental Model</span>
+                <h3>Stock Health Speedometer</h3>
+                <span class="speedo-subtitle">Multi-Factor Fundamental &amp; Solvency Health</span>
               </div>
 
               <div class="speedo-container">
-                <svg class="speedo-svg" viewBox="0 0 320 185" width="100%" height="140" aria-label="Quantitative valuation speedometer dial">
+                <svg class="speedo-svg" viewBox="0 0 320 185" width="100%" height="140" aria-label="Stock Health Speedometer dial">
                   <path d="M 45 160 A 115 115 0 0 1 275 160" fill="none" stroke="#e2e8f0" stroke-width="22" stroke-linecap="round"/>
                   <path d="M 45 160 A 115 115 0 0 1 108.7 60.5" fill="none" stroke="#dc2626" stroke-width="20" stroke-linecap="round"/>
                   <path d="M 112 58 A 115 115 0 0 1 208 58" fill="none" stroke="#d97706" stroke-width="20"/>
@@ -1039,7 +1039,7 @@
                 <div class="speedo-reading-box">
                   <div class="speedo-score-number" id="compositeScore">78<span class="speedo-max">/100</span></div>
                   <div id="scoreSignalBadge" class="speedo-badge buy">BUY / OUTPERFORM</div>
-                  <div id="scoreInstrumentName" class="speedo-symbol-name">Infosys Limited · Multi-Factor Model</div>
+                  <div id="scoreInstrumentName" class="speedo-symbol-name">Infosys Limited · Stock Health Model</div>
                 </div>
               </div>
             </div>
@@ -1055,10 +1055,128 @@
             <div class="speedo-verdict-card" id="speedoVerdictCard">
               <div class="verdict-header">
                 <span class="verdict-icon">⚡</span>
-                <strong>Model Valuation Insight</strong>
+                <strong>Stock Health Diagnostic Insight</strong>
               </div>
               <p id="speedoVerdictText" class="verdict-text">Institutional multi-factor evaluation incorporating balance sheet solvency, cash flows, and exchange disclosures.</p>
             </div>
+
+            <!-- Analysis Module 1: Forensic & Solvency Health Matrix -->
+            <div class="speedo-analysis-card">
+              <div class="speedo-card-header">
+                <div class="sch-left">
+                  <span class="card-icon">🩺</span>
+                  <strong>Forensic &amp; Solvency Health</strong>
+                </div>
+                <span class="card-tag safe" id="speedoForensicTag">Audited Clean</span>
+              </div>
+              <div class="health-matrix-grid">
+                <div class="health-matrix-item">
+                  <div class="h-label">Altman Z-Score</div>
+                  <div class="h-val-row"><strong id="speedoAltmanZ">3.82</strong><span class="h-chip safe" id="speedoAltmanBadge">Safe Zone</span></div>
+                  <div class="h-sub">Distress hurdle: &gt; 2.99</div>
+                </div>
+                <div class="health-matrix-item">
+                  <div class="h-label">Piotroski F-Score</div>
+                  <div class="h-val-row"><strong id="speedoPiotroski">8/9</strong><span class="h-chip strong" id="speedoPiotroskiBadge">High Quality</span></div>
+                  <div class="h-sub">Operational &amp; margin health</div>
+                </div>
+                <div class="health-matrix-item">
+                  <div class="h-label">Beneish M-Score</div>
+                  <div class="h-val-row"><strong id="speedoBeneish">-2.85</strong><span class="h-chip safe" id="speedoBeneishBadge">Low Risk</span></div>
+                  <div class="h-sub">Manipulation check: &lt; -1.78</div>
+                </div>
+                <div class="health-matrix-item">
+                  <div class="h-label">Interest Coverage</div>
+                  <div class="h-val-row"><strong id="speedoIntCov">38.4x</strong><span class="h-chip safe" id="speedoIntCovBadge">Solvent</span></div>
+                  <div class="h-sub">Debt service safety: &gt; 3.0x</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Analysis Module 2: Sector Benchmark & Peer Ranking -->
+            <div class="speedo-analysis-card">
+              <div class="speedo-card-header">
+                <div class="sch-left">
+                  <span class="card-icon">⚖️</span>
+                  <strong>Sector Benchmark &amp; Relative Rank</strong>
+                </div>
+                <span class="card-tag blue" id="speedoSectorTag">NIFTY IT · LARGE CAP</span>
+              </div>
+              <div class="peer-metric-list">
+                <div class="peer-metric-row">
+                  <div class="pm-info">
+                    <span class="pm-name">P/E Multiple vs Peers</span>
+                    <strong id="speedoPeVsSector">22.4x (Sector: 28.5x)</strong>
+                  </div>
+                  <div class="pm-status"><span class="badge-status pos" id="speedoPeStatus">21% Discount ▲</span></div>
+                </div>
+                <div class="peer-metric-row">
+                  <div class="pm-info">
+                    <span class="pm-name">Return on Equity (ROE)</span>
+                    <strong id="speedoRoeVsSector">29.4% (Sector: 18.2%)</strong>
+                  </div>
+                  <div class="pm-status"><span class="badge-status pos" id="speedoRoeStatus">Top Decile ▲</span></div>
+                </div>
+                <div class="peer-metric-row">
+                  <div class="pm-info">
+                    <span class="pm-name">Debt-to-Equity vs Industry</span>
+                    <strong id="speedoDteVsSector">0.08 (Sector: 0.25)</strong>
+                  </div>
+                  <div class="pm-status"><span class="badge-status pos" id="speedoDteStatus">Zero Debt Risk</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Analysis Module 3: Institutional Consensus & 12M Target -->
+            <div class="speedo-analysis-card">
+              <div class="speedo-card-header">
+                <div class="sch-left">
+                  <span class="card-icon">🎯</span>
+                  <strong>Institutional 12M Price Target</strong>
+                </div>
+                <span class="card-tag pos" id="speedoTargetUpside">+13.8% Upside</span>
+              </div>
+              <div class="target-consensus-row">
+                <div class="target-metric">
+                  <span class="tm-label">12M Target Consensus</span>
+                  <strong class="tm-value pos" id="speedoTargetPrice">₹ 1,250.00</strong>
+                </div>
+                <div class="target-metric">
+                  <span class="tm-label">Institutional Breadth</span>
+                  <strong class="tm-value" id="speedoAnalystCount">38 Analysts</strong>
+                </div>
+              </div>
+              <div class="consensus-bar-wrap">
+                <div class="consensus-bar">
+                  <div class="cb-segment buy" id="consensusBuyBar" style="width:74%;" title="Buy: 74%"></div>
+                  <div class="cb-segment hold" id="consensusHoldBar" style="width:18%;" title="Hold: 18%"></div>
+                  <div class="cb-segment sell" id="consensusSellBar" style="width:8%;" title="Sell: 8%"></div>
+                </div>
+                <div class="consensus-legend">
+                  <span class="c-leg buy" id="legBuy">● <strong>74%</strong> Buy</span>
+                  <span class="c-leg hold" id="legHold">● <strong>18%</strong> Hold</span>
+                  <span class="c-leg sell" id="legSell">● <strong>8%</strong> Sell</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Analysis Module 4: Governance & Red Flag Audit -->
+            <div class="speedo-analysis-card">
+              <div class="speedo-card-header">
+                <div class="sch-left">
+                  <span class="card-icon">🛡️</span>
+                  <strong>Governance &amp; Quality Audit</strong>
+                </div>
+                <span class="card-tag safe" id="speedoGovernanceTag">0 Red Flags</span>
+              </div>
+              <div class="audit-checklist">
+                <div class="audit-item"><span class="audit-check pos">✓</span><span>Promoter Pledging: <strong id="speedoPledgeStatus">0.0% (Zero Pledge)</strong></span></div>
+                <div class="audit-item"><span class="audit-check pos">✓</span><span>Institutional Holding: <strong id="speedoInstHolding">65.8% (FII + DII)</strong></span></div>
+                <div class="audit-item"><span class="audit-check pos">✓</span><span>Statutory Audit: <strong id="speedoAuditStatus">Unqualified (Clean Opinion)</strong></span></div>
+                <div class="audit-item"><span class="audit-check pos">✓</span><span>Cash Flow Conversion: <strong id="speedoCfoStatus">CFO / EBITDA &gt; 85%</strong></span></div>
+              </div>
+            </div>
+
           </div>
         </div>
         <div class="disclaimer cockpit-disclaimer">Important: Multi-factor quantitative scoring framework. Production signals reflect audited regulatory filings and exchange disclosures. Not investment advice.</div>
@@ -2419,6 +2537,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261122_21"></script>
+<script src="js/app.js?v=20261123_1"></script>
 </body>
 </html>
