@@ -22,7 +22,7 @@
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23059669'/%3E%3Cpath d='M9 23 L23 9 M13 9 L23 9 L23 19' stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
   <title>MarketInsight | Comprehensive Indian Financial Research Portal</title>
-  <link rel="stylesheet" href="css/style.css?v=20261123_1">
+  <link rel="stylesheet" href="css/style.css?v=20261123_2">
 </head>
 <body>
 
@@ -37,9 +37,9 @@
         <span class="market-clock-badge" id="marketLiveClock">--:--:-- IST · MUMBAI</span>
       </div>
       <div class="utility-quick-cues">
-        <span>USD/INR: <strong>₹92.68 (+0.09%)</strong></span>
-        <span>GOLD (10g): <strong>₹1,26,450 (+0.35%)</strong></span>
-        <span>BRENT: <strong>$92.50 (+0.42%)</strong></span>
+        <span id="utilUsdInr">USD/INR: <strong id="valUsdInr">₹92.68 (+0.09%)</strong></span>
+        <span id="utilGold">GOLD (10g): <strong id="valGold">₹1,26,450 (+0.35%)</strong></span>
+        <span id="utilBrent">BRENT: <strong id="valBrent">$92.50 (+0.42%)</strong></span>
       </div>
     </div>
   </div>
@@ -85,19 +85,19 @@
   <!-- Full-Width Live Market Indices Ticker Ribbon (Always Visible) -->
   <div class="market-ticker-ribbon" role="region" aria-label="Live Market Indices Ticker">
     <div class="ticker-ribbon-content">
-      <div class="ticker-pill"><span class="ticker-name">NIFTY 50</span><span class="ticker-val">25,800.60</span><span class="ticker-badge pos">+1.12% ▲</span></div>
-      <div class="ticker-pill"><span class="ticker-name">SENSEX</span><span class="ticker-val">83,919.70</span><span class="ticker-badge pos">+1.08% ▲</span></div>
-      <div class="ticker-pill"><span class="ticker-name">BANK NIFTY</span><span class="ticker-val">64,635.20</span><span class="ticker-badge pos">+2.49% ▲</span></div>
-      <div class="ticker-pill"><span class="ticker-name">NIFTY IT</span><span class="ticker-val">31,322.65</span><span class="ticker-badge neg">-0.46% ▼</span></div>
-      <div class="ticker-pill"><span class="ticker-name">NIFTY MIDCAP</span><span class="ticker-val">58,450.00</span><span class="ticker-badge pos">+0.72% ▲</span></div>
-      <div class="ticker-pill"><span class="ticker-name">INDIA VIX</span><span class="ticker-val">17.32</span><span class="ticker-badge neg">-3.62% ▼</span></div>
-      <div class="ticker-pill clickable" onclick="quickSelect('RELIANCE')" title="Analyze Reliance Industries"><span class="ticker-name">RELIANCE</span><span class="ticker-val">₹1,377.50</span><span class="ticker-badge pos">+1.19% ▲</span></div>
-      <div class="ticker-pill clickable" onclick="quickSelect('TCS')" title="Analyze TCS"><span class="ticker-name">TCS</span><span class="ticker-val">₹2,376.20</span><span class="ticker-badge pos">+1.43% ▲</span></div>
-      <div class="ticker-pill clickable" onclick="quickSelect('HDFCBANK')" title="Analyze HDFC Bank"><span class="ticker-name">HDFCBANK</span><span class="ticker-val">₹846.00</span><span class="ticker-badge pos">+2.94% ▲</span></div>
-      <div class="ticker-pill clickable" onclick="quickSelect('SBIN')" title="Analyze SBI"><span class="ticker-name">SBIN</span><span class="ticker-val">₹1,165.00</span><span class="ticker-badge pos">+1.60% ▲</span></div>
-      <div class="ticker-pill clickable" onclick="quickSelect('ITC')" title="Analyze ITC"><span class="ticker-name">ITC</span><span class="ticker-val">₹299.10</span><span class="ticker-badge pos">+0.96% ▲</span></div>
-      <div class="ticker-pill clickable" onclick="quickSelect('TATAPOWER')" title="Analyze Tata Power"><span class="ticker-name">TATAPOWER</span><span class="ticker-val">₹340.00</span><span class="ticker-badge pos">+1.43% ▲</span></div>
-      <div class="ticker-pill"><span class="ticker-name">USD/INR</span><span class="ticker-val">₹92.68</span><span class="ticker-badge pos">+0.09% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">NIFTY 50</span><span class="ticker-val" id="ribbonVal_NIFTY">25,800.60</span><span class="ticker-badge pos" id="ribbonBadge_NIFTY">+1.12% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">SENSEX</span><span class="ticker-val" id="ribbonVal_SENSEX">83,919.70</span><span class="ticker-badge pos" id="ribbonBadge_SENSEX">+1.08% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">BANK NIFTY</span><span class="ticker-val" id="ribbonVal_BANKNIFTY">64,635.20</span><span class="ticker-badge pos" id="ribbonBadge_BANKNIFTY">+2.49% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">NIFTY IT</span><span class="ticker-val" id="ribbonVal_NIFTYIT">31,322.65</span><span class="ticker-badge neg" id="ribbonBadge_NIFTYIT">-0.46% ▼</span></div>
+      <div class="ticker-pill"><span class="ticker-name">NIFTY MIDCAP</span><span class="ticker-val" id="ribbonVal_MIDCAP">58,450.00</span><span class="ticker-badge pos" id="ribbonBadge_MIDCAP">+0.72% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">INDIA VIX</span><span class="ticker-val" id="ribbonVal_VIX">17.32</span><span class="ticker-badge neg" id="ribbonBadge_VIX">-3.62% ▼</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('RELIANCE')" title="Analyze Reliance Industries"><span class="ticker-name">RELIANCE</span><span class="ticker-val" id="ribbonVal_RELIANCE">₹1,377.50</span><span class="ticker-badge pos" id="ribbonBadge_RELIANCE">+1.19% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('TCS')" title="Analyze TCS"><span class="ticker-name">TCS</span><span class="ticker-val" id="ribbonVal_TCS">₹2,376.20</span><span class="ticker-badge pos" id="ribbonBadge_TCS">+1.43% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('HDFCBANK')" title="Analyze HDFC Bank"><span class="ticker-name">HDFCBANK</span><span class="ticker-val" id="ribbonVal_HDFCBANK">₹846.00</span><span class="ticker-badge pos" id="ribbonBadge_HDFCBANK">+2.94% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('SBIN')" title="Analyze SBI"><span class="ticker-name">SBIN</span><span class="ticker-val" id="ribbonVal_SBIN">₹1,165.00</span><span class="ticker-badge pos" id="ribbonBadge_SBIN">+1.60% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('ITC')" title="Analyze ITC"><span class="ticker-name">ITC</span><span class="ticker-val" id="ribbonVal_ITC">₹299.10</span><span class="ticker-badge pos" id="ribbonBadge_ITC">+0.96% ▲</span></div>
+      <div class="ticker-pill clickable" onclick="quickSelect('TATAPOWER')" title="Analyze Tata Power"><span class="ticker-name">TATAPOWER</span><span class="ticker-val" id="ribbonVal_TATAPOWER">₹340.00</span><span class="ticker-badge pos" id="ribbonBadge_TATAPOWER">+1.43% ▲</span></div>
+      <div class="ticker-pill"><span class="ticker-name">USD/INR</span><span class="ticker-val" id="ribbonVal_USDINR">₹92.68</span><span class="ticker-badge pos" id="ribbonBadge_USDINR">+0.09% ▲</span></div>
     </div>
   </div>
 
@@ -115,7 +115,7 @@
             <p class="portal-subtitle">Live levels, intraday price action and trend graphs across National Stock Exchange (NSE) &amp; Bombay Stock Exchange (BSE) benchmark indices.</p>
           </div>
           <div class="indices-meta-pill">
-            <span class="dot"></span> <span>Market Status: <strong>NORMAL TRADING</strong> · EOD Updated</span>
+            <span class="dot" id="marketSyncDot"></span> <span id="marketSyncText">Market Status: <strong>LIVE STREAM ACTIVE</strong> · Real-Time Feed</span>
           </div>
         </div>
 
@@ -128,19 +128,19 @@
                 <span class="index-exchange-tag tag-nifty">NSE BENCHMARK</span>
                 <h3 class="index-name">NIFTY 50</h3>
               </div>
-              <div class="index-badge pos">+1.12% ▲</div>
+              <div class="index-badge pos" id="cardBadge_NIFTY">+1.12% ▲</div>
             </div>
             <div class="index-price-row">
-              <span class="index-price">25,800.60</span>
-              <span class="index-diff pos">+286.20 pts</span>
+              <span class="index-price" id="cardPrice_NIFTY">25,800.60</span>
+              <span class="index-diff pos" id="cardDiff_NIFTY">+286.20 pts</span>
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>L: 25,514.40</span>
-                <span>H: 25,842.10</span>
+                <span id="cardRangeL_NIFTY">L: 25,514.40</span>
+                <span id="cardRangeH_NIFTY">H: 25,842.10</span>
               </div>
               <div class="range-track">
-                <div class="range-fill fill-nifty" style="width: 88%;"></div>
+                <div class="range-fill fill-nifty" id="cardTrack_NIFTY" style="width: 88%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
@@ -166,19 +166,19 @@
                 <span class="index-exchange-tag tag-sensex">BSE INDIA</span>
                 <h3 class="index-name">BSE SENSEX</h3>
               </div>
-              <div class="index-badge pos">+1.08% ▲</div>
+              <div class="index-badge pos" id="cardBadge_SENSEX">+1.08% ▲</div>
             </div>
             <div class="index-price-row">
-              <span class="index-price">83,919.70</span>
-              <span class="index-diff pos">+898.30 pts</span>
+              <span class="index-price" id="cardPrice_SENSEX">83,919.70</span>
+              <span class="index-diff pos" id="cardDiff_SENSEX">+898.30 pts</span>
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>L: 83,021.40</span>
-                <span>H: 84,045.20</span>
+                <span id="cardRangeL_SENSEX">L: 83,021.40</span>
+                <span id="cardRangeH_SENSEX">H: 84,045.20</span>
               </div>
               <div class="range-track">
-                <div class="range-fill fill-sensex" style="width: 85%;"></div>
+                <div class="range-fill fill-sensex" id="cardTrack_SENSEX" style="width: 85%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
@@ -204,19 +204,19 @@
                 <span class="index-exchange-tag tag-bank">NSE BANKING</span>
                 <h3 class="index-name">BANK NIFTY</h3>
               </div>
-              <div class="index-badge pos">+2.49% ▲</div>
+              <div class="index-badge pos" id="cardBadge_BANKNIFTY">+2.49% ▲</div>
             </div>
             <div class="index-price-row">
-              <span class="index-price">64,635.20</span>
-              <span class="index-diff pos">+1,570.80 pts</span>
+              <span class="index-price" id="cardPrice_BANKNIFTY">64,635.20</span>
+              <span class="index-diff pos" id="cardDiff_BANKNIFTY">+1,570.80 pts</span>
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>L: 63,064.40</span>
-                <span>H: 64,802.10</span>
+                <span id="cardRangeL_BANKNIFTY">L: 63,064.40</span>
+                <span id="cardRangeH_BANKNIFTY">H: 64,802.10</span>
               </div>
               <div class="range-track">
-                <div class="range-fill fill-bank" style="width: 92%;"></div>
+                <div class="range-fill fill-bank" id="cardTrack_BANKNIFTY" style="width: 92%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
@@ -242,19 +242,19 @@
                 <span class="index-exchange-tag tag-it">NSE TECH</span>
                 <h3 class="index-name">NIFTY IT</h3>
               </div>
-              <div class="index-badge neg">-0.46% ▼</div>
+              <div class="index-badge neg" id="cardBadge_NIFTYIT">-0.46% ▼</div>
             </div>
             <div class="index-price-row">
-              <span class="index-price">31,322.65</span>
-              <span class="index-diff neg">-144.50 pts</span>
+              <span class="index-price" id="cardPrice_NIFTYIT">31,322.65</span>
+              <span class="index-diff neg" id="cardDiff_NIFTYIT">-144.50 pts</span>
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>L: 31,180.20</span>
-                <span>H: 31,540.00</span>
+                <span id="cardRangeL_NIFTYIT">L: 31,180.20</span>
+                <span id="cardRangeH_NIFTYIT">H: 31,540.00</span>
               </div>
               <div class="range-track">
-                <div class="range-fill fill-it" style="width: 38%;"></div>
+                <div class="range-fill fill-it" id="cardTrack_NIFTYIT" style="width: 38%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
@@ -280,19 +280,19 @@
                 <span class="index-exchange-tag tag-midcap">NSE MID-CAP</span>
                 <h3 class="index-name">NIFTY MIDCAP 100</h3>
               </div>
-              <div class="index-badge pos">+0.72% ▲</div>
+              <div class="index-badge pos" id="cardBadge_MIDCAP">+0.72% ▲</div>
             </div>
             <div class="index-price-row">
-              <span class="index-price">58,450.00</span>
-              <span class="index-diff pos">+418.60 pts</span>
+              <span class="index-price" id="cardPrice_MIDCAP">58,450.00</span>
+              <span class="index-diff pos" id="cardDiff_MIDCAP">+418.60 pts</span>
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>L: 58,031.40</span>
-                <span>H: 58,580.00</span>
+                <span id="cardRangeL_MIDCAP">L: 58,031.40</span>
+                <span id="cardRangeH_MIDCAP">H: 58,580.00</span>
               </div>
               <div class="range-track">
-                <div class="range-fill fill-midcap" style="width: 78%;"></div>
+                <div class="range-fill fill-midcap" id="cardTrack_MIDCAP" style="width: 78%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
@@ -356,19 +356,19 @@
                 <span class="index-exchange-tag tag-auto">NSE SECTORAL</span>
                 <h3 class="index-name">NIFTY AUTO</h3>
               </div>
-              <div class="index-badge pos">+1.35% ▲</div>
+              <div class="index-badge pos" id="cardBadge_AUTO">+1.35% ▲</div>
             </div>
             <div class="index-price-row">
-              <span class="index-price">25,430.80</span>
-              <span class="index-diff pos">+338.50 pts</span>
+              <span class="index-price" id="cardPrice_AUTO">25,430.80</span>
+              <span class="index-diff pos" id="cardDiff_AUTO">+338.50 pts</span>
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>Day Low: 25,090.00</span>
-                <span>Day High: 25,480.00</span>
+                <span id="cardRangeL_AUTO">Day Low: 25,090.00</span>
+                <span id="cardRangeH_AUTO">Day High: 25,480.00</span>
               </div>
               <div class="range-track">
-                <div class="range-fill fill-auto" style="width: 88%;"></div>
+                <div class="range-fill fill-auto" id="cardTrack_AUTO" style="width: 88%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
@@ -394,19 +394,19 @@
                 <span class="index-exchange-tag tag-vix">VOLATILITY</span>
                 <h3 class="index-name">INDIA VIX</h3>
               </div>
-              <div class="index-badge pos">-3.62% ▼</div>
+              <div class="index-badge pos" id="cardBadge_VIX">-3.62% ▼</div>
             </div>
             <div class="index-price-row">
-              <span class="index-price">17.32</span>
-              <span class="index-diff pos">-0.65 pts (Calm)</span>
+              <span class="index-price" id="cardPrice_VIX">17.32</span>
+              <span class="index-diff pos" id="cardDiff_VIX">-0.65 pts (Calm)</span>
             </div>
             <div class="index-range-bar">
               <div class="range-labels">
-                <span>Day Low: 16.90</span>
-                <span>Day High: 18.25</span>
+                <span id="cardRangeL_VIX">Day Low: 16.90</span>
+                <span id="cardRangeH_VIX">Day High: 18.25</span>
               </div>
               <div class="range-track">
-                <div class="range-fill fill-vix" style="width: 32%;"></div>
+                <div class="range-fill fill-vix" id="cardTrack_VIX" style="width: 32%;"></div>
               </div>
             </div>
             <div class="index-sparkline-wrap">
@@ -2537,6 +2537,6 @@
 </footer>
 
 <script src="js/chart.js?v=20261121_5"></script>
-<script src="js/app.js?v=20261123_1"></script>
+<script src="js/app.js?v=20261123_2"></script>
 </body>
 </html>

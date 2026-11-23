@@ -8389,3 +8389,63 @@ const overviewCss = `
   color: #047857 !important;
   border-left: 3px solid #059669 !important;
 }
+
+
+/* ==========================================================================
+   Real-Time Live Market Price Tick Flash Animations
+   ========================================================================== */
+@keyframes tickUpFlash {
+  0% {
+    background-color: rgba(5, 150, 105, 0.25);
+    color: #047857;
+    transform: scale(1.02);
+  }
+  50% {
+    background-color: rgba(5, 150, 105, 0.1);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+@keyframes tickDownFlash {
+  0% {
+    background-color: rgba(220, 38, 38, 0.25);
+    color: #b91c1c;
+    transform: scale(1.02);
+  }
+  50% {
+    background-color: rgba(220, 38, 38, 0.1);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+.tick-up {
+  animation: tickUpFlash 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+  border-radius: 4px;
+}
+
+.tick-down {
+  animation: tickDownFlash 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+  border-radius: 4px;
+}
+
+@keyframes pulseGlowGreen {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.6);
+  }
+  50% {
+    opacity: 0.75;
+    box-shadow: 0 0 0 5px rgba(5, 150, 105, 0);
+  }
+}
+
+.live-pulse-green {
+  background: #059669 !important;
+  animation: pulseGlowGreen 2s infinite ease-in-out !important;
+}
