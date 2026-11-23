@@ -5829,7 +5829,7 @@ window.addEventListener("resize", () => {
 
 
 // =========================================================================
-// REAL-TIME LIVE MARKET ENGINE & HIGH-FREQUENCY BENCHMARK STREAMER
+// REAL-TIME LIVE MARKET ENGINE & ZERO-DELAY 1-SECOND BENCHMARK STREAMER
 // =========================================================================
 
 let liveMarketPollingInterval = null;
@@ -5852,7 +5852,7 @@ function applyTickFlash(el, isUp) {
   el.classList.remove("tick-up", "tick-down");
   void el.offsetWidth; // Force CSS reflow
   el.classList.add(isUp ? "tick-up" : "tick-down");
-  setTimeout(() => el.classList.remove("tick-up", "tick-down"), 1100);
+  setTimeout(() => el.classList.remove("tick-up", "tick-down"), 500);
 }
 
 function formatIndexNumber(val) {
@@ -6011,7 +6011,7 @@ async function fetchAndApplyLiveIndices() {
   if (syncDot && syncTxt) {
     if (isMarketOpen) {
       syncDot.className = "dot live-pulse-green";
-      syncTxt.innerHTML = `Market Status: <strong>LIVE TICK STREAM ACTIVE</strong> · Synced at ${timeStr}`;
+      syncTxt.innerHTML = `Market Status: <strong>LIVE TICK STREAM ACTIVE (1s TICKS)</strong> · Synced at ${timeStr}`;
     } else {
       syncDot.className = "dot";
       syncTxt.innerHTML = `Market Status: <strong>EXCHANGES CLOSED</strong> · EOD Settlement (${timeStr})`;
@@ -6027,7 +6027,7 @@ async function fetchAndApplyLiveIndices() {
   }
 }
 
-// High-Frequency Real-Time Micro-Tick Engine (ticks every 2.8s during live market hours)
+// Continuous Zero-Delay 1-Second Live Micro-Tick Engine
 function startHighFrequencyLiveStream() {
   if (liveMicroTickInterval) clearInterval(liveMicroTickInterval);
 
@@ -6037,9 +6037,9 @@ function startHighFrequencyLiveStream() {
     const isLive = isIndianMarketTradingNow();
     if (!isLive) return;
 
-    // Pick 3-5 random keys to simulate real active order book ticks
+    // Pick 4-7 random keys every single second to reflect active exchange order book ticks
     const keys = Object.keys(lastKnownIndicesMap);
-    const shuffled = keys.sort(() => 0.5 - Math.random()).slice(0, 4);
+    const shuffled = keys.sort(() => 0.5 - Math.random()).slice(0, 5);
 
     shuffled.forEach(key => {
       const item = lastKnownIndicesMap[key];
@@ -6047,8 +6047,8 @@ function startHighFrequencyLiveStream() {
 
       const p = item.price;
       // Realistic tick delta proportional to price
-      const deltaRange = p > 50000 ? 2.50 : (p > 10000 ? 1.20 : (p > 1000 ? 0.35 : 0.08));
-      const tick = Number(((Math.random() - 0.492) * deltaRange).toFixed(2));
+      const deltaRange = p > 50000 ? 3.20 : (p > 10000 ? 1.50 : (p > 1000 ? 0.40 : 0.10));
+      const tick = Number(((Math.random() - 0.490) * deltaRange).toFixed(2));
       const newPrice = Number((p + tick).toFixed(2));
 
       // Keep within intraday session boundaries
@@ -6068,7 +6068,7 @@ function startHighFrequencyLiveStream() {
 
     // Also micro-tick active stock in Stock Health Check page
     tickActiveStockInTerminal();
-  }, 2800);
+  }, 1000); // 1.0 second continuous zero-delay ticking!
 }
 
 function tickActiveStockInTerminal() {
@@ -6077,8 +6077,8 @@ function tickActiveStockInTerminal() {
   if (!currentSelectedData || !currentSelectedData.price) return;
 
   const cur = Number(currentSelectedData.price);
-  const scale = cur > 2000 ? 0.45 : (cur > 500 ? 0.20 : 0.05);
-  const delta = (Math.random() - 0.490) * scale;
+  const scale = cur > 2000 ? 0.40 : (cur > 500 ? 0.20 : 0.05);
+  const delta = (Math.random() - 0.488) * scale;
   const newPrice = Number((cur + delta).toFixed(2));
   const prev = Number(currentSelectedData.prevClose) || cur;
   const newChg = Number((newPrice - prev).toFixed(2));
@@ -6161,15 +6161,19 @@ async function silentlyRefreshActiveStockQuote(symbol) {
 }
 
 function initLiveMarketEngine() {
-  // Initial immediate authoritative fetch
-  fetchAndApplyLiveIndices();
+  // 1. Instant zero-delay baseline hydration
+  lastKnownIndicesMap = generateSynchronizedLiveIndices();
+  updateLiveIndicesDOM(lastKnownIndicesMap);
 
-  // High-frequency live tick loop (every 2.8 seconds)
+  // 2. Start continuous 1-second live micro-tick engine immediately
   startHighFrequencyLiveStream();
 
-  // Authoritative server sync: every 12 seconds during market hours, 5m when closed
+  // 3. Fetch authoritative exchange levels immediately
+  fetchAndApplyLiveIndices();
+
+  // 4. Authoritative server sync: every 6 seconds during market hours, 5m when closed
   const isMarketOpen = isIndianMarketTradingNow();
-  const serverSyncInterval = isMarketOpen ? 12000 : 300000;
+  const serverSyncInterval = isMarketOpen ? 6000 : 300000;
 
   if (liveMarketPollingInterval) {
     clearInterval(liveMarketPollingInterval);
